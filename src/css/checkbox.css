@@ -1,0 +1,11 @@
+.custom-jfx-check-box {
+    -jfx-checked-color: blue;
+}
+
+.custom-jfx-check-box:selected .box {
+    -fx-border-color: blue;
+}
+
+.custom-jfx-check-box:selected .mark {
+    -fx-border-color: white;
+}

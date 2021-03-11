@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="146.0" prefWidth="304.0"
+            xmlns="http://javafx.com/javafx/9.0.1"
+            fx:controller="views.dialogs.DialogGenerarHechosPendientesController">
+    <children>
+        <HBox layoutX="127.0" layoutY="108.0" AnchorPane.bottomAnchor="3.0" AnchorPane.rightAnchor="3.0">
+            <children>
+                <JFXButton buttonType="RAISED" onAction="#handleGenerar" prefHeight="30.0" prefWidth="74.0"
+                           style="-fx-background-color: green;" text="Generar" textFill="WHITE">
+                    <font>
+                        <Font size="14.0"/>
+                    </font>
+                </JFXButton>
+                <JFXButton buttonType="RAISED" onAction="#handleCancel" style="-fx-background-color: Red;"
+                           text="Cancelar" textFill="WHITE">
+                    <font>
+                        <Font size="14.0"/>
+                    </font>
+                    <HBox.margin>
+                        <Insets left="5.0"/>
+                    </HBox.margin>
+                </JFXButton>
+            </children>
+        </HBox>
+        <ComboBox fx:id="annos" layoutX="162.0" layoutY="52.0" prefHeight="26.0" prefWidth="92.0" promptText="Año"/>
+        <Label layoutX="26.0" layoutY="56.0" text="Seleccione el año">
+            <font>
+                <Font size="14.0"/>
+            </font>
+        </Label>
+        <Label alignment="TOP_CENTER" layoutY="14.0" text="Hechos con datos pendientes" AnchorPane.leftAnchor="0.0"
+               AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="14.0">
+            <font>
+                <Font size="17.0"/>
+            </font>
+        </Label>
+        <ProgressBar layoutX="62.0" layoutY="89.0" prefWidth="200.0" fx:id="progressBar"/>
+    </children>
+</AnchorPane>
+

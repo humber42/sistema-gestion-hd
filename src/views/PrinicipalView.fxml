@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.input.KeyCodeCombination?>
+<?import javafx.scene.layout.BorderPane?>
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+            minWidth="-Infinity"
+            prefHeight="527.0" prefWidth="788.0" xmlns="http://javafx.com/javafx/9.0.1"
+            fx:controller="views.PrincipalViewController">
+
+    <top>
+        <MenuBar BorderPane.alignment="CENTER">
+            <menus>
+                <Menu mnemonicParsing="false" text="Archivo">
+                    <items>
+                        <MenuItem fx:id="registrar" mnemonicParsing="false" onAction="#handleRegister" text="Registrar">
+                            <accelerator>
+                                <KeyCodeCombination alt="DOWN" code="R" control="UP" meta="UP" shift="UP"
+                                                    shortcut="UP"/>
+                            </accelerator>
+                        </MenuItem>
+                        <MenuItem mnemonicParsing="false" onAction="#handleEsclarecer" text="Esclarecimiento">
+                            <accelerator>
+                                <KeyCodeCombination alt="DOWN" code="E" control="UP" meta="UP" shift="UP"
+                                                    shortcut="UP"/>
+                            </accelerator>
+                        </MenuItem>
+                        <MenuItem fx:id="buscar" mnemonicParsing="false" text="Buscar"/>
+                        <MenuItem fx:id="close" mnemonicParsing="false" text="Cerrar" onAction="#handleCerrar">
+                            <accelerator>
+                                <KeyCodeCombination alt="DOWN" code="C" control="UP" meta="UP" shift="UP"
+                                                    shortcut="UP"/>
+                            </accelerator>
+                        </MenuItem>
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Ver">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Hechos registrados"/>
+                        <MenuItem mnemonicParsing="false" text="Tipo Materiales Pext"/>
+                        <MenuItem mnemonicParsing="false" text="Tipo Afectacion TPubl"/>
+                        <MenuItem mnemonicParsing="false" text="Unidades Organizativas"/>
+                        <MenuItem mnemonicParsing="false" text="Municipios"/>
+                        <MenuItem mnemonicParsing="false" onAction="#handleAveria" text="Tipo de Averia"/>
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Informes">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Resumen MINCOM"
+                                  onAction="#handleHechosParaResumenMINCOM"/>
+                        <MenuItem mnemonicParsing="false" text="Resumen Hechos por Unidad Organizativa"
+                                  onAction="#handleHechosParaUOrg"/>
+                        <MenuItem mnemonicParsing="false" text="Resumen CDNT" onAction="#handleCentroDireccionInforme"/>
+                        <MenuItem mnemonicParsing="false" text="Resumen Fiscalía" onAction="#handelFiscaliaInforme"/>
+                        <MenuItem mnemonicParsing="false" text="Certifico de Hechos" onAction="#handleCertificoHechos"/>
+                        <MenuItem mnemonicParsing="false" text="Informe de Prevención"
+                                  onAction="#handleDatosPrevencion"/>
+                        <MenuItem mnemonicParsing="false" text="Resumen Datos Pendientes"
+                                  onAction="#handleDatosPendientes"/>
+                        <MenuItem mnemonicParsing="false" text="Resumen Hechos Prevenidos"
+                                  onAction="#handleHechosPrevenidos"/>
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Listados">
+                    <items>
+                        <Menu mnemonicParsing="false" text="Delictivos">
+                            <items>
+                                <MenuItem mnemonicParsing="false" text="Delito VS PExt"/>
+                                <MenuItem mnemonicParsing="false" text="Delito VS TPub"/>
+                                <MenuItem mnemonicParsing="false" text="Robos"/>
+                                <MenuItem mnemonicParsing="false" text="Hurtos"/>
+                                <MenuItem mnemonicParsing="false" text="Fraudes"/>
+                                <MenuItem mnemonicParsing="false" text="Acciones C/R"/>
+                                <MenuItem mnemonicParsing="false" text="Otros delitos"/>
+                            </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="No delictivos">
+                            <items>
+                                <MenuItem mnemonicParsing="false" text="Averias PExt"/>
+                                <MenuItem mnemonicParsing="false" text="Accidentes de tránsito"/>
+                                <MenuItem mnemonicParsing="false" text="Seguridad Informática"/>
+                                <MenuItem mnemonicParsing="false" text="Incendios"/>
+                                <MenuItem mnemonicParsing="false" text="Diferencias de Origen"/>
+                                <MenuItem mnemonicParsing="false" text="Otros hechos"/>
+                            </items>
+                        </Menu>
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Ayuda">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Acerca de..."/>
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+
+
+    </top>
+</BorderPane>
