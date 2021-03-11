@@ -1,0 +1,8 @@
+#Intelli and java
+.idea/
+*.class
+
+libraries/
+
+out/
+*.iml

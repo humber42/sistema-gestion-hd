@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.Font?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="423.0" prefWidth="395.0"
+            stylesheets="@../../css/checkbox.css" xmlns="http://javafx.com/javafx/9.0.1"
+            fx:controller="views.dialogs.DialogGenerarHechosUorgController">
+    <children>
+        <GridPane layoutX="69.0" layoutY="140.0" prefHeight="191.0" prefWidth="290.0" styleClass="box">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            </rowConstraints>
+            <children>
+                <JFXCheckBox fx:id="delitoPext" checkedColor="#1d4d8ff5" styleClass="custom-jfx-check-box"
+                             text="Delitos vs Pext" viewOrder="3.0">
+                    <unCheckedColor>
+                        <RadialGradient centerX="0.5266666836208768" centerY="0.503816808453043" radius="0.5">
+                            <stops>
+                                <Stop color="#3357b8"/>
+                                <Stop color="#449a95" offset="0.7621928265188749"/>
+                                <Stop color="#839e9d" offset="1.0"/>
+                            </stops>
+                        </RadialGradient>
+                    </unCheckedColor>
+                </JFXCheckBox>
+                <JFXCheckBox fx:id="delitoTPub" checkedColor="#1d4d8ff5" styleClass="custom-jfx-check-box"
+                             stylesheets="@../../css/checkbox.css" text="Delitos vs TPúb" viewOrder="3.0"
+                             GridPane.rowIndex="1">
+                    <unCheckedColor>
+                        <RadialGradient centerX="0.5266666836208768" centerY="0.503816808453043" radius="0.5">
+                            <stops>
+                                <Stop color="#3357b8"/>
+                                <Stop color="#449a95" offset="0.7621928265188749"/>
+                                <Stop color="#839e9d" offset="1.0"/>
+                            </stops>
+                        </RadialGradient>
+                    </unCheckedColor>
+                </JFXCheckBox>
+                <JFXCheckBox fx:id="robo" checkedColor="#1d4d8ff5" styleClass="custom-jfx-check-box"
+                             stylesheets="@../../css/checkbox.css" text="Robos" viewOrder="3.0" GridPane.rowIndex="2">
+                    <unCheckedColor>
+                        <RadialGradient centerX="0.5266666836208768" centerY="0.503816808453043" radius="0.5">
+                            <stops>
+                                <Stop color="#3357b8"/>
+                                <Stop color="#449a95" offset="0.7621928265188749"/>
+                                <Stop color="#839e9d" offset="1.0"/>
+                            </stops>
+                        </RadialGradient>
+                    </unCheckedColor>
+                </JFXCheckBox>
+                <JFXCheckBox fx:id="hurto" checkedColor="#1d4d8ff5" styleClass="custom-jfx-check-box"
+                             stylesheets="@../../css/checkbox.css" text="Hurtos" viewOrder="3.0" GridPane.rowIndex="3">
+                    <unCheckedColor>
+                        <RadialGradient centerX="0.5266666836208768" centerY="0.503816808453043" radius="0.5">
+                            <stops>
+                                <Stop color="#3357b8"/>
+                                <Stop color="#449a95" offset="0.7621928265188749"/>
+                                <Stop color="#839e9d" offset="1.0"/>
+                            </stops>
+                        </RadialGradient>
+                    </unCheckedColor>
+                </JFXCheckBox>
+                <JFXCheckBox fx:id="fraude" checkedColor="#1d4d8ff5" styleClass="custom-jfx-check-box"
+                             stylesheets="@../../css/checkbox.css" text="Fraudes" viewOrder="3.0" GridPane.rowIndex="4">
+                    <unCheckedColor>
+                        <RadialGradient centerX="0.5266666836208768" centerY="0.503816808453043" radius="0.5">
+                            <stops>
+                                <Stop color="#3357b8"/>
+                                <Stop color="#449a95" offset="0.7621928265188749"/>
+                                <Stop color="#839e9d" offset="1.0"/>
+                            </stops>
+                        </RadialGradient>
+                    </unCheckedColor>
+                </JFXCheckBox>
+                <JFXCheckBox fx:id="accionesCR" checkedColor="#1d4d8ff5" styleClass="custom-jfx-check-box"
+                             stylesheets="@../../css/checkbox.css" text="Acciones C/R" viewOrder="3.0"
+                             GridPane.rowIndex="5">
+                    <unCheckedColor>
+                        <RadialGradient centerX="0.5266666836208768" centerY="0.503816808453043" radius="0.5">
+                            <stops>
+                                <Stop color="#3357b8"/>
+                                <Stop color="#449a95" offset="0.7621928265188749"/>
+                                <Stop color="#839e9d" offset="1.0"/>
+                            </stops>
+                        </RadialGradient>
+                    </unCheckedColor>
+                </JFXCheckBox>
+                <JFXCheckBox fx:id="otrosDelitos" checkedColor="#1d4d8ff5" styleClass="custom-jfx-check-box"
+                             stylesheets="@../../css/checkbox.css" text="Otros Delitos" viewOrder="3.0"
+                             GridPane.rowIndex="6">
+                    <unCheckedColor>
+                        <RadialGradient centerX="0.5266666836208768" centerY="0.503816808453043" radius="0.5">
+                            <stops>
+                                <Stop color="#3357b8"/>
+                                <Stop color="#449a95" offset="0.7621928265188749"/>
+                                <Stop color="#839e9d" offset="1.0"/>
+                            </stops>
+                        </RadialGradient>
+                    </unCheckedColor>
+                </JFXCheckBox>
+                <JFXCheckBox fx:id="averiasPext" checkedColor="#1d4d8ff5" styleClass="custom-jfx-check-box"
+                             stylesheets="@../../css/checkbox.css" text="Averías PExt" viewOrder="3.0"
+                             GridPane.columnIndex="1">
+                    <unCheckedColor>
+                        <RadialGradient centerX="0.5266666836208768" centerY="0.503816808453043" radius="0.5">
+                            <stops>
+                                <Stop color="#3357b8"/>
+                                <Stop color="#449a95" offset="0.7621928265188749"/>
+                                <Stop color="#839e9d" offset="1.0"/>
+                            </stops>
+                        </RadialGradient>
+                    </unCheckedColor>
+                </JFXCheckBox>
+                <JFXCheckBox fx:id="accTransito" checkedColor="#1d4d8ff5" styleClass="custom-jfx-check-box"
+                             stylesheets="@../../css/checkbox.css" text="Accidente Tránsito" viewOrder="3.0"
+                             GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <unCheckedColor>
+                        <RadialGradient centerX="0.5266666836208768" centerY="0.503816808453043" radius="0.5">
+                            <stops>
+                                <Stop color="#3357b8"/>
+                                <Stop color="#449a95" offset="0.7621928265188749"/>
+                                <Stop color="#839e9d" offset="1.0"/>
+                            </stops>
+                        </RadialGradient>
+                    </unCheckedColor>
+                </JFXCheckBox>
+                <JFXCheckBox fx:id="segInf" checkedColor="#1d4d8ff5" styleClass="custom-jfx-check-box"
+                             stylesheets="@../../css/checkbox.css" text="Seguridad Informática" viewOrder="3.0"
+                             GridPane.columnIndex="1" GridPane.rowIndex="2">
+                    <unCheckedColor>
+                        <RadialGradient centerX="0.5266666836208768" centerY="0.503816808453043" radius="0.5">
+                            <stops>
+                                <Stop color="#3357b8"/>
+                                <Stop color="#449a95" offset="0.7621928265188749"/>
+                                <Stop color="#839e9d" offset="1.0"/>
+                            </stops>
+                        </RadialGradient>
+                    </unCheckedColor>
+                </JFXCheckBox>
+                <JFXCheckBox fx:id="incInteriores" checkedColor="#1d4d8ff5" styleClass="custom-jfx-check-box"
+                             stylesheets="@../../css/checkbox.css" text="Inc. Interiores" viewOrder="3.0"
+                             GridPane.columnIndex="1" GridPane.rowIndex="3">
+                    <unCheckedColor>
+                        <RadialGradient centerX="0.5266666836208768" centerY="0.503816808453043" radius="0.5">
+                            <stops>
+                                <Stop color="#3357b8"/>
+                                <Stop color="#449a95" offset="0.7621928265188749"/>
+                                <Stop color="#839e9d" offset="1.0"/>
+                            </stops>
+                        </RadialGradient>
+                    </unCheckedColor>
+                </JFXCheckBox>
+                <JFXCheckBox fx:id="incExteriores" checkedColor="#1d4d8ff5" styleClass="custom-jfx-check-box"
+                             stylesheets="@../../css/checkbox.css" text="Inc. Exteriores" viewOrder="3.0"
+                             GridPane.columnIndex="1" GridPane.rowIndex="4">
+                    <unCheckedColor>
+                        <RadialGradient centerX="0.5266666836208768" centerY="0.503816808453043" radius="0.5">
+                            <stops>
+                                <Stop color="#3357b8"/>
+                                <Stop color="#449a95" offset="0.7621928265188749"/>
+                                <Stop color="#839e9d" offset="1.0"/>
+                            </stops>
+                        </RadialGradient>
+                    </unCheckedColor>
+                </JFXCheckBox>
+                <JFXCheckBox fx:id="diferOrigen" checkedColor="#1d4d8ff5" styleClass="custom-jfx-check-box"
+                             stylesheets="@../../css/checkbox.css" text="Difer. de Origen" viewOrder="3.0"
+                             GridPane.columnIndex="1" GridPane.rowIndex="5">
+                    <unCheckedColor>
+                        <RadialGradient centerX="0.5266666836208768" centerY="0.503816808453043" radius="0.5">
+                            <stops>
+                                <Stop color="#3357b8"/>
+                                <Stop color="#449a95" offset="0.7621928265188749"/>
+                                <Stop color="#839e9d" offset="1.0"/>
+                            </stops>
+                        </RadialGradient>
+                    </unCheckedColor>
+                </JFXCheckBox>
+                <JFXCheckBox fx:id="otrosHechos" checkedColor="#1d4d8ff5" styleClass="custom-jfx-check-box"
+                             stylesheets="@../../css/checkbox.css" text="Otros Hechos" viewOrder="3.0"
+                             GridPane.columnIndex="1" GridPane.rowIndex="6">
+                    <unCheckedColor>
+                        <RadialGradient centerX="0.5266666836208768" centerY="0.503816808453043" radius="0.5">
+                            <stops>
+                                <Stop color="#3357b8"/>
+                                <Stop color="#449a95" offset="0.7621928265188749"/>
+                                <Stop color="#839e9d" offset="1.0"/>
+                            </stops>
+                        </RadialGradient>
+                    </unCheckedColor>
+                </JFXCheckBox>
+            </children>
+        </GridPane>
+        <HBox layoutX="116.0" layoutY="362.0" prefHeight="31.0" prefWidth="163.0">
+            <children>
+                <JFXButton onAction="#generarInforme" prefHeight="62.0" prefWidth="85.0"
+                           style="-fx-background-color: blue;" text="Generar" textFill="WHITE">
+                    <HBox.margin>
+                        <Insets right="5.0"/>
+                    </HBox.margin>
+                    <font>
+                        <Font size="14.0"/>
+                    </font>
+                </JFXButton>
+                <JFXButton onAction="#handleCancelar" prefHeight="31.0" prefWidth="82.0"
+                           style="-fx-background-color: red;" text="Cancelar" textFill="#ffffff">
+                    <font>
+                        <Font size="15.0"/>
+                    </font>
+                </JFXButton>
+            </children>
+        </HBox>
+        <GridPane layoutX="23.0" layoutY="97.0" prefHeight="35.0" prefWidth="386.0" AnchorPane.leftAnchor="23.0"
+                  AnchorPane.rightAnchor="24.0">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.79998779296875" minWidth="10.0"
+                                   prefWidth="200.79998779296875"/>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="183.20001220703125" minWidth="10.0"
+                                   prefWidth="175.20001220703125"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            </rowConstraints>
+            <children>
+                <GridPane>
+                    <columnConstraints>
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="89.20001220703125"
+                                           minWidth="10.0" prefWidth="57.20001220703125"/>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="137.20001220703125" minWidth="10.0"
+                                           prefWidth="130.79998779296875"/>
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                    </rowConstraints>
+                    <children>
+                        <Label text="Mes "/>
+                        <ComboBox fx:id="meses" prefHeight="26.0" prefWidth="126.0" promptText="Seleccione"
+                                  GridPane.columnIndex="1"/>
+                    </children>
+                </GridPane>
+                <GridPane prefHeight="32.0" prefWidth="205.0" GridPane.columnIndex="1">
+                    <columnConstraints>
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="89.20001220703125"
+                                           minWidth="10.0" prefWidth="68.80003662109375"/>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="119.99996337890626" minWidth="10.0"
+                                           prefWidth="119.99996337890626"/>
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                    </rowConstraints>
+                    <children>
+                        <ComboBox fx:id="annos" prefHeight="26.0" prefWidth="127.0" promptText="Seleccione"
+                                  GridPane.columnIndex="1"/>
+                        <Label prefHeight="18.0" prefWidth="27.0" text="Año"/>
+                    </children>
+                </GridPane>
+            </children>
+        </GridPane>
+        <GridPane layoutX="97.0" layoutY="64.0" prefHeight="26.0" prefWidth="282.0" AnchorPane.leftAnchor="0.0"
+                  AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="64.0">
+            <columnConstraints>
+                <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            </rowConstraints>
+            <children>
+                <Label prefHeight="18.0" prefWidth="130.0" text="Unidad Organizativa"/>
+                <ComboBox fx:id="unidadesOrganizativas" editable="true" prefWidth="150.0" promptText="Seleccione"
+                          GridPane.columnIndex="1"/>
+            </children>
+        </GridPane>
+        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="147.0" layoutY="24.0" style="-fx-alignment: center;"
+               text="Generar Hechos para una U/O" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <font>
+                <Font size="16.0"/>
+            </font>
+        </Label>
+        <ProgressBar fx:id="progressBar" layoutX="97.0" layoutY="337.0" prefWidth="200.0" visible="false"/>
+    </children>
+</AnchorPane>
