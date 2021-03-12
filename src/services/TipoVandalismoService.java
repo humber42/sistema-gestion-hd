@@ -4,6 +4,7 @@ import models.TipoVandalismo;
 import util.Conexion;
 import util.Util;
 
+import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -66,6 +67,31 @@ public class TipoVandalismoService {
             e.printStackTrace();
         }
         return tipoVandalismo;
+    }
+
+    public void insertarTipoDeVandalismo(TipoVandalismo tipoVandalismo)throws SQLException {
+        var function = "{call inserta_tipo_vandalismo(?)}";
+        CallableStatement callableStatement = Conexion.getConnection().prepareCall(function);
+        callableStatement.setString(1,tipoVandalismo.getAfect_tpublica());
+        callableStatement.execute();
+        callableStatement.close();
+    }
+
+    public void editarTipoDeVandalismo(TipoVandalismo tipoVandalismo)throws SQLException{
+        var function = "{call editar_tipo_vandalismo(?,?)}";
+        CallableStatement callableStatement = Conexion.getConnection().prepareCall(function);
+        callableStatement.setInt(1,tipoVandalismo.getId_afect_tpublica());
+        callableStatement.setString(2,tipoVandalismo.getAfect_tpublica());
+        callableStatement.execute();
+        callableStatement.close();
+    }
+
+    public void eliminarTipoDeVandalismo(TipoVandalismo tipoVandalismo)throws SQLException{
+        var fonction = "{call eliminar_tipo_vandalismo(?)}";
+        CallableStatement callableStatement = Conexion.getConnection().prepareCall(fonction);
+        callableStatement.setInt(1,tipoVandalismo.getId_afect_tpublica());
+        callableStatement.execute();
+        callableStatement.close();
     }
 
 }

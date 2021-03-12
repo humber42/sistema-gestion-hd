@@ -257,6 +257,87 @@ public class PrincipalViewController {
     }
 
     @FXML
+    private void handleMunicipio(){
+        try{
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(PrincipalViewController.class.getResource("../views/ListaMunicipiosView.fxml"));
+            AnchorPane page =  loader.load();
+
+            ListaMunicipiosViewController controller = loader.getController();
+            controller.setMainApp(this.mainApp);
+            mainApp.getPrincipal().setCenter(page);
+
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleUnidadOrganizativa(){
+        try{
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(PrincipalViewController.class.getResource("../views/UnidadesOrgView.fxml"));
+            AnchorPane page =  loader.load();
+
+            UnidadesOrgViewController controller = loader.getController();
+            controller.setMainApp(this.mainApp);
+            mainApp.getPrincipal().setCenter(page);
+
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleAfectacion(){
+        try{
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(PrincipalViewController.class.getResource("../views/TipoAfectacionView.fxml"));
+            AnchorPane page =  loader.load();
+
+            TipoAfectacionViewController controller = loader.getController();
+            controller.setMainApp(this.mainApp);
+            mainApp.getPrincipal().setCenter(page);
+
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleTipoMateriales(){
+        try{
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(PrincipalViewController.class.getResource("../views/TipoMaterialView.fxml"));
+            AnchorPane page =  loader.load();
+
+            TipoMaterialViewController controller = loader.getController();
+            controller.setMainApp(this.mainApp);
+            mainApp.getPrincipal().setCenter(page);
+
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleHechosRegistrados(){
+        try{
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(PrincipalViewController.class.getResource("../views/HechosRegistradosView.fxml"));
+            AnchorPane page =  loader.load();
+
+            HechosRegistradosViewController controller = loader.getController();
+            controller.setMainApp(this.mainApp);
+            mainApp.getPrincipal().setCenter(page);
+
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+
+    @FXML
     private void handleCerrar() {
         this.mainApp.getPrimaryStage().close();
     }

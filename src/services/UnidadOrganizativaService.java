@@ -5,6 +5,7 @@ import models.UnidadOrganizativa;
 import util.Conexion;
 import util.Util;
 
+import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -78,6 +79,32 @@ public class UnidadOrganizativaService {
         }
 
         return unidadOrganizativa;
+    }
+
+    public void insertarUnidadOrganizativa (UnidadOrganizativa unidadOrganizativa) throws SQLException{
+
+        var function ="{call insertar_unidad_organizativa(?)}";
+        CallableStatement statement = Conexion.getConnection().prepareCall(function);
+        statement.setString(1,unidadOrganizativa.getUnidad_organizativa());
+        statement.execute();
+        statement.close();
+    }
+
+    public void editarUnidadOrganizativa (UnidadOrganizativa unidadOrganizativa) throws SQLException{
+        var function ="{call editar_unidad_organizativa(?,?)}";
+        CallableStatement callableStatement =Conexion.getConnection().prepareCall(function);
+        callableStatement.setInt(1,unidadOrganizativa.getId_unidad_organizativa());
+        callableStatement.setString(2,unidadOrganizativa.getUnidad_organizativa());
+        callableStatement.execute();
+        callableStatement.close();
+    }
+
+    public void eliminarUnidadOrganizativa(UnidadOrganizativa unidadOrganizativa) throws  SQLException{
+        var function ="{call eliminar_unidad_organizativa(?)}";
+        CallableStatement callableStatement =Conexion.getConnection().prepareCall(function);
+        callableStatement.setInt(1,unidadOrganizativa.getId_unidad_organizativa());
+        callableStatement.execute();
+        callableStatement.close();
     }
 
 }

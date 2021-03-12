@@ -13,7 +13,7 @@ public class Municipio {
         this(null);
     }
 
-    private Municipio(String municipio) {
+    public Municipio(String municipio) {
         this.setMunicipio(municipio);
     }
 

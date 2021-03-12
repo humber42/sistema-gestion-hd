@@ -3,6 +3,7 @@ package services;
 import models.AveriasPext;
 import util.Conexion;
 
+import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -72,6 +73,31 @@ public class AveriasPExtService {
             e.printStackTrace();
         }
         return pext;
+    }
+
+    public void insertarTipoAveria(AveriasPext averiasPext)throws SQLException{
+        var function = "{call insertar_averia_pext(?)}";
+        CallableStatement callableStatement = Conexion.getConnection().prepareCall(function);
+        callableStatement.setString(1,averiasPext.getCausa());
+        callableStatement.execute();
+        callableStatement.close();
+    }
+
+    public void editarTipoAveria(AveriasPext averiasPext)throws SQLException{
+        var function = "{call editar_averia_pext(?,?)}";
+        CallableStatement callableStatement = Conexion.getConnection().prepareCall(function);
+        callableStatement.setInt(1,averiasPext.getId_avpext());
+        callableStatement.setString(2,averiasPext.getCausa());
+        callableStatement.execute();
+        callableStatement.close();
+    }
+
+    public void eliminarTipoAveria(AveriasPext averiasPext)throws SQLException{
+        var function = "{call eliminar_averia_pext(?)}";
+        CallableStatement callableStatement = Conexion.getConnection().prepareCall(function);
+        callableStatement.setInt(1,averiasPext.getId_avpext());
+        callableStatement.execute();
+        callableStatement.close();
     }
 
 }
