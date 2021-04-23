@@ -25,7 +25,12 @@
                                                     shortcut="UP"/>
                             </accelerator>
                         </MenuItem>
-                        <MenuItem fx:id="buscar" mnemonicParsing="false" text="Buscar"/>
+                        <MenuItem fx:id="buscar" mnemonicParsing="false" text="Buscar" onAction="#handleSearch">
+                            <accelerator>
+                                <KeyCodeCombination alt="DOWN" code="B" control="UP" shift="UP" shortcut="UP"
+                                                    meta="UP"/>
+                            </accelerator>
+                        </MenuItem>
                         <MenuItem fx:id="close" mnemonicParsing="false" text="Cerrar" onAction="#handleCerrar">
                             <accelerator>
                                 <KeyCodeCombination alt="DOWN" code="C" control="UP" meta="UP" shift="UP"
@@ -65,23 +70,33 @@
                     <items>
                         <Menu mnemonicParsing="false" text="Delictivos">
                             <items>
-                                <MenuItem mnemonicParsing="false" text="Delito VS PExt"/>
-                                <MenuItem mnemonicParsing="false" text="Delito VS TPub"/>
-                                <MenuItem mnemonicParsing="false" text="Robos"/>
-                                <MenuItem mnemonicParsing="false" text="Hurtos"/>
-                                <MenuItem mnemonicParsing="false" text="Fraudes"/>
-                                <MenuItem mnemonicParsing="false" text="Acciones C/R"/>
-                                <MenuItem mnemonicParsing="false" text="Otros delitos"/>
+                                <MenuItem mnemonicParsing="false" text="Delito VS PExt"
+                                          onAction="#generarDelitoPextListado"/>
+                                <MenuItem mnemonicParsing="false" text="Delito VS TPub"
+                                          onAction="#generarDelitoTpubListado"/>
+                                <MenuItem mnemonicParsing="false" text="Robos" onAction="#generarDelitoRoboListado"/>
+                                <MenuItem mnemonicParsing="false" text="Hurtos" onAction="#generarDelitoHurtoListado"/>
+                                <MenuItem mnemonicParsing="false" text="Fraudes"
+                                          onAction="#generarDelitoFraudeListado"/>
+                                <MenuItem mnemonicParsing="false" text="Acciones C/R"
+                                          onAction="#generarDelitoAccionCRListado"/>
+                                <MenuItem mnemonicParsing="false" text="Otros delitos"
+                                          onAction="#generarDelitoOtrosListado"/>
                             </items>
                         </Menu>
                         <Menu mnemonicParsing="false" text="No delictivos">
                             <items>
-                                <MenuItem mnemonicParsing="false" text="Averias PExt"/>
-                                <MenuItem mnemonicParsing="false" text="Accidentes de tránsito"/>
-                                <MenuItem mnemonicParsing="false" text="Seguridad Informática"/>
-                                <MenuItem mnemonicParsing="false" text="Incendios"/>
-                                <MenuItem mnemonicParsing="false" text="Diferencias de Origen"/>
-                                <MenuItem mnemonicParsing="false" text="Otros hechos"/>
+                                <MenuItem mnemonicParsing="false" text="Averias PExt"
+                                          onAction="#generarAveriaPextListado"/>
+                                <MenuItem mnemonicParsing="false" text="Accidentes de tránsito"
+                                          onAction="#generarAccTransitoListado"/>
+                                <MenuItem mnemonicParsing="false" text="Seguridad Informática"
+                                          onAction="#generarSegInformaticaListado"/>
+                                <MenuItem mnemonicParsing="false" text="Incendios" onAction="#generarIncendioListado"/>
+                                <MenuItem mnemonicParsing="false" text="Diferencias de Origen"
+                                          onAction="#generarDiferOrigenListado"/>
+                                <MenuItem mnemonicParsing="false" text="Otros hechos"
+                                          onAction="#generarOtrosHechosListado"/>
                             </items>
                         </Menu>
                     </items>

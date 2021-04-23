@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="220.0" prefWidth="419.0"
+            xmlns="http://javafx.com/javafx/9.0.1"
+            fx:controller="views.dialogDelictivos.DialogGenerarListadosDelictivos">
+    <children>
+        <Label fx:id="labelTitulo" alignment="CENTER" contentDisplay="CENTER" layoutX="125.0" layoutY="31.0"
+               text="Listar" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <font>
+                <Font size="20.0"/>
+            </font>
+        </Label>
+        <Label layoutX="231.0" layoutY="95.0" text="Mes">
+            <font>
+                <Font size="13.0"/>
+            </font>
+        </Label>
+        <Label layoutX="49.0" layoutY="95.0" text="Año"/>
+        <ComboBox fx:id="meses" disable="true" layoutX="266.0" layoutY="90.0" prefHeight="26.0" prefWidth="132.0"
+                  promptText="Seleccione" visibleRowCount="12"/>
+        <ComboBox fx:id="anno" layoutX="90.0" layoutY="90.0" prefHeight="26.0" prefWidth="102.0"
+                  promptText="Seleccione"/>
+        <JFXButton buttonType="RAISED" layoutX="199.0" layoutY="177.0" onAction="#handleGenerate" prefHeight="30.0"
+                   prefWidth="87.0" style="-fx-background-color: blue;" text="Generar" textFill="WHITE">
+            <font>
+                <Font size="14.0"/>
+            </font>
+        </JFXButton>
+        <JFXButton buttonType="RAISED" cancelButton="true" layoutX="310.0" layoutY="177.0" onAction="#handleCancel"
+                   prefHeight="30.0" prefWidth="87.0" style="-fx-background-color: red;" text="Cancelar"
+                   textFill="WHITE">
+            <font>
+                <Font size="14.0"/>
+            </font>
+        </JFXButton>
+        <ProgressBar fx:id="progressBar" layoutX="125.0" layoutY="139.0" prefWidth="200.0" visible="false"/>
+    </children>
+</AnchorPane>

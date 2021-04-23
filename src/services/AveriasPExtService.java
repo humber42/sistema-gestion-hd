@@ -26,6 +26,7 @@ public class AveriasPExtService {
                 averiasPext = recuperarResultSet(resultSet);
             }
             resultSet.close();
+            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -50,6 +51,7 @@ public class AveriasPExtService {
                 averiasPextList.add(pext);
             }
             resultSet.close();
+            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

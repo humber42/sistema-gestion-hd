@@ -1,6 +1,5 @@
 package views;
 
-import controllers.MainApp;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -8,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.layout.BorderPane;
 import models.AveriasPext;
 import services.ServiceLocator;
 
@@ -17,7 +17,7 @@ import java.util.List;
 public class TipoDeAveriaViewController {
 
     public List<AveriasPext> list = ServiceLocator.getAveriasPExtService().fecthAllAveriaPext();
-    private MainApp mainApp;
+    private BorderPane mainApp;
     @FXML
     private TableView<AveriasPext> averiasTable;
     @FXML
@@ -64,7 +64,7 @@ public class TipoDeAveriaViewController {
         } else causaLabel.setText("");
     }
 
-    public void setMainApp(MainApp mainApp) {
+    public void setMainApp(BorderPane mainApp) {
         this.mainApp = mainApp;
 
         // Add observable list data to the table

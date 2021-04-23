@@ -65,7 +65,7 @@ public class GenerateInformeFiscaliaImpl implements GenerateInformeFiscalia {
 
     }
 
-    public boolean generarEsclarecimiento(LocalDate localDate, ExcelFile workbook) {
+    private boolean generarEsclarecimiento(LocalDate localDate, ExcelFile workbook) {
 
         ExcelWorksheet worksheet = workbook.addWorksheet("Esclarecimiento");
 

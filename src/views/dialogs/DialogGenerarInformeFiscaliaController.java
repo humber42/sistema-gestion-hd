@@ -66,7 +66,7 @@ public class DialogGenerarInformeFiscaliaController {
         new Thread(task).start();
     }
 
-    public void showDialog(boolean result) {
+    private void showDialog(boolean result) {
         if (result) {
             Util.dialogResult("Exito", Alert.AlertType.INFORMATION);
         } else {

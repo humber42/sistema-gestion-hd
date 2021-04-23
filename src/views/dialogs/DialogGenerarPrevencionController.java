@@ -4,13 +4,20 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXProgressBar;
 import com.jfoenix.controls.JFXRadioButton;
 import informes_generate.GeneradorLocator;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 import models.Anno;
+import org.controlsfx.dialog.ExceptionDialog;
 import services.ServiceLocator;
+import util.Util;
 
+import java.sql.Date;
+import java.util.LinkedList;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class DialogGenerarPrevencionController {
@@ -70,6 +77,7 @@ public class DialogGenerarPrevencionController {
 
         this.radioAnual.setOnAction(p -> {
             this.unSelectItems();
+            this.paneSeleccion.setDisable(true);
             this.paneSeleccion.setCollapsible(true);
             this.paneSeleccion.setExpanded(false);
             this.paneSeleccion.setCollapsible(false);
@@ -77,6 +85,7 @@ public class DialogGenerarPrevencionController {
         });
 
         this.radioSemestral.setOnAction(p -> {
+            this.paneSeleccion.setDisable(false);
             this.paneSeleccion.setCollapsible(true);
             this.paneSeleccion.setExpanded(true);
             this.paneSeleccion.setCollapsible(false);
@@ -89,9 +98,11 @@ public class DialogGenerarPrevencionController {
             this.unSelectItems();
 
 
+
         });
 
         this.radioTrimestral.setOnAction(p -> {
+            this.paneSeleccion.setDisable(false);
             this.paneSeleccion.setCollapsible(true);
             this.paneSeleccion.setExpanded(true);
             this.paneSeleccion.setCollapsible(false);
@@ -114,9 +125,107 @@ public class DialogGenerarPrevencionController {
         this.cuarto.setSelected(false);
     }
 
+    private LinkedList<Date> devolverFechas() {
+        LinkedList<Date> fechas = null;
+        if (Objects.isNull(this.annos.getSelectionModel().getSelectedItem())) {
+            Util.dialogResult("Debe seleccionar un año", Alert.AlertType.ERROR);
+        } else {
+            fechas = new LinkedList<>();
+            int anno = this.annos.getSelectionModel().getSelectedItem();
+            //Determinando si es trimestral
+            if (this.radioTrimestral.isSelected()) {
+                //Determinando en que trimestre
+                if (this.primer.isSelected()) {
+                    String fechaInicial = anno + "-01-01";
+                    String fechaFinal = anno + "-04-01";
+                    fechas.add(Date.valueOf(fechaInicial));
+                    fechas.add(Date.valueOf(fechaFinal));
+                } else if (this.segundo.isSelected()) {
+                    String fechaInicial = anno + "-04-01";
+                    String fechaFinal = anno + "-07-01";
+                    fechas.add(Date.valueOf(fechaInicial));
+                    fechas.add(Date.valueOf(fechaFinal));
+                } else if (this.tercer.isSelected()) {
+                    String fechaInicial = anno + "-07-01";
+                    String fechaFinal = anno + "-10-01";
+                    fechas.add(Date.valueOf(fechaInicial));
+                    fechas.add(Date.valueOf(fechaFinal));
+                } else if (this.cuarto.isSelected()) {
+                    String fechaInicial = anno + "-10-01";
+                    String fechaFinal = (1 + anno) + "-01-01";
+                    fechas.add(Date.valueOf(fechaInicial));
+                    fechas.add(Date.valueOf(fechaFinal));
+                } else {
+                    Util.dialogResult("Debe seleccionar algun trimestre", Alert.AlertType.ERROR);
+                    fechas = null;
+                }
+            }
+            //Determinando si es semestral
+            else if (this.radioSemestral.isSelected()) {
+                //Determinando en que semestre
+                if (this.primer.isSelected()) {
+                    String fechaInicial = anno + "-01-01";
+                    String fechaFinal = anno + "-07-01";
+                    fechas.add(Date.valueOf(fechaInicial));
+                    fechas.add(Date.valueOf(fechaFinal));
+                } else if (this.segundo.isSelected()) {
+                    String fechaInicial = anno + "-07-01";
+                    String fechaFinal = (1 + anno) + "-01-01";
+                    fechas.add(Date.valueOf(fechaInicial));
+                    fechas.add(Date.valueOf(fechaFinal));
+                } else {
+                    Util.dialogResult("Debe seleccionar algún semestre", Alert.AlertType.ERROR);
+                    fechas = null;
+                }
+            }
+            //Determinando si es anual
+            else if (this.radioAnual.isSelected()) {
+                String fechaInicial = anno + "-01-01";
+                String fechaFinal = (anno) + "-12-31";
+                fechas.add(Date.valueOf(fechaInicial));
+                fechas.add(Date.valueOf(fechaFinal));
+            }
+        }
+
+        return fechas;
+    }
+
     @FXML
     private void handleGenerar() {
-        GeneradorLocator.getGenerarPrevencion().generarInformePrevencion(null, null);
+
+        LinkedList<Date> fechas = devolverFechas();
+//        GeneradorLocator.getGenerarPrevencion()
+//                    .generarInformePrevencion(fechas.getFirst(),fechas.getLast());
+        if (Objects.nonNull(fechas)) {
+            progressBar.setVisible(true);
+            Task<Boolean> task = new Task<>() {
+                boolean result = false;
+
+                @Override
+                protected Boolean call() throws Exception {
+                    this.result = GeneradorLocator.getGenerarPrevencion()
+                            .generarInformePrevencion(fechas.getFirst(), fechas.getLast());
+
+                    return result;
+                }
+
+                @Override
+                protected void succeeded() {
+                    super.succeeded();
+                    progressBar.setVisible(false);
+                    String file = "src/informesGenerados/InformePrevencion.xlsx";
+                    try {
+                        Runtime.getRuntime().exec("cmd /c start " + file);
+                    } catch (Exception e) {
+                        ExceptionDialog x = new ExceptionDialog(e);
+                        x.showAndWait();
+                    }
+                    Util.showDialog(result);
+                }
+            };
+
+            new Thread(task).start();
+        }
     }
 
     @FXML

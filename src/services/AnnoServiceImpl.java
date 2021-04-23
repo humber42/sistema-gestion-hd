@@ -1,6 +1,7 @@
 package services;
 
 import models.Anno;
+import util.Conexion;
 import util.Util;
 
 import java.sql.ResultSet;
@@ -48,8 +49,9 @@ public class AnnoServiceImpl implements AnnoService {
             var resultSet = Util.executeQuery(query);
             if (resultSet.next()) {
                 anno = recuperarResultSet(resultSet);
+                resultSet.close();
             }
-            resultSet.close();
+
         } catch (SQLException e) {
 
             e.printStackTrace();
@@ -69,7 +71,6 @@ public class AnnoServiceImpl implements AnnoService {
         List<Anno> annoList = new LinkedList<Anno>();
         String query = "SELECT * FROM annos ORDER BY annos.anno DESC";
         try {
-
             var resultSet = Util.executeQuery(query);
 
             while (resultSet.next()) {
@@ -77,9 +78,10 @@ public class AnnoServiceImpl implements AnnoService {
                 annoList.add(anno);
             }
             resultSet.close();
-
+            Conexion.getConnection().close();
         } catch (SQLException e) {
             e.printStackTrace();
+            System.out.println("No hay conexion");
         }
         return annoList;
     }

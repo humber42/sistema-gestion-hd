@@ -1,9 +1,9 @@
 package views;
 
 
-import controllers.MainApp;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -128,9 +128,9 @@ public class RegistrarViewController {
     @FXML
     private ComboBox<String> vandalismoComboBox;
 
-    private MainApp mainApp;
+    private BorderPane mainApp;
 
-    public void setMainApp(MainApp mainApp) {
+    public void setMainApp(BorderPane mainApp) {
         this.mainApp = mainApp;
     }
 
@@ -150,7 +150,7 @@ public class RegistrarViewController {
     @FXML
     private void handleCancel() {
         //dialogStage.close();
-        mainApp.getPrincipal().setCenter(null);
+        mainApp.setCenter(null);
     }
 
 

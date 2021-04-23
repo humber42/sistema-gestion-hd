@@ -22,6 +22,8 @@ public class TipoVandalismoService {
             if (resultSet.next()) {
                 tipoVandalismo = recuperarTipoVandalismo(resultSet);
             }
+            statement.close();
+            Conexion.getConnection().close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
