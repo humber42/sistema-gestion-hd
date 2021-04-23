@@ -1,8 +1,10 @@
 package services;
 
 import models.Municipio;
+import util.Conexion;
 import util.Util;
 
+import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
@@ -65,5 +67,30 @@ public class MunicipiosService {
         }
 
         return municipio;
+    }
+
+    public void insertarMunicipio (Municipio municipio) throws SQLException{
+        var function = "{call insertar_municipio(?)}";
+        CallableStatement callableStatement = Conexion.getConnection().prepareCall(function);
+        callableStatement.setString(1,municipio.getMunicipio());
+        callableStatement.execute();
+        callableStatement.close();
+    }
+
+    public void editarMunicipio (Municipio municipio)throws SQLException{
+        var function ="{call editar_municipio(?,?)}";
+        CallableStatement callableStatement = Conexion.getConnection().prepareCall(function);
+        callableStatement.setInt(1,municipio.getId_municipio());
+        callableStatement.setString(2,municipio.getMunicipio());
+        callableStatement.execute();
+        callableStatement.close();
+    }
+
+    public void eliminarMunicipio(Municipio municipio)throws SQLException{
+        var function ="{call eliminar_municipio(?)}";
+        CallableStatement callableStatement = Conexion.getConnection().prepareCall(function);
+        callableStatement.setInt(1,municipio.getId_municipio());
+        callableStatement.execute();
+        callableStatement.close();
     }
 }
