@@ -23,6 +23,8 @@ public class TipoHechoServiceImpl implements TipoHechoService {
                 tipoHecho = recuperarResultSet(resultSet);
             }
             resultSet.close();
+            statement.close();
+            Conexion.getConnection().close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -79,4 +79,12 @@ public interface HechosService {
 
     LinkedList<Hechos> obtenerHechosDatosPendientes(int year);
 
+    AfectacionesServiciosAfectados obtenerAfectacionServicio(Date inicio, Date fin, int tipoHecho);
+
+    LinkedList<CantidadDelitoRangoFecha> obtenerCantidadDelitoRangoFecha(Date inicio, Date fin);
+
+    LinkedList<Hechos> obtenerHechosByTypeAndDate(double anno, int mes, int tipoHecho);
+
+    LinkedList<Hechos> getHechosBySqlExpresion(String sql);
+
 }

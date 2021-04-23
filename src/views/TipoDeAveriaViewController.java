@@ -1,5 +1,6 @@
 package views;
 
+
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import controllers.MainApp;
@@ -10,6 +11,12 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.layout.BorderPane;
+
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -31,6 +38,9 @@ import java.util.Optional;
 
 public class TipoDeAveriaViewController {
 
+
+    public List<AveriasPext> list = ServiceLocator.getAveriasPExtService().fecthAllAveriaPext();
+    private BorderPane mainApp;
     private MainApp mainApp;
 
     @FXML
@@ -194,7 +204,7 @@ public class TipoDeAveriaViewController {
         }
     }
 
-    public void setMainApp(MainApp mainApp) {
+    public void setMainApp(BorderPane mainApp) {
         this.mainApp = mainApp;
 
         // Add observable list data to the table

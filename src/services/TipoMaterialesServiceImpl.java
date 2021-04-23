@@ -20,6 +20,8 @@ public class TipoMaterialesServiceImpl implements TipoMaterialesService {
             if (resultSet.next()) {
                 tipoMateriales = recuperarResultSet(resultSet);
             }
+            statement.close();
+            Conexion.getConnection().close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

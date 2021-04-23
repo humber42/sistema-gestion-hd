@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXToggleButton?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="523.0" prefWidth="631.0"
+            xmlns="http://javafx.com/javafx/9.0.1" fx:controller="views.BuscarViewController">
+    <children>
+        <TextField fx:id="titulo" layoutX="76.0" layoutY="81.0" prefHeight="26.0" prefWidth="283.0"
+                   promptText="Introduzca el titulo del hecho"/>
+        <TableView fx:id="tabla" layoutY="155.0" prefHeight="368.0" prefWidth="631.0" AnchorPane.leftAnchor="0.0"
+                   AnchorPane.rightAnchor="0.0">
+            <columns>
+                <TableColumn prefWidth="399.20001220703125" text="Titulo"/>
+                <TableColumn minWidth="0.0" prefWidth="0.0" text="Fecha Ocurrencia"/>
+                <TableColumn prefWidth="106.4000244140625" text="Tipo de Hecho"/>
+            </columns>
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+            </columnResizePolicy>
+        </TableView>
+        <Label layoutX="14.0" layoutY="81.0" text="Titulo">
+            <font>
+                <Font size="17.0"/>
+            </font>
+        </Label>
+        <JFXToggleButton fx:id="activarFiltros" layoutX="477.0" layoutY="65.0" text="Activar filtros"/>
+        <TitledPane fx:id="paneFilter" animated="false" disable="true" expanded="false" layoutX="-1.0" layoutY="128.0"
+                    prefHeight="134.0" prefWidth="631.0" text="Filtros">
+            <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="93.0" prefWidth="607.0">
+                    <children>
+                        <ComboBox fx:id="tipoHecho" layoutX="103.0" layoutY="14.0" prefHeight="26.0" prefWidth="173.0"/>
+                        <Label layoutX="17.0" layoutY="18.0" text="Tipo de hecho"/>
+                        <Label layoutX="17.0" layoutY="55.0" text="Fecha"/>
+                        <DatePicker fx:id="fecha" layoutX="103.0" layoutY="51.0"/>
+                        <Label layoutX="335.0" layoutY="18.0" text="Municipio"/>
+                        <ComboBox fx:id="municipio" layoutX="406.0" layoutY="14.0" prefHeight="26.0" prefWidth="196.0"/>
+                        <Label layoutX="334.0" layoutY="55.0" text="U/O"/>
+                        <ComboBox fx:id="unidadOrganizativa" layoutX="406.0" layoutY="51.0" prefHeight="26.0"
+                                  prefWidth="197.0"/>
+                    </children>
+                </AnchorPane>
+            </content>
+        </TitledPane>
+        <Label alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="194.0" layoutY="14.0" text="Buscar hechos"
+               AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <font>
+                <Font size="36.0"/>
+            </font>
+        </Label>
+        <JFXButton layoutX="373.0" layoutY="80.0" prefHeight="26.0" prefWidth="74.0" style="-fx-background-color: blue;"
+                   text="Buscar" textFill="#fffafa" onAction="#buscar">
+            <font>
+                <Font size="14.0"/>
+            </font>
+        </JFXButton>
+    </children>
+</AnchorPane>

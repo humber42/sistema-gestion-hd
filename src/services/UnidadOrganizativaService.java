@@ -25,6 +25,8 @@ public class UnidadOrganizativaService {
             if (resultSet.next()) {
                 unidadOrganizativa = recuperarUnidadOraganizativa(resultSet);
             }
+            statement.close();
+            Conexion.getConnection().close();
 
         } catch (SQLException e) {
             e.printStackTrace();

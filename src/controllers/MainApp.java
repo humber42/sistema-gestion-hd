@@ -4,19 +4,26 @@ import com.gembox.spreadsheet.SpreadsheetInfo;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import views.PrincipalViewController;
+import javafx.stage.StageStyle;
+import util.Conexion;
+import util.ConexionObserver;
+import views.PanatallaPrincipalModulos;
 
 import java.io.IOException;
+import java.util.Observer;
 
 
 public class MainApp extends Application {
 
     private Stage primaryStage;
-    private BorderPane principal;
+    private AnchorPane principal;
 
     public static void main(String[] args) {
+        // Conexion conexion = new Conexion("localhost",5432,"sysSP","postgres","postgres");
+        Observer o1 = new ConexionObserver();
+        Conexion.getObservable().addObserver(o1);
         SpreadsheetInfo.setLicense("FREE-LIMITED-KEY");
         launch(args);
     }
@@ -39,24 +46,26 @@ public class MainApp extends Application {
 
             //Load principal view
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("../views/PrinicipalView.fxml"));
-            this.principal = (BorderPane) loader.load();
+            loader.setLocation(MainApp.class.getResource("../views/PantallaPrincipalModulos.fxml"));
+            this.principal = (AnchorPane) loader.load();
 
             //Show the scene containing the principal view
             Scene scene = new Scene(this.principal);
-            this.primaryStage.setScene(scene);
-            this.primaryStage.show();
 
             //Give the controller access to the main app
-            PrincipalViewController controller = loader.getController();
+            PanatallaPrincipalModulos controller = loader.getController();
             controller.setMainApp(this);
+            controller.setPrimaryStage(primaryStage);
+            this.primaryStage.setScene(scene);
+            this.primaryStage.initStyle(StageStyle.UNDECORATED);
+            this.primaryStage.show();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public BorderPane getPrincipal() {
+    public AnchorPane getPrincipal() {
         return this.principal;
     }
 

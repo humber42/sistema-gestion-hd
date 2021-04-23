@@ -12,6 +12,7 @@ public class GeneradorLocator {
     private static GenerarHechosPrevenidos generarHechosPrevenidos = null;
     private static GenerarHechosPendientes generarHechosPendientes = null;
     private static GenerarPrevencion generarPrevencion = null;
+    private static GenerarListados generarListados = null;
 
 
     public static GenerateInformeFiscalia getGenerateInformeFiscalia() {
@@ -68,6 +69,13 @@ public class GeneradorLocator {
             generarPrevencion = new GenerarPrevencionImpl();
         }
         return generarPrevencion;
+    }
+
+    public static GenerarListados getGenerarListados() {
+        if (generarListados == null) {
+            generarListados = new GenerarListadosImpl();
+        }
+        return generarListados;
     }
 
 }

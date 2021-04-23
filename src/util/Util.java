@@ -35,6 +35,7 @@ public class Util {
                 ResultSet.CONCUR_READ_ONLY);
 
         ResultSet resultSet = statement.executeQuery(sql);
+        Conexion.getConnection().close();
 
         return resultSet;
     }

@@ -1,0 +1,20 @@
+.menu-principal-button {
+    -fx-background-color: rgba(104, 118, 129, 0.88)
+}
+
+.menu-principal-button:hover {
+    -fx-background-color: rgba(71, 49, 255, 0.69);
+    -fx-text-fill: #f9f9f9;
+}
+
+.close-button:hover {
+    -fx-background-color: #d6808b;
+}
+
+.image-visor:hover {
+    -fx-background-color: #ced2ff;
+}
+
+
+
+
