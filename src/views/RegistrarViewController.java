@@ -28,6 +28,7 @@ public class RegistrarViewController {
 
     boolean incidente;
     boolean imputable;
+    boolean fromPrincipal = true;
     @FXML
     private TextField titulo;
     @FXML
@@ -98,6 +99,10 @@ public class RegistrarViewController {
     private RadioButton radioButtonImputable;
     @FXML
     private DatePicker fechaOcurrencia;
+
+    public void setFromPrincipal(boolean principal){
+        this.fromPrincipal = principal;
+    }
     /**
      * This a callback to no make selectable the cell in the calendar before
      *
@@ -150,7 +155,10 @@ public class RegistrarViewController {
     @FXML
     private void handleCancel() {
         //dialogStage.close();
-        mainApp.getPrincipal().setCenter(null);
+        if(fromPrincipal)
+            mainApp.getPrincipal().setCenter(null);
+        else
+            dialogStage.close();
     }
 
 

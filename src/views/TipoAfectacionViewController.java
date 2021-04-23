@@ -48,6 +48,12 @@ public class TipoAfectacionViewController {
     public TipoAfectacionViewController() {
     }
 
+    private Stage stage;
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
     @FXML
     private void initialize() {
         afectacionField.setDisable(true);
@@ -140,7 +146,7 @@ public class TipoAfectacionViewController {
             Stage stage = new Stage();
             stage.setTitle("Insertar tipo de afectacion");
             stage.initModality(Modality.WINDOW_MODAL);
-            stage.initOwner(this.mainApp.getPrimaryStage());
+            stage.initOwner(this.stage);
             stage.setResizable(false);
             stage.setMaximized(false);
             stage.setScene(new Scene(anchorPane));

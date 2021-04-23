@@ -49,6 +49,12 @@ public class TipoDeAveriaViewController {
     @FXML
     private JFXTextField causaField;
 
+    private Stage stage;
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
     /**
      * The constructor.
      * The constructor is called before the initialize() method.
@@ -147,7 +153,8 @@ public class TipoDeAveriaViewController {
             Stage stage = new Stage();
             stage.setTitle("Insertar Tipo de Averia");
             stage.initModality(Modality.WINDOW_MODAL);
-            stage.initOwner(this.mainApp.getPrimaryStage());
+            stage.initOwner(this.stage);
+//            stage.initOwner(this.mainApp.getPrimaryStage());
             stage.setResizable(false);
             stage.setMaximized(false);
             stage.setScene(new Scene(pane));

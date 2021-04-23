@@ -139,3 +139,22 @@ begin
 end;
 $$
   language plpgsql;
+
+--Editar Hechos--
+create function editar_hechos (id integer, titulo character varying, centro character varying, lugar character varying) returns void
+  as $$
+begin
+  update hechos set titulo=$2, centro=$3, lugar=$4
+  where id_reg=$1;
+end;
+$$
+  language plpgsql;
+
+--Eliminar Hechos--
+create function eliminar_hechos(id integer)returns void
+  as $$
+begin
+  delete from hechos where id_reg=$1;
+end;
+$$
+  language plpgsql;

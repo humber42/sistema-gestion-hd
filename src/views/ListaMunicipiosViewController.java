@@ -44,6 +44,12 @@ public class ListaMunicipiosViewController {
     @FXML
     private JFXTextField municipioField;
 
+    private Stage stage;
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
     public ListaMunicipiosViewController() {
     }
 
@@ -140,7 +146,7 @@ public class ListaMunicipiosViewController {
             Stage stage = new Stage();
             stage.setTitle("Insertar Municipio");
             stage.initModality(Modality.WINDOW_MODAL);
-            stage.initOwner(this.mainApp.getPrimaryStage());
+            stage.initOwner(this.stage);
             stage.setResizable(false);
             stage.setMaximized(false);
             stage.setScene(new Scene(pane));

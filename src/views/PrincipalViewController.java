@@ -33,6 +33,7 @@ public class PrincipalViewController {
             RegistrarViewController controller = loader.getController();
             controller.setMainApp(this.mainApp);
             mainApp.getPrincipal().setCenter(page);
+            mainApp.getPrimaryStage().setWidth(805);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -246,10 +247,20 @@ public class PrincipalViewController {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(PrincipalViewController.class.getResource("../views/TipoDeAveriaView.fxml"));
             AnchorPane page = loader.load();
-
+            Stage averiaStage = new Stage();
+            averiaStage.initModality(Modality.WINDOW_MODAL);
+            averiaStage.setMaximized(false);
+            averiaStage.setResizable(false);
+            averiaStage.initOwner(this.mainApp.getPrimaryStage());
+            averiaStage.setScene(new Scene(page));
+            averiaStage.setTitle("Codificador Averia");
             TipoDeAveriaViewController controller = loader.getController();
-            controller.setMainApp(this.mainApp);
-            mainApp.getPrincipal().setCenter(page);
+            controller.setStage(averiaStage);
+            averiaStage.setWidth(805);
+            averiaStage.setHeight(500);
+            averiaStage.showAndWait();
+//            mainApp.getPrincipal().setCenter(page);
+//            mainApp.getPrimaryStage().setWidth(805);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -262,10 +273,20 @@ public class PrincipalViewController {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(PrincipalViewController.class.getResource("../views/ListaMunicipiosView.fxml"));
             AnchorPane page =  loader.load();
-
+            Stage municipioStage = new Stage();
+            municipioStage.initModality(Modality.WINDOW_MODAL);
+            municipioStage.setMaximized(false);
+            municipioStage.setResizable(false);
+            municipioStage.initOwner(this.mainApp.getPrimaryStage());
+            municipioStage.setScene(new Scene(page));
+            municipioStage.setTitle("Codificador Municipio");
             ListaMunicipiosViewController controller = loader.getController();
-            controller.setMainApp(this.mainApp);
-            mainApp.getPrincipal().setCenter(page);
+            controller.setStage(municipioStage);
+            municipioStage.setWidth(805);
+            municipioStage.setHeight(500);
+            municipioStage.showAndWait();
+//            mainApp.getPrincipal().setCenter(page);
+//            mainApp.getPrimaryStage().setWidth(805);
 
         }catch (IOException e){
             e.printStackTrace();
@@ -278,10 +299,20 @@ public class PrincipalViewController {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(PrincipalViewController.class.getResource("../views/UnidadesOrgView.fxml"));
             AnchorPane page =  loader.load();
-
+            Stage uniOrgStage = new Stage();
+            uniOrgStage.initModality(Modality.WINDOW_MODAL);
+            uniOrgStage.setMaximized(false);
+            uniOrgStage.setResizable(false);
+            uniOrgStage.initOwner(this.mainApp.getPrimaryStage());
+            uniOrgStage.setScene(new Scene(page));
+            uniOrgStage.setTitle("Codificador Unidad Organizativa");
             UnidadesOrgViewController controller = loader.getController();
-            controller.setMainApp(this.mainApp);
-            mainApp.getPrincipal().setCenter(page);
+            controller.setStage(uniOrgStage);
+            uniOrgStage.setWidth(805);
+            uniOrgStage.setHeight(500);
+            uniOrgStage.showAndWait();
+//            mainApp.getPrincipal().setCenter(page);
+//            mainApp.getPrimaryStage().setWidth(805);
 
         }catch (IOException e){
             e.printStackTrace();
@@ -294,10 +325,21 @@ public class PrincipalViewController {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(PrincipalViewController.class.getResource("../views/TipoAfectacionView.fxml"));
             AnchorPane page =  loader.load();
+            Stage afectacionStage = new Stage();
+            afectacionStage.initModality(Modality.WINDOW_MODAL);
+            afectacionStage.setMaximized(false);
+            afectacionStage.setResizable(false);
+            afectacionStage.initOwner(this.mainApp.getPrimaryStage());
+            afectacionStage.setScene(new Scene(page));
+            afectacionStage.setTitle("Codificador Afectacion");
 
             TipoAfectacionViewController controller = loader.getController();
-            controller.setMainApp(this.mainApp);
-            mainApp.getPrincipal().setCenter(page);
+            controller.setStage(afectacionStage);
+            afectacionStage.setWidth(805);
+            afectacionStage.setHeight(500);
+            afectacionStage.showAndWait();
+//            mainApp.getPrincipal().setCenter(page);
+//            mainApp.getPrimaryStage().setWidth(805);
 
         }catch (IOException e){
             e.printStackTrace();
@@ -310,11 +352,21 @@ public class PrincipalViewController {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(PrincipalViewController.class.getResource("../views/TipoMaterialView.fxml"));
             AnchorPane page =  loader.load();
+            Stage tipoMateStage = new Stage();
+            tipoMateStage.initModality(Modality.WINDOW_MODAL);
+            tipoMateStage.setMaximized(false);
+            tipoMateStage.setResizable(false);
+            tipoMateStage.initOwner(this.mainApp.getPrimaryStage());
+            tipoMateStage.setScene(new Scene(page));
+            tipoMateStage.setTitle("Codificador Tipo de Material");
 
             TipoMaterialViewController controller = loader.getController();
-            controller.setMainApp(this.mainApp);
-            mainApp.getPrincipal().setCenter(page);
-
+            controller.setStage(tipoMateStage);
+            tipoMateStage.setWidth(805);
+            tipoMateStage.setHeight(500);
+            tipoMateStage.showAndWait();
+//            mainApp.getPrincipal().setCenter(page);
+//            mainApp.getPrimaryStage().setWidth(805);
         }catch (IOException e){
             e.printStackTrace();
         }
@@ -326,10 +378,26 @@ public class PrincipalViewController {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(PrincipalViewController.class.getResource("../views/HechosRegistradosView.fxml"));
             AnchorPane page =  loader.load();
+            Stage hechoStage = new Stage();
+            hechoStage.initModality(Modality.WINDOW_MODAL);
+            hechoStage.setMaximized(false);
+            hechoStage.setResizable(false);
+            hechoStage.initOwner(this.mainApp.getPrimaryStage());
+            hechoStage.setScene(new Scene(page));
+            hechoStage.setTitle("Codificador Hechos");
 
             HechosRegistradosViewController controller = loader.getController();
-            controller.setMainApp(this.mainApp);
-            mainApp.getPrincipal().setCenter(page);
+            controller.setStage(hechoStage);
+            hechoStage.setHeight(550);
+            hechoStage.setWidth(1000);
+            hechoStage.showAndWait();
+//            mainApp.getPrincipal().setCenter(page);
+//            mainApp.getPrimaryStage().setWidth(1000);
+
+
+            //mainApp.getPrimaryStage().setHeight(660);
+            //mainApp.getPrincipal().setPrefWidth(631);
+            //mainApp.getPrincipal().setPrefHeight(616);
 
         }catch (IOException e){
             e.printStackTrace();
@@ -342,6 +410,9 @@ public class PrincipalViewController {
         this.mainApp.getPrimaryStage().close();
     }
 
+            //mainApp.getPrimaryStage().setWidth(1000);
+
+          //  mainApp.getPrimaryStage().setWidth(788);
 
     public void setMainApp(MainApp mainAppL) {
         this.mainApp = mainAppL;
