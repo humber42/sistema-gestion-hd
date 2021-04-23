@@ -41,11 +41,11 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="Ver">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Hechos registrados"/>
-                        <MenuItem mnemonicParsing="false" text="Tipo Materiales Pext"/>
-                        <MenuItem mnemonicParsing="false" text="Tipo Afectacion TPubl"/>
-                        <MenuItem mnemonicParsing="false" text="Unidades Organizativas"/>
-                        <MenuItem mnemonicParsing="false" text="Municipios"/>
+                        <MenuItem mnemonicParsing="false" onAction="#handleHechosRegistrados" text="Hechos registrados"/>
+                        <MenuItem mnemonicParsing="false" onAction="#handleTipoMateriales" text="Tipo Materiales Pext"/>
+                        <MenuItem mnemonicParsing="false" onAction="#handleAfectacion" text="Tipo Afectacion TPubl"/>
+                        <MenuItem mnemonicParsing="false" onAction="#handleUnidadOrganizativa" text="Unidades Organizativas"/>
+                        <MenuItem mnemonicParsing="false" onAction="#handleMunicipio" text="Municipios"/>
                         <MenuItem mnemonicParsing="false" onAction="#handleAveria" text="Tipo de Averia"/>
                     </items>
                 </Menu>

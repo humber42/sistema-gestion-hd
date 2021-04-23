@@ -108,4 +108,28 @@ public class TipoMaterialesServiceImpl implements TipoMaterialesService {
         return tipoMateriales;
     }
 
+    public void insertarTipoMaterial (TipoMateriales tipoMateriales) throws SQLException{
+
+        var function ="{call insertar_tipo_material(?)}";
+        CallableStatement statement = Conexion.getConnection().prepareCall(function);
+        statement.setString(1,tipoMateriales.getMateriales());
+        statement.execute();
+        statement.close();
+    }
+    public void editarTipoMaterial (TipoMateriales tipoMateriales) throws SQLException{
+        var function ="{call editar_tipo_material(?,?)}";
+        CallableStatement callableStatement =Conexion.getConnection().prepareCall(function);
+        callableStatement.setInt(1,tipoMateriales.getId_materiales());
+        callableStatement.setString(2,tipoMateriales.getMateriales());
+        callableStatement.execute();
+        callableStatement.close();
+    }
+
+    public void eliminarTipoMaterial(TipoMateriales tipoMateriales)throws SQLException{
+        var function ="{call eliminar_tipo_material(?)}";
+        CallableStatement callableStatement =Conexion.getConnection().prepareCall(function);
+        callableStatement.setInt(1,tipoMateriales.getId_materiales());
+        callableStatement.execute();
+        callableStatement.close();
+    }
 }

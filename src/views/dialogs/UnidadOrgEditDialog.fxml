@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="159.0" prefWidth="313.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.dialogs.UnidadOrgEditDialogController">
+   <children>
+      <GridPane layoutX="16.0" layoutY="54.0" prefHeight="51.0" prefWidth="289.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="228.0" minWidth="10.0" prefWidth="138.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="330.0" minWidth="10.0" prefWidth="151.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label prefHeight="19.0" prefWidth="134.0" text="Unidad Organizativa">
+               <font>
+                  <Font size="13.0" />
+               </font></Label>
+            <JFXTextField fx:id="unidadOrgField" prefHeight="25.0" prefWidth="158.0" GridPane.columnIndex="1" />
+         </children>
+      </GridPane>
+      <HBox alignment="CENTER" layoutX="148.0" layoutY="115.0" prefHeight="25.0" prefWidth="151.0" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0">
+         <children>
+            <JFXButton fx:id="okButton" buttonType="RAISED" contentDisplay="CENTER" onAction="#handleOk" prefHeight="30.0" prefWidth="71.0" style="-fx-background-color: blue;" text="Ok" textAlignment="CENTER" textFill="#f5f5f5">
+               <HBox.margin>
+                  <Insets right="5.0" />
+               </HBox.margin>
+               <font>
+                  <Font size="14.0" />
+               </font></JFXButton>
+            <JFXButton buttonType="RAISED" cancelButton="true" onAction="#handleCancel" prefHeight="30.0" prefWidth="77.0" style="-fx-background-color: red;" text="Cancelar" textAlignment="CENTER" textFill="WHITE">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <font>
+                  <Font size="14.0" />
+               </font></JFXButton>
+         </children>
+      </HBox>
+      <Label fx:id="variableLAbel" layoutX="57.0" layoutY="23.0" prefHeight="31.0" prefWidth="207.0" style="-fx-alignment: center;" text="((variable))" wrapText="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

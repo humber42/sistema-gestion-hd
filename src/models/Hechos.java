@@ -396,4 +396,9 @@ public class Hechos {
     public void setAveriasPext(AveriasPext averiasPext) {
         this.averiasPext = averiasPext;
     }
+
+    public String getSintesis(){
+        String sintesis= getTitulo()+"."+ getLugar();
+        return sintesis;
+    }
 }
