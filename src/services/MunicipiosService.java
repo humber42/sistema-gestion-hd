@@ -46,7 +46,6 @@ public class MunicipiosService {
     public Municipio searchMunicipioByName(String name) {
         Municipio municipio = new Municipio();
         var query = "Select * FROM municipios WHERE municipio = '" + name + "'";
-
         try {
             var resultSet = Util.executeQuery(query);
             if (resultSet.next())

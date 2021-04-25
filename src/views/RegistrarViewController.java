@@ -159,7 +159,7 @@ public class RegistrarViewController {
         mainApp.setCenter(null);
 
         if(fromPrincipal)
-            mainApp.getPrincipal().setCenter(null);
+            mainApp.setCenter(null);
         else
             dialogStage.close();
     }

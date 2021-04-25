@@ -3,30 +3,23 @@ package views;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
-import controllers.MainApp;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.layout.BorderPane;
-
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Paint;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import models.AveriasPext;
 import org.controlsfx.dialog.ExceptionDialog;
-import services.*;
+import services.ServiceLocator;
 import util.Util;
 import views.dialogs.TipoDeAveriaDialogController;
 
@@ -40,8 +33,8 @@ public class TipoDeAveriaViewController {
 
 
     public List<AveriasPext> list = ServiceLocator.getAveriasPExtService().fecthAllAveriaPext();
-    private BorderPane mainApp;
-    private MainApp mainApp;
+
+    private Stage mainApp;
 
     @FXML
     private TableView<AveriasPext> averiasTable;
@@ -204,7 +197,7 @@ public class TipoDeAveriaViewController {
         }
     }
 
-    public void setMainApp(BorderPane mainApp) {
+    public void setMainApp(Stage mainApp) {
         this.mainApp = mainApp;
 
         // Add observable list data to the table

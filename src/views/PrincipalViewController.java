@@ -1,5 +1,6 @@
 package views;
 
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -44,9 +45,7 @@ public class PrincipalViewController {
 
             controller.setMainApp(this.panelPrincipal);
             panelPrincipal.setCenter(page);
-            controller.setMainApp(this.mainApp);
-            mainApp.getPrincipal().setCenter(page);
-            mainApp.getPrimaryStage().setWidth(805);
+
 
 
         } catch (IOException e) {
@@ -78,7 +77,7 @@ public class PrincipalViewController {
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Esclarecer hechos");
             dialogStage.initModality(Modality.WINDOW_MODAL);
-            dialogStage.initOwner(mainApp);
+            dialogStage.initOwner(this.mainApp);
             Scene scene = new Scene(page);
             dialogStage.setScene(scene);
 
@@ -279,19 +278,13 @@ public class PrincipalViewController {
             averiaStage.initModality(Modality.WINDOW_MODAL);
             averiaStage.setMaximized(false);
             averiaStage.setResizable(false);
-            averiaStage.initOwner(this.mainApp.getPrimaryStage());
+            averiaStage.initOwner(this.mainApp);
             averiaStage.setScene(new Scene(page));
             averiaStage.setTitle("Codificador Averia");
             TipoDeAveriaViewController controller = loader.getController();
-
-            controller.setMainApp(this.panelPrincipal);
-            //mainApp.getPrincipal().setCenter(page);
-            controller.setStage(averiaStage);
-            averiaStage.setWidth(805);
-            averiaStage.setHeight(500);
+            controller.setMainApp(this.mainApp);
             averiaStage.showAndWait();
-//            mainApp.getPrincipal().setCenter(page);
-//            mainApp.getPrimaryStage().setWidth(805);
+
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -418,7 +411,7 @@ public class PrincipalViewController {
             municipioStage.initModality(Modality.WINDOW_MODAL);
             municipioStage.setMaximized(false);
             municipioStage.setResizable(false);
-            municipioStage.initOwner(this.mainApp.getPrimaryStage());
+            municipioStage.initOwner(this.mainApp);
             municipioStage.setScene(new Scene(page));
             municipioStage.setTitle("Codificador Municipio");
             ListaMunicipiosViewController controller = loader.getController();
@@ -444,7 +437,7 @@ public class PrincipalViewController {
             uniOrgStage.initModality(Modality.WINDOW_MODAL);
             uniOrgStage.setMaximized(false);
             uniOrgStage.setResizable(false);
-            uniOrgStage.initOwner(this.mainApp.getPrimaryStage());
+            uniOrgStage.initOwner(this.mainApp);
             uniOrgStage.setScene(new Scene(page));
             uniOrgStage.setTitle("Codificador Unidad Organizativa");
             UnidadesOrgViewController controller = loader.getController();
@@ -470,7 +463,7 @@ public class PrincipalViewController {
             afectacionStage.initModality(Modality.WINDOW_MODAL);
             afectacionStage.setMaximized(false);
             afectacionStage.setResizable(false);
-            afectacionStage.initOwner(this.mainApp.getPrimaryStage());
+            afectacionStage.initOwner(this.mainApp);
             afectacionStage.setScene(new Scene(page));
             afectacionStage.setTitle("Codificador Afectacion");
 
@@ -497,7 +490,7 @@ public class PrincipalViewController {
             tipoMateStage.initModality(Modality.WINDOW_MODAL);
             tipoMateStage.setMaximized(false);
             tipoMateStage.setResizable(false);
-            tipoMateStage.initOwner(this.mainApp.getPrimaryStage());
+            tipoMateStage.initOwner(this.mainApp);
             tipoMateStage.setScene(new Scene(page));
             tipoMateStage.setTitle("Codificador Tipo de Material");
 
@@ -523,7 +516,7 @@ public class PrincipalViewController {
             hechoStage.initModality(Modality.WINDOW_MODAL);
             hechoStage.setMaximized(false);
             hechoStage.setResizable(false);
-            hechoStage.initOwner(this.mainApp.getPrimaryStage());
+            hechoStage.initOwner(this.mainApp);
             hechoStage.setScene(new Scene(page));
             hechoStage.setTitle("Codificador Hechos");
 

@@ -21,7 +21,15 @@ public class MainApp extends Application {
     private AnchorPane principal;
 
     public static void main(String[] args) {
-        // Conexion conexion = new Conexion("localhost",5432,"sysSP","postgres","postgres");
+//        try {
+//            Conexion conexion = new Conexion("localhost", 5432, "sysSP", "postgres", "postgres");
+//        }catch (SQLException e){
+//
+//        }catch (IOException e){
+//
+//        }catch (ClassNotFoundException e){
+//
+//        }
         Observer o1 = new ConexionObserver();
         Conexion.getObservable().addObserver(o1);
         SpreadsheetInfo.setLicense("FREE-LIMITED-KEY");
