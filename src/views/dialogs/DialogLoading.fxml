@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import com.jfoenix.controls.JFXSpinner?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="175.0" prefWidth="257.0"
+            xmlns="http://javafx.com/javafx/9.0.1" fx:controller="views.dialogs.DialogLoadingController">
+    <children>
+        <JFXSpinner layoutX="103.0" layoutY="37.0" fx:id="spinner"/>
+        <Label layoutX="83.0" layoutY="122.0" text="Cargando...">
+            <font>
+                <Font size="18.0"/>
+            </font>
+        </Label>
+    </children>
+</AnchorPane>

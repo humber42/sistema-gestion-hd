@@ -61,6 +61,7 @@ public class PrincipalViewController {
             AnchorPane pane = loader.load();
             BuscarViewController controller = loader.getController();
             controller.setPrincipalView(this.panelPrincipal);
+            controller.setMainApp(this.mainApp);
             panelPrincipal.setCenter(pane);
         } catch (IOException e) {
             e.printStackTrace();
