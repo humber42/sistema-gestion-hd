@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXToggleButton?>
 <?import javafx.scene.control.*?>
@@ -14,9 +13,11 @@
         <TableView fx:id="tabla" layoutY="155.0" prefHeight="368.0" prefWidth="631.0" AnchorPane.leftAnchor="0.0"
                    AnchorPane.rightAnchor="0.0">
             <columns>
-                <TableColumn prefWidth="399.20001220703125" text="Titulo"/>
-                <TableColumn minWidth="0.0" prefWidth="0.0" text="Fecha Ocurrencia"/>
-                <TableColumn prefWidth="106.4000244140625" text="Tipo de Hecho"/>
+                <TableColumn fx:id="tituloHechoColumn" prefWidth="193.59997862577438" text="Titulo"/>
+                <TableColumn fx:id="unidadOrgColumn" prefWidth="75.0" text="U/O"/>
+                <TableColumn fx:id="fechaHechoColumn" prefWidth="83.20001220703125" text="Fecha Ocurrencia"/>
+                <TableColumn fx:id="codCDNTColumn" prefWidth="75.0" text="Cod CDNT"/>
+                <TableColumn fx:id="tipoHechoColumn" prefWidth="244.79998779296875" text="Tipo de Hecho"/>
             </columns>
             <columnResizePolicy>
                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
@@ -52,11 +53,12 @@
                 <Font size="36.0"/>
             </font>
         </Label>
-        <JFXButton layoutX="373.0" layoutY="80.0" prefHeight="26.0" prefWidth="74.0" style="-fx-background-color: blue;"
-                   text="Buscar" textFill="#fffafa" onAction="#buscar">
+        <JFXButton layoutX="373.0" layoutY="80.0" onAction="#buscar" prefHeight="26.0" prefWidth="74.0"
+                   style="-fx-background-color: blue;" text="Buscar" textFill="#fffafa">
             <font>
                 <Font size="14.0"/>
             </font>
         </JFXButton>
+        <Label layoutX="76.0" layoutY="107.0" text="Introduzca '*' para buscar todos los hechos"/>
     </children>
 </AnchorPane>

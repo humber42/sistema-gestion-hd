@@ -40,14 +40,9 @@ public class PrincipalViewController {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(PrincipalViewController.class.getResource("../views/RegistrarView.fxml"));
             AnchorPane page = loader.load();
-
             RegistrarViewController controller = loader.getController();
-
             controller.setMainApp(this.panelPrincipal);
             panelPrincipal.setCenter(page);
-
-
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -61,6 +56,7 @@ public class PrincipalViewController {
             AnchorPane pane = loader.load();
             BuscarViewController controller = loader.getController();
             controller.setPrincipalView(this.panelPrincipal);
+            controller.setMainApp(this.mainApp);
             panelPrincipal.setCenter(pane);
         } catch (IOException e) {
             e.printStackTrace();
