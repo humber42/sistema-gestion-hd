@@ -14,9 +14,9 @@
                    AnchorPane.rightAnchor="0.0">
             <columns>
                 <TableColumn fx:id="tituloHechoColumn" prefWidth="193.59997862577438" text="Titulo"/>
-                <TableColumn prefWidth="75.0" text="U/O" fx:id="unidadOrgColumn"/>
+                <TableColumn fx:id="unidadOrgColumn" prefWidth="75.0" text="U/O"/>
                 <TableColumn fx:id="fechaHechoColumn" prefWidth="83.20001220703125" text="Fecha Ocurrencia"/>
-                <TableColumn prefWidth="75.0" text="Cod CDNT" fx:id="codCDNTColumn"/>
+                <TableColumn fx:id="codCDNTColumn" prefWidth="75.0" text="Cod CDNT"/>
                 <TableColumn fx:id="tipoHechoColumn" prefWidth="244.79998779296875" text="Tipo de Hecho"/>
             </columns>
             <columnResizePolicy>
@@ -59,5 +59,6 @@
                 <Font size="14.0"/>
             </font>
         </JFXButton>
+        <Label layoutX="76.0" layoutY="107.0" text="Introduzca '*' para buscar todos los hechos"/>
     </children>
 </AnchorPane>

@@ -31,9 +31,10 @@
                         </JFXButton>
                         <JFXButton fx:id="bottonSistemaIdentificativo" alignment="BOTTOM_LEFT" buttonType="RAISED"
                                    contentDisplay="TOP" graphicTextGap="0.0" layoutX="28.0" layoutY="254.0"
-                                   prefHeight="104.0" prefWidth="125.0" styleClass="menu-principal-button"
-                                   stylesheets="@../css/buttons.css" text="Sistema Identificativo"
-                                   textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP" wrapText="true">
+                                   onAction="#settingSistemaIdentificativo" prefHeight="104.0" prefWidth="125.0"
+                                   styleClass="menu-principal-button" stylesheets="@../css/buttons.css"
+                                   text="Sistema Identificativo" textAlignment="CENTER" textFill="WHITE"
+                                   textOverrun="CLIP" wrapText="true">
                             <font>
                                 <Font size="14.0"/>
                             </font>

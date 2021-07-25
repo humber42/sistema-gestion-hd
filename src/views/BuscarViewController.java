@@ -7,10 +7,13 @@ import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import models.Hechos;
 import models.Municipio;
 import models.TipoHecho;
@@ -151,7 +154,7 @@ public class BuscarViewController {
                             ServiceLocator.getTipoHechoService().searchTipoHechoByName(
                                     tipoHecho.getSelectionModel().getSelectedItem()
                             ).getId_tipo_hecho();
-                    hechos = titulo.getText().equalsIgnoreCase("*")
+                    hechos = titulo.getText().equalsIgnoreCase("*") || titulo.getText().equalsIgnoreCase("'*'")
                             ? ServiceLocator.getHechosService().getHechosBySqlExpresion(
                             "SELECT * FROM hechos WHERE id_reg>0"
                                     + municipioSql + unidadOrganizativaSql + fechaSql + tipoHechoSql
@@ -170,6 +173,10 @@ public class BuscarViewController {
 
 
                 }
+                synchronized (this) {
+                    this.wait(3000);
+                    loadTable(hechos);
+                }
                 return null;
             }
 
@@ -177,8 +184,7 @@ public class BuscarViewController {
             @Override
             protected void succeeded() {
                 super.succeeded();
-                loadTable(hechos);
-//                dialogStage.close();
+                dialogStage.close();
             }
         };
 
@@ -189,13 +195,16 @@ public class BuscarViewController {
                 FXMLLoader loader = new FXMLLoader();
                 loader.setLocation(BuscarViewController.class.getResource("../views/dialogs/DialogLoading.fxml"));
                 AnchorPane panel = loader.load();
-//                dialogStage = new Stage();
-//                dialogStage.setScene(new Scene(panel));
-//                dialogStage.initOwner(mainApp);
-//                dialogStage.initStyle(StageStyle.UNDECORATED);
-//                dialogStage.show();
+                dialogStage = new Stage();
+                dialogStage.setScene(new Scene(panel));
+                dialogStage.initOwner(this.mainApp);
+                dialogStage.initModality(Modality.WINDOW_MODAL);
+                dialogStage.initStyle(StageStyle.UNDECORATED);
+                dialogStage.show();
 
-                new Thread(tarea).start();
+                Thread th = new Thread(tarea);
+                th.setDaemon(true);
+                th.start();
             } catch (IOException e) {
                 e.printStackTrace();
             }

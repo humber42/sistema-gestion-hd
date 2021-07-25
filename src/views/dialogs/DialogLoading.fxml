@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
-<?import com.jfoenix.controls.JFXSpinner?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="175.0" prefWidth="257.0"
-            xmlns="http://javafx.com/javafx/9.0.1" fx:controller="views.dialogs.DialogLoadingController">
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="149.0" prefWidth="171.0"
+            style="-fx-background-color: #687681;" xmlns="http://javafx.com/javafx/9.0.1"
+            fx:controller="views.dialogs.DialogLoadingController">
     <children>
-        <JFXSpinner layoutX="103.0" layoutY="37.0" fx:id="spinner"/>
-        <Label layoutX="83.0" layoutY="122.0" text="Cargando...">
+        <Label alignment="CENTER" layoutX="49.0" layoutY="121.0" text="Cargando..." textFill="WHITE"
+               AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
             <font>
                 <Font size="18.0"/>
+
             </font>
         </Label>
+        <ProgressIndicator layoutX="56.0" layoutY="39.0" prefHeight="71.0" prefWidth="59.0" style="-fx-accent: white;"
+                           AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"/>
     </children>
 </AnchorPane>

@@ -40,14 +40,9 @@ public class PrincipalViewController {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(PrincipalViewController.class.getResource("../views/RegistrarView.fxml"));
             AnchorPane page = loader.load();
-
             RegistrarViewController controller = loader.getController();
-
             controller.setMainApp(this.panelPrincipal);
             panelPrincipal.setCenter(page);
-
-
-
         } catch (IOException e) {
             e.printStackTrace();
         }

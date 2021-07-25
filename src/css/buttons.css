@@ -7,6 +7,11 @@
     -fx-text-fill: #f9f9f9;
 }
 
+.menu-principal-button:focused {
+    -fx-text-fill: #f9f9f9;
+    -fx-background-color: rgba(71, 49, 255, 0.69);
+}
+
 .close-button:hover {
     -fx-background-color: #d6808b;
 }
