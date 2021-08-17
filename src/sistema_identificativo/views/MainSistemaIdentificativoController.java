@@ -8,6 +8,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.controlsfx.dialog.ExceptionDialog;
+import sistema_identificativo.views.dialogs.AddPicturePendingToPass;
+
 
 import java.io.IOException;
 
@@ -34,8 +36,10 @@ public class MainSistemaIdentificativoController {
         this.mainApp = mainApp;
     }
 
-    public void registrarPase(){
-        try{
+
+    public void registrarPase() {
+        try {
+
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainSistemaIdentificativoController.class.getResource("../views/RegistroPasesView.fxml"));
             AnchorPane pane = loader.load();
@@ -51,7 +55,32 @@ public class MainSistemaIdentificativoController {
             RegistroPasesController controller = loader.getController();
             controller.setDialogStage(dialogStage);
             dialogStage.showAndWait();
-        }catch(IOException e){
+
+        } catch (IOException e) {
+            ExceptionDialog dialog = new ExceptionDialog(e);
+            dialog.showAndWait();
+        }
+    }
+
+    @FXML
+    private void addPicturesToPassPendents() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainSistemaIdentificativoController.class.getResource("../views/dialogs/AddPicturePendingToPass.fxml"));
+            AnchorPane pane = loader.load();
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Añadir foto a pases pendientes");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.setResizable(false);
+            dialogStage.initOwner(this.mainApp);
+            Scene scene = new Scene(pane);
+            dialogStage.setScene(scene);
+
+            AddPicturePendingToPass controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            dialogStage.showAndWait();
+        } catch (IOException e) {
+
             ExceptionDialog dialog = new ExceptionDialog(e);
             dialog.showAndWait();
         }

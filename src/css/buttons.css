@@ -20,6 +20,18 @@
     -fx-background-color: #ced2ff;
 }
 
+.button-imagen {
+    -fx-background-color: #ffb27b;
+}
+
+.button-save {
+    -fx-background-color: #5f62ff;
+}
+
+.button-close {
+    -fx-background-color: #ff273c;
+}
+
 
 
 

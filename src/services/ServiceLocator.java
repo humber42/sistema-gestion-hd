@@ -1,7 +1,18 @@
 package services;
 
+
 import sistema_identificativo.services.*;
 import sistema_identificativo.services.impl.*;
+
+import sistema_identificativo.services.CodigoPaseService;
+import sistema_identificativo.services.RegistroImpresionesService;
+import sistema_identificativo.services.RegistroPaseService;
+import sistema_identificativo.services.TipoPaseService;
+import sistema_identificativo.services.impl.CodigoPaseServiceImpl;
+import sistema_identificativo.services.impl.RegistroImpresionesServiceImpl;
+import sistema_identificativo.services.impl.RegistroPaseServiceImpl;
+import sistema_identificativo.services.impl.TipoPaseServiceImpl;
+
 
 public class ServiceLocator {
 
@@ -18,8 +29,10 @@ public class ServiceLocator {
     private static RegistroImpresionesService registroImpresionesService = null;
     private static RegistroPaseService registroPaseService = null;
     private static TipoPaseService tipoPaseService = null;
+
     private static ImpresionService impresionService = null;
     private static JasperReportService jasperReportService = null;
+
 
     public static UnidadOrganizativaService getUnidadOrganizativaService() {
         if (unidadOrganizativaService == null) {
@@ -114,4 +127,23 @@ public class ServiceLocator {
             impresionService = new ImpresionServiceImpl();
         return impresionService;
     }
+
+    public static RegistroImpresionesService getRegistroImpresionesService() {
+        if (registroImpresionesService == null)
+            registroImpresionesService = new RegistroImpresionesServiceImpl();
+        return registroImpresionesService;
+    }
+
+    public static RegistroPaseService getRegistroPaseService() {
+        if (registroPaseService == null)
+            registroPaseService = new RegistroPaseServiceImpl();
+        return registroPaseService;
+    }
+
+    public static TipoPaseService getTipoPaseService() {
+        if (tipoPaseService == null)
+            tipoPaseService = new TipoPaseServiceImpl();
+        return tipoPaseService;
+    }
+
 }

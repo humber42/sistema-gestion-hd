@@ -17,5 +17,7 @@ public interface TipoPaseService {
 
     int saveTipoPase(TipoPase tipoPase) throws SQLException;
 
+    TipoPase getTipoPaseByName(String name);
+
 
 }

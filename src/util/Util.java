@@ -40,6 +40,11 @@ public class Util {
         return resultSet;
     }
 
+    public static String replaceWhiteSpacesByPercent20(String string) {
+        string = string.replaceAll(" ", "%20");
+        return string;
+    }
+
     public static int count(String sql) {
         int cantidadHechos = 0;
         try {
@@ -51,6 +56,10 @@ public class Util {
             e.printStackTrace();
         }
         return cantidadHechos;
+    }
+
+    public static String renombrarPath(String path) {
+        return path.replaceAll("file:", "");
     }
 
     public static int countCant(LinkedList<HechosPorMunicipio> hechosPorMunicipios) {
