@@ -2,6 +2,7 @@ package sistema_identificativo.services;
 
 import sistema_identificativo.models.RegistroPase;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public interface RegistroPaseService {
@@ -10,11 +11,11 @@ public interface RegistroPaseService {
 
     RegistroPase getRegistroPaseById(int id);
 
-    void deleteRegistroPase(int id);
+    void deleteRegistroPase(int id) throws SQLException;
 
-    int saveRegistroPase(RegistroPase regitroPase);
+    int saveRegistroPase(RegistroPase regitroPase) throws SQLException;
 
-    int updateRegistroPase(RegistroPase registroPase);
+//    int updateRegistroPase(RegistroPase registroPase) throws SQLException;
 
-    int addPictureToRegistroPase(String imagen);
+    int addPictureToRegistroPase(String imagen,int idRegistro) throws SQLException;
 }

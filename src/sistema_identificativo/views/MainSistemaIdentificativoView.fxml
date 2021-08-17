@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<BorderPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/9.0.1"
-            fx:controller="sistema_identificativo.views.MainSistemaIdentificativoController">
+
+<BorderPane xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sistema_identificativo.views.MainSistemaIdentificativoController">
     <center>
         <AnchorPane prefHeight="527.0" prefWidth="788.0">
 
@@ -15,24 +17,24 @@
             <menus>
                 <Menu mnemonicParsing="false" text="Archivo">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Registrar pase"/>
-                        <MenuItem mnemonicParsing="false" onAction="#handleCerrar" text="Cerrar"/>
+                        <MenuItem mnemonicParsing="false" onAction="#registrarPase" text="Registrar pase" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleCerrar" text="Cerrar" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Herramientas">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Añadir foto a pase pendiente"/>
-                        <MenuItem mnemonicParsing="false" text="Imprimir pases"/>
+                        <MenuItem mnemonicParsing="false" text="Añadir foto a pase pendiente" />
+                        <MenuItem mnemonicParsing="false" onAction="#imprimirPase" text="Imprimir pases" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Reportes">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Delete"/>
+                        <MenuItem mnemonicParsing="false" text="Delete" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Ayuda">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Información"/>
+                        <MenuItem mnemonicParsing="false" text="Información" />
                     </items>
                 </Menu>
             </menus>

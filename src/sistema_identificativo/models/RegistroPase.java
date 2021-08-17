@@ -20,7 +20,11 @@ public class RegistroPase {
     public RegistroPase() {
     }
 
-    public RegistroPase(int idReg, TipoPase tipoPase, CodigoPase codigoPase, String numeroPase, String numeroIdentidad, String nombre, UnidadOrganizativa unidadOrganizativa, String acceso, Date fechaValidez, int baja, String observaciones) {
+    public RegistroPase(int idReg, TipoPase tipoPase, CodigoPase codigoPase,
+                        String numeroPase, String numeroIdentidad,
+                        String nombre, UnidadOrganizativa unidadOrganizativa,
+                        String acceso, Date fechaValidez, int baja,
+                        String observaciones) {
         this.idReg = idReg;
         this.tipoPase = tipoPase;
         this.codigoPase = codigoPase;

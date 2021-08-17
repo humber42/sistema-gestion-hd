@@ -1,5 +1,6 @@
 package views;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXToggleButton;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -57,6 +58,7 @@ public class BuscarViewController {
     private TableColumn<Hechos, String> unidadOrgColumn;
     @FXML
     private TableColumn<Hechos, String> codCDNTColumn;
+
 
     private Stage dialogStage;
 

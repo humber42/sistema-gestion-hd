@@ -2,6 +2,7 @@ package sistema_identificativo.services;
 
 import sistema_identificativo.models.TipoPase;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public interface TipoPaseService {
@@ -10,9 +11,11 @@ public interface TipoPaseService {
 
     TipoPase getTipoPaseById(int id);
 
-    void deleteTipoPaseById(int id);
+    int getPassCodeByPassType(String passType);
 
-    int saveTipoPase(TipoPase tipoPase);
+    void deleteTipoPaseById(int id) throws SQLException;
+
+    int saveTipoPase(TipoPase tipoPase) throws SQLException;
 
 
 }

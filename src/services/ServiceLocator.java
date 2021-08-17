@@ -1,5 +1,8 @@
 package services;
 
+import sistema_identificativo.services.*;
+import sistema_identificativo.services.impl.*;
+
 public class ServiceLocator {
 
     private static AnnoServiceImpl annoServicio = null;
@@ -11,6 +14,12 @@ public class ServiceLocator {
     private static TipoMaterialesServiceImpl tipoMaterialesService = null;
     private static TipoVandalismoService tipoVandalismoService = null;
     private static UnidadOrganizativaService unidadOrganizativaService = null;
+    private static CodigoPaseService codigoPaseService = null;
+    private static RegistroImpresionesService registroImpresionesService = null;
+    private static RegistroPaseService registroPaseService = null;
+    private static TipoPaseService tipoPaseService = null;
+    private static ImpresionService impresionService = null;
+    private static JasperReportService jasperReportService = null;
 
     public static UnidadOrganizativaService getUnidadOrganizativaService() {
         if (unidadOrganizativaService == null) {
@@ -71,5 +80,38 @@ public class ServiceLocator {
         if (averiasPExtService == null)
             averiasPExtService = new AveriasPExtService();
         return averiasPExtService;
+    }
+
+    public static CodigoPaseService getCodigoPaseService(){
+        if(codigoPaseService == null)
+            codigoPaseService = new CodigoPaseServiceImpl();
+        return codigoPaseService;
+    }
+
+    public static RegistroImpresionesService getRegistroImpresionesService(){
+        if(registroImpresionesService == null)
+            registroImpresionesService=new RegistroImpresionesServiceImpl();
+        return registroImpresionesService;
+    }
+
+    public static RegistroPaseService getRegistroPaseService(){
+        if(registroPaseService == null)
+            registroPaseService = new RegistroPaseServiceImpl();
+        return registroPaseService;
+    }
+    public static TipoPaseService getTipoPaseService(){
+        if(tipoPaseService == null)
+            tipoPaseService = new TipoPaseServiceImpl();
+        return tipoPaseService;
+    }
+    public static JasperReportService getJasperReportService(){
+        if(jasperReportService == null)
+            jasperReportService = new JasperReportServiceImpl();
+        return jasperReportService;
+    }
+    public static ImpresionService getImpresionService(){
+        if(impresionService == null)
+            impresionService = new ImpresionServiceImpl();
+        return impresionService;
     }
 }
