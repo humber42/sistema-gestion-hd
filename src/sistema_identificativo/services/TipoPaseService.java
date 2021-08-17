@@ -11,6 +11,8 @@ public interface TipoPaseService {
 
     TipoPase getTipoPaseById(int id);
 
+    int getPassCodeByPassType(String passType);
+
     void deleteTipoPaseById(int id) throws SQLException;
 
     int saveTipoPase(TipoPase tipoPase) throws SQLException;

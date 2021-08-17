@@ -16,4 +16,5 @@ public interface CodigoPaseService {
     int saveCodigoPase(CodigoPase codigoPase) throws SQLException;
 
     CodigoPase getCodigoByName(String name);
+
 }

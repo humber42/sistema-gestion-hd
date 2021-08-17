@@ -16,6 +16,7 @@ public class CodigoPaseServiceImpl implements CodigoPaseService {
     @Override
     public CodigoPase getCodigoPaseById(int id) {
         CodigoPase codigoPase = new CodigoPase();
+
         var query = "Select * From codigo_pase_identificativo Where id=" + id;
         try {
             var resultSet = Util.executeQuery(query);
@@ -55,6 +56,7 @@ public class CodigoPaseServiceImpl implements CodigoPaseService {
             var function = "Select * from codigo_pase_identificativo";
             codigoPaseList = recuperarListaCodigoPase(Util.executeQuery(function));
         } catch (SQLException e) {
+
             e.printStackTrace();
         }
         return codigoPaseList;
@@ -78,14 +80,17 @@ public class CodigoPaseServiceImpl implements CodigoPaseService {
         );
     }
 
+
     private LinkedList<CodigoPase> recuperarListaCodigoPase(ResultSet set) throws SQLException {
         LinkedList<CodigoPase> codigoPaseLinkedList = new LinkedList<>();
         while (set.next()) {
+
             codigoPaseLinkedList.add(new CodigoPase(
                     set.getInt(1),
                     set.getString(2)
             ));
         }
         return codigoPaseLinkedList;
+
     }
 }

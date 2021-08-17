@@ -32,6 +32,7 @@ public class RegistroImpresionesServiceImpl implements RegistroImpresionesServic
         statement.setInt(2, registroImpresiones.getPase().getIdReg());
         statement.setInt(3, registroImpresiones.getCantidadImpresiones());
         statement.setString(4, registroImpresiones.getUltimaImpresion());
+
         return 0;
     }
 
@@ -66,6 +67,7 @@ public class RegistroImpresionesServiceImpl implements RegistroImpresionesServic
             var query = "Select * From registro_impresiones WHERE id_reg=" + idReg;
             registroImpresiones = recuperarObjeto(Util.executeQuery(query));
         } catch (SQLException e) {
+
             e.printStackTrace();
         }
         return registroImpresiones;

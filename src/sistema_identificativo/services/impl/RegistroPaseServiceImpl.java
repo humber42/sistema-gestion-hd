@@ -1,9 +1,12 @@
 package sistema_identificativo.services.impl;
 
 import services.ServiceLocator;
+import sistema_identificativo.models.RegistroPase;
+
 import sistema_identificativo.models.CodigoPase;
 import sistema_identificativo.models.RegistroPase;
 import sistema_identificativo.models.TipoPase;
+
 import sistema_identificativo.services.RegistroPaseService;
 import util.Conexion;
 import util.Util;
@@ -28,6 +31,26 @@ public class RegistroPaseServiceImpl implements RegistroPaseService {
     }
 
     @Override
+
+    public int saveRegistroPase(RegistroPase registroPase) throws SQLException{
+        var function = "{call registrar_pase(?,?,?,?,?,?,?,?,?,?)}";
+        CallableStatement statement = Conexion.getConnection().prepareCall(function);
+        statement.setInt(1,registroPase.getTipoPase().getId());
+        statement.setInt(2,registroPase.getCodigoPase().getId());
+        statement.setString(3,registroPase.getNumeroPase());
+        statement.setString(4,registroPase.getNumeroIdentidad());
+        statement.setString(5,registroPase.getNombre());
+        statement.setInt(6,registroPase.getUnidadOrganizativa().getId_unidad_organizativa());
+        statement.setString(7,registroPase.getAcceso());
+        statement.setDate(8,registroPase.getFechaValidez());
+        statement.setInt(9,registroPase.getBaja());
+        statement.setString(10,registroPase.getObservaciones());
+        statement.execute();
+        statement.close();
+        return 0;
+    }
+
+
     public String ultimoRegisroPase(String tipoPase, String codigoPase) {
         TipoPase tipoPaseObject = ServiceLocator.getTipoPaseService()
                 .getTipoPaseByName(tipoPase);
@@ -133,6 +156,7 @@ public class RegistroPaseServiceImpl implements RegistroPaseService {
         statement.close();
     }
 
+    
     @Override
     public List<String> pasesPendientesFoto() {
         List<String> pasesName = new LinkedList<>();
@@ -192,6 +216,7 @@ public class RegistroPaseServiceImpl implements RegistroPaseService {
 
     private RegistroPase recuperarRegistroPase(ResultSet set) throws SQLException {
         set.next();
+
         return new RegistroPase(
                 set.getInt(1),
                 ServiceLocator.getTipoPaseService()
@@ -206,6 +231,7 @@ public class RegistroPaseServiceImpl implements RegistroPaseService {
                 set.getString(8),
                 set.getDate(9),
                 set.getInt(10),
+
                 set.getString(11),
                 set.getString(12)
         );

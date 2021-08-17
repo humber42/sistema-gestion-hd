@@ -11,6 +11,15 @@ public interface RegistroPaseService {
 
     RegistroPase getRegistroPaseById(int id);
 
+
+    void deleteRegistroPase(int id) throws SQLException;
+
+    int saveRegistroPase(RegistroPase regitroPase) throws SQLException;
+
+//    int updateRegistroPase(RegistroPase registroPase) throws SQLException;
+
+    int addPictureToRegistroPase(String imagen,int idRegistro) throws SQLException;
+
     String ultimoRegisroPase(String tipoPase, String codigoPase);
 
     void deleteRegistroPase(int id) throws SQLException;
@@ -24,4 +33,5 @@ public interface RegistroPaseService {
     List<String> pasesPendientesFoto();
 
     RegistroPase getPaseByPassName(String passName);
+
 }

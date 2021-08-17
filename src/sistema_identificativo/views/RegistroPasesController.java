@@ -4,6 +4,19 @@ import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
+
+import javafx.fxml.FXML;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
+import models.UnidadOrganizativa;
+import org.controlsfx.control.textfield.TextFields;
+import services.ServiceLocator;
+import sistema_identificativo.models.CodigoPase;
+import sistema_identificativo.models.TipoPase;
+
+
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -43,7 +56,9 @@ public class RegistroPasesController {
 
     private Stage dialogStage;
 
+
     private Stage dialogExecuting;
+
     @FXML
     private JFXTextField nameAndLastName;
     @FXML
@@ -84,8 +99,7 @@ public class RegistroPasesController {
                 .getUnidadOrganizativaService().fetchAll().stream().map(UnidadOrganizativa::getUnidad_organizativa)
                 .collect(Collectors.toList())
         );
-        this.organUnity.setEditable(true);
-
+        this.organUnity.setEditable(true
         TextFields.bindAutoCompletion(this.organUnity.getEditor(), this.organUnity.getItems());
 
         this.passType.getItems().setAll(ServiceLocator.getTipoPaseService()
@@ -166,10 +180,11 @@ public class RegistroPasesController {
 
     @FXML
     private void closeOrCancelDialog() {
+
         this.dialogStage.close();
     }
 
-    @FXML
+
     private void onClickRegister() {
 
         //Aync task to save
