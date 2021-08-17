@@ -332,7 +332,6 @@ public class RegistrarViewController {
         List<String> tipoVandalismo = new LinkedList<>();
         ServiceLocator.getTipoVandalismoService()
                 .fetchAll()
-                .stream()
                 .forEach(p -> tipoVandalismo.add(p.getAfect_tpublica()));
         this.vandalismoComboBox.setPromptText("Seleccione");
         this.vandalismoComboBox.getItems().setAll(tipoVandalismo);

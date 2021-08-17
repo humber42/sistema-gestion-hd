@@ -8,7 +8,7 @@
             style="-fx-background-color: #687681;" xmlns="http://javafx.com/javafx/9.0.1"
             fx:controller="views.dialogs.DialogLoadingController">
     <children>
-        <Label alignment="CENTER" layoutX="49.0" layoutY="121.0" text="Cargando..." textFill="WHITE"
+        <Label fx:id="loading" alignment="CENTER" layoutX="49.0" layoutY="121.0" text="Cargando..." textFill="WHITE"
                AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
             <font>
                 <Font size="18.0"/>

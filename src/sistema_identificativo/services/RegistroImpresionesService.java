@@ -2,6 +2,7 @@ package sistema_identificativo.services;
 
 import sistema_identificativo.models.RegistroImpresiones;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public interface RegistroImpresionesService {
@@ -12,10 +13,10 @@ public interface RegistroImpresionesService {
 
     RegistroImpresiones getRegistroImpresionesById(int id);
 
-    void deleteRegistroImpresionesById(int id);
+    void deleteRegistroImpresionesById(int id) throws SQLException;
 
-    int updateRegistroImpresiones(RegistroImpresiones registroImpresiones);
+    int updateRegistroImpresiones(RegistroImpresiones registroImpresiones) throws SQLException;
 
-    int saveRegistroImpresiones(RegistroImpresiones registroImpresiones);
+    int saveRegistroImpresiones(RegistroImpresiones registroImpresiones) throws SQLException;
 
 }

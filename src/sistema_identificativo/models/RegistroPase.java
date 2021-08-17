@@ -16,11 +16,16 @@ public class RegistroPase {
     private Date fechaValidez;
     private int baja;
     private String observaciones;
+    private String imageUrl;
 
     public RegistroPase() {
     }
 
-    public RegistroPase(int idReg, TipoPase tipoPase, CodigoPase codigoPase, String numeroPase, String numeroIdentidad, String nombre, UnidadOrganizativa unidadOrganizativa, String acceso, Date fechaValidez, int baja, String observaciones) {
+    public RegistroPase(int idReg, TipoPase tipoPase, CodigoPase codigoPase,
+                        String numeroPase, String numeroIdentidad,
+                        String nombre, UnidadOrganizativa unidadOrganizativa,
+                        String acceso, Date fechaValidez, int baja,
+                        String observaciones, String imageUrl) {
         this.idReg = idReg;
         this.tipoPase = tipoPase;
         this.codigoPase = codigoPase;
@@ -32,6 +37,7 @@ public class RegistroPase {
         this.fechaValidez = fechaValidez;
         this.baja = baja;
         this.observaciones = observaciones;
+        this.imageUrl = imageUrl;
     }
 
     public int getIdReg() {
@@ -120,5 +126,13 @@ public class RegistroPase {
 
     public void setObservaciones(String observaciones) {
         this.observaciones = observaciones;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

@@ -1,9 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml"
-            xmlns="http://javafx.com/javafx"
-            fx:controller="sistema_identificativo.views.RegsitroPasesController"
-            prefHeight="400.0" prefWidth="600.0">
-
+<?import javafx.scene.text.Font?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="488.0" prefWidth="591.0"
+            styleClass="registrar-pase-background-color" stylesheets="@../../css/panel-colors.css"
+            xmlns="http://javafx.com/javafx/9.0.1" fx:controller="sistema_identificativo.views.RegistroPasesController">
+    <children>
+        <ImageView fx:id="profilePhoto" fitHeight="126.0" fitWidth="126.0" layoutX="31.0" layoutY="72.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../../icons/no-img.jpg"/>
+            </image>
+        </ImageView>
+        <Label fx:id="passTypeLabel" layoutX="167.0" layoutY="223.0" text="Tipo:*"/>
+        <Label fx:id="passCategoryLabel" layoutX="340.0" layoutY="223.0" text="Categoría:*"/>
+        <Label fx:id="unidadOrganizativa" layoutX="12.0" layoutY="281.0" prefHeight="18.0" prefWidth="126.0"
+               text="Unidad Organizativa:*"/>
+        <Label layoutX="24.0" layoutY="328.0" text="Accesos:"/>
+        <JFXCheckBox fx:id="passLow" layoutX="70.0" layoutY="241.0" text="Baja"/>
+        <Label layoutX="24.0" layoutY="368.0" text="Observaciones: "/>
+        <JFXTextField fx:id="nameAndLastName" labelFloat="true" layoutX="175.0" layoutY="108.0" prefHeight="26.0"
+                      prefWidth="379.0" promptText="Nombre y apellidos*"/>
+        <JFXTextField fx:id="identificationPass" labelFloat="true" layoutX="174.0" layoutY="157.0" prefHeight="26.0"
+                      prefWidth="210.0" promptText="Carné de Identidad*"/>
+        <JFXComboBox fx:id="passType" layoutX="205.0" layoutY="219.0" prefHeight="26.0" prefWidth="126.0"
+                     promptText="Seleccione"/>
+        <JFXComboBox fx:id="passCategory" layoutX="412.0" layoutY="219.0" prefHeight="26.0" prefWidth="150.0"
+                     promptText="Seleccione"/>
+        <JFXComboBox fx:id="organUnity" layoutX="138.0" layoutY="276.0" prefHeight="26.0" prefWidth="140.0"/>
+        <Label layoutX="299.0" layoutY="281.0" text="Fecha de validez:"/>
+        <JFXDatePicker fx:id="valityDate" defaultColor="#5a63d5" layoutX="396.0" layoutY="275.0" prefHeight="28.0"
+                       prefWidth="169.0"/>
+        <JFXTextField fx:id="passNumber" editable="false" labelFloat="true" layoutX="404.0" layoutY="157.0"
+                      prefHeight="26.0" prefWidth="150.0" promptText="Número de pase"/>
+        <TextArea fx:id="access" layoutX="120.0" layoutY="319.0" prefHeight="38.0" prefWidth="446.0"/>
+        <TextArea fx:id="observations" layoutX="120.0" layoutY="368.0" prefHeight="56.0" prefWidth="446.0"/>
+        <Label layoutX="221.0" layoutY="25.0" text="Registrar Pase">
+            <font>
+                <Font size="24.0"/>
+            </font>
+        </Label>
+        <JFXButton buttonType="RAISED" layoutX="406.0" layoutY="444.0" onAction="#onClickRegister" prefHeight="35.0"
+                   prefWidth="75.0" style="-fx-background-color: green;" text="Registrar" textFill="WHITE">
+            <font>
+                <Font size="14.0"/>
+            </font>
+        </JFXButton>
+        <JFXButton buttonType="RAISED" layoutX="489.0" layoutY="444.0" onAction="#closeOrCancelDialog" prefHeight="35.0"
+                   prefWidth="75.0" style="-fx-background-color: red;" text="Cancelar" textFill="WHITE">
+            <font>
+                <Font size="14.0"/>
+            </font>
+        </JFXButton>
+        <JFXButton buttonType="RAISED" layoutX="39.0" layoutY="207.0" onAction="#imageSearch" styleClass="button-imagen"
+                   stylesheets="@../../css/buttons.css" text="Cambiar la imagen" textFill="WHITE"/>
+        <Label layoutX="201.0" layoutY="63.0" text="Los campos con (*) son obligatorios"/>
+    </children>
 </AnchorPane>

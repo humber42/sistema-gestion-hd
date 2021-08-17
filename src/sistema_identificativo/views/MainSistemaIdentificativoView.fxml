@@ -15,13 +15,14 @@
             <menus>
                 <Menu mnemonicParsing="false" text="Archivo">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Registrar pase"/>
+                        <MenuItem mnemonicParsing="false" text="Registrar pase" onAction="#registrarPase"/>
                         <MenuItem mnemonicParsing="false" onAction="#handleCerrar" text="Cerrar"/>
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Herramientas">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Añadir foto a pase pendiente"/>
+                        <MenuItem mnemonicParsing="false" text="Añadir foto a pase pendiente"
+                                  onAction="#addPicturesToPassPendents"/>
                         <MenuItem mnemonicParsing="false" text="Imprimir pases"/>
                     </items>
                 </Menu>

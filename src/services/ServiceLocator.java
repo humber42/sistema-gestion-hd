@@ -1,5 +1,14 @@
 package services;
 
+import sistema_identificativo.services.CodigoPaseService;
+import sistema_identificativo.services.RegistroImpresionesService;
+import sistema_identificativo.services.RegistroPaseService;
+import sistema_identificativo.services.TipoPaseService;
+import sistema_identificativo.services.impl.CodigoPaseServiceImpl;
+import sistema_identificativo.services.impl.RegistroImpresionesServiceImpl;
+import sistema_identificativo.services.impl.RegistroPaseServiceImpl;
+import sistema_identificativo.services.impl.TipoPaseServiceImpl;
+
 public class ServiceLocator {
 
     private static AnnoServiceImpl annoServicio = null;
@@ -11,6 +20,10 @@ public class ServiceLocator {
     private static TipoMaterialesServiceImpl tipoMaterialesService = null;
     private static TipoVandalismoService tipoVandalismoService = null;
     private static UnidadOrganizativaService unidadOrganizativaService = null;
+    private static CodigoPaseService codigoPaseService = null;
+    private static RegistroImpresionesService registroImpresionesService = null;
+    private static RegistroPaseService registroPaseService = null;
+    private static TipoPaseService tipoPaseService = null;
 
     public static UnidadOrganizativaService getUnidadOrganizativaService() {
         if (unidadOrganizativaService == null) {
@@ -71,5 +84,29 @@ public class ServiceLocator {
         if (averiasPExtService == null)
             averiasPExtService = new AveriasPExtService();
         return averiasPExtService;
+    }
+
+    public static CodigoPaseService getCodigoPaseService() {
+        if (codigoPaseService == null)
+            codigoPaseService = new CodigoPaseServiceImpl();
+        return codigoPaseService;
+    }
+
+    public static RegistroImpresionesService getRegistroImpresionesService() {
+        if (registroImpresionesService == null)
+            registroImpresionesService = new RegistroImpresionesServiceImpl();
+        return registroImpresionesService;
+    }
+
+    public static RegistroPaseService getRegistroPaseService() {
+        if (registroPaseService == null)
+            registroPaseService = new RegistroPaseServiceImpl();
+        return registroPaseService;
+    }
+
+    public static TipoPaseService getTipoPaseService() {
+        if (tipoPaseService == null)
+            tipoPaseService = new TipoPaseServiceImpl();
+        return tipoPaseService;
     }
 }

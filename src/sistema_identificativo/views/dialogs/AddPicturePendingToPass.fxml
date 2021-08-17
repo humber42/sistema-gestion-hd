@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXListView?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="437.0" prefWidth="600.0"
+            xmlns="http://javafx.com/javafx/9.0.1"
+            fx:controller="sistema_identificativo.views.dialogs.AddPicturePendingToPass">
+    <children>
+        <TitledPane alignment="TOP_CENTER" collapsible="false" layoutX="246.0" layoutY="14.0" prefHeight="194.0"
+                    prefWidth="340.0" text="Información del pase" AnchorPane.leftAnchor="255.0"
+                    AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
+            <content>
+                <AnchorPane prefHeight="187.0" prefWidth="338.0">
+                    <children>
+                        <Label layoutX="18.0" layoutY="135.0" text="Categoría de pase:" AnchorPane.leftAnchor="10.0"
+                               AnchorPane.topAnchor="130.0"/>
+                        <Label layoutX="14.0" layoutY="21.0" text="Nombre y apellidos:" AnchorPane.leftAnchor="10.0"
+                               AnchorPane.topAnchor="10.0"/>
+                        <Label layoutX="15.0" layoutY="52.0" text="Número de pase:" AnchorPane.leftAnchor="10.0"
+                               AnchorPane.topAnchor="40.0"/>
+                        <Label layoutX="15.0" layoutY="80.0" text="Carné de identidad:" AnchorPane.leftAnchor="10.0"
+                               AnchorPane.topAnchor="70.0"/>
+                        <Label layoutX="15.0" layoutY="106.0" text="Tipo de pase:" AnchorPane.leftAnchor="10.0"
+                               AnchorPane.topAnchor="100.0"/>
+                        <Label fx:id="labelNombre" layoutX="139.0" layoutY="20.0" prefHeight="18.0" prefWidth="180.0"
+                               text="LabelNombre"/>
+                        <Label fx:id="labelNumeroPase" layoutX="139.0" layoutY="50.0" prefHeight="18.0"
+                               prefWidth="181.0" text="LabelNumeroPase"/>
+                        <Label fx:id="labelCarneIdentidad" layoutX="139.0" layoutY="80.0" prefHeight="18.0"
+                               prefWidth="181.0" text="LabellCI"/>
+                        <Label fx:id="labelTipoPase" layoutX="139.0" layoutY="110.0" prefHeight="18.0" prefWidth="183.0"
+                               text="LabelTipoPase"/>
+                        <Label fx:id="labelCategoriaPase" layoutX="139.0" layoutY="140.0" prefHeight="18.0"
+                               prefWidth="182.0" text="LabelCategoriaPase"/>
+                    </children>
+                </AnchorPane>
+            </content>
+        </TitledPane>
+        <TitledPane alignment="TOP_CENTER" animated="false" collapsible="false" prefHeight="400.0" prefWidth="244.0"
+                    text="Pases pendientes de foto" wrapText="true" AnchorPane.bottomAnchor="0.0"
+                    AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="0.0" prefWidth="134.0">
+                    <children>
+                        <JFXListView fx:id="listaPases" layoutX="21.6" layoutY="29.6" prefHeight="334.0"
+                                     prefWidth="219.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                                     AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>
+                    </children>
+                </AnchorPane>
+            </content>
+        </TitledPane>
+        <TitledPane alignment="TOP_CENTER" animated="false" collapsible="false" layoutX="255.0" layoutY="207.0"
+                    prefHeight="166.0" prefWidth="335.0" text="Gestión de foto">
+            <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="141.0" prefWidth="334.0">
+                    <children>
+                        <JFXButton buttonType="RAISED" layoutX="156.0" layoutY="26.0" onAction="#searchPicture"
+                                   prefHeight="31.0" prefWidth="102.0" styleClass="button-imagen"
+                                   stylesheets="@../../../css/buttons.css" text="Añadir foto">
+                            <font>
+                                <Font size="14.0"/>
+                            </font>
+                        </JFXButton>
+                        <ImageView fx:id="profilePhoto" fitHeight="120.0" fitWidth="128.0" layoutX="14.0" layoutY="10.0"
+                                   pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../../../icons/no-img.jpg"/>
+                            </image>
+                        </ImageView>
+                        <JFXButton buttonType="RAISED" layoutX="157.0" layoutY="70.0" onAction="#savePhoto"
+                                   prefHeight="31.0" prefWidth="100.0" styleClass="button-save"
+                                   stylesheets="@../../../css/buttons.css" text="Guardar" textFill="WHITE">
+                            <font>
+                                <Font size="14.0"/>
+                            </font>
+                        </JFXButton>
+                    </children>
+                </AnchorPane>
+            </content>
+        </TitledPane>
+        <JFXButton layoutX="497.0" layoutY="391.0" onAction="#closeDialog" prefHeight="31.0" prefWidth="80.0"
+                   styleClass="button-close" stylesheets="@../../../css/buttons.css" text="Finalizar" textFill="WHITE">
+            <font>
+                <Font size="15.0"/>
+            </font>
+        </JFXButton>
+    </children>
+</AnchorPane>
