@@ -32,23 +32,6 @@ public class RegistroPaseServiceImpl implements RegistroPaseService {
 
     @Override
 
-    public int saveRegistroPase(RegistroPase registroPase) throws SQLException{
-        var function = "{call registrar_pase(?,?,?,?,?,?,?,?,?,?)}";
-        CallableStatement statement = Conexion.getConnection().prepareCall(function);
-        statement.setInt(1,registroPase.getTipoPase().getId());
-        statement.setInt(2,registroPase.getCodigoPase().getId());
-        statement.setString(3,registroPase.getNumeroPase());
-        statement.setString(4,registroPase.getNumeroIdentidad());
-        statement.setString(5,registroPase.getNombre());
-        statement.setInt(6,registroPase.getUnidadOrganizativa().getId_unidad_organizativa());
-        statement.setString(7,registroPase.getAcceso());
-        statement.setDate(8,registroPase.getFechaValidez());
-        statement.setInt(9,registroPase.getBaja());
-        statement.setString(10,registroPase.getObservaciones());
-        statement.execute();
-        statement.close();
-        return 0;
-    }
 
 
     public String ultimoRegisroPase(String tipoPase, String codigoPase) {

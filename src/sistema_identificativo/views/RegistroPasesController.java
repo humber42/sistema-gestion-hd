@@ -99,7 +99,7 @@ public class RegistroPasesController {
                 .getUnidadOrganizativaService().fetchAll().stream().map(UnidadOrganizativa::getUnidad_organizativa)
                 .collect(Collectors.toList())
         );
-        this.organUnity.setEditable(true
+        this.organUnity.setEditable(true);
         TextFields.bindAutoCompletion(this.organUnity.getEditor(), this.organUnity.getItems());
 
         this.passType.getItems().setAll(ServiceLocator.getTipoPaseService()
@@ -185,6 +185,7 @@ public class RegistroPasesController {
     }
 
 
+    @FXML
     private void onClickRegister() {
 
         //Aync task to save

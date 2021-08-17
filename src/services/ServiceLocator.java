@@ -101,22 +101,7 @@ public class ServiceLocator {
         return codigoPaseService;
     }
 
-    public static RegistroImpresionesService getRegistroImpresionesService(){
-        if(registroImpresionesService == null)
-            registroImpresionesService=new RegistroImpresionesServiceImpl();
-        return registroImpresionesService;
-    }
 
-    public static RegistroPaseService getRegistroPaseService(){
-        if(registroPaseService == null)
-            registroPaseService = new RegistroPaseServiceImpl();
-        return registroPaseService;
-    }
-    public static TipoPaseService getTipoPaseService(){
-        if(tipoPaseService == null)
-            tipoPaseService = new TipoPaseServiceImpl();
-        return tipoPaseService;
-    }
     public static JasperReportService getJasperReportService(){
         if(jasperReportService == null)
             jasperReportService = new JasperReportServiceImpl();

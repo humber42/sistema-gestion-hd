@@ -22,13 +22,10 @@ public interface RegistroPaseService {
 
     String ultimoRegisroPase(String tipoPase, String codigoPase);
 
-    void deleteRegistroPase(int id) throws SQLException;
-
-    int saveRegistroPase(RegistroPase regitroPase) throws SQLException;
 
 //    int updateRegistroPase(RegistroPase registroPase) throws SQLException;
 
-    int addPictureToRegistroPase(String imagen, int idRegistro) throws SQLException;
+
 
     List<String> pasesPendientesFoto();
 

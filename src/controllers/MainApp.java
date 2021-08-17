@@ -12,6 +12,7 @@ import util.ConexionObserver;
 import views.PanatallaPrincipalModulos;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Observer;
 
 
@@ -21,15 +22,15 @@ public class MainApp extends Application {
     private AnchorPane principal;
 
     public static void main(String[] args) {
-//        try {
-//            Conexion conexion = new Conexion("localhost", 5432, "sysSP", "postgres", "postgres");
-//        }catch (SQLException e){
-//
-//        }catch (IOException e){
-//
-//        }catch (ClassNotFoundException e){
-//
-//        }
+        try {
+            Conexion conexion = new Conexion("localhost", 5432, "sysSP", "postgres", "postgres");
+        }catch (SQLException e){
+
+        }catch (IOException e){
+
+        }catch (ClassNotFoundException e){
+
+        }
         Observer o1 = new ConexionObserver();
         Conexion.getObservable().addObserver(o1);
         SpreadsheetInfo.setLicense("FREE-LIMITED-KEY");
