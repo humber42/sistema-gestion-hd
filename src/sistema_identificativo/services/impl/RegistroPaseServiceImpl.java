@@ -31,9 +31,6 @@ public class RegistroPaseServiceImpl implements RegistroPaseService {
     }
 
     @Override
-
-
-
     public String ultimoRegisroPase(String tipoPase, String codigoPase) {
         TipoPase tipoPaseObject = ServiceLocator.getTipoPaseService()
                 .getTipoPaseByName(tipoPase);
@@ -100,11 +97,6 @@ public class RegistroPaseServiceImpl implements RegistroPaseService {
         statement.execute();
         statement.close();
     }
-
-//    @Override
-//    public int updateRegistroPase(RegistroPase registroPase) throws SQLException{
-//        return 0;
-//    }
 
     @Override
     public List<RegistroPase> getAllRegistroPase() {
@@ -221,4 +213,20 @@ public class RegistroPaseServiceImpl implements RegistroPaseService {
 
     }
 
+    @Override
+    public void updateSeleccionado(String identidad) throws SQLException{
+        var function = "{call update_selection_on_registro_pases(?)}";
+        CallableStatement statement = Conexion.getConnection().prepareCall(function);
+        statement.setString(1, identidad);
+        statement.execute();
+        statement.close();
+    }
+
+    @Override
+    public void deselectAllSelections() throws SQLException{
+        var function = "{call deselect_all_selected_on_registro_pases()}";
+        CallableStatement statement = Conexion.getConnection().prepareCall(function);
+        statement.execute();
+        statement.close();
+    }
 }

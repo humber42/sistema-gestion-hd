@@ -48,7 +48,7 @@
         </content>
       </TitledPane>
       <JFXToggleButton fx:id="activateFilters" layoutX="498.0" layoutY="74.0" text="Activar filtros" />
-      <TableView id="tabla_pases" fx:id="table" accessibleRole="CHECK_BOX" layoutY="182.0" prefHeight="302.0" prefWidth="652.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <TableView id="tabla_pases" fx:id="table" accessibleRole="CHECK_BOX" layoutY="182.0" onMouseClicked="#actualizeSelections" prefHeight="302.0" prefWidth="652.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
         <columns>
           <TableColumn fx:id="passNumberColumn" prefWidth="71.0" text="No. de pase" />
           <TableColumn fx:id="identityColumn" prefWidth="99.0" text="CI" />
@@ -62,5 +62,6 @@
          </columnResizePolicy>
       </TableView>
       <Label fx:id="lblSize" layoutX="249.0" layoutY="499.0" prefHeight="17.0" prefWidth="187.0" text="(encontrados)" />
+      <Label fx:id="lblSelection" layoutX="33.0" layoutY="499.0" prefHeight="17.0" prefWidth="187.0" text="Ningún elemento seleccionado" />
    </children>
 </AnchorPane>
