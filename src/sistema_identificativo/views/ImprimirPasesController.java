@@ -12,11 +12,18 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
 import services.ServiceLocator;
 import sistema_identificativo.models.Impresion;
 import sistema_identificativo.models.TipoPase;
+import util.Conexion;
 import util.Util;
 
+import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -55,11 +62,12 @@ public class ImprimirPasesController {
     private JFXButton btnAceptar;
     @FXML
     private Label lblSize;
+    @FXML
+    private Label lblSelection;
 
     private Stage dialogStage;
 
     private Boolean activeFilters = false;
-
 
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
@@ -68,7 +76,7 @@ public class ImprimirPasesController {
     @FXML
     private void initialize() {
         filterPane.setVisible(false);
-        this.txtName.setOnKeyTyped(event->Util.eventToSetUpperCaseToFirstNameAndLastName(event,this.txtName));
+        this.txtName.setOnKeyTyped(this::eventToSetUpperCaseToFirstNameAndLastName);
 
         activateFilters.setOnAction(event -> {
             if (activeFilters) {
@@ -79,6 +87,7 @@ public class ImprimirPasesController {
                 filterPane.setExpanded(false);
                 filterPane.setVisible(false);
                 txtName.setText("");
+                lblSelection.setText("Ningún elemento seleccionado");
                 List<Impresion> impresionList = ServiceLocator.getImpresionService().getAllImpressions();
                 initializeTable(impresionList);
 //                table.setPrefHeight(652);
@@ -104,6 +113,29 @@ public class ImprimirPasesController {
         initializeTable(impresionList);
     }
 
+    @FXML
+    private void eventToSetUpperCaseToFirstNameAndLastName(KeyEvent event) {
+        String txtAhoraMismo = this.txtName.getText();
+        try {
+            if (txtAhoraMismo.length() == 1) {
+                txtAhoraMismo = event.getCharacter().toUpperCase();
+                this.txtName.setText(txtAhoraMismo);
+                this.txtName.end();
+            } else if (txtAhoraMismo.toCharArray()[txtAhoraMismo.toCharArray().length-2] == ' '
+            && event.getCode()!=KeyCode.BACK_SPACE) {
+                txtAhoraMismo = this.txtName.getText().substring(0,this.txtName.getText().length()-1);
+                txtAhoraMismo += event.getCharacter().toUpperCase();
+                this.txtName.setText(txtAhoraMismo);
+                this.txtName.end();
+            }
+        } catch (NullPointerException e) {
+            txtAhoraMismo = event.getCharacter().toUpperCase();
+            this.txtName.setText(txtAhoraMismo);
+            event.consume();
+        }catch (IndexOutOfBoundsException e){
+            Util.dialogResult("El campo ya está vacío", Alert.AlertType.INFORMATION);
+        }
+    }
 
     private List<String> getAllPassType() {
         return ServiceLocator.getTipoPaseService().getAllTipoPase().stream().map(TipoPase::getTipoPase).collect(Collectors.toList());
@@ -194,10 +226,11 @@ public class ImprimirPasesController {
 
     @FXML
     private void imprimir() {
-        Impresion impression = table.getSelectionModel().getSelectedItem();
-        if (impression != null) {
-            // System.out.println(impression.getIdentidad());
-            String typePass = impression.getTipoPase();
+        ObservableList<Impresion> impresionList = table.getSelectionModel().getSelectedItems();
+        if(!impresionList.isEmpty()){
+            Impresion impression = impresionList.get(0);
+            if(impresionList.size() == 1){
+                String typePass = impression.getTipoPase();
             if (typePass.equalsIgnoreCase("Permanente"))
                 ServiceLocator.getJasperReportService().imprimirPasePermanente(impression.getIdentidad());
             else if (typePass.equalsIgnoreCase("Especial"))
@@ -206,9 +239,62 @@ public class ImprimirPasesController {
                 ServiceLocator.getJasperReportService().imprimirPaseProvisional(impression.getIdentidad());
             else if (typePass.equalsIgnoreCase("Negro"))
                 ServiceLocator.getJasperReportService().imprimirPaseNegro(impression.getIdentidad());
+            }
+            else{
+                if(sameTypePass(impresionList)){
+                    String typePass = impresionList.get(0).getTipoPase();
+                    try {
+                        for (Impresion imp : impresionList) {
+                            ServiceLocator.getRegistroPaseService().updateSeleccionado(imp.getIdentidad());
+                        }
+                        if (typePass.equalsIgnoreCase("Permanente"))
+                            ServiceLocator.getJasperReportService().imprimirPasesPermanentesSelected();
+                        else if (typePass.equalsIgnoreCase("Especial"))
+                            ServiceLocator.getJasperReportService().imprimirPasesEspecialesSelected();
+                        else if (typePass.equalsIgnoreCase("Provisional"))
+                            ServiceLocator.getJasperReportService().imprimirPasesProvisionalesSelected();
+                        else if (typePass.equalsIgnoreCase("Negro"))
+                            ServiceLocator.getJasperReportService().imprimirPasesNegrosSelected();
+
+                        ServiceLocator.getRegistroPaseService().deselectAllSelections();
+
+                    } catch (SQLException e){
+                        e.printStackTrace();
+                    }
+                } else{
+                    Util.dialogResult("Los pases a imprimir deben ser del mismo tipo.", Alert.AlertType.WARNING);
+                }
+            }
         }
-        ObservableList<Impresion> impresionList = table.getSelectionModel().getSelectedItems();
-        for (Impresion i : impresionList)
-            System.out.println(i.getNumero_pase());
+        else{
+            Util.dialogResult("No hay elementos seleccionados.", Alert.AlertType.INFORMATION);
+        }
+    }
+
+    private boolean sameTypePass(ObservableList<Impresion> impresionList){
+        boolean same = true;
+
+        String firstTypePass = impresionList.get(0).getTipoPase();
+
+        int i = 1;
+
+        while (i < impresionList.size() && same){
+            Impresion imp = impresionList.get(i);
+            if(firstTypePass.equalsIgnoreCase(imp.getTipoPase()))
+                i++;
+            else
+                same = false;
+        }
+
+        return same;
+    }
+
+    @FXML
+    private void actualizeSelections(){
+        int cantSelections = table.getSelectionModel().getSelectedItems().size();
+        if(cantSelections == 1)
+            lblSelection.setText(cantSelections + " elemento seleccionado");
+        else
+            lblSelection.setText(cantSelections + " elementos seleccionados");
     }
 }
