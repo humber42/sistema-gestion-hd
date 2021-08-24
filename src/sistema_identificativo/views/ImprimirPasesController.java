@@ -76,7 +76,8 @@ public class ImprimirPasesController {
     @FXML
     private void initialize() {
         filterPane.setVisible(false);
-        this.txtName.setOnKeyTyped(this::eventToSetUpperCaseToFirstNameAndLastName);
+        this.txtName.setOnKeyTyped(event ->
+                Util.eventToSetUpperCaseToFirstNameAndLastName(event,this.txtName));
 
         activateFilters.setOnAction(event -> {
             if (activeFilters) {
@@ -113,29 +114,7 @@ public class ImprimirPasesController {
         initializeTable(impresionList);
     }
 
-    @FXML
-    private void eventToSetUpperCaseToFirstNameAndLastName(KeyEvent event) {
-        String txtAhoraMismo = this.txtName.getText();
-        try {
-            if (txtAhoraMismo.length() == 1) {
-                txtAhoraMismo = event.getCharacter().toUpperCase();
-                this.txtName.setText(txtAhoraMismo);
-                this.txtName.end();
-            } else if (txtAhoraMismo.toCharArray()[txtAhoraMismo.toCharArray().length-2] == ' '
-            && event.getCode()!=KeyCode.BACK_SPACE) {
-                txtAhoraMismo = this.txtName.getText().substring(0,this.txtName.getText().length()-1);
-                txtAhoraMismo += event.getCharacter().toUpperCase();
-                this.txtName.setText(txtAhoraMismo);
-                this.txtName.end();
-            }
-        } catch (NullPointerException e) {
-            txtAhoraMismo = event.getCharacter().toUpperCase();
-            this.txtName.setText(txtAhoraMismo);
-            event.consume();
-        }catch (IndexOutOfBoundsException e){
-            Util.dialogResult("El campo ya está vacío", Alert.AlertType.INFORMATION);
-        }
-    }
+
 
     private List<String> getAllPassType() {
         return ServiceLocator.getTipoPaseService().getAllTipoPase().stream().map(TipoPase::getTipoPase).collect(Collectors.toList());
