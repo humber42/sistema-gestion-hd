@@ -5,10 +5,14 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
 
+import javafx.event.Event;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import models.UnidadOrganizativa;
 import org.controlsfx.control.textfield.TextFields;
@@ -21,8 +25,6 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -47,7 +49,9 @@ import views.dialogs.DialogLoadingController;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -95,6 +99,10 @@ public class RegistroPasesController {
     @FXML
     private void initialize() {
 
+        this.nameAndLastName.setOnKeyTyped(
+                event->Util.eventToSetUpperCaseToFirstNameAndLastName(event,this.nameAndLastName)
+        );
+
         this.organUnity.getItems().setAll(ServiceLocator
                 .getUnidadOrganizativaService().fetchAll().stream().map(UnidadOrganizativa::getUnidad_organizativa)
                 .collect(Collectors.toList())
@@ -108,6 +116,12 @@ public class RegistroPasesController {
         this.passCategory.getItems().setAll(ServiceLocator
                 .getCodigoPaseService().getAllCodigo().stream().map(CodigoPase::getCodigo).collect(Collectors.toList())
         );
+
+        this.identificationPass.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if(!newValue){
+                this.eventUnFocusIdentificationPass();
+            }
+        });
 
 
         this.passType.getSelectionModel().selectedItemProperty().addListener(
@@ -184,6 +198,87 @@ public class RegistroPasesController {
         this.dialogStage.close();
     }
 
+//    @FXML
+//    private void eventToSetUpperCaseToFirstNameAndLastName(KeyEvent event) {
+//        String txtAhoraMismo = this.nameAndLastName.getText();
+//        try {
+//            if (txtAhoraMismo.length() == 1) {
+//                txtAhoraMismo = event.getCharacter().toUpperCase();
+//                this.nameAndLastName.setText(txtAhoraMismo);
+//                this.nameAndLastName.end();
+//            } else if (txtAhoraMismo.toCharArray()[txtAhoraMismo.toCharArray().length-2] == ' '
+//                    && event.getCode()!= KeyCode.BACK_SPACE) {
+//                txtAhoraMismo = this.nameAndLastName.getText().substring(0,this.nameAndLastName.getText().length()-1);
+//                txtAhoraMismo += event.getCharacter().toUpperCase();
+//                this.nameAndLastName.setText(txtAhoraMismo);
+//                this.nameAndLastName.end();
+//            }
+////            }else if(event.getCode()==KeyCode.BACK_SPACE){
+////                if(this.subStringToName.length()==event.getText().length()){
+////                    this.subStringToName="";
+////                    this.txtName.setText(this.subStringToName);
+////                }else{
+////                    this.subStringToName=this.subStringToName
+////                            .substring(0,this.subStringToName.length()-1);
+////                    System.out.println("Despues de dar BACKSPACE: " +this.subStringToName);
+////                    this.txtName.setText(this.subStringToName);
+////                }
+////                event.consume();
+////                this.txtName.end();
+////            }
+//
+//        } catch (NullPointerException e) {
+//            txtAhoraMismo = event.getCharacter().toUpperCase();
+//            this.nameAndLastName.setText(txtAhoraMismo);
+//            event.consume();
+//        }catch (IndexOutOfBoundsException e){
+//            Util.dialogResult("El campo ya está vacío", Alert.AlertType.INFORMATION);
+//        }
+//        //event.consume();
+//    }
+
+    private void eventUnFocusIdentificationPass(){
+        Task<Boolean>task = new Task<Boolean>() {
+            boolean exist = false;
+            @Override
+            protected Boolean call() throws Exception {
+                exist=detectingIfIdentificationNumberExist();
+                return true;
+            }
+
+            @Override
+            protected void succeeded() {
+                super.succeeded();
+                if(this.exist){
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Dato existente");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Lo sentimos, pero hemos detectado que existe un pase con ese " +
+                            "número de identidad");
+                    alert.showAndWait();
+                    identificationPass.setText("");
+                    identificationPass.setFocusColor(Paint.valueOf(Color.RED.toString()));
+                }
+            }
+        };
+
+        Thread th = new Thread(task);
+        th.start();
+    }
+
+    private boolean detectingIfIdentificationNumberExist(){
+        boolean exist= false;
+        try {
+           ResultSet set = Util.executeQuery("Select * From registro_pases where numero_identidad='" + this.identificationPass.getText()+"'");
+           if(set.next()){
+               exist=true;
+           }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return exist;
+    }
+
 
     @FXML
     private void onClickRegister() {
@@ -202,6 +297,7 @@ public class RegistroPasesController {
                 super.succeeded();
                 dialogExecuting.close();
                 Util.dialogResult("Se registro con exito", Alert.AlertType.INFORMATION);
+                printPase();
                 cleanData();
             }
         };
@@ -247,6 +343,26 @@ public class RegistroPasesController {
             this.profilePhoto.setImage(image);
         }
 
+    }
+
+
+    private void printPase(){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setHeaderText(null);
+        alert.setTitle("Confirmación");
+        alert.setContentText("Desea imprimir el pase");
+        Optional<ButtonType> action=alert.showAndWait();
+        if(action.get().equals(ButtonType.OK)){
+            String ci = this.identificationPass.getText();
+            if(this.passType.getValue().equalsIgnoreCase("permanente"))
+                ServiceLocator.getJasperReportService().imprimirPasePermanente(ci);
+            else if(this.passType.getValue().equalsIgnoreCase("Provisional"))
+                ServiceLocator.getJasperReportService().imprimirPaseProvisional(ci);
+            else if(this.passType.getValue().equalsIgnoreCase("especial"))
+                ServiceLocator.getJasperReportService().imprimirPaseEspecial(ci);
+            else if(this.passType.getValue().equalsIgnoreCase("negro"))
+                ServiceLocator.getJasperReportService().imprimirPaseNegro(ci);
+        }
     }
 
     /**
