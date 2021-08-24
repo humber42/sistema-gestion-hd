@@ -110,8 +110,7 @@ public class RegistroPasesController {
         this.organUnity.setEditable(true);
         TextFields.bindAutoCompletion(this.organUnity.getEditor(), this.organUnity.getItems());
 
-        this.passType.getItems().setAll(ServiceLocator.getTipoPaseService()
-                .getAllTipoPase().stream().map(TipoPase::getTipoPase).collect(Collectors.toList())
+        this.passType.getItems().setAll(ServiceLocator.getTipoPaseService().getAllTipoPase().stream().map(TipoPase::getTipoPase).collect(Collectors.toList())
         );
         this.passCategory.getItems().setAll(ServiceLocator
                 .getCodigoPaseService().getAllCodigo().stream().map(CodigoPase::getCodigo).collect(Collectors.toList())

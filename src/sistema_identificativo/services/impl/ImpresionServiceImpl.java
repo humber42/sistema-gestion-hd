@@ -12,8 +12,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class ImpresionServiceImpl implements ImpresionService {
-    private static final String SELECT = "SELECT numero_pase, numero_identidad, nombre, tipo_pase, substring(codigo,0,2), cant_impresiones FROM registro_pases";
-    private static final String JOIN = " JOIN registro_impresiones ON registro_pases.id_reg = registro_impresiones.id_reg\n" +
+    private static final String SELECT = "SELECT DISTINCT numero_pase, numero_identidad, nombre, tipo_pase, substring(codigo,0,2), cant_impresiones FROM registro_pases";
+    private static final String JOIN = " LEFT JOIN registro_impresiones ON registro_pases.id_reg = registro_impresiones.id_reg\n" +
             "         JOIN tipos_pase_identificativo ON registro_pases.id_tipo_pase = tipos_pase_identificativo.id\n" +
             "         JOIN codigo_pase_identificativo ON registro_pases.id_codigo_pase = codigo_pase_identificativo.id";
 
