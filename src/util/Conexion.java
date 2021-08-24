@@ -1,6 +1,8 @@
 package util;
 
 
+import org.controlsfx.dialog.ExceptionDialog;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -18,7 +20,6 @@ public class Conexion {
 
     private static Conexion conexion;
     private Connection connection;
-    private File f = new File("src/util/server.txt");
     private String inicio = "jdbc:postgresql:";
     private String direccion_server;
     private Integer port;
@@ -28,17 +29,12 @@ public class Conexion {
 
 
     public Conexion() throws IOException, ClassNotFoundException, SQLException {
-        if (!f.exists())
-            throw new IOException("No existe el archivo server.txt para la conexión");
-        else {
-            RandomAccessFile r = new RandomAccessFile(f, "r");
-            String direccionServidor = r.readUTF();
-            Integer puerto = r.readInt();
-            String nombreBD = r.readUTF();
-            String usuario = r.readUTF();
-            String contrasenna = r.readUTF();
-
             try {
+                String direccionServidor = ConfigProperties.getProperties().getProperty("BD_HOST");
+                int puerto=Integer.valueOf(ConfigProperties.getProperties().getProperty("BD_PORT"));
+                String nombreBD=ConfigProperties.getProperties().getProperty("BD_NAME");
+                String usuario=ConfigProperties.getProperties().getProperty("BD_USERNAME");
+                String contrasenna = ConfigProperties.getProperties().getProperty("BD_PASSWORD");
                 Class.forName("org.postgresql.Driver");
                 connection = DriverManager.getConnection(URL(direccionServidor, puerto, nombreBD), usuario, contrasenna);
                 this.direccion_server = direccionServidor;
@@ -48,48 +44,10 @@ public class Conexion {
                 this.password = contrasenna;
 
             } catch (SQLException e) {
-                r.close();
-                System.err.println(e);
+                ExceptionDialog dialog = new ExceptionDialog(e);
+                dialog.showAndWait();
+
             }
-            r.close();
-        }
-    }
-
-    /**
-     * @param direccionServidor
-     * @param puerto
-     * @param nombreBD
-     * @param usuario
-     * @param contrasenna
-     * @throws IOException
-     * @throws ClassNotFoundException
-     * @throws SQLException
-     */
-    public Conexion(String direccionServidor, int puerto, String nombreBD, String usuario, String contrasenna)
-            throws IOException, ClassNotFoundException, SQLException {
-        try {
-            Class.forName("org.postgresql.Driver");
-
-            connection = DriverManager.getConnection(URL(direccionServidor, puerto, nombreBD), usuario, contrasenna);
-
-            this.direccion_server = direccionServidor;
-            this.port = puerto;
-            this.nameDB = nombreBD;
-            this.user = usuario;
-            this.password = contrasenna;
-
-
-            RandomAccessFile r = new RandomAccessFile(f, "rw");
-            r.writeUTF(this.direccion_server);
-            r.writeInt(this.port);
-            r.writeUTF(this.nameDB);
-            r.writeUTF(usuario);
-            r.writeUTF(contrasenna);
-            r.close();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
     }
 

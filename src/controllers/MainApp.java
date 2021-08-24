@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import org.controlsfx.dialog.ExceptionDialog;
 import util.Conexion;
 import util.ConexionObserver;
 import views.PanatallaPrincipalModulos;
@@ -22,20 +23,14 @@ public class MainApp extends Application {
     private AnchorPane principal;
 
     public static void main(String[] args) {
-        try {
-            Conexion conexion = new Conexion("localhost", 5432, "sysSP", "postgres", "postgres");
-        }catch (SQLException e){
-
-        }catch (IOException e){
-
-        }catch (ClassNotFoundException e){
-
-        }
         Observer o1 = new ConexionObserver();
         Conexion.getObservable().addObserver(o1);
         SpreadsheetInfo.setLicense("FREE-LIMITED-KEY");
         launch(args);
+
     }
+
+
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -47,7 +42,20 @@ public class MainApp extends Application {
     }
 
     private void initRootLayout() {
-        loadPrincipalHechos();
+        boolean dataBaseNotFound = true;
+        int intentos = 0;
+        while (dataBaseNotFound && intentos < 3) {
+            try {
+                Conexion.getConnection().getClientInfo();
+                dataBaseNotFound = false;
+                intentos = 3;
+                this.loadPrincipalHechos();
+            } catch (SQLException e) {
+                ExceptionDialog dialog = new ExceptionDialog(e);
+                dialog.showAndWait();
+                intentos++;
+            }
+        }
     }
 
     private void loadPrincipalHechos() {

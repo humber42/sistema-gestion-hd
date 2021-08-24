@@ -1,11 +1,16 @@
 package util;
 
 import com.gembox.spreadsheet.*;
+
 import javafx.scene.control.Alert;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import models.Afectaciones;
 import models.HechosPorMunicipio;
 import models.MunicipioServiciosAfectados;
 import models.ResumenModels;
+
 
 import java.awt.*;
 import java.sql.ResultSet;
@@ -281,5 +286,28 @@ public class Util {
         return style;
     }
 
+
+    public static void eventToSetUpperCaseToFirstNameAndLastName(KeyEvent event, TextField nameAndLastName) {
+        String txtAhoraMismo = nameAndLastName.getText();
+        try {
+            if (txtAhoraMismo.length() == 1) {
+                txtAhoraMismo = event.getCharacter().toUpperCase();
+                nameAndLastName.setText(txtAhoraMismo);
+                nameAndLastName.end();
+            } else if (txtAhoraMismo.toCharArray()[txtAhoraMismo.toCharArray().length - 2] == ' '
+                    && event.getCode() != KeyCode.BACK_SPACE) {
+                txtAhoraMismo = nameAndLastName.getText().substring(0, nameAndLastName.getText().length() - 1);
+                txtAhoraMismo += event.getCharacter().toUpperCase();
+                nameAndLastName.setText(txtAhoraMismo);
+                nameAndLastName.end();
+            }
+        } catch (NullPointerException e) {
+            txtAhoraMismo = event.getCharacter().toUpperCase();
+            nameAndLastName.setText(txtAhoraMismo);
+            event.consume();
+        } catch (IndexOutOfBoundsException e) {
+            Util.dialogResult("El campo ya está vacío", Alert.AlertType.INFORMATION);
+        }
+    }
 
 }
