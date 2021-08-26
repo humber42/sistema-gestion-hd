@@ -4,7 +4,6 @@ import sistema_identificativo.models.CodigoPase;
 import sistema_identificativo.services.CodigoPaseService;
 import util.Conexion;
 import util.Util;
-
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -71,7 +70,7 @@ public class CodigoPaseServiceImpl implements CodigoPaseService {
         statement.close();
     }
 
-    // recuperara resulset
+    // recuperar resulset
     private CodigoPase recuperarResulsetOneObject(ResultSet set) throws SQLException {
         set.next();
         return new CodigoPase(

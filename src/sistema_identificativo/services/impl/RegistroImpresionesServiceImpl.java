@@ -5,7 +5,6 @@ import sistema_identificativo.models.RegistroImpresiones;
 import sistema_identificativo.services.RegistroImpresionesService;
 import util.Conexion;
 import util.Util;
-
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

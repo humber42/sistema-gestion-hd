@@ -4,7 +4,6 @@ import sistema_identificativo.models.Impresion;
 import sistema_identificativo.services.ImpresionService;
 import util.Conexion;
 import util.Util;
-
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
