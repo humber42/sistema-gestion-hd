@@ -180,6 +180,7 @@ public class ImprimirPasesController {
                     try {
                         for (Impresion imp : impresionList) {
                             ServiceLocator.getRegistroPaseService().updateSeleccionado(imp.getIdentidad());
+                            ServiceLocator.getRegistroImpresionesService().execNewOrUpdateImpressionRegister(imp.getIdentidad());
                         }
                         if (typePass.equalsIgnoreCase("Permanente"))
                             ServiceLocator.getJasperReportService().imprimirPasesPermanentesSelected();
@@ -199,6 +200,8 @@ public class ImprimirPasesController {
                     Util.dialogResult("Los pases a imprimir deben ser del mismo tipo.", Alert.AlertType.WARNING);
                 }
             }
+            List<Impresion> impresions = ServiceLocator.getImpresionService().getAllImpressions();
+            initializeTable(impresions);
         }
         else{
             Util.dialogResult("No hay elementos seleccionados.", Alert.AlertType.INFORMATION);

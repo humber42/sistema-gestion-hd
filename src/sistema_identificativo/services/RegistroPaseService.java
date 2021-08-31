@@ -23,6 +23,8 @@ public interface RegistroPaseService {
 
     RegistroPase getPaseByPassName(String passName);
 
+    RegistroPase getPaseByCI(String CI) throws SQLException;
+
     void updateSeleccionado(String identidad) throws SQLException;
 
     void deselectAllSelections() throws SQLException;

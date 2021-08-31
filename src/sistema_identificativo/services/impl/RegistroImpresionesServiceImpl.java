@@ -2,6 +2,7 @@ package sistema_identificativo.services.impl;
 
 import services.ServiceLocator;
 import sistema_identificativo.models.RegistroImpresiones;
+import sistema_identificativo.models.RegistroPase;
 import sistema_identificativo.services.RegistroImpresionesService;
 import util.Conexion;
 import util.Util;
@@ -12,6 +13,21 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class RegistroImpresionesServiceImpl implements RegistroImpresionesService {
+
+    @Override
+    public void execNewOrUpdateImpressionRegister(String CI) throws SQLException{
+        RegistroPase rp = ServiceLocator.getRegistroPaseService().getPaseByCI(CI);
+        if(rp != null){
+            int id_reg = rp.getIdReg();
+            RegistroImpresiones ri = ServiceLocator.getRegistroImpresionesService().getRegistroImpresionesByIdReg(id_reg);
+            if(ri == null){
+                ServiceLocator.getRegistroImpresionesService().saveNuevoRegistroImpresion(id_reg);
+            }
+            else{
+                ServiceLocator.getRegistroImpresionesService().updateLastImpressionAndQuanty(id_reg);
+            }
+        }
+    }
 
     @Override
     public int saveRegistroImpresiones(RegistroImpresiones registroImpresiones) throws SQLException {
@@ -81,14 +97,38 @@ public class RegistroImpresionesServiceImpl implements RegistroImpresionesServic
         statement.close();
     }
 
+    @Override
+    public int updateLastImpressionAndQuanty(int id) throws SQLException{
+        var function = "{call update_last_impression_and_quanty(?)}";
+        CallableStatement statement = Conexion.getConnection().prepareCall(function);
+        statement.setInt(1,id);
+        statement.execute();
+        statement.close();
+        return 0;
+    }
+
+    @Override
+    public int saveNuevoRegistroImpresion(int id_reg) throws SQLException{
+        var function = "{call save_new_impression(?)}";
+        CallableStatement statement = Conexion.getConnection().prepareCall(function);
+        statement.setInt(1,id_reg);
+        statement.execute();
+        statement.close();
+        return 0;
+    }
+
     //recuperar resultset
     private RegistroImpresiones recuperarObjeto(ResultSet set) throws SQLException {
+        if(set.next()){
         return new RegistroImpresiones(
                 set.getInt(1),
                 ServiceLocator.getRegistroPaseService().getRegistroPaseById(set.getInt(2)),
                 set.getInt(3),
                 set.getString(4)
         );
+        }
+        else
+            return null;
     }
 
     private LinkedList<RegistroImpresiones> recuperarLista(ResultSet set) throws SQLException {

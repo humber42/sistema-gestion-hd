@@ -19,4 +19,10 @@ public interface RegistroImpresionesService {
 
     int saveRegistroImpresiones(RegistroImpresiones registroImpresiones) throws SQLException;
 
+    int saveNuevoRegistroImpresion(int id_reg) throws SQLException;
+
+    int updateLastImpressionAndQuanty(int id) throws SQLException;
+
+    void execNewOrUpdateImpressionRegister(String CI) throws SQLException;
+
 }
