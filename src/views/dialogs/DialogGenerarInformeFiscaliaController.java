@@ -37,7 +37,7 @@ public class DialogGenerarInformeFiscaliaController {
     @FXML
     private void handleGenerate() {
         //TODO: arreglar metodo de generacion ya que explota cuando en el año no ha sucedido nada
-        //GeneradorLocator.getGenerateInformeFiscalia().generarInformeCompleto(fechaCierre.getValue());
+       // GeneradorLocator.getGenerateInformeFiscalia().generarInformeCompleto(fechaCierre.getValue());
         progressBar.setVisible(true);
         Task<Boolean> task = new Task<>() {
             boolean result = false;

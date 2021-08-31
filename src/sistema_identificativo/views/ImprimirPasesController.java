@@ -1,14 +1,11 @@
 package sistema_identificativo.views;
 
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXToggleButton;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import services.ServiceLocator;
 import sistema_identificativo.models.Impresion;
@@ -21,6 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ImprimirPasesController {
+
     @FXML
     private JFXToggleButton activateFilters;
     @FXML
@@ -43,10 +41,7 @@ public class ImprimirPasesController {
     private TableColumn<Impresion, String> passCodeColumn;
     @FXML
     private TableColumn<Impresion, String> cantImpresionesColumn;
-    @FXML
-    private JFXButton btnAplicar;
-    @FXML
-    private JFXButton btnAceptar;
+
     @FXML
     private Label lblSize;
     @FXML
@@ -54,7 +49,7 @@ public class ImprimirPasesController {
 
     private Stage dialogStage;
 
-    private Boolean activeFilters = false;
+    private boolean activeFilters = false;
 
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
@@ -63,47 +58,29 @@ public class ImprimirPasesController {
     @FXML
     private void initialize() {
         filterPane.setVisible(false);
-        this.txtName.setOnKeyTyped(event ->
-                Util.eventToSetUpperCaseToFirstNameAndLastName(event,this.txtName));
-
-        activateFilters.setOnAction(event -> {
-            if (activeFilters) {
-                activateFilters.setText("Activar filtros");
-                activeFilters = false;
-                filterPane.setCollapsible(false);
-                filterPane.setDisable(true);
-                filterPane.setExpanded(false);
-                filterPane.setVisible(false);
-                txtName.setText("");
-                lblSelection.setText("Ningún elemento seleccionado");
-                List<Impresion> impresionList = ServiceLocator.getImpresionService().getAllImpressions();
-                initializeTable(impresionList);
-            } else {
-                activateFilters.setText("Desactivar filtros");
-                activeFilters = true;
-                filterPane.setCollapsible(true);
-                filterPane.setDisable(false);
-                filterPane.setExpanded(true);
-                filterPane.setVisible(true);
-                btnAplicar.setDisable(false);
-                passType.getItems().setAll(this.getAllPassType());
-            }
+        this.txtName.setOnKeyTyped(event -> {
+            Util.eventToSetUpperCaseToFirstNameAndLastName(event, this.txtName);
+            this.aplicar();
         });
+        activateFilters.setOnAction(event ->
+            this.modificatingTableSizes()
+        );
         List<Impresion> impresionList = ServiceLocator.getImpresionService().getAllImpressions();
         initializeTable(impresionList);
+        this.passType.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->
+            this.aplicar()
+        );
     }
-
-
 
     private List<String> getAllPassType() {
         return ServiceLocator.getTipoPaseService().getAllTipoPase().stream().map(TipoPase::getTipoPase).collect(Collectors.toList());
     }
 
     private void initializeTable(List<Impresion> impresionList) {
-        table.getItems().clear();
+        this.table.getItems().clear();
         ObservableList<Impresion> observableList = FXCollections.observableList(impresionList);
 
-        table.setItems(observableList);
+        this.table.setItems(observableList);
         this.passNumberColumn.setCellValueFactory(
                 cellData ->
                         new SimpleStringProperty(
@@ -140,9 +117,8 @@ public class ImprimirPasesController {
                                 String.valueOf(cellData.getValue().getCantImpresiones())
                         )
         );
-
-        table.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        actualizeLblSize(impresionList.size());
+        this.table.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        this.actualizeLblSize(impresionList.size());
     }
 
     @FXML
@@ -177,9 +153,9 @@ public class ImprimirPasesController {
 
     private void actualizeLblSize(int size) {
         if (size == 1)
-            lblSize.setText(size + " elemento encontrado");
+            this.lblSize.setText(size + " elemento encontrado");
         else
-            lblSize.setText(size + " elementos encontrados");
+            this.lblSize.setText(size + " elementos encontrados");
     }
 
     @FXML
@@ -234,11 +210,8 @@ public class ImprimirPasesController {
 
     private boolean sameTypePass(ObservableList<Impresion> impresionList){
         boolean same = true;
-
         String firstTypePass = impresionList.get(0).getTipoPase();
-
         int i = 1;
-
         while (i < impresionList.size() && same){
             Impresion imp = impresionList.get(i);
             if(firstTypePass.equalsIgnoreCase(imp.getTipoPase()))
@@ -246,7 +219,6 @@ public class ImprimirPasesController {
             else
                 same = false;
         }
-
         return same;
     }
 
@@ -257,5 +229,34 @@ public class ImprimirPasesController {
             lblSelection.setText(cantSelections + " elemento seleccionado");
         else
             lblSelection.setText(cantSelections + " elementos seleccionados");
+    }
+
+    private void modificatingTableSizes(){
+            if(this.activeFilters){
+                this.activateFilters.setText("Activar filtros");
+                this.activeFilters=false;
+                this.filterPane.setCollapsible(false);
+                this.filterPane.setDisable(true);
+                this.filterPane.setExpanded(false);
+                this.filterPane.setVisible(false);
+                this.passType.getSelectionModel().clearSelection();
+                this.txtName.clear();
+                this.initializeTable(ServiceLocator.getImpresionService().getAllImpressions());
+                this.table.setPrefHeight(353);
+                this.table.setPrefWidth(652);
+                this.table.setLayoutY(132);
+                this.table.setLayoutX(0);
+            }else{
+                activateFilters.setText("Desactivar filtros");
+                activeFilters=true;
+                this.passType.setPromptText("Seleccione");
+                this.passType.getItems().setAll(this.getAllPassType());
+                this.filterPane.setCollapsible(true);
+                this.filterPane.setDisable(false);
+                this.filterPane.setExpanded(true);
+                this.filterPane.setVisible(true);
+                this.table.setPrefHeight(249);
+                this.table.setLayoutY(236);
+            }
     }
 }

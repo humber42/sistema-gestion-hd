@@ -4,14 +4,9 @@ import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
-
-import javafx.event.Event;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import models.UnidadOrganizativa;
@@ -19,33 +14,22 @@ import org.controlsfx.control.textfield.TextFields;
 import services.ServiceLocator;
 import sistema_identificativo.models.CodigoPase;
 import sistema_identificativo.models.TipoPase;
-
-
 import javafx.concurrent.Task;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
-import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import models.UnidadOrganizativa;
-import org.controlsfx.control.textfield.TextFields;
 import org.springframework.util.StringUtils;
-import services.ServiceLocator;
-import sistema_identificativo.models.CodigoPase;
 import sistema_identificativo.models.RegistroPase;
-import sistema_identificativo.models.TipoPase;
 import util.ConfigProperties;
 import util.PostFile;
 import util.Util;
 import views.dialogs.DialogLoadingController;
-
 import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
@@ -59,10 +43,7 @@ import java.util.stream.Collectors;
 public class RegistroPasesController {
 
     private Stage dialogStage;
-
-
     private Stage dialogExecuting;
-
     @FXML
     private JFXTextField nameAndLastName;
     @FXML
@@ -197,45 +178,6 @@ public class RegistroPasesController {
         this.dialogStage.close();
     }
 
-//    @FXML
-//    private void eventToSetUpperCaseToFirstNameAndLastName(KeyEvent event) {
-//        String txtAhoraMismo = this.nameAndLastName.getText();
-//        try {
-//            if (txtAhoraMismo.length() == 1) {
-//                txtAhoraMismo = event.getCharacter().toUpperCase();
-//                this.nameAndLastName.setText(txtAhoraMismo);
-//                this.nameAndLastName.end();
-//            } else if (txtAhoraMismo.toCharArray()[txtAhoraMismo.toCharArray().length-2] == ' '
-//                    && event.getCode()!= KeyCode.BACK_SPACE) {
-//                txtAhoraMismo = this.nameAndLastName.getText().substring(0,this.nameAndLastName.getText().length()-1);
-//                txtAhoraMismo += event.getCharacter().toUpperCase();
-//                this.nameAndLastName.setText(txtAhoraMismo);
-//                this.nameAndLastName.end();
-//            }
-////            }else if(event.getCode()==KeyCode.BACK_SPACE){
-////                if(this.subStringToName.length()==event.getText().length()){
-////                    this.subStringToName="";
-////                    this.txtName.setText(this.subStringToName);
-////                }else{
-////                    this.subStringToName=this.subStringToName
-////                            .substring(0,this.subStringToName.length()-1);
-////                    System.out.println("Despues de dar BACKSPACE: " +this.subStringToName);
-////                    this.txtName.setText(this.subStringToName);
-////                }
-////                event.consume();
-////                this.txtName.end();
-////            }
-//
-//        } catch (NullPointerException e) {
-//            txtAhoraMismo = event.getCharacter().toUpperCase();
-//            this.nameAndLastName.setText(txtAhoraMismo);
-//            event.consume();
-//        }catch (IndexOutOfBoundsException e){
-//            Util.dialogResult("El campo ya está vacío", Alert.AlertType.INFORMATION);
-//        }
-//        //event.consume();
-//    }
-
     private void eventUnFocusIdentificationPass(){
         Task<Boolean>task = new Task<Boolean>() {
             boolean exist = false;
@@ -281,7 +223,6 @@ public class RegistroPasesController {
 
     @FXML
     private void onClickRegister() {
-
         //Aync task to save
         Task<Boolean> tarea = new Task<Boolean>() {
             @Override
@@ -290,7 +231,6 @@ public class RegistroPasesController {
                 registerPass();
                 return true;
             }
-
             @Override
             protected void succeeded() {
                 super.succeeded();
@@ -300,8 +240,6 @@ public class RegistroPasesController {
                 cleanData();
             }
         };
-
-
         if (!this.valityEmptyFields()) {
             try {
                 FXMLLoader loader = new FXMLLoader();
@@ -315,7 +253,6 @@ public class RegistroPasesController {
                 DialogLoadingController controller = loader.getController();
                 controller.setLabelText("Registrando");
                 dialogExecuting.show();
-
                 Thread th = new Thread(tarea);
                 th.setDaemon(true);
                 th.start();
@@ -343,7 +280,6 @@ public class RegistroPasesController {
         }
 
     }
-
 
     private void printPase(){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -385,7 +321,7 @@ public class RegistroPasesController {
 
         int baja = this.passLow.isSelected() ? 1 : 0;
         String observacion = this.observations.getText();
-        String urlImage = StringUtils.cleanPath(new File(Util.renombrarPath(this.profilePhoto.getImage().getUrl())).getName());
+        String urlImage = StringUtils.cleanPath(new File(Util.renombrarPath(this.profilePhoto.getImage().getUrl())).getName()).replace(" ","%20");
 
         RegistroPase pase = new RegistroPase(0,
                 tipoPase, codigoPase, passNumber, ci,
@@ -409,7 +345,6 @@ public class RegistroPasesController {
     }
 
     private String addCerosToPassNumber(String passNumber) {
-        System.out.println("El tamanno del numero de pase es: " + passNumber.length());
         if (passNumber.length() < 4) {
             while (passNumber.length() < 4) {
                 passNumber = 0 + passNumber;
@@ -432,7 +367,6 @@ public class RegistroPasesController {
         this.observations.clear();
     }
 
-
     private void uploadPhoto() {
         try {
             PostFile postFile = new PostFile(ConfigProperties.getProperties().getProperty("URL_IMAGE_SERVER"),
@@ -442,6 +376,5 @@ public class RegistroPasesController {
             Logger.getLogger(PostFile.class.getName()).log(Level.SEVERE, null, e);
         }
     }
-
 
 }

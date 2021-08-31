@@ -2,15 +2,11 @@ package sistema_identificativo.services.impl;
 
 import services.ServiceLocator;
 import sistema_identificativo.models.RegistroPase;
-
 import sistema_identificativo.models.CodigoPase;
-import sistema_identificativo.models.RegistroPase;
 import sistema_identificativo.models.TipoPase;
-
 import sistema_identificativo.services.RegistroPaseService;
 import util.Conexion;
 import util.Util;
-
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -136,7 +132,8 @@ public class RegistroPaseServiceImpl implements RegistroPaseService {
     public List<String> pasesPendientesFoto() {
         List<String> pasesName = new LinkedList<>();
         try {
-            var query = "Select nombre from registro_pases where registro_pases.image_url=''";
+            var query = "Select nombre from registro_pases " +
+                    "where registro_pases.image_url='' or registro_pases.image_url=null or registro_pases.image_url='no-img.jpg'";
             ResultSet resultSet = Util.executeQuery(query);
             while (resultSet.next()) {
                 pasesName.add(resultSet.getString(1));

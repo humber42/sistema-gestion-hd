@@ -103,7 +103,7 @@ public class AddPicturePendingToPass {
             @Override
             protected Boolean call() throws Exception {
                 uploadPhoto();
-                String image = StringUtils.cleanPath(new File(Util.renombrarPath(profilePhoto.getImage().getUrl())).getName());
+                String image = StringUtils.cleanPath(new File(Util.renombrarPath(profilePhoto.getImage().getUrl())).getName()).replace(" ","%20");
                 try {
                     ServiceLocator.getRegistroPaseService().addPictureToRegistroPase(image, paseSeleccionado.getIdReg());
                 } catch (SQLException e) {
