@@ -10,8 +10,6 @@ import models.Afectaciones;
 import models.HechosPorMunicipio;
 import models.MunicipioServiciosAfectados;
 import models.ResumenModels;
-
-
 import java.awt.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -310,5 +308,4 @@ public class Util {
             Util.dialogResult("El campo ya está vacío", Alert.AlertType.INFORMATION);
         }
     }
-
 }

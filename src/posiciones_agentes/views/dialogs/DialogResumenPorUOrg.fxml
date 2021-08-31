@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="217.0" prefWidth="570.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="posiciones_agentes.views.dialogs.DialogResumenPorUOController">
+   <children>
+      <Label layoutX="24.0" layoutY="96.0" text="U/O" />
+      <ComboBox editable="true" layoutX="53.0" layoutY="93.0" prefHeight="26.0" prefWidth="212.0" promptText="Seleccione" />
+      <ComboBox layoutX="327.0" layoutY="93.0" prefHeight="25.0" prefWidth="212.0" promptText="Seleccione" />
+      <Label layoutX="296.0" layoutY="98.0" prefHeight="17.0" prefWidth="36.0" text="Año" />
+      <JFXButton buttonType="RAISED" layoutX="379.0" layoutY="161.0" prefHeight="35.0" prefWidth="74.0" style="-fx-background-color: green;" text="Generar" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </JFXButton>
+      <JFXButton buttonType="RAISED" layoutX="465.0" layoutY="161.0" prefHeight="35.0" prefWidth="74.0" style="-fx-background-color: red;" text="Cancelar" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </JFXButton>
+      <Label layoutX="152.0" layoutY="40.0" prefHeight="25.0" prefWidth="297.0" text="Resumen de una Unidad Organizativa">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

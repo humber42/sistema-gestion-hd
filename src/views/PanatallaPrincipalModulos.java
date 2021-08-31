@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import posiciones_agentes.views.MainPosicionesAgentesController;
 import sistema_identificativo.views.MainSistemaIdentificativoController;
 
 import java.io.IOException;
@@ -42,8 +43,6 @@ public class PanatallaPrincipalModulos {
     @FXML
     private void settingHechosExtraordinarios() {
         try {
-
-
             //Load principal view
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(PanatallaPrincipalModulos.class.getResource("../views/PrinicipalView.fxml"));
@@ -78,6 +77,23 @@ public class PanatallaPrincipalModulos {
         }
 
 
+    }
+
+    @FXML
+    private void settingsPosicionesAgentes(){
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(PanatallaPrincipalModulos.class.getResource("../posiciones_agentes/views/MainPosicionesAgentesView.fxml"));
+            BorderPane panelPosicionesAgentes = (BorderPane) loader.load();
+
+            MainPosicionesAgentesController controller = loader.getController();
+            controller.setMainApp(primaryStage);
+            pane.setCenter(panelPosicionesAgentes);
+            controller.setPanelPosicionesAgentes(panelPosicionesAgentes);
+            controller.setPanelGrande(pane);
+        } catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
 

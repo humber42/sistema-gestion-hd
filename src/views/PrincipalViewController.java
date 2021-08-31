@@ -19,8 +19,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 public class PrincipalViewController {
-
-
     private Stage mainApp;
     private BorderPane panelPrincipal;
     private BorderPane panelGrande;

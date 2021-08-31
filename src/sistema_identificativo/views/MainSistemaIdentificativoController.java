@@ -152,8 +152,6 @@ public class MainSistemaIdentificativoController {
         ServiceLocator.getJasperReportService().imprimirResumenPasesImpresos(this.mainApp);
     }
 
-
-
     public void setPanelSistemaIdentificativo(BorderPane pane) {
         this.panelSistemaIdentificativo = pane;
     }

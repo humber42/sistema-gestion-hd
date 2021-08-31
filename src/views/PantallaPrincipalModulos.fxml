@@ -48,6 +48,7 @@
                         </JFXButton>
                         <JFXButton fx:id="bottonPosicionesAgentes" alignment="BOTTOM_LEFT" buttonType="RAISED"
                                    contentDisplay="TOP" graphicTextGap="0.0" layoutX="29.0" layoutY="383.0"
+                                   onAction="#settingsPosicionesAgentes"
                                    prefHeight="104.0" prefWidth="125.0" styleClass="menu-principal-button"
                                    stylesheets="@../css/buttons.css" text="Posiciones de Agentes" textAlignment="CENTER"
                                    textFill="WHITE" textOverrun="CLIP" wrapText="true">
