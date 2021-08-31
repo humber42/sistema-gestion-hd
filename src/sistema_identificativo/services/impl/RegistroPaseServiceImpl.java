@@ -114,7 +114,7 @@ public class RegistroPaseServiceImpl implements RegistroPaseService {
     public RegistroPase getRegistroPaseById(int id) {
         RegistroPase registroPase = new RegistroPase();
         try {
-            var query = "Select * From id_reg=" + id;
+            var query = "Select * from registro_pases where id_reg =" + id;
             registroPase = this.recuperarRegistroPase(Util.executeQuery(query));
         } catch (SQLException e) {
             e.printStackTrace();
@@ -158,6 +158,13 @@ public class RegistroPaseServiceImpl implements RegistroPaseService {
             e.printStackTrace();
         }
 
+        return pase;
+    }
+
+    @Override
+    public RegistroPase getPaseByCI(String CI) throws SQLException{
+        var query = "Select * from registro_pases where numero_identidad = '"+ CI + "'";
+        RegistroPase pase = recuperarRegistroPase(Util.executeQuery(query));
         return pase;
     }
 

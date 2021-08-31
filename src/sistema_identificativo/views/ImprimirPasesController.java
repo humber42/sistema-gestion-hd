@@ -7,33 +7,20 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.view.JasperViewer;
 import services.ServiceLocator;
 import sistema_identificativo.models.Impresion;
 import sistema_identificativo.models.TipoPase;
-import util.Conexion;
 import util.Util;
 
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class ImprimirPasesController {
-
-    @FXML
-    private AnchorPane anchor;
-    @FXML
-    private HBox hbox;
     @FXML
     private JFXToggleButton activateFilters;
     @FXML
@@ -91,12 +78,6 @@ public class ImprimirPasesController {
                 lblSelection.setText("Ningún elemento seleccionado");
                 List<Impresion> impresionList = ServiceLocator.getImpresionService().getAllImpressions();
                 initializeTable(impresionList);
-//                table.setPrefHeight(652);
-//                table.setPrefWidth(308);
-//                table.setLayoutX(0);
-//                table.setLayoutY(142);
-//            //    anchor.setPrefHeight(509);
-//            //    hbox.setTranslateY(0);
             } else {
                 activateFilters.setText("Desactivar filtros");
                 activeFilters = true;
@@ -106,8 +87,6 @@ public class ImprimirPasesController {
                 filterPane.setVisible(true);
                 btnAplicar.setDisable(false);
                 passType.getItems().setAll(this.getAllPassType());
-                //  anchor.setPrefHeight(700);
-                // hbox.setTranslateY(95);
             }
         });
         List<Impresion> impresionList = ServiceLocator.getImpresionService().getAllImpressions();
@@ -225,6 +204,7 @@ public class ImprimirPasesController {
                     try {
                         for (Impresion imp : impresionList) {
                             ServiceLocator.getRegistroPaseService().updateSeleccionado(imp.getIdentidad());
+                            ServiceLocator.getRegistroImpresionesService().execNewOrUpdateImpressionRegister(imp.getIdentidad());
                         }
                         if (typePass.equalsIgnoreCase("Permanente"))
                             ServiceLocator.getJasperReportService().imprimirPasesPermanentesSelected();
@@ -244,6 +224,8 @@ public class ImprimirPasesController {
                     Util.dialogResult("Los pases a imprimir deben ser del mismo tipo.", Alert.AlertType.WARNING);
                 }
             }
+            List<Impresion> impresions = ServiceLocator.getImpresionService().getAllImpressions();
+            initializeTable(impresions);
         }
         else{
             Util.dialogResult("No hay elementos seleccionados.", Alert.AlertType.INFORMATION);
