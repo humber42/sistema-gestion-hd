@@ -67,6 +67,7 @@ public class Util {
         return path.replaceAll("file:", "");
     }
 
+
     public static int countCant(LinkedList<HechosPorMunicipio> hechosPorMunicipios) {
         int cant = 0;
         for (HechosPorMunicipio hechosMunicipio : hechosPorMunicipios) {

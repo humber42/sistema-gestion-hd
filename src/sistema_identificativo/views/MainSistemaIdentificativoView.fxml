@@ -3,6 +3,7 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
@@ -17,30 +18,69 @@
             <menus>
                 <Menu mnemonicParsing="false" text="Archivo">
                     <items>
-                        <MenuItem mnemonicParsing="false" onAction="#registrarPase" text="Registrar pase" />
-                        <MenuItem mnemonicParsing="false" onAction="#handleCerrar" text="Cerrar" />
+                        <MenuItem mnemonicParsing="false" onAction="#registrarPase" text="Registrar pase">
+                     <accelerator>
+                        <KeyCodeCombination alt="DOWN" code="R" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                        <MenuItem mnemonicParsing="false" onAction="#handleCerrar" text="Cerrar">
+                     <accelerator>
+                        <KeyCodeCombination alt="DOWN" code="C" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
 
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Herramientas">
                     <items>
 
-                        <MenuItem mnemonicParsing="false" onAction="#imprimirPase" text="Imprimir pases" />
-                        <MenuItem mnemonicParsing="false" onAction="#addPicturesToPassPendents" text="Añadir foto a pase pendiente" />
+                        <MenuItem mnemonicParsing="false" onAction="#imprimirPase" text="Imprimir pases">
+                     <accelerator>
+                        <KeyCodeCombination alt="DOWN" code="I" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                        <MenuItem mnemonicParsing="false" onAction="#addPicturesToPassPendents" text="Añadir foto a pase pendiente">
+                     <accelerator>
+                        <KeyCodeCombination alt="DOWN" code="A" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
  
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Reportes">
                <items>
-                  <MenuItem mnemonicParsing="false" text="Resumen general" />
-                  <MenuItem mnemonicParsing="false" text="Resumen de pases de una U/O" />
-                  <MenuItem mnemonicParsing="false" text="Resumen de pases permanentes" />
-                  <MenuItem mnemonicParsing="false" text="Resumen de pases provicionales" />
-                  <MenuItem mnemonicParsing="false" text="Resumen de pases especiales" />
-                  <MenuItem mnemonicParsing="false" text="Resumen de pases negros" />
-                  <MenuItem mnemonicParsing="false" text="Resumen de bajas" />
-                  <MenuItem mnemonicParsing="false" text="Resumen de pases impresos" />
-                  <MenuItem mnemonicParsing="false" text="Resumen de fotos pendientes" />
+                  <MenuItem mnemonicParsing="false" text="Resumen general" onAction="#generarResumenGeneral">
+                     <accelerator>
+                        <KeyCodeCombination alt="DOWN" code="G" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                  <MenuItem mnemonicParsing="false" text="Resumen de pases de una U/O" onAction="#generarResumenPasesUnidadOrganizativa">
+                     <accelerator>
+                        <KeyCodeCombination alt="DOWN" code="U" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                  <MenuItem mnemonicParsing="false" text="Resumen de pases permanentes" onAction="#generarResumenPasesPermanentes">
+                     <accelerator>
+                        <KeyCodeCombination alt="DOWN" code="P" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                  <MenuItem mnemonicParsing="false" text="Resumen de pases provicionales" onAction="#generarResumenPasesProvisional">
+                     <accelerator>
+                        <KeyCodeCombination alt="DOWN" code="O" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                  <MenuItem mnemonicParsing="false" text="Resumen de pases especiales" onAction="#generarResumenPaseEspecial">
+                     <accelerator>
+                        <KeyCodeCombination alt="DOWN" code="E" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                  <MenuItem mnemonicParsing="false" text="Resumen de pases negros" onAction="#generarResumenPaseNegro">
+                     <accelerator>
+                        <KeyCodeCombination alt="DOWN" code="N" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                  <MenuItem mnemonicParsing="false" text="Resumen de bajas" onAction="#generarResumenPasesBaja">
+                     <accelerator>
+                        <KeyCodeCombination alt="DOWN" code="B" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                  <MenuItem mnemonicParsing="false" text="Resumen de pases impresos" onAction="#generarResumenPasesImpresos">
+                     <accelerator>
+                        <KeyCodeCombination alt="DOWN" code="E" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                  <MenuItem mnemonicParsing="false" text="Resumen de fotos pendientes" onAction="#generarResumenPasesPendienteFoto">
+                     <accelerator>
+                        <KeyCodeCombination alt="DOWN" code="F" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
                </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Ayuda">
