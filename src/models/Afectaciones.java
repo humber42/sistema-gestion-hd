@@ -1,6 +1,7 @@
 package models;
 
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 
 public class Afectaciones {
     private String unidadOrganizativa;
@@ -9,16 +10,22 @@ public class Afectaciones {
     private int cantEstacionesPublicas;
     private double serviciosAfectadosVSEstacionesPublicas;
 
+
     public Afectaciones(String unidadOrganizativa, int cantHechos, int afectaciones, int cantEstacionesPublicas) {
         this.unidadOrganizativa = unidadOrganizativa;
         this.cantHechos = cantHechos;
         this.afectaciones = afectaciones;
         this.cantEstacionesPublicas = cantEstacionesPublicas;
+
         DecimalFormat format = new DecimalFormat("#.##");
+        DecimalFormatSymbols dfs = new DecimalFormatSymbols();
+        dfs.setDecimalSeparator('.');
+        format.setDecimalFormatSymbols(dfs);
         this.serviciosAfectadosVSEstacionesPublicas = Double.valueOf(
                 format.format(
                         (double) 100 * afectaciones / cantEstacionesPublicas)
         );
+       // this.serviciosAfectadosVSEstacionesPublicas= (double)100*afectaciones/cantEstacionesPublicas;
     }
 
     public Afectaciones(String unidadOrganizativa, int cantHechos, int afectaciones, int cantEstacionesPublicas, double serviciosAfectadosVSEstacionesPublicas) {
@@ -27,8 +34,13 @@ public class Afectaciones {
         this.afectaciones = afectaciones;
         this.cantEstacionesPublicas = cantEstacionesPublicas;
         DecimalFormat format = new DecimalFormat("#.##");
+        DecimalFormatSymbols dfs = new DecimalFormatSymbols();
+        dfs.setDecimalSeparator('.');
+        format.setDecimalFormatSymbols(dfs);
         this.serviciosAfectadosVSEstacionesPublicas = Double.valueOf(
                 format.format(serviciosAfectadosVSEstacionesPublicas));
+
+        //this.serviciosAfectadosVSEstacionesPublicas= serviciosAfectadosVSEstacionesPublicas;
     }
 
     public Afectaciones() {
