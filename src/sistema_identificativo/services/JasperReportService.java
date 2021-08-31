@@ -1,20 +1,23 @@
 package sistema_identificativo.services;
 
 import javafx.stage.Stage;
+import sistema_identificativo.models.Impresion;
+
+import java.util.List;
 
 public interface JasperReportService {
-    void imprimirPasePermanente(String ci);
-    void imprimirPaseProvisional(String ci);
-    void imprimirPaseEspecial(String ci);
-    void imprimirPaseNegro(String ci);
-    void imprimirPasesPermanentesSelected();
-    void imprimirPasesProvisionalesSelected();
-    void imprimirPasesEspecialesSelected();
-    void imprimirPasesNegrosSelected();
-    void imprimirResumenGeneral(Stage dialogStage);
-    void imprimirResumenUnidadOrganizativa(int id, Stage dialogStage);
-    void imprimirResumenTipoPase(int tipoPase, Stage dialogStage);
-    void imprimirResumenBajas(Stage dialogStage);
-    void imprimirResumenPasesImpresos(Stage dialogStage);
-    void imprimirResumenFotosPendientes(Stage dialogStage);
+    void imprimirPasePermanente(String ci, Stage mainApp);
+    void imprimirPaseProvisional(String ci, Stage mainApp);
+    void imprimirPaseEspecial(String ci, Stage mainApp);
+    void imprimirPaseNegro(String ci, Stage mainApp);
+    void imprimirPasesPermanentesSelected(Stage mainApp, List<Impresion> impresions);
+    void imprimirPasesProvisionalesSelected(Stage mainApp, List<Impresion> impresions);
+    void imprimirPasesEspecialesSelected(Stage mainApp, List<Impresion> impresions);
+    void imprimirPasesNegrosSelected(Stage mainApp, List<Impresion> impresions);
+    void imprimirResumenGeneral(Stage mainApp);
+    void imprimirResumenUnidadOrganizativa(int id, Stage mainApp);
+    void imprimirResumenTipoPase(int tipoPase, Stage mainApp);
+    void imprimirResumenBajas(Stage mainApp);
+    void imprimirResumenPasesImpresos(Stage mainApp);
+    void imprimirResumenFotosPendientes(Stage mainApp);
 }

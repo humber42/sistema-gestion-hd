@@ -290,13 +290,13 @@ public class RegistroPasesController {
         if(action.get().equals(ButtonType.OK)){
             String ci = this.identificationPass.getText();
             if(this.passType.getValue().equalsIgnoreCase("permanente"))
-                ServiceLocator.getJasperReportService().imprimirPasePermanente(ci);
+                ServiceLocator.getJasperReportService().imprimirPasePermanente(ci,this.dialogStage);
             else if(this.passType.getValue().equalsIgnoreCase("Provisional"))
-                ServiceLocator.getJasperReportService().imprimirPaseProvisional(ci);
+                ServiceLocator.getJasperReportService().imprimirPaseProvisional(ci,this.dialogStage);
             else if(this.passType.getValue().equalsIgnoreCase("especial"))
-                ServiceLocator.getJasperReportService().imprimirPaseEspecial(ci);
+                ServiceLocator.getJasperReportService().imprimirPaseEspecial(ci,this.dialogStage);
             else if(this.passType.getValue().equalsIgnoreCase("negro"))
-                ServiceLocator.getJasperReportService().imprimirPaseNegro(ci);
+                ServiceLocator.getJasperReportService().imprimirPaseNegro(ci,this.dialogStage);
         }
     }
 

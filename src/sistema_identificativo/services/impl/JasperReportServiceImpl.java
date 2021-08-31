@@ -1,219 +1,529 @@
 package sistema_identificativo.services.impl;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 
+import javafx.concurrent.Task;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.view.JasperViewer;
 import services.ServiceLocator;
+import sistema_identificativo.models.Impresion;
 import sistema_identificativo.models.RegistroImpresiones;
 import sistema_identificativo.models.RegistroPase;
 import sistema_identificativo.services.JasperReportService;
 import util.Conexion;
 import util.ConfigProperties;
+import views.dialogs.DialogLoadingController;
 
+/**
+ * @author Henry A. Serra Morejon
+ * @implSpec  JasperReportService
+ */
 public class JasperReportServiceImpl implements JasperReportService {
 
     private static final String URL_SERVER = ConfigProperties.getProperties().getProperty("URL_DOWNLOAD_IMAGE");
+    private Stage dialogStage;
+
+
 
     //TODO: Make some thread to dont freeze the User Interface;
 
-    @Override
-    public void imprimirPasePermanente(String CI) {
-        HashMap<String, String> parameter = new HashMap<>();
-        parameter.put("numero_identidad", CI);
-        parameter.put("url_server", URL_SERVER);
-        try {
-            JasperPrint print = JasperFillManager.fillReport("src/sistema_identificativo/jasper_reports/pase_impreso_permanente.jasper", parameter, Conexion.getConnection());
-            JasperViewer view = new JasperViewer(print, false);
-            view.setVisible(true);
-            ServiceLocator.getRegistroImpresionesService().execNewOrUpdateImpressionRegister(CI);
-        } catch (JRException | SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void imprimirPaseEspecial(String CI) {
-        HashMap<String, String> parameter = new HashMap<>();
-        parameter.put("numero_identidad", CI);
-        parameter.put("url_server", URL_SERVER);
-        try {
-            JasperPrint print = JasperFillManager.fillReport("src/sistema_identificativo/jasper_reports/pase_impreso_especial.jasper", parameter, Conexion.getConnection());
-            JasperViewer view = new JasperViewer(print, false);
-            view.setVisible(true);
-            ServiceLocator.getRegistroImpresionesService().execNewOrUpdateImpressionRegister(CI);
-        } catch (JRException | SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void imprimirPaseProvisional(String CI) {
-        HashMap<String, String> parameter = new HashMap<>();
-        parameter.put("numero_identidad", CI);
-        parameter.put("url_server", URL_SERVER);
-        try {
-            JasperPrint print = JasperFillManager.fillReport("src/sistema_identificativo/jasper_reports/pase_impreso_provisional.jasper", parameter, Conexion.getConnection());
-            JasperViewer view = new JasperViewer(print, false);
-            view.setVisible(true);
-            ServiceLocator.getRegistroImpresionesService().execNewOrUpdateImpressionRegister(CI);
-        } catch (JRException | SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void imprimirPaseNegro(String CI) {
-        HashMap<String, String> parameter = new HashMap<>();
-        parameter.put("numero_identidad", CI);
-        parameter.put("url_server", URL_SERVER);
-        try {
-            JasperPrint print = JasperFillManager.fillReport("src/sistema_identificativo/jasper_reports/pase_impreso_negro.jasper", parameter, Conexion.getConnection());
-            JasperViewer view = new JasperViewer(print, false);
-            view.setVisible(true);
-            ServiceLocator.getRegistroImpresionesService().execNewOrUpdateImpressionRegister(CI);
-        } catch (JRException | SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void imprimirPasesEspecialesSelected() {
-        HashMap<String, String> parameter = new HashMap<>();
-        parameter.put("url_server", URL_SERVER);
+    private void loadDialogLoading(Stage mainApp){
         try{
-            JasperPrint print = JasperFillManager.fillReport("src/sistema_identificativo/jasper_reports/pases_impresos_especiales.jasper",parameter, Conexion.getConnection());
-            JasperViewer view = new JasperViewer(print, false);
-            view.setVisible(true);
-        } catch (JRException | SQLException e){
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(JasperReportServiceImpl.class.getResource("../../../views/dialogs/DialogLoading.fxml"));
+            AnchorPane panel = loader.load();
+            dialogStage = new Stage();
+            dialogStage.setScene(new Scene(panel));
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(mainApp);
+            dialogStage.initStyle(StageStyle.UNDECORATED);
+            DialogLoadingController controller = loader.getController();
+            controller.setLabelText("Cargando");
+            dialogStage.show();
+        }catch (IOException e){
             e.printStackTrace();
         }
     }
 
     @Override
-    public void imprimirPasesNegrosSelected() {
-        HashMap<String, String> parameter = new HashMap<>();
-        parameter.put("url_server", URL_SERVER);
-        try{
-            JasperPrint print = JasperFillManager.fillReport("src/sistema_identificativo/jasper_reports/pases_impresos_negros.jasper",parameter, Conexion.getConnection());
-            JasperViewer view = new JasperViewer(print, false);
-            view.setVisible(true);
-        } catch (JRException | SQLException e){
-            e.printStackTrace();
+    public void imprimirPasePermanente(String CI, Stage mainApp) {
+        Task<Boolean> task = new Task<Boolean>() {
+            JasperViewer view = null;
+            @Override
+            protected Boolean call() throws Exception {
+                HashMap<String, String> parameter = new HashMap<>();
+                parameter.put("numero_identidad", CI);
+                parameter.put("url_server", URL_SERVER);
+                try{
+                    JasperPrint print = JasperFillManager.fillReport("src/sistema_identificativo/jasper_reports/pase_impreso_permanente.jasper", parameter, Conexion.getConnection());
+                    view = new JasperViewer(print, false);
+                    ServiceLocator.getRegistroImpresionesService().execNewOrUpdateImpressionRegister(CI);
+                }catch (JRException | SQLException e){
+                    e.printStackTrace();
+                }
+                return true;
+            }
+
+            @Override
+            protected void succeeded() {
+                super.succeeded();
+                dialogStage.close();
+                view.setVisible(true);
+            }
+        };
+
+        this.loadDialogLoading(mainApp);
+        Thread th = new Thread(task);
+        th.setDaemon(true);
+        th.start();
+    }
+
+    @Override
+    public void imprimirPaseEspecial(String CI, Stage mainApp) {
+        Task<Boolean> task = new Task<Boolean>() {
+            JasperViewer view = null;
+            @Override
+            protected Boolean call() throws Exception {
+                HashMap<String, String> parameter = new HashMap<>();
+                parameter.put("numero_identidad", CI);
+                parameter.put("url_server", URL_SERVER);
+                try {
+                    JasperPrint print = JasperFillManager.fillReport("src/sistema_identificativo/jasper_reports/pase_impreso_especial.jasper", parameter, Conexion.getConnection());
+                    view = new JasperViewer(print, false);
+                    ServiceLocator.getRegistroImpresionesService().execNewOrUpdateImpressionRegister(CI);
+                }catch (JRException | SQLException e){
+                    e.printStackTrace();
+                }
+                return true;
+            }
+
+            @Override
+            protected void succeeded() {
+                super.succeeded();
+                dialogStage.close();
+                view.setVisible(true);
+            }
+        };
+        this.loadDialogLoading(mainApp);
+        Thread th = new Thread(task);
+        th.setDaemon(true);
+        th.start();
+
+    }
+
+    @Override
+    public void imprimirPaseProvisional(String CI, Stage mainApp) {
+        Task<Boolean> task = new Task<Boolean>() {
+            JasperViewer view = null;
+            @Override
+            protected Boolean call() throws Exception {
+                HashMap<String, String> parameter = new HashMap<>();
+                parameter.put("numero_identidad", CI);
+                parameter.put("url_server", URL_SERVER);
+                try{
+                    JasperPrint print = JasperFillManager.fillReport("src/sistema_identificativo/jasper_reports/pase_impreso_provisional.jasper", parameter, Conexion.getConnection());
+                    view = new JasperViewer(print, false);
+                    ServiceLocator.getRegistroImpresionesService().execNewOrUpdateImpressionRegister(CI);
+                }catch (JRException | SQLException e){
+                    e.printStackTrace();
+                }
+                return true;
+            }
+
+            @Override
+            protected void succeeded() {
+                super.succeeded();
+                dialogStage.close();
+                view.setVisible(true);
+            }
+        };
+
+        this.loadDialogLoading(mainApp);
+        Thread th = new Thread(task);
+        th.setDaemon(true);
+        th.start();
+
+    }
+
+    @Override
+    public void imprimirPaseNegro(String CI, Stage mainApp) {
+        Task<Boolean> task = new Task<Boolean>() {
+            JasperViewer view = null;
+            @Override
+            protected Boolean call() throws Exception {
+                HashMap<String, String> parameter = new HashMap<>();
+                parameter.put("numero_identidad", CI);
+                parameter.put("url_server", URL_SERVER);
+                try {
+                    JasperPrint print = JasperFillManager.fillReport("src/sistema_identificativo/jasper_reports/pase_impreso_negro.jasper", parameter, Conexion.getConnection());
+                    view = new JasperViewer(print, false);
+                }catch (JRException | SQLException e){
+                    e.printStackTrace();
+                }
+                return true;
+            }
+
+            @Override
+            protected void succeeded() {
+                super.succeeded();
+                dialogStage.close();
+                view.setVisible(true);
+            }
+        };
+
+        this.loadDialogLoading(mainApp);
+        Thread th = new Thread(task);
+        th.setDaemon(true);
+        th.start();
+
+    }
+
+    @Override
+    public void imprimirPasesEspecialesSelected(Stage mainApp, List<Impresion> impresions) {
+        Task<Boolean> task = new Task<Boolean>() {
+            JasperViewer view = null;
+            @Override
+            protected Boolean call() throws Exception {
+                HashMap<String, String> parameter = new HashMap<>();
+                parameter.put("url_server", URL_SERVER);
+                try{
+                    updateTable(impresions);
+                    JasperPrint print = JasperFillManager.fillReport("src/sistema_identificativo/jasper_reports/pases_impresos_especiales.jasper", parameter, Conexion.getConnection());
+                    view = new JasperViewer(print, false);
+                }catch (JRException | SQLException e){
+                    e.printStackTrace();
+                }
+                return true;
+            }
+
+            @Override
+            protected void succeeded(){
+                super.succeeded();
+                dialogStage.close();
+                view.setVisible(true);
+            }
+        };
+
+        this.loadDialogLoading(mainApp);
+        Thread th = new Thread(task);
+        th.setDaemon(true);
+        th.start();
+
+    }
+
+    @Override
+    public void imprimirPasesNegrosSelected(Stage mainApp,List<Impresion> impresions) {
+        Task<Boolean> task = new Task<Boolean>() {
+            JasperViewer view = null;
+            @Override
+            protected Boolean call() throws Exception {
+                HashMap<String, String> parameter = new HashMap<>();
+                parameter.put("url_server", URL_SERVER);
+                try{
+                    updateTable(impresions);
+                    JasperPrint print = JasperFillManager.fillReport("src/sistema_identificativo/jasper_reports/pases_impresos_negros.jasper", parameter, Conexion.getConnection());
+                    view = new JasperViewer(print, false);
+                }catch (JRException | SQLException e){
+                    e.printStackTrace();
+                }
+                return true;
+            }
+
+            @Override
+            protected void succeeded() {
+                super.succeeded();
+                dialogStage.close();
+                view.setVisible(true);
+            }
+        };
+
+        this.loadDialogLoading(mainApp);
+        Thread th = new Thread(task);
+        th.setDaemon(true);
+        th.start();
+
+
+    }
+
+    @Override
+    public void imprimirPasesPermanentesSelected(Stage mainApp,List<Impresion> impresions) {
+        Task<Boolean> task = new Task<Boolean>() {
+            JasperViewer view = null;
+            @Override
+            protected Boolean call() throws Exception {
+                HashMap<String, String> parameter = new HashMap<>();
+                parameter.put("url_server", URL_SERVER);
+                try{
+                    updateTable(impresions);
+                    JasperPrint print = JasperFillManager.fillReport("src/sistema_identificativo/jasper_reports/pases_impresos_permanentes.jasper", parameter, Conexion.getConnection());
+                    view = new JasperViewer(print, false);
+                }catch (JRException | SQLException e){
+                    e.printStackTrace();
+                }
+                return true;
+            }
+
+            @Override
+            protected void succeeded() {
+                super.succeeded();
+                dialogStage.close();
+                view.setVisible(true);
+            }
+        };
+
+        this.loadDialogLoading(mainApp);
+        Thread th = new Thread(task);
+        th.setDaemon(true);
+        th.start();
+    }
+
+    @Override
+    public void imprimirPasesProvisionalesSelected( Stage mainApp, List<Impresion> impresions) {
+        Task<Boolean> task = new Task<Boolean>() {
+            JasperViewer view = null;
+            @Override
+            protected Boolean call() throws Exception {
+                updateTable(impresions);
+                HashMap<String, String> parameter = new HashMap<>();
+                parameter.put("url_server", URL_SERVER);
+                try{
+                    JasperPrint print = JasperFillManager.fillReport("src/sistema_identificativo/jasper_reports/pases_impresos_provisionales.jasper", parameter, Conexion.getConnection());
+                    view = new JasperViewer(print, false);
+                }catch (JRException | SQLException e){
+                    e.printStackTrace();
+                }
+                return true;
+            }
+
+            @Override
+            protected void succeeded() {
+                super.succeeded();
+                dialogStage.close();
+                view.setVisible(true);
+            }
+        };
+
+        this.loadDialogLoading(mainApp);
+        Thread th = new Thread(task);
+        th.setDaemon(true);
+        th.start();
+
+    }
+
+    @Override
+    public void imprimirResumenBajas(Stage mainApp) {
+        Task<Boolean> task = new Task<Boolean>() {
+            JasperViewer view = null;
+            @Override
+            protected Boolean call() throws Exception {
+                try{
+                    JasperPrint print = JasperFillManager
+                            .fillReport("src/sistema_identificativo/jasper_reports/resumen_pases_baja.jasper",null
+                                    ,Conexion.getConnection());
+                    view = new JasperViewer(print, false);
+                }catch (JRException | SQLException e){
+                    e.printStackTrace();
+                }
+                return true;
+            }
+
+            @Override
+            protected void succeeded() {
+                super.succeeded();
+                dialogStage.close();
+                view.setVisible(true);
+
+            }
+        };
+
+        this.loadDialogLoading(mainApp);
+        Thread th = new Thread(task);
+        th.setDaemon(true);
+        th.start();
+
+    }
+
+    private void updateTable(List<Impresion> impresionList)throws SQLException{
+        ServiceLocator.getRegistroPaseService().deselectAllSelections();
+        for (Impresion imp : impresionList) {
+            ServiceLocator.getRegistroPaseService().updateSeleccionado(imp.getIdentidad());
+            ServiceLocator.getRegistroImpresionesService().execNewOrUpdateImpressionRegister(imp.getIdentidad());
         }
     }
 
     @Override
-    public void imprimirPasesPermanentesSelected() {
-        HashMap<String, String> parameter = new HashMap<>();
-        parameter.put("url_server", URL_SERVER);
-        try{
-            JasperPrint print = JasperFillManager.fillReport("src/sistema_identificativo/jasper_reports/pases_impresos_permanentes.jasper",parameter, Conexion.getConnection());
-            JasperViewer view = new JasperViewer(print, false);
-            view.setVisible(true);
-        } catch (JRException | SQLException e){
-            e.printStackTrace();
-        }
+    public void imprimirResumenFotosPendientes(Stage mainApp) {
+
+        Task<Boolean> task = new Task<Boolean>() {
+            JasperViewer view = null;
+            @Override
+            protected Boolean call() throws Exception {
+                try{
+                    JasperPrint print = JasperFillManager
+                            .fillReport("src/sistema_identificativo/jasper_reports/resumen_pases_pendiente_de_foto.jasper",null
+                                    ,Conexion.getConnection());
+                    view = new JasperViewer(print, false);
+                }catch (JRException | SQLException e){
+                    e.printStackTrace();
+                }
+                return true;
+            }
+
+            @Override
+            protected void succeeded() {
+                super.succeeded();
+                dialogStage.close();
+                view.setVisible(true);
+            }
+        };
+
+        this.loadDialogLoading(mainApp);
+        Thread th = new Thread(task);
+        th.setDaemon(true);
+        th.start();
+
     }
 
     @Override
-    public void imprimirPasesProvisionalesSelected() {
-        HashMap<String, String> parameter = new HashMap<>();
-        parameter.put("url_server", URL_SERVER);
-        try{
-            JasperPrint print = JasperFillManager.fillReport("src/sistema_identificativo/jasper_reports/pases_impresos_provisionales.jasper",parameter, Conexion.getConnection());
-            JasperViewer view = new JasperViewer(print, false);
-            view.setVisible(true);
-        } catch (JRException | SQLException e){
-            e.printStackTrace();
-        }
+    public void imprimirResumenGeneral(Stage mainApp) {
+        Task<Boolean> task = new Task<Boolean>() {
+            JasperViewer view = null;
+            @Override
+            protected Boolean call() throws Exception {
+                try{
+                    JasperPrint print = JasperFillManager
+                            .fillReport("src/sistema_identificativo/jasper_reports/resumen_general_pases.jasper",null
+                                    ,Conexion.getConnection());
+                    view = new JasperViewer(print, false);
+                }catch (JRException | SQLException e){
+                    e.printStackTrace();
+                }
+                return true;
+            }
+
+            @Override
+            protected void succeeded() {
+                super.succeeded();
+                dialogStage.close();
+                view.setVisible(true);
+            }
+        };
+
+        this.loadDialogLoading(mainApp);
+        Thread th = new Thread(task);
+        th.setDaemon(true);
+        th.start();
+
     }
 
     @Override
-    public void imprimirResumenBajas(Stage dialogStage) {
-        try{
-            JasperPrint print = JasperFillManager
-                    .fillReport("src/sistema_identificativo/jasper_reports/resumen_pases_baja.jasper",null
-                            ,Conexion.getConnection());
-            JasperViewer viewer = new JasperViewer(print,false);
-            viewer.setVisible(true);
-        }catch (JRException | SQLException e){
-            e.printStackTrace();
-        }
+    public void imprimirResumenPasesImpresos(Stage mainApp) {
+        Task<Boolean> task = new Task<Boolean>() {
+            JasperViewer view = null;
+            @Override
+            protected Boolean call() throws Exception {
+                try{
+                    JasperPrint print = JasperFillManager
+                            .fillReport("src/sistema_identificativo/jasper_reports/resumen_pases_impresos.jasper",null
+                                    ,Conexion.getConnection());
+                    view = new JasperViewer(print, false);
+                }catch (JRException | SQLException e){
+                    e.printStackTrace();
+                }
+                return true;
+            }
+
+            @Override
+            protected void succeeded() {
+                super.succeeded();
+                dialogStage.close();
+                view.setVisible(true);
+            }
+        };
+
+        this.loadDialogLoading(mainApp);
+        Thread th = new Thread(task);
+        th.setDaemon(true);
+        th.start();
     }
 
     @Override
-    public void imprimirResumenFotosPendientes(Stage dialogStage) {
-        try{
-            JasperPrint print = JasperFillManager
-                    .fillReport("src/sistema_identificativo/jasper_reports/resumen_pases_pendiente_de_foto.jasper",
-                            null,Conexion.getConnection());
-            JasperViewer view = new JasperViewer(print,false);
-            view.setVisible(true);
-        }catch (JRException | SQLException e){
-            e.printStackTrace();
-        }
+    public void imprimirResumenTipoPase(int tipoPase,Stage mainApp) {
+        Task<Boolean> task = new Task<Boolean>() {
+            JasperViewer view = null;
+            @Override
+            protected Boolean call() throws Exception {
+                HashMap<String,Integer> parameter = new HashMap<>();
+                parameter.put("id_pase",tipoPase);
+                try{
+                    JasperPrint print = JasperFillManager
+                            .fillReport("src/sistema_identificativo/jasper_reports/resumen_pases_segun_tipo.jasper",
+                                    parameter,Conexion.getConnection());
+                    view = new JasperViewer(print, false);
+                }catch (JRException | SQLException e){
+                    e.printStackTrace();
+                }
+                return true;
+            }
+
+            @Override
+            protected void succeeded() {
+                super.succeeded();
+                dialogStage.close();
+                view.setVisible(true);
+            }
+        };
+
+        this.loadDialogLoading(mainApp);
+        Thread th = new Thread(task);
+        th.setDaemon(true);
+        th.start();
+
     }
 
     @Override
-    public void imprimirResumenGeneral(Stage dialogStage) {
-        try{
-            JasperPrint print = JasperFillManager
-                    .fillReport("src/sistema_identificativo/jasper_reports/resumen_general_pases.jasper"
-                            ,null,Conexion.getConnection());
-            JasperViewer view = new JasperViewer(print,false);
-            view.setVisible(true);
+    public void imprimirResumenUnidadOrganizativa(int id,Stage mainApp) {
 
-        }catch (JRException | SQLException e){
-            e.printStackTrace();
-        }
-    }
+        Task<Boolean> task = new Task<Boolean>() {
+            JasperViewer view = null;
+            @Override
+            protected Boolean call() throws Exception {
+                HashMap<String,Integer> parameter = new HashMap<>();
+                parameter.put("id_uorg",id);
+                try{
+                    JasperPrint print = JasperFillManager
+                            .fillReport("src/sistema_identificativo/jasper_reports/resumen_pases_uorg.jasper",
+                                    parameter,Conexion.getConnection());
+                    view = new JasperViewer(print, false);
+                }catch (JRException | SQLException e){
+                    e.printStackTrace();
+                }
+                return true;
+            }
 
-    @Override
-    public void imprimirResumenPasesImpresos(Stage dialogStage) {
-        try{
-            JasperPrint print = JasperFillManager
-                    .fillReport("src/sistema_identificativo/jasper_reports/resumen_pases_impresos.jasper",
-                            null,Conexion.getConnection());
-            JasperViewer view = new JasperViewer(print,false);
-            view.setVisible(true);
-        }catch (SQLException| JRException e){
-            e.printStackTrace();
-        }
-    }
+            @Override
+            protected void succeeded() {
+                super.succeeded();
+                dialogStage.close();
+                view.setVisible(true);
+            }
+        };
 
-    @Override
-    public void imprimirResumenTipoPase(int tipoPase,Stage dialogStage) {
-        HashMap<String,Integer> parameter = new HashMap<>();
-        parameter.put("id_pase",tipoPase);
-        try{
-            JasperPrint print = JasperFillManager
-                    .fillReport("src/sistema_identificativo/jasper_reports/resumen_pases_segun_tipo.jasper",
-                            parameter,Conexion.getConnection());
-            JasperViewer view = new JasperViewer(print,false);
-            view.setVisible(true);
-        }catch (SQLException | JRException e){
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void imprimirResumenUnidadOrganizativa(int id,Stage dialogStage) {
-        HashMap<String,Integer> parameter = new HashMap<>();
-        parameter.put("id_uorg",id);
-        try{
-            JasperPrint print = JasperFillManager
-                    .fillReport("src/sistema_identificativo/jasper_reports/resumen_pases_uorg.jasper",
-                            parameter,Conexion.getConnection());
-            JasperViewer view = new JasperViewer(print,false);
-            view.setVisible(true);
-        }catch (SQLException|JRException e){
-            e.printStackTrace();
-        }
+        this.loadDialogLoading(mainApp);
+        Thread th = new Thread(task);
+        th.setDaemon(true);
+        th.start();
 
     }
 
