@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="291.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="posiciones_agentes.views.RegistrarPosicionesAgentesController">
+   <children>
+      <Label layoutX="19.0" layoutY="51.0" text="Unidad organizativa:">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="unidadOrgananizativa" editable="true" layoutX="143.0" layoutY="48.0" prefWidth="150.0" promptText="Seleccione" />
+      <Label layoutX="307.0" layoutY="51.0" text="Proveedor de servicio:">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="proveedoresServicio" layoutX="441.0" layoutY="48.0" prefWidth="150.0" promptText="Seleccione" />
+      <Label layoutX="19.0" layoutY="97.0" text="Horas DL:">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <Label layoutX="211.0" layoutY="97.0" text="Horas NL:">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <Label layoutX="393.0" layoutY="98.0" text="C. Efectivos:">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <Spinner fx:id="horasDL" editable="true" layoutX="82.0" layoutY="94.0" prefHeight="25.0" prefWidth="93.0" />
+      <Spinner fx:id="horasNL" editable="true" layoutX="274.0" layoutY="94.0" prefHeight="25.0" prefWidth="85.0" />
+      <Spinner fx:id="cantEfectivo" editable="true" layoutX="470.0" layoutY="94.0" prefHeight="25.0" prefWidth="93.0" />
+      <Label layoutX="19.0" layoutY="151.0" text="Instalación:">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <TextArea fx:id="instalacion" layoutX="89.0" layoutY="151.0" prefHeight="76.0" prefWidth="498.0">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </TextArea>
+      <HBox layoutX="339.0" layoutY="242.0" prefHeight="35.0" prefWidth="245.0">
+         <children>
+            <JFXButton buttonType="RAISED" onAction="#registrar" prefHeight="41.0" prefWidth="122.0" style="-fx-background-color: green;" stylesheets="@../../css/buttons.css" text="Registrar" textFill="WHITE">
+               <HBox.margin>
+                  <Insets right="2.0" />
+               </HBox.margin>
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </JFXButton>
+            <JFXButton buttonType="RAISED" onAction="#cancelar" prefHeight="35.0" prefWidth="123.0" styleClass="button-close" stylesheets="@../../css/buttons.css" text="Cancelar" textFill="WHITE">
+               <HBox.margin>
+                  <Insets left="2.0" />
+               </HBox.margin>
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </JFXButton>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

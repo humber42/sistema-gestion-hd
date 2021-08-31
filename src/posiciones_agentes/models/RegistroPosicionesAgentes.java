@@ -1,6 +1,7 @@
 package posiciones_agentes.models;
 
 import models.UnidadOrganizativa;
+import services.ServiceLocator;
 
 /**
  * @model RegistroPosicionesAgentes
@@ -28,6 +29,14 @@ public class RegistroPosicionesAgentes {
     }
 
     public RegistroPosicionesAgentes() {
+    }
+
+    public void register(){
+        ServiceLocator.getRegistroPosicionesAgentesService().registerRegisterPosicionesAgentes(this);
+    }
+
+    public void delete(){
+        ServiceLocator.getRegistroPosicionesAgentesService().eliminarRegisterPosicionesAgentes(this);
     }
 
     public int getIdReg() {
