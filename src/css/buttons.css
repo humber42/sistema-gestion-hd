@@ -32,6 +32,15 @@
     -fx-background-color: #ff273c;
 }
 
+.button-circle {
+    -fx-background-radius: 30px;
+    -fx-min-width: 30px;
+    -fx-max-width: 30px;
+    -fx-min-height: 30px;
+    -fx-max-height: 30px;
+    -fx-background-insets: 0px;
+}
+
 
 
 

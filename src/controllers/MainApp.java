@@ -27,7 +27,6 @@ public class MainApp extends Application {
         Conexion.getObservable().addObserver(o1);
         SpreadsheetInfo.setLicense("FREE-LIMITED-KEY");
         launch(args);
-
     }
 
 
