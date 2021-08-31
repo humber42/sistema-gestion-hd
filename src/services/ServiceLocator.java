@@ -1,6 +1,12 @@
 package services;
 
 
+import posiciones_agentes.services.ProveedorServicioService;
+import posiciones_agentes.services.RegistroPosicionesAgentesService;
+import posiciones_agentes.services.TarifaPosicionAgenteService;
+import posiciones_agentes.services.impl.ProveedoresServicioServiceImpl;
+import posiciones_agentes.services.impl.RegistroPosicionesAgentesServiceImpl;
+import posiciones_agentes.services.impl.TarifaPosicionAgenteServiceImpl;
 import sistema_identificativo.services.*;
 import sistema_identificativo.services.impl.*;
 
@@ -29,6 +35,9 @@ public class ServiceLocator {
     private static RegistroImpresionesService registroImpresionesService = null;
     private static RegistroPaseService registroPaseService = null;
     private static TipoPaseService tipoPaseService = null;
+    private static ProveedorServicioService proveedorServicioService = null;
+    private static RegistroPosicionesAgentesService registroPosicionesAgentesService = null;
+    private static TarifaPosicionAgenteService tarifaPosicionAgenteService = null;
 
     private static ImpresionService impresionService = null;
     private static JasperReportService jasperReportService = null;
@@ -129,6 +138,27 @@ public class ServiceLocator {
         if (tipoPaseService == null)
             tipoPaseService = new TipoPaseServiceImpl();
         return tipoPaseService;
+    }
+
+    public static ProveedorServicioService getProveedorServicioService(){
+        if(proveedorServicioService == null){
+            proveedorServicioService = new ProveedoresServicioServiceImpl();
+        }
+        return proveedorServicioService;
+    }
+
+    public static RegistroPosicionesAgentesService getRegistroPosicionesAgentesService(){
+        if(registroPosicionesAgentesService == null){
+            registroPosicionesAgentesService = new RegistroPosicionesAgentesServiceImpl();
+        }
+        return registroPosicionesAgentesService;
+    }
+
+    public static TarifaPosicionAgenteService getTarifaPosicionAgenteService(){
+        if(tarifaPosicionAgenteService == null){
+            tarifaPosicionAgenteService = new TarifaPosicionAgenteServiceImpl();
+        }
+        return tarifaPosicionAgenteService;
     }
 
 }

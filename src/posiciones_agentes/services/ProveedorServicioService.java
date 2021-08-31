@@ -14,4 +14,5 @@ public interface ProveedorServicioService {
     void registerProveedorServicio(ProveedorServicio proveedorServicio);
     void updateProveedorServicio(ProveedorServicio proveedorServicio);
     void deleteProveedorServicioById(int id);
+    ProveedorServicio getByName(String name);
 }

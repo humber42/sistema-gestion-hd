@@ -1,5 +1,7 @@
 package posiciones_agentes.models;
 
+import services.ServiceLocator;
+
 /**
  * @model ProveedorServicio
  * @author Humberto Cabrera Dominguez
@@ -9,11 +11,11 @@ public class ProveedorServicio {
     private String proveedorServicio;
 
     public void register(){
-
+        ServiceLocator.getProveedorServicioService().registerProveedorServicio(this);
     }
 
     public void delete(){
-
+        ServiceLocator.getProveedorServicioService().deleteProveedorServicioById(this.id);
     }
 
     public ProveedorServicio(int id, String proveedorServicio) {
