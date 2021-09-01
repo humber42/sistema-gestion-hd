@@ -24,7 +24,13 @@ public class ProveedoresServicioServiceImpl implements ProveedorServicioService 
 
     @Override
     public ProveedorServicio getByName(String name) {
-        return null;
+        var query = "Select * FROM proveedores_servicio_agentes WHERE proveedores_servicio='"+name+"'";
+        try{
+            return this.recuperarObjeto(Util.executeQuery(query));
+        }catch (SQLException e ){
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
