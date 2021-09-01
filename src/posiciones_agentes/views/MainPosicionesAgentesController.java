@@ -9,7 +9,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.controlsfx.dialog.ExceptionDialog;
 
-import java.io.IOExcept
+import java.io.IOException;
 import java.sql.SQLException;
 
 
