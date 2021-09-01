@@ -9,30 +9,30 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="301.0" prefWidth="427.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="posiciones_agentes.views.EdicionTarifasContoller">
+<AnchorPane prefHeight="263.0" prefWidth="427.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="posiciones_agentes.views.EdicionTarifasContoller">
    <children>
       <Label layoutX="137.0" layoutY="25.0" prefHeight="27.0" prefWidth="154.0" text="Edición de Tarifas">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="34.0" layoutY="91.0" text="Unidad Organizativa:" />
-      <JFXButton buttonType="RAISED" layoutX="297.0" layoutY="241.0" prefHeight="35.0" prefWidth="102.0" style="-fx-background-color: red;" text="Terminar" textFill="WHITE">
+      <Label layoutX="34.0" layoutY="75.0" text="Unidad Organizativa:" />
+      <JFXButton buttonType="RAISED" layoutX="297.0" layoutY="204.0" onAction="#handleFinish" prefHeight="35.0" prefWidth="102.0" style="-fx-background-color: red;" text="Terminar" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font>
       </JFXButton>
-      <ComboBox editable="true" layoutX="157.0" layoutY="142.0" prefHeight="26.0" prefWidth="242.0" promptText="Seleccione" />
-      <Label layoutX="30.0" layoutY="147.0" text="Proveedor de servicio:" />
-      <Label layoutX="34.0" layoutY="198.0" text="Tarifa actual:" />
-      <Spinner disable="true" layoutX="114.0" layoutY="194.0" prefHeight="25.0" prefWidth="102.0" />
-      <ComboBox editable="true" layoutX="157.0" layoutY="87.0" prefHeight="26.0" prefWidth="242.0" promptText="Seleccione" />
-      <ImageView fitHeight="25.0" fitWidth="39.0" layoutX="224.0" layoutY="194.0" pickOnBounds="true" preserveRatio="true">
+      <ComboBox fx:id="proveedores" layoutX="157.0" layoutY="117.0" onAction="#loadValueOnSpinnerTarifa" prefHeight="26.0" prefWidth="242.0" promptText="Seleccione" />
+      <Label layoutX="30.0" layoutY="122.0" text="Proveedor de servicio:" />
+      <Label layoutX="34.0" layoutY="170.0" text="Tarifa actual:" />
+      <Spinner fx:id="tarifa" disable="true" layoutX="114.0" layoutY="166.0" prefHeight="25.0" prefWidth="102.0" />
+      <ComboBox fx:id="unidadesOrganizativas" editable="true" layoutX="157.0" layoutY="71.0" onAction="#loadValueOnSpinnerTarifa" prefHeight="26.0" prefWidth="242.0" promptText="Seleccione" />
+      <ImageView fx:id="imageEdit" fitHeight="25.0" fitWidth="39.0" layoutX="224.0" layoutY="166.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../icons/Edit_48px.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="25.0" fitWidth="39.0" layoutX="256.0" layoutY="194.0" pickOnBounds="true" preserveRatio="true" visible="false">
+      <ImageView fx:id="imageCancel" fitHeight="25.0" fitWidth="39.0" layoutX="256.0" layoutY="167.0" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
             <Image url="@../../icons/Delete_48px.png" />
          </image>

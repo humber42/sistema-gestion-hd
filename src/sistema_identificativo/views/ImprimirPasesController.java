@@ -12,7 +12,6 @@ import sistema_identificativo.models.Impresion;
 import sistema_identificativo.models.TipoPase;
 import util.Util;
 
-import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -139,11 +138,14 @@ public class ImprimirPasesController {
                     ServiceLocator.getTipoPaseService().getPassCodeByPassType(passTypeSelected), text
             );
         }
+        lblSelection.setText("Ningún elemento seleccionado");
 
         if (!impresionList.isEmpty())
             initializeTable(impresionList);
-        else
+        else {
             table.getItems().clear();
+            lblSize.setText("Ningún elemento encontrado");
+        }
     }
 
     @FXML
