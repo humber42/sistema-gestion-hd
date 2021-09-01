@@ -27,6 +27,7 @@ public class RegistrarPosicionesAgentesController {
     @FXML
     private TextArea instalacion;
 
+
     private Stage dialogStage;
 
 
@@ -68,6 +69,7 @@ public class RegistrarPosicionesAgentesController {
 
     private boolean emptyFields(){
         boolean emptyFields = false;
+        try{
         if(this.unidadOrgananizativa.getValue().isEmpty()){
             emptyFields= true;
         }
@@ -85,6 +87,9 @@ public class RegistrarPosicionesAgentesController {
         }
         else if(this.instalacion.getText().isEmpty()){
             emptyFields = true;
+        }
+        }catch (NullPointerException e){
+            emptyFields=true;
         }
         return emptyFields;
     }
