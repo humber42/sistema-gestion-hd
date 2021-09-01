@@ -22,7 +22,7 @@
                      <accelerator>
                         <KeyCodeCombination alt="DOWN" code="R" control="UP" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
-                  <MenuItem mnemonicParsing="false" text="Editar tarifas" />
+                  <MenuItem mnemonicParsing="false" onAction="#editTarifa" text="Editar tarifas" />
                         <MenuItem mnemonicParsing="false" onAction="#handleCerrar" text="Cerrar">
                      <accelerator>
                         <KeyCodeCombination alt="DOWN" code="C" control="UP" meta="UP" shift="UP" shortcut="UP" />
