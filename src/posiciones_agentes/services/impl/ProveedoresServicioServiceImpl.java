@@ -25,6 +25,7 @@ public class ProveedoresServicioServiceImpl implements ProveedorServicioService 
     }
 
     @Override
+
     public ProveedorServicio getByName(String name){
         var query = "Select * from proveedores_servicio_agentes where proveedores_servicio = '"+ name +"'";
         ProveedorServicio ps = null;
@@ -35,6 +36,7 @@ public class ProveedoresServicioServiceImpl implements ProveedorServicioService 
             e.printStackTrace();
         }
         return ps;
+
     }
 
     @Override

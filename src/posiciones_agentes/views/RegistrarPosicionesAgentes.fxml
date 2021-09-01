@@ -10,50 +10,49 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="291.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="posiciones_agentes.views.RegistrarPosicionesAgentesController">
+<AnchorPane prefHeight="318.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="posiciones_agentes.views.RegistrarPosicionesAgentesController">
    <children>
-      <Label layoutX="19.0" layoutY="51.0" text="Unidad organizativa:">
+      <Label layoutX="14.0" layoutY="78.0" text="Unidad organizativa:">
          <font>
             <Font size="13.0" />
          </font>
       </Label>
-      <ComboBox fx:id="unidadOrgananizativa" editable="true" layoutX="143.0" layoutY="48.0" prefWidth="150.0" promptText="Seleccione" />
-      <Label layoutX="307.0" layoutY="51.0" text="Proveedor de servicio:">
+      <ComboBox fx:id="unidadOrgananizativa" editable="true" layoutX="138.0" layoutY="75.0" prefWidth="150.0" promptText="Seleccione" />
+      <Label layoutX="302.0" layoutY="78.0" text="Proveedor de servicio:">
          <font>
             <Font size="13.0" />
          </font>
       </Label>
-      <ComboBox fx:id="proveedoresServicio" layoutX="441.0" layoutY="48.0" prefWidth="150.0" promptText="Seleccione" />
-      <Label layoutX="19.0" layoutY="97.0" text="Horas DL:">
+      <ComboBox fx:id="proveedoresServicio" layoutX="436.0" layoutY="75.0" prefWidth="150.0" promptText="Seleccione" />
+      <Label layoutX="14.0" layoutY="124.0" text="Horas DL:">
          <font>
             <Font size="13.0" />
          </font>
       </Label>
-      <Label layoutX="211.0" layoutY="97.0" text="Horas NL:">
+      <Label layoutX="206.0" layoutY="124.0" text="Horas NL:">
          <font>
             <Font size="13.0" />
          </font>
       </Label>
-      <Label layoutX="393.0" layoutY="98.0" text="C. Efectivos:">
+      <Label layoutX="388.0" layoutY="125.0" text="C. Efectivos:">
          <font>
             <Font size="13.0" />
          </font>
       </Label>
-      <Spinner fx:id="horasDL" editable="true" layoutX="82.0" layoutY="94.0" prefHeight="25.0" prefWidth="93.0" />
-      <Spinner fx:id="horasNL" editable="true" layoutX="274.0" layoutY="94.0" prefHeight="25.0" prefWidth="85.0" />
-      <Spinner fx:id="cantEfectivo" editable="true" layoutX="470.0" layoutY="94.0" prefHeight="25.0" prefWidth="93.0" />
-      <Label layoutX="19.0" layoutY="151.0" text="Instalación:">
+      <Spinner fx:id="horasDL" editable="true" layoutX="77.0" layoutY="121.0" prefHeight="25.0" prefWidth="93.0" />
+      <Spinner fx:id="horasNL" editable="true" layoutX="269.0" layoutY="121.0" prefHeight="25.0" prefWidth="85.0" />
+      <Spinner fx:id="cantEfectivo" editable="true" layoutX="465.0" layoutY="121.0" prefHeight="25.0" prefWidth="93.0" />
+      <Label layoutX="14.0" layoutY="178.0" text="Instalación:">
          <font>
             <Font size="13.0" />
          </font>
       </Label>
-      <TextArea fx:id="instalacion" layoutX="89.0" layoutY="151.0" prefHeight="76.0" prefWidth="498.0">
+      <TextArea fx:id="instalacion" layoutX="84.0" layoutY="178.0" prefHeight="76.0" prefWidth="498.0">
          <font>
             <Font size="13.0" />
          </font>
       </TextArea>
-      <HBox layoutX="339.0" layoutY="242.0" prefHeight="35.0" prefWidth="245.0">
+      <HBox layoutX="334.0" layoutY="269.0" prefHeight="35.0" prefWidth="245.0">
          <children>
             <JFXButton buttonType="RAISED" onAction="#registrar" prefHeight="41.0" prefWidth="122.0" style="-fx-background-color: green;" stylesheets="@../../css/buttons.css" text="Registrar" textFill="WHITE">
                <HBox.margin>
@@ -73,5 +72,10 @@
             </JFXButton>
          </children>
       </HBox>
+      <Label alignment="TOP_CENTER" layoutY="21.0" prefHeight="17.0" prefWidth="601.0" text="Registrar posición de agente" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

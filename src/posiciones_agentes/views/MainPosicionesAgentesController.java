@@ -9,7 +9,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.controlsfx.dialog.ExceptionDialog;
 
-import java.io.IOException;
+import java.io.IOExcept
+import java.sql.SQLException;
+
 
 public class MainPosicionesAgentesController {
     private Stage mainApp;
@@ -22,6 +24,29 @@ public class MainPosicionesAgentesController {
 
     @FXML
     public void initialize() {
+    }
+
+    @FXML
+    private void cargarRegister(){
+        try{
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainPosicionesAgentesController.class.getResource("../views/RegistrarPosicionesAgentes.fxml"));
+            AnchorPane pane = loader.load();
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Registrar Posiciones Agentes");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.setResizable(false);
+            dialogStage.initOwner(this.mainApp);
+            Scene scene = new Scene(pane);
+            dialogStage.setScene(scene);
+
+            RegistrarPosicionesAgentesController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            dialogStage.showAndWait();
+        }catch (IOException e){
+            ExceptionDialog dialog = new ExceptionDialog(e);
+            dialog.showAndWait();
+        }
     }
 
     @FXML

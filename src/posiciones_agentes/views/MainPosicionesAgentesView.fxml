@@ -18,7 +18,7 @@
             <menus>
                 <Menu mnemonicParsing="false" text="Archivo">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Registrar posición de agente">
+                        <MenuItem mnemonicParsing="false" text="Registrar posición de agente" onAction="#cargarRegister">
                      <accelerator>
                         <KeyCodeCombination alt="DOWN" code="R" control="UP" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
