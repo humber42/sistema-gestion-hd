@@ -37,6 +37,11 @@ public class HechosServiceImpl implements HechosService {
         return this.recuperarListaResultSet(query);
     }
 
+    public LinkedList<Hechos> fetchAllHechos2(String limit, String offset) {
+        var query = "SELECT * FROM hechos Order By fecha_ocurrencia Desc LIMIT " + limit + " OFFSET " + offset;
+        return this.recuperarListaResultSet(query);
+    }
+
     /**
      * Delito vs TPubl
      *

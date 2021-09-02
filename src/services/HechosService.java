@@ -87,4 +87,6 @@ public interface HechosService {
 
     LinkedList<Hechos> getHechosBySqlExpresion(String sql);
 
+    LinkedList<Hechos> fetchAllHechos2(String limit, String offset);
+
 }
