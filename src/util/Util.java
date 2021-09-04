@@ -10,6 +10,7 @@ import models.Afectaciones;
 import models.HechosPorMunicipio;
 import models.MunicipioServiciosAfectados;
 import models.ResumenModels;
+
 import java.awt.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -30,6 +31,31 @@ public class Util {
             , "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
     public static final String[] unidades_organizativa = {"DTPR", "DTAR", "DTMY",
             "DVLH", "DTIJ", "DTMZ", "DTCF", "DTVC", "DTSS", "DTCA", "DTCM", "DTLT", "DTHO", "DTGR", "DTSC", "DTGT"};
+    public static final String[] noLaborablesKeys = {"ENERO_NL",
+            "FEBRERO_NL",
+            "MARZO_NL",
+            "ABRIL_NL",
+            "MAYO_NL",
+            "JUNIO_NL",
+            "JULIO_NL",
+            "AGOSTO_NL",
+            "SEPTIEMBRE_NL",
+            "OCTUBRE_NL",
+            "NOVIEMBRE_NL",
+            "DICIEMBRE_NL"};
+
+    public static final String[] festivosKeys = {"ENERO_FE",
+            "FEBRERO_FE",
+            "MARZO_FE",
+            "ABRIL_FE",
+            "MAYO_FE",
+            "JUNIO_FE",
+            "JULIO_FE",
+            "AGOSTO_FE",
+            "SEPTIEMBRE_FE",
+            "OCTUBRE_FE",
+            "NOVIEMBRE_FE",
+            "DICIEMBRE_FE"};
 
     public static ResultSet executeQuery(String sql) throws SQLException {
 
