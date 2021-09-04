@@ -8,6 +8,7 @@ import util.Util;
 /**
  * @author Humberto Cabrera Dominguez
  * @implSpec  In this class are the methods to calculate the Tarifas by provider of service
+ * @util Utils
  */
 public class CalculoTarifas {
     /**
