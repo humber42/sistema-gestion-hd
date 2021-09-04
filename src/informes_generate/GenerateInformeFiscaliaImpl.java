@@ -51,7 +51,6 @@ public class GenerateInformeFiscaliaImpl implements GenerateInformeFiscalia {
                 workbook.save(DIRECCION_ARCHIVO);
                 result = true;
             } catch (IOException e) {
-
                 e.printStackTrace();
             }
         }
@@ -59,7 +58,6 @@ public class GenerateInformeFiscaliaImpl implements GenerateInformeFiscalia {
     }
 
     private boolean generarTotales(LocalDate localDate, ExcelFile workbook) {
-
         ExcelWorksheet hojaTotales = workbook.addWorksheet("Totales");
         return GeneradoresTablas.generarTotales(localDate, hojaTotales, executingConsult(localDate));
 

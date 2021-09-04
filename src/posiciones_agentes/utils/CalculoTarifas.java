@@ -1,9 +1,14 @@
 package posiciones_agentes.utils;
 
+import com.jfoenix.controls.JFXDatePicker;
 import posiciones_agentes.models.RegistroPosicionesAgentes;
 import posiciones_agentes.models.TarifasPosicionAgente;
 import services.ServiceLocator;
+import util.ConfigProperties;
 import util.Util;
+
+import java.sql.Date;
+import java.time.LocalDate;
 
 /**
  * @author Humberto Cabrera Dominguez
@@ -34,8 +39,8 @@ public class CalculoTarifas {
         }else{
             int pos =0;
             while(pos<Util.meses.length){
-                int worklyDays = calculateWorklyDays(year,Util.meses[pos]);
-                int notWorklyDays = calculateNotWroklyDays(year,Util.meses[pos]);
+                int worklyDays = calculateWorklyDays(year,pos);
+                int notWorklyDays = calculateNotWroklyDays(Util.noLaborablesKeys[pos]);
                 int horasWorklyDays = posicionesAgentes.getHorasDiasLaborables();
                 int horasNotWorklyDays = posicionesAgentes.getHorasDiasNoLaborables();
                 sum+= tarifa.getTarifa()*(worklyDays*horasWorklyDays+notWorklyDays*horasNotWorklyDays);
@@ -46,16 +51,28 @@ public class CalculoTarifas {
     }
 
 
-    private static int calculateWorklyDays(int year,String month){
-        return Integer.MIN_VALUE;
+    private static int calculateWorklyDays(int year,int month){
+        int cantDias = 0;
+        switch (month){
+            case 0: case 2: case 4: case 6: case 7: case 9: case 11:
+                cantDias = 31-calculateNotWroklyDays(Util.noLaborablesKeys[month]);
+                break;
+            case 3: case 5: case 8: case 10:
+                cantDias= 30-calculateNotWroklyDays(Util.noLaborablesKeys[month]);
+                break;
+            case 1:
+                cantDias= year%400==0?29-calculateNotWroklyDays(Util.noLaborablesKeys[month]):28-calculateNotWroklyDays(Util.noLaborablesKeys[month]);
+                break;
+        }
+        return cantDias;
     }
 
-    private static int calculateNotWroklyDays(int year,String month){
-        return Integer.MIN_VALUE;
+    private static int calculateNotWroklyDays(String month){
+        return Integer.parseInt(ConfigProperties.getProperties().getProperty(month));
     }
 
     private static int festiveDays(String month){
-        return Integer.MIN_VALUE;
+        return Integer.parseInt(ConfigProperties.getProperties().getProperty(month));
     }
 
 

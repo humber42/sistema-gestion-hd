@@ -108,6 +108,15 @@ public class RegistrarPosicionesAgentesController {
                     this.horasNL.getValue(),
                     this.cantEfectivo.getValue());
             registroPosicionesAgentes.register();
+
+//            unidadOrgananizativa.getSelectionModel().clearSelection();
+//            proveedoresServicio.getSelectionModel().clearSelection();
+//            horasDL.getEditor().setText("0");
+//            horasNL.getEditor().setText("0");
+//            cantEfectivo.getEditor().setText("0");
+//            instalacion.clear();
+            Util.dialogResult("Se ha registrado correctamente", Alert.AlertType.INFORMATION);
+            //dialogStage.close();
         }
         else{
             Util.dialogResult("Hay campos vacíos", Alert.AlertType.ERROR);
