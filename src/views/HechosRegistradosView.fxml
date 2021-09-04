@@ -46,10 +46,10 @@
                             <children>
                                 <Label text="Nombre" />
                         <Label text="Municipio" GridPane.rowIndex="1" />
-                        <Label fx:id="municipioLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label fx:id="municipioLabel" text="" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <Label text="F. Ocurre" GridPane.rowIndex="2" />
                         <Label text="Tipo hecho" GridPane.rowIndex="4" />
-                        <Label fx:id="tipoHechoLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <Label fx:id="tipoHechoLabel" text="" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                         <Label text="Centro" GridPane.rowIndex="5" />
                         <JFXTextField fx:id="hechoField" prefHeight="8.0" prefWidth="154.0" GridPane.columnIndex="1" />
                         <JFXTextField fx:id="centroField" prefHeight="9.0" prefWidth="154.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
