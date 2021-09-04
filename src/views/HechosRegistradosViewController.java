@@ -149,14 +149,14 @@ public class HechosRegistradosViewController {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setHeaderText(null);
                 alert.setTitle("Entrada Incorrecta");
-                alert.setContentText("Por favor introdusca valores entre 0 y " + offsetMaximoField.getText());
+                alert.setContentText("Por favor, introduzca valores entre 0 y " + offsetMaximoField.getText());
                 alert.showAndWait();
             } else
                 cargarTabla(ServiceLocator.getHechosService().fetchAllHechos2("15", Integer.toString(offset)));
         }
         catch (NumberFormatException e){
             Alert alert1 = new Alert(Alert.AlertType.ERROR);
-            alert1.setContentText("Por favor solo se aceptan números entre 0 y "+ offsetMaximoField.getText());
+            alert1.setContentText("Por favor, solo se aceptan números entre 0 y "+ offsetMaximoField.getText());
             alert1.setHeaderText(null);
             alert1.setTitle("Entrada Incorrecta");
             alert1.showAndWait();
@@ -201,7 +201,7 @@ public class HechosRegistradosViewController {
     public boolean showDialogToEdit(){
         try {
             if (hechoField.getText().isEmpty() && centroField.getText().isEmpty() && lugarField.getText().isEmpty() ){
-                Util.dialogResult("Campo vacio", Alert.AlertType.ERROR);
+                Util.dialogResult("Campo vacío", Alert.AlertType.ERROR);
                 hechoField.setText(hechos.getTitulo());
                 hechoField.setUnFocusColor(Paint.valueOf("red"));
                 hechoField.setFocusColor(Paint.valueOf("red"));
@@ -347,7 +347,7 @@ public class HechosRegistradosViewController {
             if (howmuch>0) {
                 cargarTabla(ServiceLocator.getHechosService().fetchAllHechos2("15",Integer.toString(offset)));
             } else {
-                dialogElemento("ultimo");
+                dialogElemento("último");
                 offset -=15;
             }
             desactivarButton();
@@ -374,7 +374,7 @@ public class HechosRegistradosViewController {
                     cargarTabla(ServiceLocator.getHechosService().fetchAllHechos2("15",Integer.toString(offset)));
                 } else {
                     offset += 15;
-                    dialogElemento("primero");
+                    dialogElemento("primer");
                 }
             }
             showHechoDetails(null);
@@ -412,7 +412,7 @@ public class HechosRegistradosViewController {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText(null);
         alert.setTitle("Información");
-        alert.setContentText("Udsted se encuentra en el " + estado + " elemento");
+        alert.setContentText("Usted se encuentra en el " + estado + " elemento");
         alert.showAndWait();
     }
 

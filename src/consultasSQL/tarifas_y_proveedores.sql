@@ -32,3 +32,18 @@ WHERE proveedores_servicio_agentes.id = $1;
 end;
 $BODY$
 LANGUAGE plpgsql;
+
+create function update_registro_posiciones_agentes(id integer, horaslab integer, horasnolab integer, efectivo integer)
+  returns void
+language plpgsql
+as $$
+BEGIN
+  UPDATE registro_posiciones_agentes SET horas_dias_laborables = $2,
+                                         horas_no_laborales = $3,
+                                         cantidad_efectivos = $4
+  WHERE registro_posiciones_agentes.id_reg = $1;
+end;
+$$;
+
+alter function update_registro_posiciones_agentes(integer, integer, integer, integer)
+  owner to postgres;
