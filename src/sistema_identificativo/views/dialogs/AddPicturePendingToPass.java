@@ -1,5 +1,6 @@
 package sistema_identificativo.views.dialogs;
 
+import com.jfoenix.controls.JFXButton;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -47,6 +48,12 @@ public class AddPicturePendingToPass {
     private ListView<String> listaPases;
     @FXML
     private ImageView profilePhoto;
+
+    @FXML
+    private JFXButton annadir;
+    @FXML
+    private JFXButton guardar;
+
     private RegistroPase paseSeleccionado;
     private Stage dialogUploading;
 
@@ -72,6 +79,7 @@ public class AddPicturePendingToPass {
         this.listaPases.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> {
                     this.setValuesOnToLabels(newValue);
+                    this.annadir.setDisable(false);
                 }
         );
 
@@ -90,6 +98,7 @@ public class AddPicturePendingToPass {
         if (fileImage != null) {
             javafx.scene.image.Image image = new Image("file:" + fileImage.getAbsolutePath());
             this.profilePhoto.setImage(image);
+            this.guardar.setDisable(false);
         }
     }
 
@@ -123,6 +132,8 @@ public class AddPicturePendingToPass {
                     Util.dialogResult("Error al subir la foto", Alert.AlertType.ERROR);
                 }
                 cleanData();
+                annadir.setDisable(true);
+                guardar.setDisable(true);
             }
         };
         try {
