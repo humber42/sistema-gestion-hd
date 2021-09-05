@@ -5,10 +5,13 @@ import javafx.scene.control.Alert;
 import org.apache.poi.hssf.record.formula.functions.Len;
 import posiciones_agentes.excels_generators.ResumenGeneralGenerator;
 import posiciones_agentes.models.RegistroPosicionesAgentes;
+import posiciones_agentes.models.UOrgPosiciones;
+import posiciones_agentes.utils.CalculoByOurg;
 import posiciones_agentes.utils.CalculoTarifas;
 import services.ServiceLocator;
 import util.Util;
 
+import java.awt.*;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
@@ -19,47 +22,47 @@ public class ResumenGeneralGeneratorImpl implements ResumenGeneralGenerator {
     public boolean generarResumen(String path) {
         ExcelFile workbook = new ExcelFile();
         boolean result = false;
-        if(this.generarListado(workbook)&&this.generarResumenXUO(workbook)){
-            try{
+        if (this.generarListado(workbook) && this.generarResumenXUO(workbook)) {
+            try {
                 workbook.save(path);
-                result=true;
-            }catch (IOException e){
+                result = true;
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
         return result;
     }
 
-    private boolean generarListado(ExcelFile workbook){
+    private boolean generarListado(ExcelFile workbook) {
         int hojas = 0;
         List<RegistroPosicionesAgentes> posicionesAgentes = ServiceLocator.getRegistroPosicionesAgentesService().getAllRegistroPosicionesAgentes();
         int posOnAgents = 0;
-        while(hojas < 5 && posOnAgents<posicionesAgentes.size()){
+        while (hojas < 5 && posOnAgents < posicionesAgentes.size()) {
             //Creo el encabezado
-            ExcelWorksheet sheet = workbook.addWorksheet("Listado "+ (hojas==0?"":hojas));
+            ExcelWorksheet sheet = workbook.addWorksheet("Listado " + (hojas == 0 ? "" : hojas));
 
-            this.generateEncabezado("A1:A2","No",sheet, true);
-            this.generateEncabezado("B1:B2","U/O",sheet, true);
-            this.generateEncabezado("C1:C2","Posición de ASP\n" +
-                    "(Instalación que Protege)",sheet, true);
-           sheet.getColumn("C").setWidth(190,LengthUnit.PIXEL);
-            this.generateEncabezado("D1:D2","Proveedor de servicio",sheet, true);
-          sheet.getColumn("D").setWidth(105,LengthUnit.PIXEL);
-            this.generateEncabezado("E1:E2","Cantidad de efectivos",sheet, true);
-          sheet.getColumn("E").setWidth(120, LengthUnit.PIXEL);
-            this.generateEncabezado("F1:F2","Horas en Días Laborables",sheet, true);
-          sheet.getColumn("F").setWidth(121,LengthUnit.PIXEL);
-            this.generateEncabezado("G1:G2", "Horas en Días No Laborables",sheet, true);
-          sheet.getColumn("G").setWidth(123,LengthUnit.PIXEL);
-            this.generateEncabezado("H1:H2","Gasto anual",sheet, true);
+            this.generateEncabezado("A1:A2", "No", sheet, true);
+            this.generateEncabezado("B1:B2", "U/O", sheet, true);
+            this.generateEncabezado("C1:C2", "Posición de ASP\n" +
+                    "(Instalación que Protege)", sheet, true);
+            sheet.getColumn("C").setWidth(190, LengthUnit.PIXEL);
+            this.generateEncabezado("D1:D2", "Proveedor de servicio", sheet, true);
+            sheet.getColumn("D").setWidth(105, LengthUnit.PIXEL);
+            this.generateEncabezado("E1:E2", "Cantidad de efectivos", sheet, true);
+            sheet.getColumn("E").setWidth(120, LengthUnit.PIXEL);
+            this.generateEncabezado("F1:F2", "Horas en Días Laborables", sheet, true);
+            sheet.getColumn("F").setWidth(121, LengthUnit.PIXEL);
+            this.generateEncabezado("G1:G2", "Horas en Días No Laborables", sheet, true);
+            sheet.getColumn("G").setWidth(123, LengthUnit.PIXEL);
+            this.generateEncabezado("H1:H2", "Gasto anual", sheet, true);
 
 
             //freezing rows 1 and 2
-            sheet.setPanes(new WorksheetPanes(PanesState.FROZEN_SPLIT,0,2,"A3", PanePosition.BOTTOM_LEFT));
+            sheet.setPanes(new WorksheetPanes(PanesState.FROZEN_SPLIT, 0, 2, "A3", PanePosition.BOTTOM_LEFT));
             //comienzo con las tuplas
-            int tuplas =3;
-            while(tuplas<150&&posOnAgents<posicionesAgentes.size()){
-                writeCellOnListado(tuplas,sheet,posicionesAgentes.get(posOnAgents));
+            int tuplas = 3;
+            while (tuplas < 150 && posOnAgents < posicionesAgentes.size()) {
+                writeCellOnListado(tuplas, sheet, posicionesAgentes.get(posOnAgents));
                 tuplas++;
                 posOnAgents++;
             }
@@ -68,8 +71,8 @@ public class ResumenGeneralGeneratorImpl implements ResumenGeneralGenerator {
         return true;
     }
 
-    private boolean generarResumenXUO(ExcelFile workbook){
-        if(workbook.getWorksheets().size()<5) {
+    private boolean generarResumenXUO(ExcelFile workbook) {
+        if (workbook.getWorksheets().size() < 5) {
             ExcelWorksheet sheet = workbook.addWorksheet("Resumen X UO");
             generateEncabezado("A1:A2", "U/O", sheet, true);
             generateEncabezado("B1:B2", "Cantidad Posiciones", sheet, true);
@@ -82,47 +85,82 @@ public class ResumenGeneralGeneratorImpl implements ResumenGeneralGenerator {
             generateEncabezado("H1:H2", "Gasto Anual", sheet, true);
 
             int pages = 1;
-            int size = ServiceLocator.getRegistroPosicionesAgentesService().getAllUorgNames().size();
 
-            while (pages > 0){
-                int row = 3;
-                while (row < size){
+            sheet.setPanes(new WorksheetPanes(PanesState.FROZEN_SPLIT, 0, 2, "A3", PanePosition.BOTTOM_LEFT));
+
+            List<UOrgPosiciones> uOrgPosicionesList = CalculoByOurg.obtenerUOrgByPosicionesList();
+
+            int row = 3;
+
+            while (pages > 0) {
+                while ((row-3) < uOrgPosicionesList.size()) {
+                    UOrgPosiciones uOrgPosiciones = uOrgPosicionesList.get(row-3);
+                    writeCellForResumenUO(row, sheet, uOrgPosiciones);
                     row++;
                 }
                 pages--;
             }
-        }else{
+            generateFooter(row,sheet);
+        } else {
             Util.dialogResult("No se pudo generar el resumen por Unidad Organizativa las posiciones exceden 740, genere el resumen por Unidad organizativa individualmente",
                     Alert.AlertType.WARNING);
         }
         return true;
     }
 
-    private void generateEncabezado(String range, String label,ExcelWorksheet sheet, boolean merged){
+    private void writeCellForResumenUO(int record, ExcelWorksheet sheet, UOrgPosiciones uOrgPosiciones) {
+        sheet.getCells().getSubrange("A" + record + ":H" + record).forEach(cell ->
+                cell.setStyle(Util.generarBordes())
+        );
+
+        sheet.getCell("A" + record).setValue(uOrgPosiciones.getUorg());
+        sheet.getCell("B" + record).setValue(uOrgPosiciones.getCantPosiciones());
+        sheet.getCell("C" + record).setValue(uOrgPosiciones.getSepsa());
+        sheet.getCell("D" + record).setValue(uOrgPosiciones.getSepcom());
+        sheet.getCell("E" + record).setValue(uOrgPosiciones.getCap());
+        sheet.getCell("F" + record).setValue(uOrgPosiciones.getAgesp());
+        sheet.getCell("G" + record).setValue(uOrgPosiciones.getOtros());
+        sheet.getCell("H" + record).setValue(uOrgPosiciones.getGasto());
+
+    }
+
+    private void generateEncabezado(String range, String label, ExcelWorksheet sheet, boolean merged) {
         CellRange cell = sheet.getCells().getSubrange(range);
         cell.setValue(label);
         cell.setStyle(Util.generarStilo());
-        if(merged)
+        if (merged)
             cell.setMerged(true);
     }
 
-    private void writeCellOnListado(int tupla,ExcelWorksheet sheet, RegistroPosicionesAgentes posicionAgente){
-        sheet.getCells().getSubrange("A"+tupla+":H"+tupla).forEach(cell->{
-            cell.setStyle(Util.generarBordes());
-        });
-        try{
-        sheet.getCell("A"+tupla).setValue(tupla-2);
-        sheet.getCell("B"+tupla).setValue(posicionAgente.getUnidadOrganizativa().getUnidad_organizativa());
-        sheet.getCell("C"+tupla).setValue(posicionAgente.getInstalacion());
-        sheet.getCell("C"+tupla).getStyle().setHorizontalAlignment(HorizontalAlignmentStyle.JUSTIFY);
-        sheet.getCell("D"+tupla).setValue(posicionAgente.getProveedorServicio().getProveedorServicio());
-        sheet.getCell("E"+tupla).setValue(posicionAgente.getCantidadEfectivos());
-        sheet.getCell("F"+tupla).setValue(posicionAgente.getHorasDiasLaborables());
-        sheet.getCell("G"+tupla).setValue(posicionAgente.getHorasDiasNoLaborables());
-        sheet.getCell("H"+tupla).setValue(CalculoTarifas.calculateByProviderOnAYear(posicionAgente, LocalDate.now().getYear()));}
-        catch (NullPointerException e){
-            System.out.println(tupla);
-        }
+    private void writeCellOnListado(int tupla, ExcelWorksheet sheet, RegistroPosicionesAgentes posicionAgente) {
+        sheet.getCells().getSubrange("A" + tupla + ":H" + tupla).forEach(cell ->
+            cell.setStyle(Util.generarBordes())
+        );
+
+        sheet.getCell("A" + tupla).setValue(tupla - 2);
+        sheet.getCell("B" + tupla).setValue(posicionAgente.getUnidadOrganizativa().getUnidad_organizativa());
+        sheet.getCell("C" + tupla).setValue(posicionAgente.getInstalacion());
+        sheet.getCell("C" + tupla).getStyle().setHorizontalAlignment(HorizontalAlignmentStyle.JUSTIFY);
+        sheet.getCell("D" + tupla).setValue(posicionAgente.getProveedorServicio().getProveedorServicio());
+        sheet.getCell("E" + tupla).setValue(posicionAgente.getCantidadEfectivos());
+        sheet.getCell("F" + tupla).setValue(posicionAgente.getHorasDiasLaborables());
+        sheet.getCell("G" + tupla).setValue(posicionAgente.getHorasDiasNoLaborables());
+        sheet.getCell("H" + tupla).setValue(CalculoTarifas.calculateByProviderOnAYear(posicionAgente, LocalDate.now().getYear()));
     }
 
+    private void generateFooter(int finalRecord, ExcelWorksheet sheet){
+        sheet.getCells().getSubrange("A" + finalRecord + ":H" + finalRecord).forEach(cell -> {
+                    cell.setStyle(Util.generarBordes());
+                    cell.setStyle(Util.generarStilo());
+        }
+        );
+        sheet.getCell("A"+finalRecord).setValue("Total:");
+        sheet.getCell("B"+finalRecord).setFormula("=SUM(B3:B"+(finalRecord-1)+")");
+        sheet.getCell("C"+finalRecord).setFormula("=SUM(C3:C"+(finalRecord-1)+")");
+        sheet.getCell("D"+finalRecord).setFormula("=SUM(D3:D"+(finalRecord-1)+")");
+        sheet.getCell("E"+finalRecord).setFormula("=SUM(E3:E"+(finalRecord-1)+")");
+        sheet.getCell("F"+finalRecord).setFormula("=SUM(F3:F"+(finalRecord-1)+")");
+        sheet.getCell("G"+finalRecord).setFormula("=SUM(G3:G"+(finalRecord-1)+")");
+        sheet.getCell("H"+finalRecord).setFormula("=SUM(H3:H"+(finalRecord-1)+")");
+    }
 }
