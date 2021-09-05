@@ -16,4 +16,5 @@ public interface RegistroPosicionesAgentesService {
     void eliminarRegisterPosicionesAgentes(RegistroPosicionesAgentes registroPosicionesAgentes);
     List<RegistroPosicionesAgentes> getAllRegistroPosicionesAgentes();
     List<RegistroPosicionesAgentes> getAllRegistrosByUOrg(int idUorg);
+    List<String> getAllUorgNames();
 }

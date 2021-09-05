@@ -32,11 +32,11 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="Resúmenes">
                <items>
-                  <MenuItem mnemonicParsing="false" text="Resumen general">
+                  <MenuItem mnemonicParsing="false" text="Resumen general" onAction="#generarResumenGeneral">
                      <accelerator>
                         <KeyCodeCombination alt="DOWN" code="G" control="UP" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
-                  <MenuItem mnemonicParsing="false" text="Resumen por Unidad Organizativa">
+                  <MenuItem mnemonicParsing="false" text="Resumen por Unidad Organizativa" onAction="#generarResumenPorUOrg">
                      <accelerator>
                         <KeyCodeCombination alt="DOWN" code="U" control="UP" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
