@@ -13,7 +13,7 @@ public class TipoMaterialesServiceImpl implements TipoMaterialesService {
 
     public TipoMateriales getOneTipo(int id) {
         TipoMateriales tipoMateriales = new TipoMateriales();
-        var query = "SELECT * FROM tipo_materiales WHERE id_materiales=" + Integer.toString(id);
+        String query = "SELECT * FROM tipo_materiales WHERE id_materiales=" + Integer.toString(id);
         try {
             Statement statement = Conexion.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
             ResultSet resultSet = statement.executeQuery(query);
@@ -30,10 +30,10 @@ public class TipoMaterialesServiceImpl implements TipoMaterialesService {
 
 
     public TipoMateriales searchMaterialesByName(String name) {
-        var query = "SELECT * FROM tipo_materiales WHERE materiales= '" + name + "'";
+        String query = "SELECT * FROM tipo_materiales WHERE materiales= '" + name + "'";
         TipoMateriales tipoMateriales = new TipoMateriales();
         try {
-            var resultSet = Util.executeQuery(query);
+            ResultSet resultSet = Util.executeQuery(query);
 
             if (resultSet.next())
                 tipoMateriales = recuperarResultSet(resultSet);
@@ -48,9 +48,9 @@ public class TipoMaterialesServiceImpl implements TipoMaterialesService {
     @Override
     public List<TipoMateriales> fetchAll() {
         List<TipoMateriales> tipoMaterialesList = new LinkedList<>();
-        var query = "Select * From tipo_materiales";
+        String query = "Select * From tipo_materiales";
         try {
-            var resultSet = Util.executeQuery(query);
+            ResultSet resultSet = Util.executeQuery(query);
             while (resultSet.next()) {
                 tipoMaterialesList.add(recuperarResultSet(resultSet));
             }
@@ -110,14 +110,14 @@ public class TipoMaterialesServiceImpl implements TipoMaterialesService {
 
     public void insertarTipoMaterial (TipoMateriales tipoMateriales) throws SQLException{
 
-        var function ="{call insertar_tipo_material(?)}";
+        String function ="{call insertar_tipo_material(?)}";
         CallableStatement statement = Conexion.getConnection().prepareCall(function);
         statement.setString(1,tipoMateriales.getMateriales());
         statement.execute();
         statement.close();
     }
     public void editarTipoMaterial (TipoMateriales tipoMateriales) throws SQLException{
-        var function ="{call editar_tipo_material(?,?)}";
+        String function ="{call editar_tipo_material(?,?)}";
         CallableStatement callableStatement =Conexion.getConnection().prepareCall(function);
         callableStatement.setInt(1,tipoMateriales.getId_materiales());
         callableStatement.setString(2,tipoMateriales.getMateriales());
@@ -126,7 +126,7 @@ public class TipoMaterialesServiceImpl implements TipoMaterialesService {
     }
 
     public void eliminarTipoMaterial(TipoMateriales tipoMateriales)throws SQLException{
-        var function ="{call eliminar_tipo_material(?)}";
+        String function ="{call eliminar_tipo_material(?)}";
         CallableStatement callableStatement =Conexion.getConnection().prepareCall(function);
         callableStatement.setInt(1,tipoMateriales.getId_materiales());
         callableStatement.execute();

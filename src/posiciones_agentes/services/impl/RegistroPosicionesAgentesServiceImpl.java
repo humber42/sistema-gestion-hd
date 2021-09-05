@@ -15,7 +15,7 @@ import java.util.List;
 public class RegistroPosicionesAgentesServiceImpl implements RegistroPosicionesAgentesService {
     @Override
     public List<RegistroPosicionesAgentes> getAllRegistroPosicionesAgentes() {
-        var query = "select * from registro_posiciones_agentes order by id_uorg";
+        String query = "select * from registro_posiciones_agentes order by id_uorg";
         List<RegistroPosicionesAgentes> posList = new LinkedList<>();
         try{
             posList = obtenerLista(Util.executeQuery(query));
@@ -27,7 +27,7 @@ public class RegistroPosicionesAgentesServiceImpl implements RegistroPosicionesA
 
     @Override
     public RegistroPosicionesAgentes getByID(int id) {
-        var query = "Select * from registro_posiciones_agentes where id_reg = " + id;
+        String query = "Select * from registro_posiciones_agentes where id_reg = " + id;
         RegistroPosicionesAgentes rpa = null;
         try {
             ResultSet rs = Util.executeQuery(query);
@@ -40,7 +40,7 @@ public class RegistroPosicionesAgentesServiceImpl implements RegistroPosicionesA
 
     @Override
     public void eliminarRegisterPosicionesAgentes(RegistroPosicionesAgentes registroPosicionesAgentes) {
-        var query = "DELETE FROM registro_posiciones_agentes WHERE id_reg = " + registroPosicionesAgentes.getIdReg();
+        String query = "DELETE FROM registro_posiciones_agentes WHERE id_reg = " + registroPosicionesAgentes.getIdReg();
         try{
             Util.executeQuery(query);
         } catch (SQLException e){
@@ -50,7 +50,7 @@ public class RegistroPosicionesAgentesServiceImpl implements RegistroPosicionesA
 
     @Override
     public void registerRegisterPosicionesAgentes(RegistroPosicionesAgentes registroPosicionesAgentes) {
-        var function = "{call save_registro_posiciones_agentes(?,?,?,?,?,?)}";
+        String function = "{call save_registro_posiciones_agentes(?,?,?,?,?,?)}";
         try{
             CallableStatement statement = Conexion.getConnection().prepareCall(function);
             statement.setString(1,registroPosicionesAgentes.getInstalacion());
@@ -68,7 +68,7 @@ public class RegistroPosicionesAgentesServiceImpl implements RegistroPosicionesA
 
     @Override
     public void updateRegisterPosicionesAgentes(RegistroPosicionesAgentes registroPosicionesAgentes) {
-        var function = "{call update_registro_posiciones_agentes(?,?,?,?)}";
+        String function = "{call update_registro_posiciones_agentes(?,?,?,?)}";
         try{
             CallableStatement statement = Conexion.getConnection().prepareCall(function);
             statement.setInt(1, registroPosicionesAgentes.getIdReg());
@@ -85,7 +85,7 @@ public class RegistroPosicionesAgentesServiceImpl implements RegistroPosicionesA
     @Override
     public List<RegistroPosicionesAgentes> getAllRegistrosByUOrg(int idUorg) {
         List<RegistroPosicionesAgentes> list = new LinkedList<>();
-        var query = "Select * from registro_posiciones_agentes where registro_posiciones_agentes.id_uorg = " + idUorg;
+        String query = "Select * from registro_posiciones_agentes where registro_posiciones_agentes.id_uorg = " + idUorg;
         try {
             list = obtenerLista(Util.executeQuery(query));
         } catch (SQLException e){
@@ -99,7 +99,7 @@ public class RegistroPosicionesAgentesServiceImpl implements RegistroPosicionesA
     public List<String> getAllUorgNames() {
         List<String> uorgs = new LinkedList<>();
 
-        var query = "Select Distinct unidad_organizativa, id_unidad_organizativa From unidades_organizativas\n" +
+        String query = "Select Distinct unidad_organizativa, id_unidad_organizativa From unidades_organizativas\n" +
                 "Join registro_posiciones_agentes ON registro_posiciones_agentes.id_uorg = unidades_organizativas.id_unidad_organizativa" +
                 " Order By id_unidad_organizativa";
 

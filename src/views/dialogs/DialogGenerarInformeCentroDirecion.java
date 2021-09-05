@@ -40,7 +40,7 @@ public class DialogGenerarInformeCentroDirecion {
 
         //GeneradorLocator.getGenerarInformeCentroDireccion().generarInformeCentroDireccion(Date.valueOf(fechaCierre.getValue()));
         progressBar.setVisible(true);
-        Task<Boolean> task = new Task<>() {
+        Task<Boolean> task = new Task<Boolean>() {
             boolean result = false;
 
             @Override

@@ -16,9 +16,9 @@ public class CodigoPaseServiceImpl implements CodigoPaseService {
     public CodigoPase getCodigoPaseById(int id) {
         CodigoPase codigoPase = new CodigoPase();
 
-        var query = "Select * From codigo_pase_identificativo Where id=" + id;
+        String query = "Select * From codigo_pase_identificativo Where id=" + id;
         try {
-            var resultSet = Util.executeQuery(query);
+            ResultSet resultSet = Util.executeQuery(query);
             codigoPase = recuperarResulsetOneObject(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -30,7 +30,7 @@ public class CodigoPaseServiceImpl implements CodigoPaseService {
     public CodigoPase getCodigoByName(String name) {
         CodigoPase codigoPase = new CodigoPase();
         try {
-            var query = "Select * From codigo_pase_identificativo Where codigo='" + name + "'";
+            String query = "Select * From codigo_pase_identificativo Where codigo='" + name + "'";
             codigoPase = recuperarResulsetOneObject(Util.executeQuery(query));
         } catch (SQLException e) {
             e.printStackTrace();
@@ -40,7 +40,7 @@ public class CodigoPaseServiceImpl implements CodigoPaseService {
 
     @Override
     public int saveCodigoPase(CodigoPase codigoPase) throws SQLException {
-        var function = "{call save_codigo_pase(?)}";
+        String function = "{call save_codigo_pase(?)}";
         CallableStatement statement = Conexion.getConnection().prepareCall(function);
         statement.setString(1, codigoPase.getCodigo());
         statement.execute();
@@ -52,7 +52,7 @@ public class CodigoPaseServiceImpl implements CodigoPaseService {
     public List<CodigoPase> getAllCodigo() {
         List<CodigoPase> codigoPaseList = new LinkedList<>();
         try {
-            var function = "Select * from codigo_pase_identificativo";
+            String function = "Select * from codigo_pase_identificativo";
             codigoPaseList = recuperarListaCodigoPase(Util.executeQuery(function));
         } catch (SQLException e) {
 
@@ -63,7 +63,7 @@ public class CodigoPaseServiceImpl implements CodigoPaseService {
 
     @Override
     public void deleteCodigoPase(int id) throws SQLException {
-        var function = "{call eliminar_codigo_pase(?)}";
+        String function = "{call eliminar_codigo_pase(?)}";
         CallableStatement statement = Conexion.getConnection().prepareCall(function);
         statement.setInt(1, id);
         statement.execute();

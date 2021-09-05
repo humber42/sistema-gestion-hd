@@ -15,7 +15,7 @@ public class ProveedoresServicioServiceImpl implements ProveedorServicioService 
 
     @Override
     public List<ProveedorServicio> getAllProveedorServicio() {
-        var query = "Select * FROM proveedores_servicio_agentes";
+        String query = "Select * FROM proveedores_servicio_agentes";
         try{
             return this.recuperarListaResulset(Util.executeQuery(query));
         }catch (SQLException e ){
@@ -27,7 +27,7 @@ public class ProveedoresServicioServiceImpl implements ProveedorServicioService 
     @Override
 
     public ProveedorServicio getByName(String name){
-        var query = "Select * from proveedores_servicio_agentes where proveedores_servicio = '"+ name +"'";
+        String query = "Select * from proveedores_servicio_agentes where proveedores_servicio = '"+ name +"'";
         ProveedorServicio ps = null;
         try {
             ResultSet rs = Util.executeQuery(query);
@@ -41,7 +41,7 @@ public class ProveedoresServicioServiceImpl implements ProveedorServicioService 
 
     @Override
     public ProveedorServicio getById(int id) {
-        var query = "Select * from proveedores_servicio_agentes where id = " + id;
+        String query = "Select * from proveedores_servicio_agentes where id = " + id;
         ProveedorServicio ps = null;
         try {
             ResultSet rs = Util.executeQuery(query);
@@ -54,7 +54,7 @@ public class ProveedoresServicioServiceImpl implements ProveedorServicioService 
 
     @Override
     public void deleteProveedorServicioById(int id) {
-        var query = "DELETE FROM proveedores_servicio_agentes where id = " + id;
+        String query = "DELETE FROM proveedores_servicio_agentes where id = " + id;
         try{
             Util.executeQuery(query);
         } catch (SQLException e){
@@ -64,7 +64,7 @@ public class ProveedoresServicioServiceImpl implements ProveedorServicioService 
 
     @Override
     public void registerProveedorServicio(ProveedorServicio proveedorServicio) {
-        var function = "{call insert_proveedor(?)}";
+        String function = "{call insert_proveedor(?)}";
         try {
             CallableStatement statement = Conexion.getConnection().prepareCall(function);
             statement.setString(1, proveedorServicio.getProveedorServicio());
@@ -77,7 +77,7 @@ public class ProveedoresServicioServiceImpl implements ProveedorServicioService 
 
     @Override
     public void updateProveedorServicio(ProveedorServicio proveedorServicio) {
-        var function = "{call update_proveedor(?,?)}";
+        String function = "{call update_proveedor(?,?)}";
         try {
             CallableStatement statement = Conexion.getConnection().prepareCall(function);
             statement.setInt(1, proveedorServicio.getId());

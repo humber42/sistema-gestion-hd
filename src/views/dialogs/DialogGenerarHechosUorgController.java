@@ -128,7 +128,7 @@ public class DialogGenerarHechosUorgController {
 
     private void executeInforme() throws NullPointerException {
 
-        Task<Boolean> tarea = new Task<>() {
+        Task<Boolean> tarea = new Task<Boolean>() {
             boolean result = false;
             LinkedList<Hechos> hechos = new LinkedList<>();
             int mes = 0;

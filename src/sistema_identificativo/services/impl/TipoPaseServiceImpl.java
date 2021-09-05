@@ -16,7 +16,7 @@ public class TipoPaseServiceImpl implements TipoPaseService {
 
     @Override
     public int saveTipoPase(TipoPase tipoPase) throws SQLException {
-        var function = "{call add_tipo_pase(?)}";
+        String function = "{call add_tipo_pase(?)}";
         CallableStatement statement = Conexion.getConnection().prepareCall(function);
         statement.setString(1, tipoPase.getTipoPase());
         statement.execute();
@@ -29,7 +29,7 @@ public class TipoPaseServiceImpl implements TipoPaseService {
     public TipoPase getTipoPaseByName(String name) {
         TipoPase tipoPase = new TipoPase();
         try {
-            var query = "Select * FROM tipos_pase_identificativo WHERE tipo_pase='" + name + "'";
+            String query = "Select * FROM tipos_pase_identificativo WHERE tipo_pase='" + name + "'";
             tipoPase = recuperarObjeto(Util.executeQuery(query));
         } catch (SQLException e) {
             e.printStackTrace();
@@ -41,7 +41,7 @@ public class TipoPaseServiceImpl implements TipoPaseService {
     public List<TipoPase> getAllTipoPase() {
         List<TipoPase> tipoPaseList = new LinkedList<>();
         try {
-            var query = "Select * From tipos_pase_identificativo";
+            String query = "Select * From tipos_pase_identificativo";
             tipoPaseList = recuperarListaObjetos(Util.executeQuery(query));
         } catch (SQLException e) {
             e.printStackTrace();
@@ -53,7 +53,7 @@ public class TipoPaseServiceImpl implements TipoPaseService {
     public TipoPase getTipoPaseById(int id) {
         TipoPase tipoPase = new TipoPase();
         try {
-            var query = "Select * from tipos_pase_identificativo WHERE id=" + id;
+            String query = "Select * from tipos_pase_identificativo WHERE id=" + id;
             tipoPase = recuperarObjeto(Util.executeQuery(query));
         } catch (SQLException e) {
             e.printStackTrace();
@@ -63,7 +63,7 @@ public class TipoPaseServiceImpl implements TipoPaseService {
 
     @Override
     public void deleteTipoPaseById(int id) throws SQLException {
-        var function = "{call delete_tipo_pase(?)}";
+        String function = "{call delete_tipo_pase(?)}";
         CallableStatement statement = Conexion.getConnection().prepareCall(function);
         statement.setInt(1, id);
         statement.execute();
@@ -78,7 +78,7 @@ public class TipoPaseServiceImpl implements TipoPaseService {
             Statement statement = Conexion.getConnection().createStatement(
                 ResultSet.TYPE_SCROLL_SENSITIVE,
                 ResultSet.CONCUR_READ_ONLY);
-            var query = "Select * from tipos_pase_identificativo where tipo_pase = '" + passType + "'";
+            String query = "Select * from tipos_pase_identificativo where tipo_pase = '" + passType + "'";
             ResultSet rs = statement.executeQuery(query);
             while(rs.next()){
                 code = rs.getInt(1);

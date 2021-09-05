@@ -22,7 +22,7 @@ public class HechosServiceImpl implements HechosService {
         Hechos hechos = new Hechos();
         String query = "SELECT * FROM hechos WHERE id_reg=" + Integer.toString(id);
         try {
-            var resultSet = Util.executeQuery(query);
+            ResultSet resultSet = Util.executeQuery(query);
             if (resultSet.next())
                 hechos = recuperarResultSetHechos(resultSet);
             resultSet.close();
@@ -33,12 +33,12 @@ public class HechosServiceImpl implements HechosService {
     }
 
     public LinkedList<Hechos> fetchAllHechos(String limit, String offset) {
-        var query = "SELECT * FROM hechos ORDER BY hechos.id_reg DESC LIMIT " + limit + " OFFSET " + offset;
+        String query = "SELECT * FROM hechos ORDER BY hechos.id_reg DESC LIMIT " + limit + " OFFSET " + offset;
         return this.recuperarListaResultSet(query);
     }
 
     public LinkedList<Hechos> fetchAllHechos2(String limit, String offset) {
-        var query = "SELECT * FROM hechos Order By fecha_ocurrencia Desc LIMIT " + limit + " OFFSET " + offset;
+        String query = "SELECT * FROM hechos Order By fecha_ocurrencia Desc LIMIT " + limit + " OFFSET " + offset;
         return this.recuperarListaResultSet(query);
     }
 
@@ -50,7 +50,7 @@ public class HechosServiceImpl implements HechosService {
      */
     public void registrarHecho(Hechos hechos, TipoVandalismo vandalismo) throws SQLException {
         this.registrarHecho(hechos);
-        var function = "{call registrar_hecho_delito_tpubl(?,?)}";
+        String function = "{call registrar_hecho_delito_tpubl(?,?)}";
         try {
             CallableStatement callableStatement = Conexion.getConnection().prepareCall(function);
             callableStatement.setInt(1, this.searchHechoByCODCDNT(hechos.getCod_cdnt()).getId_reg());
@@ -73,7 +73,7 @@ public class HechosServiceImpl implements HechosService {
     public void registrarHecho(Hechos hechos, boolean imputable, boolean incidente) throws SQLException {
         this.registrarHecho(hechos);
         //Actualizar con accidente de transito
-        var function = "{call registrar_hecho_accidente_transito(?,?,?)}";
+        String function = "{call registrar_hecho_accidente_transito(?,?,?)}";
         try {
             CallableStatement callableStatement = Conexion.getConnection().prepareCall(function);
             callableStatement.setInt(1, this.searchHechoByCODCDNT(hechos.getCod_cdnt()).getId_reg());
@@ -98,7 +98,7 @@ public class HechosServiceImpl implements HechosService {
     public void registrarHecho(Hechos hechos, TipoMateriales materiales, int cantidad) throws SQLException {
         this.registrarHecho(hechos);
         //Actualizar el hecho con los materiales afectados y la cantidad
-        var function = "{call registrar_hecho_delito_vs_pext(?,?,?)}";
+        String function = "{call registrar_hecho_delito_vs_pext(?,?,?)}";
         try {
             CallableStatement callableStatement = Conexion.getConnection().prepareCall(function);
             callableStatement.setInt(1, this.searchHechoByCODCDNT(hechos.getCod_cdnt()).getId_reg());
@@ -113,7 +113,7 @@ public class HechosServiceImpl implements HechosService {
     }
 
     /**
-     * Funcion para salvar el hecho en la base de datos
+     * Funcion para salString el hecho en la base de datos
      *
      * @param hechos hechos model
      */
@@ -145,9 +145,9 @@ public class HechosServiceImpl implements HechosService {
 
     public Hechos searchHechoByCODCDNT(String cod_cdnt) {
         Hechos hechos = new Hechos();
-        var query = "Select * FROM hechos WHERE cod_cdnt= '" + cod_cdnt + "'";
+        String query = "Select * FROM hechos WHERE cod_cdnt= '" + cod_cdnt + "'";
         try {
-            var resultset = Util.executeQuery(query);
+            ResultSet resultset = Util.executeQuery(query);
             if (resultset.next())
                 hechos = this.recuperarResultSetHechos(resultset);
             resultset.close();
@@ -159,32 +159,32 @@ public class HechosServiceImpl implements HechosService {
 
     @Override
     public LinkedList<Hechos> fetchHechosPextTpub(String offset) throws PSQLException {
-        var query = "SELECT * From hechos WHERE hechos.id_tipo_hecho = 1 or hechos.id_tipo_hecho =2 ORDER BY fecha_ocurrencia Limit 30 Offset " + offset;
+        String query = "SELECT * From hechos WHERE hechos.id_tipo_hecho = 1 or hechos.id_tipo_hecho =2 ORDER BY fecha_ocurrencia Limit 30 Offset " + offset;
         return recuperarListaResultSet(query);
     }
 
     @Override
     public int countHechos() {
-        var query = "Select count(id_reg) From hechos WHERE id_tipo_hecho=1 or id_tipo_hecho=2";
+        String query = "Select count(id_reg) From hechos WHERE id_tipo_hecho=1 or id_tipo_hecho=2";
         return Util.count(query);
     }
 
     @Override
     public LinkedList<Hechos> fetchBySubStringCodCDNT(String codCdnt, String offset) {
-        var query = "SELECT * From hechos WHERE (hechos.id_tipo_hecho = 1 or hechos.id_tipo_hecho =2) and cod_cdnt LIKE '%" + codCdnt + "%' ORDER BY fecha_ocurrencia LIMIT 10 OFFSET " + offset;
+        String query = "SELECT * From hechos WHERE (hechos.id_tipo_hecho = 1 or hechos.id_tipo_hecho =2) and cod_cdnt LIKE '%" + codCdnt + "%' ORDER BY fecha_ocurrencia LIMIT 10 OFFSET " + offset;
         return recuperarListaResultSet(query);
 
     }
 
     @Override
     public int countAllHechos() {
-        var query = "SELECT count(id_reg) FROM hechos";
+        String query = "SELECT count(id_reg) FROM hechos";
         return Util.count(query);
     }
 
     @Override
     public int countfetchBySubStringCodCDNT(String codCdnt) {
-        var query = "SELECT count(id_reg) From hechos WHERE (hechos.id_tipo_hecho = 1 or hechos.id_tipo_hecho =2) and cod_cdnt LIKE '%" + codCdnt + "%'";
+        String query = "SELECT count(id_reg) From hechos WHERE (hechos.id_tipo_hecho = 1 or hechos.id_tipo_hecho =2) and cod_cdnt LIKE '%" + codCdnt + "%'";
         return Util.count(query);
     }
 
@@ -248,7 +248,7 @@ public class HechosServiceImpl implements HechosService {
             statement.setString(2, fechaInicio);
             statement.setInt(3, tipoHecho);
             statement.execute();
-            var resultSet = statement.getResultSet();
+            ResultSet resultSet = statement.getResultSet();
             if (resultSet.next()) {
                 cant = resultSet.getInt(1);
             }
@@ -304,7 +304,7 @@ public class HechosServiceImpl implements HechosService {
     public LinkedList<EstacionesPublicas> getEstacionesPublicasCant() {
         LinkedList<EstacionesPublicas> estacionesPublicas = new LinkedList<>();
         try {
-            var resultSet = Util.executeQuery("SELECT * from cantidad_estaciones_publicas_unidades_organizativas()");
+            ResultSet resultSet = Util.executeQuery("SELECT * from cantidad_estaciones_publicas_unidades_organizativas()");
             while (resultSet.next()) {
                 estacionesPublicas.add(
                         new EstacionesPublicas(
@@ -398,7 +398,7 @@ public class HechosServiceImpl implements HechosService {
     @Override
     public LinkedList<Afectaciones> afectacionesTPubMunicipio(Date date) {
         LinkedList<Afectaciones> afectacionesLinkedList = new LinkedList<>();
-        var function = "{call obtener_telefonia_publica_municipios_anno(?,?)}";
+        String function = "{call obtener_telefonia_publica_municipios_anno(?,?)}";
 
         try {
             CallableStatement statement = Conexion.getConnection().prepareCall(function);
@@ -417,9 +417,9 @@ public class HechosServiceImpl implements HechosService {
     @Override
     public LinkedList<Afectaciones> calculoServiciosAfectadosEstacionesPublicas(Date date) {
         LinkedList<Afectaciones> afectacionesLinkedList = new LinkedList<>();
-        var query = "Select * From obtener_telefonia_publica_anno(" + date.toLocalDate().getYear() + "::double precision)";
+        String query = "Select * From obtener_telefonia_publica_anno(" + date.toLocalDate().getYear() + "::double precision)";
         try {
-            var resulset = Util.executeQuery(query);
+            ResultSet resulset = Util.executeQuery(query);
             afectacionesLinkedList = recuperararAfectaciones(resulset);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -427,7 +427,7 @@ public class HechosServiceImpl implements HechosService {
 
         query = "Select * FROM obtener_telefonia_publica_habana_anno(" + date.toLocalDate().getYear() + "::double precision,29,30,31,32)";
         try {
-            var resultset = Util.executeQuery(query);
+            ResultSet resultset = Util.executeQuery(query);
             if (resultset.next()) {
                 afectacionesLinkedList.add(new Afectaciones(
                         resultset.getString(1),
@@ -449,7 +449,7 @@ public class HechosServiceImpl implements HechosService {
     @Override
     public LinkedList<HechosMesAnno> hechosMesesAnno(Date date) {
         LinkedList<HechosMesAnno> hechosMesAnnos = new LinkedList<>();
-        var query = "SELECT * FROM obtener_hechos_mes_anno(" + date.toLocalDate().getYear() + "::double precision)";
+        String query = "SELECT * FROM obtener_hechos_mes_anno(" + date.toLocalDate().getYear() + "::double precision)";
         try {
             hechosMesAnnos = recuperarHechosMesAnno(Util.executeQuery(query));
         } catch (SQLException e) {
@@ -461,7 +461,7 @@ public class HechosServiceImpl implements HechosService {
     @Override
     public LinkedList<HechosUOrgAnno> hechosUnidadOranizativaList(Date date) {
         LinkedList<HechosUOrgAnno> hechosUOrgAnnos = new LinkedList<>();
-        var function = "{call obtener_hechos_uorg_hasta_fecha(?,?)}";
+        String function = "{call obtener_hechos_uorg_hasta_fecha(?,?)}";
         try {
             CallableStatement statement = Conexion.getConnection().prepareCall(function);
             statement.setDate(1, date);
@@ -479,7 +479,7 @@ public class HechosServiceImpl implements HechosService {
     @Override
     public LinkedList<HechosUorgMesAnno> obtenerCantidadHechosUOrgPorMes(int anno, int tipoHecho) {
         LinkedList<HechosUorgMesAnno> hechosUorgMesAnnos = new LinkedList<>();
-        var function = "{call obtener_cantidad_hechos_uorg_por_mes(?,?)}";
+        String function = "{call obtener_cantidad_hechos_uorg_por_mes(?,?)}";
         try {
             CallableStatement statement = Conexion.getConnection().prepareCall(function);
             statement.setDouble(1, anno);
@@ -497,7 +497,7 @@ public class HechosServiceImpl implements HechosService {
     @Override
     public LinkedList<HechosCertifico> obtenerHechosParaCertifico(int anno, int mes) {
         LinkedList<HechosCertifico> hechosCertificos = new LinkedList<>();
-        var query = "SELECT * FROM obtener_cant_hechos_delictivos_mes_anno(" + anno + "," + mes + ")";
+        String query = "SELECT * FROM obtener_cant_hechos_delictivos_mes_anno(" + anno + "," + mes + ")";
         try {
             hechosCertificos = recuperarHechosCertifico(Util.executeQuery(query));
         } catch (SQLException e) {
@@ -508,20 +508,20 @@ public class HechosServiceImpl implements HechosService {
 
     @Override
     public LinkedList<Hechos> obtenerHechosParaUnidadOrganizativaPorMesYAnno(int mes, int anno, int uorg) {
-        var query = "Select * From hechos_por_uorg_mes_anno(" + uorg + "," + anno + "," + mes + ")";
+        String query = "Select * From hechos_por_uorg_mes_anno(" + uorg + "," + anno + "," + mes + ")";
         return recuperarListaResultSet(query);
     }
 
     @Override
     public LinkedList<Hechos> obtenerHechosResumenMincom(int anno, int mes) {
-        var query = "Select * from obtener_hechos_para_resumen_mincom(" + anno + "," + mes + ")";
+        String query = "Select * from obtener_hechos_para_resumen_mincom(" + anno + "," + mes + ")";
         return recuperarListaResultSet(query);
     }
 
     @Override
     public LinkedList<HechosPrevenidos> obtenerHechosPrevenidos(int year) {
         LinkedList<HechosPrevenidos> prevenidos = new LinkedList<>();
-        var query = "Select * from obtener_cantidad_hechos_prevenidos(" + year + ")";
+        String query = "Select * from obtener_cantidad_hechos_prevenidos(" + year + ")";
         try {
             prevenidos = recuperarHechosPrevenidos(Util.executeQuery(query));
         } catch (SQLException e) {
@@ -532,14 +532,14 @@ public class HechosServiceImpl implements HechosService {
 
     @Override
     public LinkedList<Hechos> obtenerHechosDatosPendientes(int year) {
-        var query = "Select * FROM obtener_hechos_denuncia_perdidas(" + year + ")";
+        String query = "Select * FROM obtener_hechos_denuncia_perdidas(" + year + ")";
         return recuperarListaResultSet(query);
     }
 
     @Override
     public AfectacionesServiciosAfectados obtenerAfectacionServicio(Date inicio, Date fin, int tipoHecho) {
         AfectacionesServiciosAfectados afectado = new AfectacionesServiciosAfectados();
-        var function = "{call obtener_afectaciones_rango_fecha(?,?,?)}";
+        String function = "{call obtener_afectaciones_rango_fecha(?,?,?)}";
         try {
             CallableStatement statement = Conexion.getConnection().prepareCall(function);
             statement.setDate(1, inicio);
@@ -559,7 +559,7 @@ public class HechosServiceImpl implements HechosService {
     @Override
     public LinkedList<CantidadDelitoRangoFecha> obtenerCantidadDelitoRangoFecha(Date inicio, Date fin) {
         LinkedList<CantidadDelitoRangoFecha> delitoRangoFechas = new LinkedList<>();
-        var function = "{call obtener_cant_hechos_delictivos_rango_fecha(?,?)}";
+        String function = "{call obtener_cant_hechos_delictivos_rango_fecha(?,?)}";
         try {
             CallableStatement statement = Conexion.getConnection().prepareCall(function);
             statement.setDate(1, inicio);
@@ -577,7 +577,7 @@ public class HechosServiceImpl implements HechosService {
 
     @Override
     public LinkedList<Hechos> obtenerHechosByTypeAndDate(double anno, int mes, int tipoHecho) {
-        var query = " Select * from obtener_cant_hechos__mes_o_anno(" + anno + "," + mes + "," + tipoHecho + ")";
+        String query = " Select * from obtener_cant_hechos__mes_o_anno(" + anno + "," + mes + "," + tipoHecho + ")";
         return recuperarListaResultSet(query);
     }
 
@@ -864,7 +864,7 @@ public class HechosServiceImpl implements HechosService {
     private LinkedList<Hechos> recuperarListaResultSet(String query) {
         LinkedList<Hechos> hechos = new LinkedList<>();
         try {
-            var resultset = Util.executeQuery(query);
+            ResultSet resultset = Util.executeQuery(query);
             while (resultset.next()) {
                 hechos.add(recuperarResultSetHechos(resultset));
             }
@@ -971,7 +971,7 @@ public class HechosServiceImpl implements HechosService {
     }
 
     public void editarHechos(Hechos hechos)throws SQLException{
-        var function = "{call editar_hechos(?,?,?,?)}";
+        String function = "{call editar_hechos(?,?,?,?)}";
         CallableStatement statement = Conexion.getConnection().prepareCall(function);
         statement.setInt(1,hechos.getId_reg());
         statement.setString(2,hechos.getTitulo());
@@ -982,7 +982,7 @@ public class HechosServiceImpl implements HechosService {
     }
 
     public void eliminarHechos (Hechos hechos)throws SQLException{
-        var function = "{call eliminar_hechos(?)}";
+        String function = "{call eliminar_hechos(?)}";
         CallableStatement statement = Conexion.getConnection().prepareCall(function);
         statement.setInt(1,hechos.getId_reg());
         statement.execute();

@@ -112,7 +112,7 @@ public class AddPicturePendingToPass {
             @Override
             protected Boolean call() throws Exception {
                 uploadPhoto();
-                String image = StringUtils.cleanPath(new File(Util.renombrarPath(profilePhoto.getImage().getUrl())).getName()).replace(" ","%20");
+                String image = StringUtils.cleanPath(new File(Util.renombrarPath(profilePhoto.getImage().impl_getUrl())).getName()).replace(" ","%20");
                 try {
                     ServiceLocator.getRegistroPaseService().addPictureToRegistroPase(image, paseSeleccionado.getIdReg());
                 } catch (SQLException e) {
@@ -175,7 +175,7 @@ public class AddPicturePendingToPass {
     private void uploadPhoto() {
         try {
             PostFile postFile = new PostFile(ConfigProperties.getProperties().getProperty("URL_IMAGE_SERVER"),
-                    Util.renombrarPath(this.profilePhoto.getImage().getUrl()));
+                    Util.renombrarPath(this.profilePhoto.getImage().impl_getUrl()));
             postFile.post();
         } catch (Exception e) {
             Logger.getLogger(PostFile.class.getName()).log(Level.SEVERE, null, e);

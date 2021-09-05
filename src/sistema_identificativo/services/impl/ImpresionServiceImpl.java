@@ -18,7 +18,7 @@ public class ImpresionServiceImpl implements ImpresionService {
 
     public List<Impresion> getAllImpressions(){
         List<Impresion> impresionList = new LinkedList<>();
-        var function = "{call obtener_impresiones()}";
+        String function = "{call obtener_impresiones()}";
         try {
             CallableStatement statement = Conexion.getConnection().prepareCall(function);
             statement.execute();
@@ -43,7 +43,7 @@ public class ImpresionServiceImpl implements ImpresionService {
     public List<Impresion> getAllByPassType(int passType){
         List<Impresion> impresionList = new LinkedList<>();
         try{
-            var query = SELECT + JOIN + " WHERE id_tipo_pase = "+passType;
+            String query = SELECT + JOIN + " WHERE id_tipo_pase = "+passType;
             impresionList = retrieveList(Util.executeQuery(query));
         } catch (SQLException e){
             e.printStackTrace();
@@ -54,7 +54,7 @@ public class ImpresionServiceImpl implements ImpresionService {
     public List<Impresion> getAllByContainName(String name){
         List<Impresion> impresionList = new LinkedList<>();
         try{
-            var query = SELECT + JOIN + " WHERE nombre LIKE '%"+name + "%'";
+            String query = SELECT + JOIN + " WHERE nombre LIKE '%"+name + "%'";
             impresionList = retrieveList(Util.executeQuery(query));
         } catch (SQLException e){
             e.printStackTrace();
@@ -65,7 +65,7 @@ public class ImpresionServiceImpl implements ImpresionService {
     public List<Impresion> getAllByPassTypeAndContainName(int passType, String name){
         List<Impresion> impresionList = new LinkedList<>();
         try{
-            var query = SELECT + JOIN + " WHERE id_tipo_pase = " + passType + " AND nombre LIKE '%"+ name + "%'";
+            String query = SELECT + JOIN + " WHERE id_tipo_pase = " + passType + " AND nombre LIKE '%"+ name + "%'";
             impresionList = retrieveList(Util.executeQuery(query));
         } catch (SQLException e){
             e.printStackTrace();

@@ -16,7 +16,7 @@ public class MunicipiosService {
         Municipio municipio = new Municipio();
         String query = "SELECT * FROM municipios WHERE id_municipio=" + Integer.toString(id);
         try {
-            var resultSet = Util.executeQuery(query);
+            ResultSet resultSet = Util.executeQuery(query);
             if (resultSet.next()) {
                 municipio = recuperarResultSet(resultSet);
             }
@@ -29,9 +29,9 @@ public class MunicipiosService {
 
     public List<Municipio> fetchAll() {
         List<Municipio> municipioList = new LinkedList<>();
-        var query = "SELECT * FROM municipios";
+        String query = "SELECT * FROM municipios";
         try {
-            var resultSet = Util.executeQuery(query);
+            ResultSet resultSet = Util.executeQuery(query);
             while (resultSet.next()) {
                 municipioList.add(recuperarResultSet(resultSet));
             }
@@ -45,9 +45,9 @@ public class MunicipiosService {
 
     public Municipio searchMunicipioByName(String name) {
         Municipio municipio = new Municipio();
-        var query = "Select * FROM municipios WHERE municipio = '" + name + "'";
+        String query = "Select * FROM municipios WHERE municipio = '" + name + "'";
         try {
-            var resultSet = Util.executeQuery(query);
+            ResultSet resultSet = Util.executeQuery(query);
             if (resultSet.next())
                 municipio = recuperarResultSet(resultSet);
         } catch (SQLException e) {
@@ -69,7 +69,7 @@ public class MunicipiosService {
     }
 
     public void insertarMunicipio (Municipio municipio) throws SQLException{
-        var function = "{call insertar_municipio(?)}";
+        String function = "{call insertar_municipio(?)}";
         CallableStatement callableStatement = Conexion.getConnection().prepareCall(function);
         callableStatement.setString(1,municipio.getMunicipio());
         callableStatement.execute();
@@ -77,7 +77,7 @@ public class MunicipiosService {
     }
 
     public void editarMunicipio (Municipio municipio)throws SQLException{
-        var function ="{call editar_municipio(?,?)}";
+        String function ="{call editar_municipio(?,?)}";
         CallableStatement callableStatement = Conexion.getConnection().prepareCall(function);
         callableStatement.setInt(1,municipio.getId_municipio());
         callableStatement.setString(2,municipio.getMunicipio());
@@ -86,7 +86,7 @@ public class MunicipiosService {
     }
 
     public void eliminarMunicipio(Municipio municipio)throws SQLException{
-        var function ="{call eliminar_municipio(?)}";
+        String function ="{call eliminar_municipio(?)}";
         CallableStatement callableStatement = Conexion.getConnection().prepareCall(function);
         callableStatement.setInt(1,municipio.getId_municipio());
         callableStatement.execute();

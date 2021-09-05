@@ -16,7 +16,7 @@ public class UnidadOrganizativaService {
 
     public UnidadOrganizativa getOneUnidadOrganizativa(int id) {
         UnidadOrganizativa unidadOrganizativa = new UnidadOrganizativa();
-        var query = "SELECT * FROM unidades_organizativas WHERE id_unidad_organizativa=" + Integer.toString(id);
+        String query = "SELECT * FROM unidades_organizativas WHERE id_unidad_organizativa=" + Integer.toString(id);
 
         try {
             Statement statement = Conexion.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
@@ -36,11 +36,11 @@ public class UnidadOrganizativaService {
     }
 
     public List<UnidadOrganizativa> fetchAll() {
-        var query = "SELECT * FROM unidades_organizativas";
+        String query = "SELECT * FROM unidades_organizativas";
         List<UnidadOrganizativa> unidadOrganizativaList = new LinkedList<>();
 
         try {
-            var resultSet = Util.executeQuery(query);
+            ResultSet resultSet = Util.executeQuery(query);
             while (resultSet.next()) {
                 unidadOrganizativaList.add(recuperarUnidadOraganizativa(resultSet));
             }
@@ -51,11 +51,11 @@ public class UnidadOrganizativaService {
     }
 
     public UnidadOrganizativa searchUnidadOrganizativaByName(String name) {
-        var query = "Select * FROM unidades_organizativas WHERE unidad_organizativa = '" + name + "'";
+        String query = "Select * FROM unidades_organizativas WHERE unidad_organizativa = '" + name + "'";
         UnidadOrganizativa unidadOrganizativa = new UnidadOrganizativa();
 
         try {
-            var resutltSet = Util.executeQuery(query);
+            ResultSet resutltSet = Util.executeQuery(query);
             if (resutltSet.next())
                 unidadOrganizativa = recuperarUnidadOraganizativa(resutltSet);
         } catch (SQLException e) {
@@ -85,7 +85,7 @@ public class UnidadOrganizativaService {
 
     public void insertarUnidadOrganizativa (UnidadOrganizativa unidadOrganizativa) throws SQLException{
 
-        var function ="{call insertar_unidad_organizativa(?)}";
+        String function ="{call insertar_unidad_organizativa(?)}";
         CallableStatement statement = Conexion.getConnection().prepareCall(function);
         statement.setString(1,unidadOrganizativa.getUnidad_organizativa());
         statement.execute();
@@ -93,7 +93,7 @@ public class UnidadOrganizativaService {
     }
 
     public void editarUnidadOrganizativa (UnidadOrganizativa unidadOrganizativa) throws SQLException{
-        var function ="{call editar_unidad_organizativa(?,?)}";
+        String function ="{call editar_unidad_organizativa(?,?)}";
         CallableStatement callableStatement =Conexion.getConnection().prepareCall(function);
         callableStatement.setInt(1,unidadOrganizativa.getId_unidad_organizativa());
         callableStatement.setString(2,unidadOrganizativa.getUnidad_organizativa());
@@ -102,7 +102,7 @@ public class UnidadOrganizativaService {
     }
 
     public void eliminarUnidadOrganizativa(UnidadOrganizativa unidadOrganizativa) throws  SQLException{
-        var function ="{call eliminar_unidad_organizativa(?)}";
+        String function ="{call eliminar_unidad_organizativa(?)}";
         CallableStatement callableStatement =Conexion.getConnection().prepareCall(function);
         callableStatement.setInt(1,unidadOrganizativa.getId_unidad_organizativa());
         callableStatement.execute();

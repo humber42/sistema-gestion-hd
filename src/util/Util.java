@@ -77,7 +77,7 @@ public class Util {
     public static int count(String sql) {
         int cantidadHechos = 0;
         try {
-            var resultset = Util.executeQuery(sql);
+            ResultSet resultset = Util.executeQuery(sql);
             if (resultset.next()) {
                 cantidadHechos = resultset.getInt("count");
             }

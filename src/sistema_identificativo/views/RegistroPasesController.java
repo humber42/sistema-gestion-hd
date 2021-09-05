@@ -321,7 +321,7 @@ public class RegistroPasesController {
 
         int baja = this.passLow.isSelected() ? 1 : 0;
         String observacion = this.observations.getText();
-        String urlImage = StringUtils.cleanPath(new File(Util.renombrarPath(this.profilePhoto.getImage().getUrl())).getName()).replace(" ","%20");
+        String urlImage = StringUtils.cleanPath(new File(Util.renombrarPath(this.profilePhoto.getImage().impl_getUrl())).getName()).replace(" ","%20");
 
         RegistroPase pase = new RegistroPase(0,
                 tipoPase, codigoPase, passNumber, ci,
@@ -370,7 +370,7 @@ public class RegistroPasesController {
     private void uploadPhoto() {
         try {
             PostFile postFile = new PostFile(ConfigProperties.getProperties().getProperty("URL_IMAGE_SERVER"),
-                    Util.renombrarPath(this.profilePhoto.getImage().getUrl()));
+                    Util.renombrarPath(this.profilePhoto.getImage().impl_getUrl()));
             postFile.post();
         } catch (Exception e) {
             Logger.getLogger(PostFile.class.getName()).log(Level.SEVERE, null, e);

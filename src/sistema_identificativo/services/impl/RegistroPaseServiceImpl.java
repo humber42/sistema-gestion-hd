@@ -17,7 +17,7 @@ public class RegistroPaseServiceImpl implements RegistroPaseService {
 
     @Override
     public int addPictureToRegistroPase(String imagen, int idRegistro) throws SQLException {
-        var function = "{call add_picture_registro_pase(?,?)}";
+        String function = "{call add_picture_registro_pase(?,?)}";
         CallableStatement statement = Conexion.getConnection().prepareCall(function);
         statement.setInt(1, idRegistro);
         statement.setString(2, imagen);
@@ -34,7 +34,7 @@ public class RegistroPaseServiceImpl implements RegistroPaseService {
                 .getCodigoByName(codigoPase);
         String numeroPase = "";
 
-        var query = "Select * from obtener_mayor_numero_pase(" + tipoPaseObject.getId() + "," + codigoPaseObject.getId() + ")";
+        String query = "Select * from obtener_mayor_numero_pase(" + tipoPaseObject.getId() + "," + codigoPaseObject.getId() + ")";
         try {
             ResultSet set = Util.executeQuery(query);
             if (set.next()) {
@@ -53,21 +53,21 @@ public class RegistroPaseServiceImpl implements RegistroPaseService {
 
     @Override
     public int saveRegistroPase(RegistroPase registroPase) throws SQLException {
-        var function = "{call crear_pase_whithout_date(?,?,?,?,?,?,?,?,?,?)}";
+        String function = "{call crear_pase_whithout_date(?,?,?,?,?,?,?,?,?,?)}";
         CallableStatement statement = Conexion.getConnection().prepareCall(function);
         statement.setInt(1, registroPase.getTipoPase().getId());// id_tipo_pase integer,
         statement.setInt(2, registroPase.getCodigoPase().getId());//id_codigo_pase integer
-        statement.setString(3, registroPase.getNumeroPase());//numero_pase character varying
-        statement.setString(4, registroPase.getNumeroIdentidad());//numero_identidad character varying
-        statement.setString(5, registroPase.getNombre());//nombre character varying
+        statement.setString(3, registroPase.getNumeroPase());//numero_pase character Stringying
+        statement.setString(4, registroPase.getNumeroIdentidad());//numero_identidad character Stringying
+        statement.setString(5, registroPase.getNombre());//nombre character Stringying
         statement.setInt(6, registroPase.getUnidadOrganizativa().getId_unidad_organizativa());//id_unidad_organizativa integer
-        statement.setString(7, registroPase.getAcceso());//acceso character varying,
+        statement.setString(7, registroPase.getAcceso());//acceso character Stringying,
 //        String fecha = registroPase.getFechaValidez().toString();
 //        System.out.println(fecha);
         //statement.setDate(8, Date.valueOf(fecha));//fecha_validez date
         statement.setInt(8, registroPase.getBaja());//baja integer
-        statement.setString(9, registroPase.getObservaciones());//observaciones character varying
-        statement.setString(10, registroPase.getImageUrl());//image character varying
+        statement.setString(9, registroPase.getObservaciones());//observaciones character Stringying
+        statement.setString(10, registroPase.getImageUrl());//image character Stringying
         statement.execute();
         statement.close();
 
@@ -86,7 +86,7 @@ public class RegistroPaseServiceImpl implements RegistroPaseService {
      * @throws SQLException Exception throw by PostgreSql Server
      */
     private void actualizarFecha(RegistroPase registroPase) throws SQLException {
-        var function = "{call add_date_to_pass_register(?,?)}";
+        String function = "{call add_date_to_pass_register(?,?)}";
         CallableStatement statement = Conexion.getConnection().prepareCall(function);
         statement.setString(1, registroPase.getNumeroIdentidad());
         statement.setDate(2, registroPase.getFechaValidez());
@@ -98,7 +98,7 @@ public class RegistroPaseServiceImpl implements RegistroPaseService {
     public List<RegistroPase> getAllRegistroPase() {
         List<RegistroPase> registroPaseList = new LinkedList<>();
         try {
-            var query = "Select * From registro_pases";
+            String query = "Select * From registro_pases";
             registroPaseList = recuperarLista(Util.executeQuery(query));
         } catch (SQLException e) {
             e.printStackTrace();
@@ -110,7 +110,7 @@ public class RegistroPaseServiceImpl implements RegistroPaseService {
     public RegistroPase getRegistroPaseById(int id) {
         RegistroPase registroPase = new RegistroPase();
         try {
-            var query = "Select * from registro_pases where id_reg =" + id;
+            String query = "Select * from registro_pases where id_reg =" + id;
             registroPase = this.recuperarRegistroPase(Util.executeQuery(query));
         } catch (SQLException e) {
             e.printStackTrace();
@@ -120,7 +120,7 @@ public class RegistroPaseServiceImpl implements RegistroPaseService {
 
     @Override
     public void deleteRegistroPase(int id) throws SQLException {
-        var function = "{call delete_registro_pase(?)}";
+        String function = "{call delete_registro_pase(?)}";
         CallableStatement statement = Conexion.getConnection().prepareCall(function);
         statement.setInt(1, id);
         statement.execute();
@@ -132,7 +132,7 @@ public class RegistroPaseServiceImpl implements RegistroPaseService {
     public List<String> pasesPendientesFoto() {
         List<String> pasesName = new LinkedList<>();
         try {
-            var query = "Select nombre from registro_pases " +
+            String query = "Select nombre from registro_pases " +
                     "where registro_pases.image_url='' or registro_pases.image_url=null or registro_pases.image_url='no-img.jpg'";
             ResultSet resultSet = Util.executeQuery(query);
             while (resultSet.next()) {
@@ -149,7 +149,7 @@ public class RegistroPaseServiceImpl implements RegistroPaseService {
     public RegistroPase getPaseByPassName(String passName) {
         RegistroPase pase = new RegistroPase();
         try {
-            var query = "Select * from registro_pases where nombre='" + passName + "'";
+            String query = "Select * from registro_pases where nombre='" + passName + "'";
             pase = recuperarRegistroPase(Util.executeQuery(query));
         } catch (SQLException e) {
             e.printStackTrace();
@@ -160,7 +160,7 @@ public class RegistroPaseServiceImpl implements RegistroPaseService {
 
     @Override
     public RegistroPase getPaseByCI(String CI) throws SQLException{
-        var query = "Select * from registro_pases where numero_identidad = '"+ CI + "'";
+        String query = "Select * from registro_pases where numero_identidad = '"+ CI + "'";
         RegistroPase pase = recuperarRegistroPase(Util.executeQuery(query));
         return pase;
     }
@@ -219,7 +219,7 @@ public class RegistroPaseServiceImpl implements RegistroPaseService {
 
     @Override
     public void updateSeleccionado(String identidad) throws SQLException{
-        var function = "{call update_selection_on_registro_pases(?)}";
+        String function = "{call update_selection_on_registro_pases(?)}";
         CallableStatement statement = Conexion.getConnection().prepareCall(function);
         statement.setString(1, identidad);
         statement.execute();
@@ -228,7 +228,7 @@ public class RegistroPaseServiceImpl implements RegistroPaseService {
 
     @Override
     public void deselectAllSelections() throws SQLException{
-        var function = "{call deselect_all_selected_on_registro_pases()}";
+        String function = "{call deselect_all_selected_on_registro_pases()}";
         CallableStatement statement = Conexion.getConnection().prepareCall(function);
         statement.execute();
         statement.close();

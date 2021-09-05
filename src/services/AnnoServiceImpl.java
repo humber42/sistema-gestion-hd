@@ -25,7 +25,7 @@ public class AnnoServiceImpl implements AnnoService {
         Anno anno = new Anno();
         String query = "SELECT * FROM anno WHERE anno.id_anno =" + Integer.toString(id_anno);
         try {
-            var rs = Util.executeQuery(query);
+            ResultSet rs = Util.executeQuery(query);
             if (rs.next()) {
                 anno = recuperarResultSet(rs);
             }
@@ -46,7 +46,7 @@ public class AnnoServiceImpl implements AnnoService {
         Anno anno = new Anno();
         String query = "SELECT * FROM annos WHERE annos.active = true";
         try {
-            var resultSet = Util.executeQuery(query);
+            ResultSet resultSet = Util.executeQuery(query);
             if (resultSet.next()) {
                 anno = recuperarResultSet(resultSet);
                 resultSet.close();
@@ -71,7 +71,7 @@ public class AnnoServiceImpl implements AnnoService {
         List<Anno> annoList = new LinkedList<Anno>();
         String query = "SELECT * FROM annos ORDER BY annos.anno DESC";
         try {
-            var resultSet = Util.executeQuery(query);
+            ResultSet resultSet = Util.executeQuery(query);
 
             while (resultSet.next()) {
                 Anno anno = recuperarResultSet(resultSet);

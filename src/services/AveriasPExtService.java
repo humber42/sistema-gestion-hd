@@ -78,7 +78,7 @@ public class AveriasPExtService {
     }
 
     public void insertarTipoAveria(AveriasPext averiasPext)throws SQLException{
-        var function = "{call insertar_averia_pext(?)}";
+        String function = "{call insertar_averia_pext(?)}";
         CallableStatement callableStatement = Conexion.getConnection().prepareCall(function);
         callableStatement.setString(1,averiasPext.getCausa());
         callableStatement.execute();
@@ -86,7 +86,7 @@ public class AveriasPExtService {
     }
 
     public void editarTipoAveria(AveriasPext averiasPext)throws SQLException{
-        var function = "{call editar_averia_pext(?,?)}";
+        String function = "{call editar_averia_pext(?,?)}";
         CallableStatement callableStatement = Conexion.getConnection().prepareCall(function);
         callableStatement.setInt(1,averiasPext.getId_avpext());
         callableStatement.setString(2,averiasPext.getCausa());
@@ -95,7 +95,7 @@ public class AveriasPExtService {
     }
 
     public void eliminarTipoAveria(AveriasPext averiasPext)throws SQLException{
-        var function = "{call eliminar_averia_pext(?)}";
+        String function = "{call eliminar_averia_pext(?)}";
         CallableStatement callableStatement = Conexion.getConnection().prepareCall(function);
         callableStatement.setInt(1,averiasPext.getId_avpext());
         callableStatement.execute();

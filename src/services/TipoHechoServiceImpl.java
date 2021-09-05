@@ -14,7 +14,7 @@ public class TipoHechoServiceImpl implements TipoHechoService {
 
     public TipoHecho getOneTipoHecho(int id) {
         TipoHecho tipoHecho = new TipoHecho();
-        var query = "SELECT * FROM tipo_hechos WHERE id_tipo_hecho=" + Integer.toString(id);
+        String query = "SELECT * FROM tipo_hechos WHERE id_tipo_hecho=" + Integer.toString(id);
 
         try {
             Statement statement = Conexion.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
@@ -32,11 +32,11 @@ public class TipoHechoServiceImpl implements TipoHechoService {
     }
 
     public List<TipoHecho> fetchAll() {
-        var query = "SELECT * FROM tipo_hechos";
+        String query = "SELECT * FROM tipo_hechos";
         List<TipoHecho> tipoHechoList = new LinkedList<>();
 
         try {
-            var resultSet = Util.executeQuery(query);
+            ResultSet resultSet = Util.executeQuery(query);
             while (resultSet.next()) {
                 tipoHechoList.add(recuperarResultSet(resultSet));
             }
@@ -49,10 +49,10 @@ public class TipoHechoServiceImpl implements TipoHechoService {
 
 
     public TipoHecho searchTipoHechoByName(String name) {
-        var query = "SELECT * FROM tipo_hechos WHERE tipo_hechos.tipo_hecho = '" + name + "'";
+        String query = "SELECT * FROM tipo_hechos WHERE tipo_hechos.tipo_hecho = '" + name + "'";
         TipoHecho tipoHecho = new TipoHecho();
         try {
-            var resultSet = Util.executeQuery(query);
+            ResultSet resultSet = Util.executeQuery(query);
             if (resultSet.next()) {
                 tipoHecho = recuperarResultSet(resultSet);
             }

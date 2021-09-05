@@ -15,7 +15,7 @@ public class TipoVandalismoService {
 
     public TipoVandalismo getOneTipoVandalismo(int id) {
         TipoVandalismo tipoVandalismo = new TipoVandalismo();
-        var query = "SELECT * FROM tipo_vandalismo WHERE id_afect_tpublica=" + Integer.toString(id);
+        String query = "SELECT * FROM tipo_vandalismo WHERE id_afect_tpublica=" + Integer.toString(id);
 
         try {
             Statement statement = Conexion.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
@@ -32,10 +32,10 @@ public class TipoVandalismoService {
     }
 
     public TipoVandalismo searchVandalismoByName(String name) {
-        var query = "SELECT * FROM tipo_vandalismo WHERE afect_tpublica = '" + name + "'";
+        String query = "SELECT * FROM tipo_vandalismo WHERE afect_tpublica = '" + name + "'";
         TipoVandalismo tipoVandalismo = new TipoVandalismo();
         try {
-            var resultSet = Util.executeQuery(query);
+            ResultSet resultSet = Util.executeQuery(query);
             if (resultSet.next())
                 tipoVandalismo = recuperarTipoVandalismo(resultSet);
         } catch (SQLException e) {
@@ -46,10 +46,10 @@ public class TipoVandalismoService {
 
     public List<TipoVandalismo> fetchAll() {
         List<TipoVandalismo> tipoVandalismoList = new LinkedList<>();
-        var query = "SELECT * FROM tipo_vandalismo";
+        String query = "SELECT * FROM tipo_vandalismo";
 
         try {
-            var resultSet = Util.executeQuery(query);
+            ResultSet resultSet = Util.executeQuery(query);
             while (resultSet.next()) {
                 tipoVandalismoList.add(recuperarTipoVandalismo(resultSet));
             }
@@ -72,7 +72,7 @@ public class TipoVandalismoService {
     }
 
     public void insertarTipoDeVandalismo(TipoVandalismo tipoVandalismo)throws SQLException {
-        var function = "{call inserta_tipo_vandalismo(?)}";
+        String function = "{call inserta_tipo_vandalismo(?)}";
         CallableStatement callableStatement = Conexion.getConnection().prepareCall(function);
         callableStatement.setString(1,tipoVandalismo.getAfect_tpublica());
         callableStatement.execute();
@@ -80,7 +80,7 @@ public class TipoVandalismoService {
     }
 
     public void editarTipoDeVandalismo(TipoVandalismo tipoVandalismo)throws SQLException{
-        var function = "{call editar_tipo_vandalismo(?,?)}";
+        String function = "{call editar_tipo_vandalismo(?,?)}";
         CallableStatement callableStatement = Conexion.getConnection().prepareCall(function);
         callableStatement.setInt(1,tipoVandalismo.getId_afect_tpublica());
         callableStatement.setString(2,tipoVandalismo.getAfect_tpublica());
@@ -89,7 +89,7 @@ public class TipoVandalismoService {
     }
 
     public void eliminarTipoDeVandalismo(TipoVandalismo tipoVandalismo)throws SQLException{
-        var fonction = "{call eliminar_tipo_vandalismo(?)}";
+        String fonction = "{call eliminar_tipo_vandalismo(?)}";
         CallableStatement callableStatement = Conexion.getConnection().prepareCall(fonction);
         callableStatement.setInt(1,tipoVandalismo.getId_afect_tpublica());
         callableStatement.execute();

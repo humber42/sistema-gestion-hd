@@ -15,7 +15,7 @@ import java.util.List;
 public class TarifaPosicionAgenteServiceImpl implements TarifaPosicionAgenteService {
     @Override
     public List<TarifasPosicionAgente> getAll(){
-        var query = "Select * from tarifas_posiciones_agentes";
+        String query = "Select * from tarifas_posiciones_agentes";
         List<TarifasPosicionAgente> tarifas = new LinkedList<>();
         try{
             ResultSet rs = Util.executeQuery(query);
@@ -29,7 +29,7 @@ public class TarifaPosicionAgenteServiceImpl implements TarifaPosicionAgenteServ
     @Override
     public TarifasPosicionAgente getTarifaById(int id){
         TarifasPosicionAgente tarifa = null;
-        var query = "Select * from tarifas_posiciones_agentes where id_tarifa = " + id;
+        String query = "Select * from tarifas_posiciones_agentes where id_tarifa = " + id;
         try {
             ResultSet rs = Util.executeQuery(query);
             tarifa = getTarifaFromRS(rs);
@@ -42,7 +42,7 @@ public class TarifaPosicionAgenteServiceImpl implements TarifaPosicionAgenteServ
 
     @Override
     public void deleteByID(int id){
-        var query = "Delete from tarifas_posiciones_agentes Where id_tarifa = " + id;
+        String query = "Delete from tarifas_posiciones_agentes Where id_tarifa = " + id;
         try {
             Util.executeQuery(query);
         } catch (SQLException e){
@@ -52,7 +52,7 @@ public class TarifaPosicionAgenteServiceImpl implements TarifaPosicionAgenteServ
 
     @Override
     public TarifasPosicionAgente getTarifaByUoAndProv(int id_uorg, int id_prov){
-        var query = "Select * from tarifas_posiciones_agentes where id_uorg = " + id_uorg + "" +
+        String query = "Select * from tarifas_posiciones_agentes where id_uorg = " + id_uorg + "" +
                 " and id_pservicio = " + id_prov;
         TarifasPosicionAgente tarifa = null;
         try {
@@ -66,7 +66,7 @@ public class TarifaPosicionAgenteServiceImpl implements TarifaPosicionAgenteServ
 
     @Override
     public void registerTarifa(TarifasPosicionAgente tarifasPosicionAgente){
-        var function = "{call insert_tarifa(?,?,?)}";
+        String function = "{call insert_tarifa(?,?,?)}";
         try {
             CallableStatement statement = Conexion.getConnection().prepareCall(function);
             statement.setInt(1, tarifasPosicionAgente.getUnidadOrganizativa().getId_unidad_organizativa());
@@ -81,7 +81,7 @@ public class TarifaPosicionAgenteServiceImpl implements TarifaPosicionAgenteServ
 
     @Override
     public void updateTarifa(TarifasPosicionAgente tarifasPosicionAgente){
-        var function = "{call update_tarifa(?,?)}";
+        String function = "{call update_tarifa(?,?)}";
         try {
             CallableStatement statement = Conexion.getConnection().prepareCall(function);
             statement.setInt(1, tarifasPosicionAgente.getIdTarifa());

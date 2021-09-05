@@ -198,7 +198,7 @@ public class DialogGenerarPrevencionController {
 //                    .generarInformePrevencion(fechas.getFirst(),fechas.getLast());
         if (Objects.nonNull(fechas)) {
             progressBar.setVisible(true);
-            Task<Boolean> task = new Task<>() {
+            Task<Boolean> task = new Task<Boolean>() {
                 boolean result = false;
 
                 @Override

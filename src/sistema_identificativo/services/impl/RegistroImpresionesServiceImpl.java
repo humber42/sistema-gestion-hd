@@ -31,7 +31,7 @@ public class RegistroImpresionesServiceImpl implements RegistroImpresionesServic
 
     @Override
     public int saveRegistroImpresiones(RegistroImpresiones registroImpresiones) throws SQLException {
-        var function = "{call add_impressions(?,?,?)}";
+        String function = "{call add_impressions(?,?,?)}";
         CallableStatement statement = Conexion.getConnection().prepareCall(function);
         statement.setInt(1, registroImpresiones.getPase().getIdReg());
         statement.setInt(2, registroImpresiones.getCantidadImpresiones());
@@ -41,7 +41,7 @@ public class RegistroImpresionesServiceImpl implements RegistroImpresionesServic
 
     @Override
     public int updateRegistroImpresiones(RegistroImpresiones registroImpresiones) throws SQLException {
-        var function = "{call update_impressions(?,?,?,?)}";
+        String function = "{call update_impressions(?,?,?,?)}";
         CallableStatement statement = Conexion.getConnection().prepareCall(function);
         statement.setInt(1, registroImpresiones.getId());
         statement.setInt(2, registroImpresiones.getPase().getIdReg());
@@ -55,7 +55,7 @@ public class RegistroImpresionesServiceImpl implements RegistroImpresionesServic
     public List<RegistroImpresiones> getAllRegistroImpresiones() {
         List<RegistroImpresiones> registroImpresionesList = new LinkedList<>();
         try {
-            var query = "Select * from registro_impresiones";
+            String query = "Select * from registro_impresiones";
             registroImpresionesList = recuperarLista(Util.executeQuery(query));
         } catch (SQLException e) {
             e.printStackTrace();
@@ -67,7 +67,7 @@ public class RegistroImpresionesServiceImpl implements RegistroImpresionesServic
     public RegistroImpresiones getRegistroImpresionesById(int id) {
         RegistroImpresiones registroImpresiones = new RegistroImpresiones();
         try {
-            var query = "Select * registro_impresiones Where id=" + id;
+            String query = "Select * registro_impresiones Where id=" + id;
             registroImpresiones = this.recuperarObjeto(Util.executeQuery(query));
         } catch (SQLException e) {
             e.printStackTrace();
@@ -79,7 +79,7 @@ public class RegistroImpresionesServiceImpl implements RegistroImpresionesServic
     public RegistroImpresiones getRegistroImpresionesByIdReg(int idReg) {
         RegistroImpresiones registroImpresiones = new RegistroImpresiones();
         try {
-            var query = "Select * From registro_impresiones WHERE id_reg=" + idReg;
+            String query = "Select * From registro_impresiones WHERE id_reg=" + idReg;
             registroImpresiones = recuperarObjeto(Util.executeQuery(query));
         } catch (SQLException e) {
 
@@ -90,7 +90,7 @@ public class RegistroImpresionesServiceImpl implements RegistroImpresionesServic
 
     @Override
     public void deleteRegistroImpresionesById(int id) throws SQLException {
-        var function = "{call delete_impressions(?)}";
+        String function = "{call delete_impressions(?)}";
         CallableStatement statement = Conexion.getConnection().prepareCall(function);
         statement.setInt(1, id);
         statement.execute();
@@ -99,7 +99,7 @@ public class RegistroImpresionesServiceImpl implements RegistroImpresionesServic
 
     @Override
     public int updateLastImpressionAndQuanty(int id) throws SQLException{
-        var function = "{call update_last_impression_and_quanty(?)}";
+        String function = "{call update_last_impression_and_quanty(?)}";
         CallableStatement statement = Conexion.getConnection().prepareCall(function);
         statement.setInt(1,id);
         statement.execute();
@@ -109,7 +109,7 @@ public class RegistroImpresionesServiceImpl implements RegistroImpresionesServic
 
     @Override
     public int saveNuevoRegistroImpresion(int id_reg) throws SQLException{
-        var function = "{call save_new_impression(?)}";
+        String function = "{call save_new_impression(?)}";
         CallableStatement statement = Conexion.getConnection().prepareCall(function);
         statement.setInt(1,id_reg);
         statement.execute();
