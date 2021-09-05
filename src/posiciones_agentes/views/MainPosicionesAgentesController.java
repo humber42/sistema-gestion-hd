@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 import models.UnidadOrganizativa;
 import org.controlsfx.dialog.ExceptionDialog;
 import posiciones_agentes.excels_generators.ExcelGeneratorLocator;
+import posiciones_agentes.views.dialogs.DialogGenerarResumenPorUOController;
 import services.ServiceLocator;
 import util.Util;
 
@@ -93,8 +94,26 @@ public class MainPosicionesAgentesController {
 
     @FXML
     private void generarResumenPorUOrg(){
-        ExcelGeneratorLocator.getResumenUnidadOrganizativa().generarResumenUnidadOrganizativa("src/informesGenerados/ResumenPosiciones"+"DTPR"+".xlsx",
-                ServiceLocator.getUnidadOrganizativaService().searchUnidadOrganizativaByName("DTPR"));
+        try{
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainPosicionesAgentesController.class.getResource("../views/dialogs/DialogGenerarResumenPorUO.fxml"));
+            AnchorPane pane = loader.load();
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Generar resumen por unidad organizativa");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.setResizable(false);
+            dialogStage.initOwner(this.mainApp);
+            Scene scene = new Scene(pane);
+            dialogStage.setScene(scene);
+
+            DialogGenerarResumenPorUOController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            dialogStage.showAndWait();
+        } catch (IOException e) {
+
+            ExceptionDialog dialog = new ExceptionDialog(e);
+            dialog.showAndWait();
+        }
     }
 
     @FXML
