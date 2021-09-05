@@ -115,7 +115,12 @@ public class TarifaPosicionAgenteServiceImpl implements TarifaPosicionAgenteServ
 
         try {
             while (rs.next()) {
-                tarifas.add(this.getTarifaFromRS(rs));
+                tarifas.add(new TarifasPosicionAgente(
+                        rs.getInt(1),
+                        ServiceLocator.getUnidadOrganizativaService().getOneUnidadOrganizativa(rs.getInt(2)),
+                        ServiceLocator.getProveedorServicioService().getById(rs.getInt(3)),
+                        rs.getDouble(4)
+                ));
             }
         } catch (SQLException e){
             e.printStackTrace();

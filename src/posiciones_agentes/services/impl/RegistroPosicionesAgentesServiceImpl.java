@@ -97,7 +97,20 @@ public class RegistroPosicionesAgentesServiceImpl implements RegistroPosicionesA
 
     @Override
     public List<String> getAllUorgNames() {
-        return null;
+        List<String> uorgs = new LinkedList<>();
+
+        var query = "Select Distinct unidad_organizativa From unidades_organizativas\n" +
+                "Join registro_posiciones_agentes ON registro_posiciones_agentes.id_uorg = unidades_organizativas.id_unidad_organizativa";
+
+        try {
+            ResultSet rs = Util.executeQuery(query);
+            while(rs.next()){
+                uorgs.add(rs.getString(1));
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return uorgs;
     }
 
     private RegistroPosicionesAgentes obtenerObjeto(ResultSet rs){

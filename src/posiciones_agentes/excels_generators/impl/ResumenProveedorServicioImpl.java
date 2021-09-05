@@ -6,6 +6,6 @@ public class ResumenProveedorServicioImpl implements ResumenProveedorServicio {
 
     @Override
     public boolean generarResumenProveedorServicio(String path) {
-        return false;
+       return false;
     }
 }

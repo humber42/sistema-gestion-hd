@@ -38,20 +38,21 @@ public class ResumenGeneralGeneratorImpl implements ResumenGeneralGenerator {
             //Creo el encabezado
             ExcelWorksheet sheet = workbook.addWorksheet("Listado "+ (hojas==0?"":hojas));
 
-            this.generateEncabezado("A1:A2","No",sheet);
-            this.generateEncabezado("B1:B2","U/O",sheet);
+            this.generateEncabezado("A1:A2","No",sheet, true);
+            this.generateEncabezado("B1:B2","U/O",sheet, true);
             this.generateEncabezado("C1:C2","Posición de ASP\n" +
-                    "(Instalación que Protege)",sheet);
-            sheet.getColumn("C").setWidth(190,LengthUnit.PIXEL);
-            this.generateEncabezado("D1:D2","Proveedor de servicio",sheet);
-            sheet.getColumn("D").setWidth(105,LengthUnit.PIXEL);
-            this.generateEncabezado("E1:E2","Cantidad de efectivos",sheet);
-            sheet.getColumn("E").setWidth(120, LengthUnit.PIXEL);
-            this.generateEncabezado("F1:F2","Horas en Días Laborables",sheet);
-            sheet.getColumn("F").setWidth(121,LengthUnit.PIXEL);
-            sheet.getColumn("G").setWidth(123,LengthUnit.PIXEL);
-            this.generateEncabezado("G1:G2", "Horas en Días No Laborables",sheet);
-            this.generateEncabezado("H1:H2","Gasto anual",sheet);
+                    "(Instalación que Protege)",sheet, true);
+           sheet.getColumn("C").setWidth(190,LengthUnit.PIXEL);
+            this.generateEncabezado("D1:D2","Proveedor de servicio",sheet, true);
+          sheet.getColumn("D").setWidth(105,LengthUnit.PIXEL);
+            this.generateEncabezado("E1:E2","Cantidad de efectivos",sheet, true);
+          sheet.getColumn("E").setWidth(120, LengthUnit.PIXEL);
+            this.generateEncabezado("F1:F2","Horas en Días Laborables",sheet, true);
+          sheet.getColumn("F").setWidth(121,LengthUnit.PIXEL);
+            this.generateEncabezado("G1:G2", "Horas en Días No Laborables",sheet, true);
+          sheet.getColumn("G").setWidth(123,LengthUnit.PIXEL);
+            this.generateEncabezado("H1:H2","Gasto anual",sheet, true);
+
 
             //freezing rows 1 and 2
             sheet.setPanes(new WorksheetPanes(PanesState.FROZEN_SPLIT,0,2,"A3", PanePosition.BOTTOM_LEFT));
@@ -70,7 +71,26 @@ public class ResumenGeneralGeneratorImpl implements ResumenGeneralGenerator {
     private boolean generarResumenXUO(ExcelFile workbook){
         if(workbook.getWorksheets().size()<5) {
             ExcelWorksheet sheet = workbook.addWorksheet("Resumen X UO");
+            generateEncabezado("A1:A2", "U/O", sheet, true);
+            generateEncabezado("B1:B2", "Cantidad Posiciones", sheet, true);
+            generateEncabezado("C1:G1", "Proveedor de Servicio", sheet, true);
+            generateEncabezado("C2", "SEPSA", sheet, false);
+            generateEncabezado("D2", "SEPCOM", sheet, false);
+            generateEncabezado("E2", "CAP", sheet, false);
+            generateEncabezado("F2", "AGESP", sheet, false);
+            generateEncabezado("G2", "Otros", sheet, false);
+            generateEncabezado("H1:H2", "Gasto Anual", sheet, true);
 
+            int pages = 1;
+            int size = ServiceLocator.getRegistroPosicionesAgentesService().getAllUorgNames().size();
+
+            while (pages > 0){
+                int row = 3;
+                while (row < size){
+                    row++;
+                }
+                pages--;
+            }
         }else{
             Util.dialogResult("No se pudo generar el resumen por Unidad Organizativa las posiciones exceden 740, genere el resumen por Unidad organizativa individualmente",
                     Alert.AlertType.WARNING);
@@ -78,12 +98,12 @@ public class ResumenGeneralGeneratorImpl implements ResumenGeneralGenerator {
         return true;
     }
 
-
-    private void generateEncabezado(String range, String label,ExcelWorksheet sheet){
+    private void generateEncabezado(String range, String label,ExcelWorksheet sheet, boolean merged){
         CellRange cell = sheet.getCells().getSubrange(range);
-        cell.setMerged(true);
         cell.setValue(label);
         cell.setStyle(Util.generarStilo());
+        if(merged)
+            cell.setMerged(true);
     }
 
     private void writeCellOnListado(int tupla,ExcelWorksheet sheet, RegistroPosicionesAgentes posicionAgente){
@@ -104,4 +124,5 @@ public class ResumenGeneralGeneratorImpl implements ResumenGeneralGenerator {
             System.out.println(tupla);
         }
     }
+
 }
