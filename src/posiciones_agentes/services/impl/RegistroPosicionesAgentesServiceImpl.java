@@ -99,8 +99,9 @@ public class RegistroPosicionesAgentesServiceImpl implements RegistroPosicionesA
     public List<String> getAllUorgNames() {
         List<String> uorgs = new LinkedList<>();
 
-        var query = "Select Distinct unidad_organizativa From unidades_organizativas\n" +
-                "Join registro_posiciones_agentes ON registro_posiciones_agentes.id_uorg = unidades_organizativas.id_unidad_organizativa";
+        var query = "Select Distinct unidad_organizativa, id_unidad_organizativa From unidades_organizativas\n" +
+                "Join registro_posiciones_agentes ON registro_posiciones_agentes.id_uorg = unidades_organizativas.id_unidad_organizativa" +
+                " Order By id_unidad_organizativa";
 
         try {
             ResultSet rs = Util.executeQuery(query);

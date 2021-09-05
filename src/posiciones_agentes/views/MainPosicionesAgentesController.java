@@ -1,5 +1,6 @@
 package posiciones_agentes.views;
 
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -8,11 +9,13 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import models.UnidadOrganizativa;
 import org.controlsfx.dialog.ExceptionDialog;
 import posiciones_agentes.excels_generators.ExcelGeneratorLocator;
 import services.ServiceLocator;
 import util.Util;
+import views.dialogs.DialogLoadingController;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -22,6 +25,8 @@ public class MainPosicionesAgentesController {
     private Stage mainApp;
     private BorderPane panelPosicionesAgentes;
     private BorderPane panelGrande;
+
+    private Stage dialogStage;
 
     public void setPanelGrande(BorderPane panelGrande) {
         this.panelGrande = panelGrande;
@@ -99,8 +104,48 @@ public class MainPosicionesAgentesController {
 
     @FXML
     private void generarResumenGeneral(){
-        ExcelGeneratorLocator.getResumenGeneralGenerator()
-                .generarResumen("src/informesGenerados/ResumenGeneralPosiciones.xlsx");
-        Util.dialogResult("Generado", Alert.AlertType.INFORMATION);
+        String path = "src/informesGenerados/ResumenGeneralPosiciones.xlsx";
+        Task<Boolean> task = new Task<Boolean>() {
+            @Override
+            protected Boolean call() throws Exception {
+                ExcelGeneratorLocator.getResumenGeneralGenerator()
+                        .generarResumen(path);
+                return true;
+            }
+            @Override
+            protected void succeeded(){
+                super.succeeded();
+                dialogStage.close();
+                Util.dialogResult("Generado", Alert.AlertType.INFORMATION);
+                try {
+                    Runtime.getRuntime().exec("cmd /c start " + path);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        this.loadDialogLoading(mainApp);
+        Thread th = new Thread(task);
+        th.setDaemon(true);
+        th.start();
+    }
+
+    private void loadDialogLoading(Stage mainApp){
+        try{
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainPosicionesAgentesController.class.getResource("../../views/dialogs/DialogLoading.fxml"));
+            AnchorPane panel = loader.load();
+            dialogStage = new Stage();
+            dialogStage.setScene(new Scene(panel));
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(mainApp);
+            dialogStage.initStyle(StageStyle.UNDECORATED);
+            DialogLoadingController controller = loader.getController();
+            controller.setLabelText("Cargando");
+            dialogStage.show();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
     }
 }
