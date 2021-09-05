@@ -4,6 +4,7 @@ import com.gembox.spreadsheet.*;
 import javafx.scene.control.Alert;
 import org.apache.poi.hssf.record.formula.functions.Len;
 import posiciones_agentes.excels_generators.ResumenGeneralGenerator;
+import posiciones_agentes.models.ProveedorGasto;
 import posiciones_agentes.models.RegistroPosicionesAgentes;
 import posiciones_agentes.models.UOrgPosiciones;
 import posiciones_agentes.utils.CalculoByOurg;
@@ -22,7 +23,8 @@ public class ResumenGeneralGeneratorImpl implements ResumenGeneralGenerator {
     public boolean generarResumen(String path) {
         ExcelFile workbook = new ExcelFile();
         boolean result = false;
-        if (this.generarListado(workbook) && this.generarResumenXUO(workbook)) {
+        if (this.generarListado(workbook) && this.generarResumenXUO(workbook)
+                && this.generarResumenXPS(workbook)) {
             try {
                 workbook.save(path);
                 result = true;
@@ -84,22 +86,18 @@ public class ResumenGeneralGeneratorImpl implements ResumenGeneralGenerator {
             generateEncabezado("G2", "Otros", sheet, false);
             generateEncabezado("H1:H2", "Gasto Anual", sheet, true);
 
-            int pages = 1;
-
             sheet.setPanes(new WorksheetPanes(PanesState.FROZEN_SPLIT, 0, 2, "A3", PanePosition.BOTTOM_LEFT));
 
             List<UOrgPosiciones> uOrgPosicionesList = CalculoByOurg.obtenerUOrgByPosicionesList();
 
             int row = 3;
 
-            while (pages > 0) {
-                while ((row-3) < uOrgPosicionesList.size()) {
-                    UOrgPosiciones uOrgPosiciones = uOrgPosicionesList.get(row-3);
-                    writeCellForResumenUO(row, sheet, uOrgPosiciones);
-                    row++;
-                }
-                pages--;
+            while ((row-3) < uOrgPosicionesList.size()) {
+                UOrgPosiciones uOrgPosiciones = uOrgPosicionesList.get(row-3);
+                writeCellForResumenUO(row, sheet, uOrgPosiciones);
+                row++;
             }
+
             generateFooter(row,sheet);
         } else {
             Util.dialogResult("No se pudo generar el resumen por Unidad Organizativa las posiciones exceden 740, genere el resumen por Unidad organizativa individualmente",
@@ -162,5 +160,52 @@ public class ResumenGeneralGeneratorImpl implements ResumenGeneralGenerator {
         sheet.getCell("F"+finalRecord).setFormula("=SUM(F3:F"+(finalRecord-1)+")");
         sheet.getCell("G"+finalRecord).setFormula("=SUM(G3:G"+(finalRecord-1)+")");
         sheet.getCell("H"+finalRecord).setFormula("=SUM(H3:H"+(finalRecord-1)+")");
+    }
+
+    private boolean generarResumenXPS(ExcelFile workbook){
+        if (workbook.getWorksheets().size() < 5) {
+            ExcelWorksheet sheet = workbook.addWorksheet("Resumen x PS");
+            generateEncabezado("A1:A2", "Proveedor de Servicio", sheet, true);
+            sheet.getColumn("A").setWidth(105, LengthUnit.PIXEL);
+            generateEncabezado("B1:B2", "Cantidad Posiciones", sheet, true);
+            sheet.getColumn("B").setWidth(75, LengthUnit.PIXEL);
+            generateEncabezado("C1:C2", "Gasto Anual", sheet, true);
+
+            List<ProveedorGasto> proveedorGastoList = CalculoByOurg.calculoProveedorGasto();
+
+            int row = 3;
+            while ((row-3) < proveedorGastoList.size()){
+               writeCellOnResumenXPS(row, sheet, proveedorGastoList.get(row-3));
+               row++;
+            }
+
+            generateFooterOnResumenXPS(row, sheet);
+        }
+        else {
+        Util.dialogResult("No se pudo generar el resumen por Proveedores de Servicios porque se ha excedido el límite de hojas. Genere el resumen por Proveedores de Servicios individualmente.",
+                Alert.AlertType.WARNING);
+        }
+        return true;
+    }
+
+    private void writeCellOnResumenXPS(int record, ExcelWorksheet sheet, ProveedorGasto pg) {
+        sheet.getCells().getSubrange("A" + record + ":C" + record).forEach(cell ->
+                cell.setStyle(Util.generarBordes())
+        );
+
+        sheet.getCell("A"+record).setValue(pg.getProveedor());
+        sheet.getCell("B"+record).setValue(pg.getCantPosiciones());
+        sheet.getCell("C"+record).setValue(pg.getGasto());
+    }
+
+    private void generateFooterOnResumenXPS(int finalRecord, ExcelWorksheet sheet){
+        sheet.getCells().getSubrange("A" + finalRecord + ":C" + finalRecord).forEach(cell -> {
+                    cell.setStyle(Util.generarBordes());
+                    cell.setStyle(Util.generarStilo());
+                }
+        );
+        sheet.getCell("A"+finalRecord).setValue("Total:");
+        sheet.getCell("B"+finalRecord).setFormula("=SUM(B3:B"+(finalRecord-1)+")");
+        sheet.getCell("C"+finalRecord).setFormula("=SUM(C3:C"+(finalRecord-1)+")");
     }
 }

@@ -167,4 +167,33 @@ public class MainPosicionesAgentesController {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    private void generarResumenPS(){
+        String path = "src/informesGenerados/ResumenProveedoresServicio.xlsx";
+        Task<Boolean> task = new Task<Boolean>() {
+            @Override
+            protected Boolean call() throws Exception {
+                ExcelGeneratorLocator.getResumenProveedorServicio()
+                        .generarResumenProveedorServicio(path);
+                return true;
+            }
+            @Override
+            protected void succeeded(){
+                super.succeeded();
+                dialogStage.close();
+                Util.dialogResult("Generado", Alert.AlertType.INFORMATION);
+                try {
+                    Runtime.getRuntime().exec("cmd /c start " + path);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        this.loadDialogLoading(mainApp);
+        Thread th = new Thread(task);
+        th.setDaemon(true);
+        th.start();
+    }
 }

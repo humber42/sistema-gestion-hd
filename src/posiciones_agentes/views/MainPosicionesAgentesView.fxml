@@ -40,7 +40,7 @@
                      <accelerator>
                         <KeyCodeCombination alt="DOWN" code="U" control="UP" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
-                  <MenuItem mnemonicParsing="false" text="Resumen por proveedor de servicio" />
+                  <MenuItem mnemonicParsing="false" text="Resumen por proveedor de servicio" onAction="#generarResumenPS"/>
                </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Ayuda">
