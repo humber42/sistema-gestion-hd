@@ -1,5 +1,7 @@
 package posiciones_agentes.utils;
 
+import posiciones_agentes.models.ProveedorGasto;
+import posiciones_agentes.models.ProveedorServicio;
 import posiciones_agentes.models.RegistroPosicionesAgentes;
 import posiciones_agentes.models.UOrgPosiciones;
 import services.ServiceLocator;
@@ -44,5 +46,29 @@ public class CalculoByOurg {
         });
 
         return uOrgPosiciones;
+    }
+
+    public static List<ProveedorGasto> calculoProveedorGasto(){
+        List<ProveedorGasto> proveedorGastoList = new LinkedList<>();
+        //Obteniendo info
+        List<ProveedorServicio> proveedores = ServiceLocator.getProveedorServicioService().getAllProveedorServicio();
+        List<RegistroPosicionesAgentes> registroPosicionesAgentesList = ServiceLocator.getRegistroPosicionesAgentesService().getAllRegistroPosicionesAgentes();
+
+        //Procesamiento
+        proveedores.forEach(proveedorServicio -> {
+            ProveedorGasto proveedorGasto = new ProveedorGasto();
+            proveedorGasto.setProveedor(proveedorServicio.getProveedorServicio());
+            List<RegistroPosicionesAgentes> registroPosicionesAgentes =registroPosicionesAgentesList
+                    .stream()
+                    .filter(registro->registro.getProveedorServicio().getProveedorServicio().equalsIgnoreCase(proveedorServicio.getProveedorServicio()))
+                    .collect(Collectors.toList());
+            proveedorGasto.setCantPosiciones(registroPosicionesAgentes.size());
+            registroPosicionesAgentes.forEach(registro->{
+                proveedorGasto.setGasto(proveedorGasto.getGasto()+CalculoTarifas.calculateByProviderOnAYear(registro,LocalDate.now().getYear()));
+            });
+            proveedorGastoList.add(proveedorGasto);
+        });
+
+        return proveedorGastoList;
     }
 }
