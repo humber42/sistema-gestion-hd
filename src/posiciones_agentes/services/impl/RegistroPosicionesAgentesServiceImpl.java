@@ -15,8 +15,7 @@ import java.util.List;
 public class RegistroPosicionesAgentesServiceImpl implements RegistroPosicionesAgentesService {
     @Override
     public List<RegistroPosicionesAgentes> getAllRegistroPosicionesAgentes() {
-        var query = "select * from registro_posiciones_agentes " +
-                " group by registro_posiciones_agentes.id_uorg, registro_posiciones_agentes.id_reg";
+        var query = "select * from registro_posiciones_agentes order by id_uorg";
         List<RegistroPosicionesAgentes> posList = new LinkedList<>();
         try{
             posList = obtenerLista(Util.executeQuery(query));
@@ -96,6 +95,11 @@ public class RegistroPosicionesAgentesServiceImpl implements RegistroPosicionesA
         return list;
     }
 
+    @Override
+    public List<String> getAllUorgNames() {
+        return null;
+    }
+
     private RegistroPosicionesAgentes obtenerObjeto(ResultSet rs){
         RegistroPosicionesAgentes rpa = null;
         try {
@@ -121,7 +125,15 @@ public class RegistroPosicionesAgentesServiceImpl implements RegistroPosicionesA
         List<RegistroPosicionesAgentes> list = new LinkedList<>();
         try{
             while (rs.next()){
-                list.add(obtenerObjeto(rs));
+                list.add(new RegistroPosicionesAgentes(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        ServiceLocator.getUnidadOrganizativaService().getOneUnidadOrganizativa(rs.getInt(3)),
+                        ServiceLocator.getProveedorServicioService().getById(rs.getInt(4)),
+                        rs.getInt(5),
+                        rs.getInt(6),
+                        rs.getInt(7)
+                ));
             }
         } catch (SQLException e){
             e.printStackTrace();
