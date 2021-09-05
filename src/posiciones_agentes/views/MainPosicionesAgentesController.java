@@ -3,11 +3,16 @@ package posiciones_agentes.views;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import models.UnidadOrganizativa;
 import org.controlsfx.dialog.ExceptionDialog;
+import posiciones_agentes.excels_generators.ExcelGeneratorLocator;
+import services.ServiceLocator;
+import util.Util;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -84,5 +89,18 @@ public class MainPosicionesAgentesController {
             ExceptionDialog dialog = new ExceptionDialog(e);
             dialog.showAndWait();
         }
+    }
+
+    @FXML
+    private void generarResumenPorUOrg(){
+        ExcelGeneratorLocator.getResumenUnidadOrganizativa().generarResumenUnidadOrganizativa("src/informesGenerados/ResumenPosiciones"+"DTPR"+".xlsx",
+                ServiceLocator.getUnidadOrganizativaService().searchUnidadOrganizativaByName("DTPR"));
+    }
+
+    @FXML
+    private void generarResumenGeneral(){
+        ExcelGeneratorLocator.getResumenGeneralGenerator()
+                .generarResumen("src/informesGenerados/ResumenGeneralPosiciones.xlsx");
+        Util.dialogResult("Generado", Alert.AlertType.INFORMATION);
     }
 }

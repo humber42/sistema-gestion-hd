@@ -2,6 +2,7 @@ package posiciones_agentes.excels_generators.impl;
 
 import com.gembox.spreadsheet.*;
 import javafx.scene.control.Alert;
+import org.apache.poi.hssf.record.formula.functions.Len;
 import posiciones_agentes.excels_generators.ResumenGeneralGenerator;
 import posiciones_agentes.models.RegistroPosicionesAgentes;
 import posiciones_agentes.utils.CalculoTarifas;
@@ -41,11 +42,17 @@ public class ResumenGeneralGeneratorImpl implements ResumenGeneralGenerator {
             this.generateEncabezado("B1:B2","U/O",sheet, true);
             this.generateEncabezado("C1:C2","Posición de ASP\n" +
                     "(Instalación que Protege)",sheet, true);
+           sheet.getColumn("C").setWidth(190,LengthUnit.PIXEL);
             this.generateEncabezado("D1:D2","Proveedor de servicio",sheet, true);
+          sheet.getColumn("D").setWidth(105,LengthUnit.PIXEL);
             this.generateEncabezado("E1:E2","Cantidad de efectivos",sheet, true);
+          sheet.getColumn("E").setWidth(120, LengthUnit.PIXEL);
             this.generateEncabezado("F1:F2","Horas en Días Laborables",sheet, true);
+          sheet.getColumn("F").setWidth(121,LengthUnit.PIXEL);
             this.generateEncabezado("G1:G2", "Horas en Días No Laborables",sheet, true);
+          sheet.getColumn("G").setWidth(123,LengthUnit.PIXEL);
             this.generateEncabezado("H1:H2","Gasto anual",sheet, true);
+
 
             //freezing rows 1 and 2
             sheet.setPanes(new WorksheetPanes(PanesState.FROZEN_SPLIT,0,2,"A3", PanePosition.BOTTOM_LEFT));
@@ -103,14 +110,19 @@ public class ResumenGeneralGeneratorImpl implements ResumenGeneralGenerator {
         sheet.getCells().getSubrange("A"+tupla+":H"+tupla).forEach(cell->{
             cell.setStyle(Util.generarBordes());
         });
+        try{
         sheet.getCell("A"+tupla).setValue(tupla-2);
         sheet.getCell("B"+tupla).setValue(posicionAgente.getUnidadOrganizativa().getUnidad_organizativa());
         sheet.getCell("C"+tupla).setValue(posicionAgente.getInstalacion());
+        sheet.getCell("C"+tupla).getStyle().setHorizontalAlignment(HorizontalAlignmentStyle.JUSTIFY);
         sheet.getCell("D"+tupla).setValue(posicionAgente.getProveedorServicio().getProveedorServicio());
         sheet.getCell("E"+tupla).setValue(posicionAgente.getCantidadEfectivos());
         sheet.getCell("F"+tupla).setValue(posicionAgente.getHorasDiasLaborables());
         sheet.getCell("G"+tupla).setValue(posicionAgente.getHorasDiasNoLaborables());
-        sheet.getCell("H"+tupla).setValue(CalculoTarifas.calculateByProviderOnAYear(posicionAgente, LocalDate.now().getYear()));
+        sheet.getCell("H"+tupla).setValue(CalculoTarifas.calculateByProviderOnAYear(posicionAgente, LocalDate.now().getYear()));}
+        catch (NullPointerException e){
+            System.out.println(tupla);
+        }
     }
 
 }
