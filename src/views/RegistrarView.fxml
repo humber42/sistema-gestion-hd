@@ -4,8 +4,8 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="509.0" prefWidth="772.0"
-            xmlns="http://javafx.com/javafx/9.0.1" fx:controller="views.RegistrarViewController">
+<AnchorPane xmlns:fx="http://javafx.com/fxml" prefHeight="509.0" prefWidth="772.0"
+            xmlns="http://javafx.com/javafx" fx:controller="views.RegistrarViewController">
     <children>
         <GridPane layoutX="27.0" layoutY="96.0" prefHeight="167.0" prefWidth="392.0">
             <columnConstraints>

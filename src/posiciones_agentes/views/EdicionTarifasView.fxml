@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
-
-<AnchorPane prefHeight="263.0" prefWidth="427.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="posiciones_agentes.views.EdicionTarifasContoller">
+<AnchorPane xmlns:fx="http://javafx.com/fxml" prefHeight="263.0" prefWidth="427.0" xmlns="http://javafx.com/javafx"
+            fx:controller="posiciones_agentes.views.EdicionTarifasContoller">
    <children>
       <Label layoutX="137.0" layoutY="25.0" prefHeight="27.0" prefWidth="154.0" text="Edición de Tarifas">
          <font>

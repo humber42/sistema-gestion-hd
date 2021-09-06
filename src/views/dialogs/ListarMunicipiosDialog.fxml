@@ -4,14 +4,10 @@
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-
-<AnchorPane prefHeight="163.0" prefWidth="327.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.dialogs.ListarMunicipiosDialogController">
+<AnchorPane xmlns:fx="http://javafx.com/fxml" prefHeight="163.0" prefWidth="327.0" xmlns="http://javafx.com/javafx"
+            fx:controller="views.dialogs.ListarMunicipiosDialogController">
    <children>
       <Label fx:id="variableLabel" alignment="CENTER" layoutY="24.0" text="((variable))" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <font>

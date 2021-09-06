@@ -4,8 +4,8 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="panelPrincipal" prefHeight="523.0" prefWidth="631.0"
-            xmlns="http://javafx.com/javafx/9.0.1" fx:controller="views.EsclarecimientoViewController">
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:id="panelPrincipal" prefHeight="523.0" prefWidth="631.0"
+            xmlns="http://javafx.com/javafx" fx:controller="views.EsclarecimientoViewController">
     <children>
         <TitledPane animated="false" collapsible="false" layoutY="14.0" prefHeight="274.0" prefWidth="562.0"
                     text="Hecho" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">

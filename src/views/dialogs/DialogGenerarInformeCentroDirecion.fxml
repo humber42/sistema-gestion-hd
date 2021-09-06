@@ -5,8 +5,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="186.0" prefWidth="371.0"
-            xmlns="http://javafx.com/javafx/9.0.1" fx:controller="views.dialogs.DialogGenerarInformeCentroDirecion">
+<AnchorPane xmlns:fx="http://javafx.com/fxml" prefHeight="186.0" prefWidth="371.0"
+            xmlns="http://javafx.com/javafx" fx:controller="views.dialogs.DialogGenerarInformeCentroDirecion">
     <children>
         <GridPane layoutX="34.0" layoutY="78.0" prefHeight="30.0" prefWidth="302.0">
             <columnConstraints>

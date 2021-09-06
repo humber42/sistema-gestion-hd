@@ -3,17 +3,11 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXToggleButton?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.TitledPane?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-
-<AnchorPane prefHeight="537.0" prefWidth="652.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sistema_identificativo.views.ImprimirPasesController">
+<AnchorPane xmlns:fx="http://javafx.com/fxml" prefHeight="537.0" prefWidth="652.0" xmlns="http://javafx.com/javafx"
+            fx:controller="sistema_identificativo.views.ImprimirPasesController">
    <children>
       <Label alignment="CENTER" layoutX="183.0" layoutY="21.0" prefHeight="53.0" prefWidth="287.0" text="Imprimir pases">
          <font>

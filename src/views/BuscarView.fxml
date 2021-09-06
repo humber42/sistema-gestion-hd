@@ -5,8 +5,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="523.0" prefWidth="631.0"
-            xmlns="http://javafx.com/javafx/9.0.1" fx:controller="views.BuscarViewController">
+<AnchorPane xmlns:fx="http://javafx.com/fxml" prefHeight="523.0" prefWidth="631.0"
+            xmlns="http://javafx.com/javafx" fx:controller="views.BuscarViewController">
     <children>
         <TextField fx:id="titulo" layoutX="76.0" layoutY="81.0" prefHeight="26.0" prefWidth="283.0"
                    promptText="Introduzca el titulo del hecho"/>

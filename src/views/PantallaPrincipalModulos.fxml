@@ -5,8 +5,8 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="583.0" prefWidth="912.0"
-            xmlns="http://javafx.com/javafx/9.0.1" fx:controller="views.PanatallaPrincipalModulos">
+<AnchorPane xmlns:fx="http://javafx.com/fxml" prefHeight="583.0" prefWidth="912.0"
+            xmlns="http://javafx.com/javafx" fx:controller="views.PanatallaPrincipalModulos">
     <children>
         <BorderPane fx:id="pane" prefHeight="583.0" prefWidth="934.0">
             <left>

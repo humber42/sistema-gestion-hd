@@ -4,8 +4,8 @@
 <?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="149.0" prefWidth="171.0"
-            style="-fx-background-color: #687681;" xmlns="http://javafx.com/javafx/9.0.1"
+<AnchorPane xmlns:fx="http://javafx.com/fxml" prefHeight="149.0" prefWidth="171.0"
+            style="-fx-background-color: #687681;" xmlns="http://javafx.com/javafx"
             fx:controller="views.dialogs.DialogLoadingController">
     <children>
         <Label fx:id="loading" alignment="CENTER" layoutX="49.0" layoutY="121.0" text="Cargando..." textFill="WHITE"

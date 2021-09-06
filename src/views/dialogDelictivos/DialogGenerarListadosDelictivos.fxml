@@ -4,8 +4,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="220.0" prefWidth="419.0"
-            xmlns="http://javafx.com/javafx/9.0.1"
+<AnchorPane xmlns:fx="http://javafx.com/fxml" prefHeight="220.0" prefWidth="419.0"
+            xmlns="http://javafx.com/javafx"
             fx:controller="views.dialogDelictivos.DialogGenerarListadosDelictivos">
     <children>
         <Label fx:id="labelTitulo" alignment="CENTER" contentDisplay="CENTER" layoutX="125.0" layoutY="31.0"

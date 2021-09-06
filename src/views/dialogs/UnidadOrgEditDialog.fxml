@@ -4,14 +4,10 @@
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-
-<AnchorPane prefHeight="159.0" prefWidth="313.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.dialogs.UnidadOrgEditDialogController">
+<AnchorPane xmlns:fx="http://javafx.com/fxml" prefHeight="159.0" prefWidth="313.0" xmlns="http://javafx.com/javafx"
+            fx:controller="views.dialogs.UnidadOrgEditDialogController">
    <children>
       <GridPane layoutX="16.0" layoutY="54.0" prefHeight="51.0" prefWidth="289.0">
         <columnConstraints>

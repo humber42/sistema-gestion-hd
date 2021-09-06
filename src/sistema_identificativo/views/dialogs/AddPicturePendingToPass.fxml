@@ -2,14 +2,13 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXListView?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-
-<AnchorPane prefHeight="437.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sistema_identificativo.views.dialogs.AddPicturePendingToPass">
+<AnchorPane xmlns:fx="http://javafx.com/fxml" prefHeight="437.0" prefWidth="600.0" xmlns="http://javafx.com/javafx"
+            fx:controller="sistema_identificativo.views.dialogs.AddPicturePendingToPass">
     <children>
         <TitledPane alignment="TOP_CENTER" collapsible="false" layoutX="246.0" layoutY="14.0" prefHeight="194.0" prefWidth="340.0" text="Información del pase" AnchorPane.leftAnchor="255.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
             <content>

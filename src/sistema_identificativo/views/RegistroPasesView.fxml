@@ -1,24 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXCheckBox?>
-<?import com.jfoenix.controls.JFXComboBox?>
-<?import com.jfoenix.controls.JFXDatePicker?>
-<?import com.jfoenix.controls.JFXTextField?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextArea?>
-
 <?import com.jfoenix.controls.*?>
 <?import javafx.scene.control.*?>
-
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
-
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="488.0" prefWidth="591.0"
+<AnchorPane xmlns:fx="http://javafx.com/fxml" prefHeight="488.0" prefWidth="591.0"
             styleClass="registrar-pase-background-color" stylesheets="@../../css/panel-colors.css"
-            xmlns="http://javafx.com/javafx/9.0.1" fx:controller="sistema_identificativo.views.RegistroPasesController">
+            xmlns="http://javafx.com/javafx" fx:controller="sistema_identificativo.views.RegistroPasesController">
     <children>
         <ImageView fx:id="profilePhoto" fitHeight="126.0" fitWidth="126.0" layoutX="31.0" layoutY="72.0"
                    pickOnBounds="true" preserveRatio="true">

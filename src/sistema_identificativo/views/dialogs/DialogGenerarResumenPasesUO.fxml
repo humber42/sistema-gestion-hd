@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
-
-
-<AnchorPane prefHeight="217.0" prefWidth="414.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sistema_identificativo.views.dialogs.DialogGenerarResumenPasesUO">
+<AnchorPane xmlns:fx="http://javafx.com/fxml" prefHeight="217.0" prefWidth="414.0" xmlns="http://javafx.com/javafx"
+            fx:controller="sistema_identificativo.views.dialogs.DialogGenerarResumenPasesUO">
    <children>
       <Label layoutX="25.0" layoutY="30.0" text="Generar resumen de pases por Unidad Organizativa">
          <font>

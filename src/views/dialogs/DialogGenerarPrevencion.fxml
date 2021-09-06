@@ -7,8 +7,8 @@
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="304.0" prefWidth="363.0"
-            xmlns="http://javafx.com/javafx/9.0.1" fx:controller="views.dialogs.DialogGenerarPrevencionController">
+<AnchorPane xmlns:fx="http://javafx.com/fxml" prefHeight="304.0" prefWidth="363.0"
+            xmlns="http://javafx.com/javafx" fx:controller="views.dialogs.DialogGenerarPrevencionController">
     <children>
         <Label alignment="TOP_CENTER" layoutX="108.0" layoutY="35.0" text="Informe de prevención"
                AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="20.0">
