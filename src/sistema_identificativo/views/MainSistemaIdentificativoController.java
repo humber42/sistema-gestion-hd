@@ -43,7 +43,7 @@ public class MainSistemaIdentificativoController {
         try {
 
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainSistemaIdentificativoController.class.getResource("../views/RegistroPasesView.fxml"));
+            loader.setLocation(MainSistemaIdentificativoController.class.getResource("RegistroPasesView.fxml"));
             AnchorPane pane = loader.load();
             //Create dialog stage
             Stage dialogStage = new Stage();
@@ -68,7 +68,7 @@ public class MainSistemaIdentificativoController {
     private void addPicturesToPassPendents() {
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainSistemaIdentificativoController.class.getResource("../views/dialogs/AddPicturePendingToPass.fxml"));
+            loader.setLocation(MainSistemaIdentificativoController.class.getResource("dialogs/AddPicturePendingToPass.fxml"));
             AnchorPane pane = loader.load();
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Añadir foto a pases pendientes");
@@ -92,7 +92,7 @@ public class MainSistemaIdentificativoController {
     private void generarResumenPasesUnidadOrganizativa(){
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainSistemaIdentificativoController.class.getResource("../views/dialogs/DialogGenerarResumenPasesUO.fxml"));
+            loader.setLocation(MainSistemaIdentificativoController.class.getResource("dialogs/DialogGenerarResumenPasesUO.fxml"));
             AnchorPane pane = loader.load();
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Generar resumen de pases por Unidad Organizativa");
@@ -159,7 +159,7 @@ public class MainSistemaIdentificativoController {
     public void imprimirPase(){
         try{
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainSistemaIdentificativoController.class.getResource("../views/ImprimirPasesView.fxml"));
+            loader.setLocation(MainSistemaIdentificativoController.class.getResource("ImprimirPasesView.fxml"));
             AnchorPane pane = loader.load();
             //Create dialog stage
             Stage dialogStage = new Stage();

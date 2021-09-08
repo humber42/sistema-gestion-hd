@@ -16,6 +16,7 @@ import posiciones_agentes.excels_generators.ExcelGeneratorLocator;
 import posiciones_agentes.views.dialogs.DialogGenerarResumenPorUOController;
 import services.ServiceLocator;
 import util.Util;
+import views.dialogs.DialogLoadinUrl;
 import views.dialogs.DialogLoadingController;
 
 import java.io.IOException;
@@ -41,7 +42,7 @@ public class MainPosicionesAgentesController {
     private void cargarRegister(){
         try{
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainPosicionesAgentesController.class.getResource("../views/RegistrarPosicionesAgentes.fxml"));
+            loader.setLocation(MainPosicionesAgentesController.class.getResource("RegistrarPosicionesAgentes.fxml"));
             AnchorPane pane = loader.load();
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Registrar Posiciones Agentes");
@@ -77,7 +78,7 @@ public class MainPosicionesAgentesController {
     private void editTarifa(){
         try{
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainPosicionesAgentesController.class.getResource("../views/EdicionTarifasView.fxml"));
+            loader.setLocation(MainPosicionesAgentesController.class.getResource("EdicionTarifasView.fxml"));
             AnchorPane pane = loader.load();
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Editar tarifas");
@@ -101,7 +102,7 @@ public class MainPosicionesAgentesController {
     private void generarResumenPorUOrg(){
         try{
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainPosicionesAgentesController.class.getResource("../views/dialogs/DialogGenerarResumenPorUO.fxml"));
+            loader.setLocation(MainPosicionesAgentesController.class.getResource("dialogs/DialogGenerarResumenPorUO.fxml"));
             AnchorPane pane = loader.load();
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Generar resumen por unidad organizativa");
@@ -153,7 +154,7 @@ public class MainPosicionesAgentesController {
     private void loadDialogLoading(Stage mainApp){
         try{
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainPosicionesAgentesController.class.getResource("../../views/dialogs/DialogLoading.fxml"));
+            loader.setLocation(DialogLoadinUrl.class.getResource("DialogLoading.fxml"));
             AnchorPane panel = loader.load();
             dialogStage = new Stage();
             dialogStage.setScene(new Scene(panel));

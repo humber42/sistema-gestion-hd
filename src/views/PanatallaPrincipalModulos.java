@@ -1,7 +1,6 @@
 package views;
 
 import com.jfoenix.controls.JFXButton;
-import controllers.MainApp;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -45,7 +44,7 @@ public class PanatallaPrincipalModulos {
         try {
             //Load principal view
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(PanatallaPrincipalModulos.class.getResource("../views/PrinicipalView.fxml"));
+            loader.setLocation(PanatallaPrincipalModulos.class.getResource("PrinicipalView.fxml"));
             BorderPane panelHechos = (BorderPane) loader.load();
 
             PrincipalViewController controller = loader.getController();
@@ -64,7 +63,7 @@ public class PanatallaPrincipalModulos {
         try {
 
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(PanatallaPrincipalModulos.class.getResource("../sistema_identificativo/views/MainSistemaIdentificativoView.fxml"));
+            loader.setLocation(PanatallaPrincipalModulos.class.getResource("/sistema_identificativo/views/MainSistemaIdentificativoView.fxml"));
             BorderPane panelSistemaIdentificativo = (BorderPane) loader.load();
 
             MainSistemaIdentificativoController controller = loader.getController();
@@ -83,7 +82,7 @@ public class PanatallaPrincipalModulos {
     private void settingsPosicionesAgentes(){
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(PanatallaPrincipalModulos.class.getResource("../posiciones_agentes/views/MainPosicionesAgentesView.fxml"));
+            loader.setLocation(PanatallaPrincipalModulos.class.getResource("/posiciones_agentes/views/MainPosicionesAgentesView.fxml"));
             BorderPane panelPosicionesAgentes = (BorderPane) loader.load();
 
             MainPosicionesAgentesController controller = loader.getController();

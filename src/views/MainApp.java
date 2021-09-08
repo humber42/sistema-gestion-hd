@@ -1,4 +1,4 @@
-package controllers;
+package views;
 
 import com.gembox.spreadsheet.SpreadsheetInfo;
 import javafx.application.Application;
@@ -12,7 +12,9 @@ import util.Conexion;
 import util.ConexionObserver;
 import views.PanatallaPrincipalModulos;
 
+import javax.print.DocFlavor;
 import java.io.IOException;
+import java.net.URL;
 import java.sql.SQLException;
 import java.util.Observer;
 
@@ -59,12 +61,11 @@ public class MainApp extends Application {
 
     private void loadPrincipalHechos() {
         try {
-
             //Load principal view
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("../views/PantallaPrincipalModulos.fxml"));
+            URL fxmlUrl = getClass().getResource("PantallaPrincipalModulos.fxml");
+            loader.setLocation(fxmlUrl);
             this.principal = (AnchorPane) loader.load();
-
             //Show the scene containing the principal view
             Scene scene = new Scene(this.principal);
 

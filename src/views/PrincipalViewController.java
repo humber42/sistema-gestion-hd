@@ -36,7 +36,7 @@ public class PrincipalViewController {
     private void handleRegister() {
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(PrincipalViewController.class.getResource("../views/RegistrarView.fxml"));
+            loader.setLocation(PrincipalViewController.class.getResource("RegistrarView.fxml"));
             AnchorPane page = loader.load();
             RegistrarViewController controller = loader.getController();
             controller.setMainApp(this.panelPrincipal);
@@ -50,7 +50,7 @@ public class PrincipalViewController {
     private void handleSearch() {
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(PrincipalViewController.class.getResource("../views/BuscarView.fxml"));
+            loader.setLocation(PrincipalViewController.class.getResource("BuscarView.fxml"));
             AnchorPane pane = loader.load();
             BuscarViewController controller = loader.getController();
             controller.setPrincipalView(this.panelPrincipal);
@@ -65,7 +65,7 @@ public class PrincipalViewController {
     private void handleEsclarecer() {
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(PrincipalViewController.class.getResource("../views/EsclarecimientoView.fxml"));
+            loader.setLocation(PrincipalViewController.class.getResource("EsclarecimientoView.fxml"));
             AnchorPane page = loader.load();
             //Create dialog stage
             Stage dialogStage = new Stage();
@@ -266,7 +266,7 @@ public class PrincipalViewController {
     private void handleAveria() {
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(PrincipalViewController.class.getResource("../views/TipoDeAveriaView.fxml"));
+            loader.setLocation(PrincipalViewController.class.getResource("TipoDeAveriaView.fxml"));
             AnchorPane page = loader.load();
             Stage averiaStage = new Stage();
             averiaStage.initModality(Modality.WINDOW_MODAL);
@@ -367,7 +367,7 @@ public class PrincipalViewController {
 
     private void cargarPantallaDialogosListadosDelictivos(String direccionAddres, int tipoHecho, String nombreHecho) {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(PrincipalViewController.class.getResource("../views/dialogDelictivos/DialogGenerarListadosDelictivos.fxml"));
+        loader.setLocation(PrincipalViewController.class.getResource("dialogDelictivos/DialogGenerarListadosDelictivos.fxml"));
         try {
             AnchorPane pane = loader.load();
             Stage dialogStage = new Stage();
@@ -399,7 +399,7 @@ public class PrincipalViewController {
     private void handleMunicipio(){
         try{
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(PrincipalViewController.class.getResource("../views/ListaMunicipiosView.fxml"));
+            loader.setLocation(PrincipalViewController.class.getResource("ListaMunicipiosView.fxml"));
             AnchorPane page =  loader.load();
             Stage municipioStage = new Stage();
             municipioStage.initModality(Modality.WINDOW_MODAL);
@@ -425,7 +425,7 @@ public class PrincipalViewController {
     private void handleUnidadOrganizativa(){
         try{
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(PrincipalViewController.class.getResource("../views/UnidadesOrgView.fxml"));
+            loader.setLocation(PrincipalViewController.class.getResource("UnidadesOrgView.fxml"));
             AnchorPane page =  loader.load();
             Stage uniOrgStage = new Stage();
             uniOrgStage.initModality(Modality.WINDOW_MODAL);
@@ -451,7 +451,7 @@ public class PrincipalViewController {
     private void handleAfectacion(){
         try{
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(PrincipalViewController.class.getResource("../views/TipoAfectacionView.fxml"));
+            loader.setLocation(PrincipalViewController.class.getResource("TipoAfectacionView.fxml"));
             AnchorPane page =  loader.load();
             Stage afectacionStage = new Stage();
             afectacionStage.initModality(Modality.WINDOW_MODAL);
@@ -478,7 +478,7 @@ public class PrincipalViewController {
     private void handleTipoMateriales(){
         try{
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(PrincipalViewController.class.getResource("../views/TipoMaterialView.fxml"));
+            loader.setLocation(PrincipalViewController.class.getResource("TipoMaterialView.fxml"));
             AnchorPane page =  loader.load();
             Stage tipoMateStage = new Stage();
             tipoMateStage.initModality(Modality.WINDOW_MODAL);
@@ -504,7 +504,7 @@ public class PrincipalViewController {
     private void handleHechosRegistrados(){
         try{
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(PrincipalViewController.class.getResource("../views/HechosRegistradosView.fxml"));
+            loader.setLocation(PrincipalViewController.class.getResource("HechosRegistradosView.fxml"));
             AnchorPane page =  loader.load();
             Stage hechoStage = new Stage();
             hechoStage.initModality(Modality.WINDOW_MODAL);

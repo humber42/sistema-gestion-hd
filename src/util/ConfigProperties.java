@@ -13,7 +13,7 @@ public class ConfigProperties {
     private InputStream configInput = null;
 
     public ConfigProperties() throws IOException {
-        configInput = new FileInputStream(new File("src/config/configuration.properties").getAbsoluteFile());
+        configInput = new FileInputStream(new File("config/configuration.properties").getAbsoluteFile());
         config.load(configInput);
     }
 

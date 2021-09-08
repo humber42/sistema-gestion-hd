@@ -1,5 +1,6 @@
 package posiciones_agentes.views;
 
+import icons.ImageLocation;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
@@ -84,11 +85,11 @@ public class EdicionTarifasContoller {
             }
         }
         else {
-            File file = new File("src/icons/Checkmark_48px.png");
+           // File file = new File("../icons/Checkmark_48px.png");
             activeSpinner = true;
             this.tarifa.setDisable(false);
             this.imageCancel.setVisible(true);
-            this.imageEdit.setImage(new Image("file:" + file.getAbsolutePath()));
+            this.imageEdit.setImage(new Image(ImageLocation.class.getResource("Checkmark_48px.png").toExternalForm()));
         }
     }
 
@@ -98,8 +99,8 @@ public class EdicionTarifasContoller {
         this.tarifa.setEditable(false);
         this.imageCancel.setVisible(false);
 
-        File file = new File("src/icons/Edit_48px.png");
-        this.imageEdit.setImage(new Image("file:"+file.getAbsolutePath()));
+        //File file = new File("../icons/Edit_48px.png");
+        this.imageEdit.setImage(new Image(ImageLocation.class.getResource("Edit_48px.png").toExternalForm()));
 
         cleanFields();
     }
