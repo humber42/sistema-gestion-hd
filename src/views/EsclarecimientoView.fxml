@@ -4,8 +4,9 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:id="panelPrincipal" prefHeight="523.0" prefWidth="631.0"
-            xmlns="http://javafx.com/javafx" fx:controller="views.EsclarecimientoViewController">
+<?import javafx.scene.text.Font?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="panelPrincipal" prefHeight="523.0" prefWidth="631.0"
+            xmlns="http://javafx.com/javafx/9.0.1" fx:controller="views.EsclarecimientoViewController">
     <children>
         <TitledPane animated="false" collapsible="false" layoutY="14.0" prefHeight="274.0" prefWidth="562.0"
                     text="Hecho" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
@@ -41,7 +42,7 @@
                                     </GridPane.margin>
                                 </Label>
                                 <TextField fx:id="unidadOrganizativa" editable="false" GridPane.columnIndex="3"/>
-                                <Label prefHeight="18.0" prefWidth="56.0" text="Municipio" GridPane.columnIndex="2"
+                                <Label prefHeight="18.0" prefWidth="147.0" text="Municipio" GridPane.columnIndex="2"
                                        GridPane.rowIndex="1">
                                     <GridPane.margin>
                                         <Insets left="5.0"/>
@@ -134,19 +135,25 @@
                 </AnchorPane>
             </content>
         </TitledPane>
-        <HBox fx:id="buttonBox" layoutX="468.0" layoutY="467.0">
+        <HBox fx:id="buttonBox" layoutX="381.0" layoutY="469.0">
             <children>
-                <JFXButton buttonType="RAISED" onAction="#handleAccept" prefHeight="29.0" prefWidth="72.0"
+                <JFXButton buttonType="RAISED" onAction="#handleAccept" prefHeight="30.0" prefWidth="109.0"
                            style="-fx-background-color: green;" text="Guardar" textFill="WHITE">
                     <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                     </HBox.margin>
+                    <font>
+                        <Font size="14.0"/>
+                    </font>
                 </JFXButton>
-                <JFXButton buttonType="RAISED" cancelButton="true" onAction="#handleCancel" prefHeight="29.0"
-                           prefWidth="71.0" style="-fx-background-color: red;" text="Cancelar" textFill="WHITE">
+                <JFXButton buttonType="RAISED" cancelButton="true" onAction="#handleCancel" prefHeight="28.0"
+                           prefWidth="107.0" style="-fx-background-color: red;" text="Cancelar" textFill="WHITE">
                     <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                     </HBox.margin>
+                    <font>
+                        <Font size="14.0"/>
+                    </font>
                 </JFXButton>
             </children>
         </HBox>

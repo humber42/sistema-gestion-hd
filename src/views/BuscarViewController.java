@@ -1,6 +1,5 @@
 package views;
 
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXToggleButton;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -10,8 +9,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -22,6 +22,8 @@ import models.UnidadOrganizativa;
 import org.controlsfx.control.textfield.TextFields;
 import services.ServiceLocator;
 import util.Util;
+import views.dialogs.DialogLoadingController;
+import views.dialogs.DialogLoadingUrl;
 
 import java.io.IOException;
 import java.sql.Date;
@@ -32,6 +34,7 @@ import java.util.stream.Collectors;
 public class BuscarViewController {
 
     private BorderPane principalView;
+    private StackPane stackPane;
     @FXML
     private JFXToggleButton activarFiltros;
     @FXML
@@ -59,6 +62,9 @@ public class BuscarViewController {
     @FXML
     private TableColumn<Hechos, String> codCDNTColumn;
 
+    public void setStackPane(StackPane stackPane) {
+        this.stackPane = stackPane;
+    }
 
     private Stage dialogStage;
 
@@ -195,13 +201,24 @@ public class BuscarViewController {
         } else {
             try {
                 FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(BuscarViewController.class.getResource("../views/dialogs/DialogLoading.fxml"));
-                AnchorPane panel = loader.load();
+                loader.setLocation(DialogLoadingUrl.class.getResource("DialogLoading.fxml"));
+                StackPane panel = loader.load();
                 dialogStage = new Stage();
-                dialogStage.setScene(new Scene(panel));
-                dialogStage.initOwner(this.mainApp);
+
+                dialogStage.initOwner(mainApp);
                 dialogStage.initModality(Modality.WINDOW_MODAL);
-                dialogStage.initStyle(StageStyle.UNDECORATED);
+                dialogStage.initStyle(StageStyle.TRANSPARENT);
+                panel.setStyle(
+                        "-fx-background-color: rgba(144,144,144,0.5);" +
+                                "-fx-background-insets: 50;"
+                );
+
+                Scene scene = new Scene(panel);
+                scene.setFill(Color.TRANSPARENT);
+                dialogStage.setScene(scene);
+                //dialogStage.setScene(new Scene(panel));
+                DialogLoadingController controller = loader.getController();
+                controller.setLabelText("Cargando");
                 dialogStage.show();
 
                 Thread th = new Thread(tarea);

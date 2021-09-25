@@ -1,14 +1,10 @@
 package sistema_identificativo.services.impl;
 
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.List;
-
 import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -17,15 +13,17 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.view.JasperViewer;
 import services.ServiceLocator;
-import sistema_identificativo.jasper_reports.JasperDocuments;
 import sistema_identificativo.models.Impresion;
-import sistema_identificativo.models.RegistroImpresiones;
-import sistema_identificativo.models.RegistroPase;
 import sistema_identificativo.services.JasperReportService;
 import util.Conexion;
 import util.ConfigProperties;
-import views.dialogs.DialogLoadinUrl;
 import views.dialogs.DialogLoadingController;
+import views.dialogs.DialogLoadingUrl;
+
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * @author Henry A. Serra Morejon
@@ -40,17 +38,25 @@ public class JasperReportServiceImpl implements JasperReportService {
 
 
     //TODO: Make some thread to dont freeze the User Interface;
-
     private void loadDialogLoading(Stage mainApp){
         try{
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(DialogLoadinUrl.class.getResource("DialogLoading.fxml"));
-            AnchorPane panel = loader.load();
+            loader.setLocation(DialogLoadingUrl.class.getResource("DialogLoading.fxml"));
+            StackPane panel = loader.load();
             dialogStage = new Stage();
-            dialogStage.setScene(new Scene(panel));
-            dialogStage.initModality(Modality.WINDOW_MODAL);
+
             dialogStage.initOwner(mainApp);
-            dialogStage.initStyle(StageStyle.UNDECORATED);
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initStyle(StageStyle.TRANSPARENT);
+            panel.setStyle(
+                    "-fx-background-color: rgba(144,144,144,0.5);" +
+                            "-fx-background-insets: 50;"
+            );
+
+            Scene scene = new Scene(panel);
+            scene.setFill(Color.TRANSPARENT);
+            dialogStage.setScene(scene);
+            //dialogStage.setScene(new Scene(panel));
             DialogLoadingController controller = loader.getController();
             controller.setLabelText("Cargando");
             dialogStage.show();

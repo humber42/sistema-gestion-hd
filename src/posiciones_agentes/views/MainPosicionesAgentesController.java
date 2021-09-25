@@ -10,17 +10,14 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import models.UnidadOrganizativa;
 import org.controlsfx.dialog.ExceptionDialog;
 import posiciones_agentes.excels_generators.ExcelGeneratorLocator;
 import posiciones_agentes.views.dialogs.DialogGenerarResumenPorUOController;
-import services.ServiceLocator;
 import util.Util;
-import views.dialogs.DialogLoadinUrl;
 import views.dialogs.DialogLoadingController;
+import views.dialogs.DialogLoadingUrl;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 
 public class MainPosicionesAgentesController {
@@ -154,7 +151,7 @@ public class MainPosicionesAgentesController {
     private void loadDialogLoading(Stage mainApp){
         try{
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(DialogLoadinUrl.class.getResource("DialogLoading.fxml"));
+            loader.setLocation(DialogLoadingUrl.class.getResource("DialogLoading.fxml"));
             AnchorPane panel = loader.load();
             dialogStage = new Stage();
             dialogStage.setScene(new Scene(panel));

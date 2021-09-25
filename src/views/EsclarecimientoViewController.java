@@ -459,7 +459,7 @@ public class EsclarecimientoViewController {
         this.tipoEsclarecimiento.setPrefHeight(147);
         this.tipoEsclarecimiento.parentToLocal(0, 0);
 
-        this.buttonBox.setLayoutX(468);
+        this.buttonBox.setLayoutX(381);
         this.buttonBox.setLayoutY(576);
     }
 
@@ -468,9 +468,9 @@ public class EsclarecimientoViewController {
      */
     private void toNormalScreen() {
         this.dialogStage.setWidth(650);
-        this.dialogStage.setHeight(538);
+        this.dialogStage.setHeight(560);
         this.panelPrincipal.setPrefWidth(631);
-        this.panelPrincipal.setPrefHeight(507);
+        this.panelPrincipal.setPrefHeight(523);
 
         this.estadoHecho.setPrefWidth(631);
         this.estadoHecho.setPrefHeight(121);
@@ -480,8 +480,8 @@ public class EsclarecimientoViewController {
         this.tipoEsclarecimiento.setPrefHeight(30);
         this.tipoEsclarecimiento.parentToLocal(0, 0);
 
-        this.buttonBox.setLayoutX(468);
-        this.buttonBox.setLayoutY(458);
+        this.buttonBox.setLayoutX(381);
+        this.buttonBox.setLayoutY(469);
     }
 
 

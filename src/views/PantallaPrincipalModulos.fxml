@@ -5,8 +5,8 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml" prefHeight="583.0" prefWidth="912.0"
-            xmlns="http://javafx.com/javafx" fx:controller="views.PanatallaPrincipalModulos">
+<AnchorPane xmlns:fx="http://javafx.com/fxml" minHeight="583.0" prefWidth="934.0" xmlns="http://javafx.com/javafx"
+            fx:controller="views.PanatallaPrincipalModulos">
     <children>
         <BorderPane fx:id="pane" prefHeight="583.0" prefWidth="934.0">
             <left>
@@ -48,10 +48,10 @@
                         </JFXButton>
                         <JFXButton fx:id="bottonPosicionesAgentes" alignment="BOTTOM_LEFT" buttonType="RAISED"
                                    contentDisplay="TOP" graphicTextGap="0.0" layoutX="29.0" layoutY="383.0"
-                                   onAction="#settingsPosicionesAgentes"
-                                   prefHeight="104.0" prefWidth="125.0" styleClass="menu-principal-button"
-                                   stylesheets="@../css/buttons.css" text="Posiciones de Agentes" textAlignment="CENTER"
-                                   textFill="WHITE" textOverrun="CLIP" wrapText="true">
+                                   onAction="#settingsPosicionesAgentes" prefHeight="104.0" prefWidth="125.0"
+                                   styleClass="menu-principal-button" stylesheets="@../css/buttons.css"
+                                   text="Posiciones de Agentes" textAlignment="CENTER" textFill="WHITE"
+                                   textOverrun="CLIP" wrapText="true">
                             <font>
                                 <Font size="14.0"/>
                             </font>
@@ -80,7 +80,7 @@
                                    prefHeight="42.0" prefWidth="43.0" ripplerFill="#4f333300" styleClass="close-button"
                                    stylesheets="@../css/buttons.css" text=" " textAlignment="CENTER" wrapText="true">
                             <graphic>
-                                <ImageView accessibleRole="BUTTON" fitHeight="34.0" fitWidth="35.0"
+                                <ImageView accessibleRole="BUTTON" fitHeight="34.0" fitWidth="34.0"
                                            nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                         <Image url="@../icons/icons8_Shutdown_50px.png"/>

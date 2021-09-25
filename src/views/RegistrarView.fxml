@@ -4,8 +4,8 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml" prefHeight="509.0" prefWidth="772.0"
-            xmlns="http://javafx.com/javafx" fx:controller="views.RegistrarViewController">
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="509.0" prefWidth="772.0"
+            xmlns="http://javafx.com/javafx/9.0.1" fx:controller="views.RegistrarViewController">
     <children>
         <GridPane layoutX="27.0" layoutY="96.0" prefHeight="167.0" prefWidth="392.0">
             <columnConstraints>
@@ -34,7 +34,7 @@
                 <Label fx:id="municipioLabel" text="Municipio" GridPane.rowIndex="4"/>
             </children>
         </GridPane>
-        <GridPane layoutX="469.0" layoutY="33.0" prefHeight="128.0" prefWidth="281.0">
+        <GridPane layoutX="453.0" layoutY="33.0" prefHeight="128.0" prefWidth="298.0">
             <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="142.79998779296875" minWidth="10.0"
                                    prefWidth="110.79998779296875"/>
@@ -47,7 +47,7 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
             </rowConstraints>
             <children>
-                <Label fx:id="fechaOcurrenciaLabel" text="Fecha ocurrido"/>
+                <Label fx:id="fechaOcurrenciaLabel" prefHeight="18.0" prefWidth="110.0" text="Fecha ocurrido"/>
                 <DatePicker fx:id="fechaOcurrencia" GridPane.columnIndex="1"/>
                 <Label fx:id="fechaResumenLabel" text="Fecha Resumen" GridPane.rowIndex="1"/>
                 <DatePicker fx:id="fechaResumen" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
@@ -82,11 +82,11 @@
                 </AnchorPane>
             </content>
         </TitledPane>
-        <Label fx:id="afectacionLabelLabel" layoutX="467.0" layoutY="216.0" text="Servicios Afectados"/>
-        <Label fx:id="observacionesLabel" layoutX="467.0" layoutY="251.0" text="Observaciones"/>
+        <Label fx:id="afectacionLabelLabel" layoutX="441.0" layoutY="216.0" text="Servicios Afectados"/>
+        <Label fx:id="observacionesLabel" layoutX="453.0" layoutY="254.0" text="Observaciones"/>
         <TextArea fx:id="observaciones" layoutX="576.0" layoutY="251.0" prefHeight="50.0" prefWidth="174.0"
                   wrapText="true"/>
-        <TitledPane fx:id="delitoVSPExtPanel" layoutX="28.0" layoutY="333.0" prefHeight="106.0" prefWidth="246.0"
+        <TitledPane fx:id="delitoVSPExtPanel" layoutX="19.0" layoutY="333.0" prefHeight="106.0" prefWidth="255.0"
                     text="Delito VS PExt">
             <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="54.0" prefWidth="245.0">
@@ -94,7 +94,7 @@
                         <Label fx:id="materialLabel" layoutX="14.0" layoutY="14.0" text="Material"/>
                         <ComboBox fx:id="materialComboBox" layoutX="81.0" layoutY="10.0" prefWidth="150.0"/>
                         <Label fx:id="cantidadLabel" layoutX="12.0" layoutY="47.0" text="Cantidad"/>
-                        <TextField fx:id="cantidad" layoutX="82.0" layoutY="43.0"/>
+                        <TextField fx:id="cantidad" layoutX="82.0" layoutY="43.0" prefHeight="26.0" prefWidth="148.0"/>
                     </children>
                 </AnchorPane>
             </content>
@@ -104,7 +104,7 @@
             <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="62.0" prefWidth="254.0">
                     <children>
-                        <Label fx:id="vandalismoLabel" layoutX="22.0" layoutY="21.0" text="Afectación"/>
+                        <Label fx:id="vandalismoLabel" layoutX="14.0" layoutY="21.0" text="Afectación"/>
                         <ComboBox fx:id="vandalismoComboBox" layoutX="89.0" layoutY="17.0" prefWidth="150.0"/>
                     </children>
                 </AnchorPane>

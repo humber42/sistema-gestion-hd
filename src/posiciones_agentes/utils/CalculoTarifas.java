@@ -1,14 +1,10 @@
 package posiciones_agentes.utils;
 
-import com.jfoenix.controls.JFXDatePicker;
 import posiciones_agentes.models.RegistroPosicionesAgentes;
 import posiciones_agentes.models.TarifasPosicionAgente;
 import services.ServiceLocator;
 import util.ConfigProperties;
 import util.Util;
-
-import java.sql.Date;
-import java.time.LocalDate;
 
 /**
  * @author Humberto Cabrera Dominguez
@@ -22,7 +18,8 @@ public class CalculoTarifas {
      * @param year Year
      * @return Total cost of that position on the year
      */
-    public static double calculateByProviderOnAYear(RegistroPosicionesAgentes posicionesAgentes, int year){
+    public static double
+    calculateByProviderOnAYear(RegistroPosicionesAgentes posicionesAgentes, int year) {
         double sum = 0;
         TarifasPosicionAgente tarifa = ServiceLocator.getTarifaPosicionAgenteService()
                 .getTarifaByUoAndProv(posicionesAgentes.getUnidadOrganizativa().getId_unidad_organizativa()

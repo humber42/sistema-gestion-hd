@@ -10,7 +10,7 @@
             styleClass="registrar-pase-background-color" stylesheets="@../../css/panel-colors.css"
             xmlns="http://javafx.com/javafx" fx:controller="sistema_identificativo.views.RegistroPasesController">
     <children>
-        <ImageView fx:id="profilePhoto" fitHeight="126.0" fitWidth="126.0" layoutX="31.0" layoutY="72.0"
+        <ImageView fx:id="profilePhoto" fitHeight="126.0" fitWidth="126.0" layoutX="19.0" layoutY="71.0"
                    pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@../../icons/no-img.jpg"/>
@@ -56,8 +56,13 @@
                 <Font size="14.0"/>
             </font>
         </JFXButton>
-        <JFXButton buttonType="RAISED" layoutX="39.0" layoutY="207.0" onAction="#imageSearch" styleClass="button-imagen"
-                   stylesheets="@../../css/buttons.css" text="Cambiar la imagen" textFill="WHITE"/>
+        <JFXButton buttonType="RAISED" layoutX="24.0" layoutY="206.0" onAction="#imageSearch" prefHeight="26.0"
+                   prefWidth="110.0" styleClass="button-imagen" stylesheets="@../../css/buttons.css"
+                   text="Cambiar la imagen" textFill="WHITE">
+            <font>
+                <Font size="10.0"/>
+            </font>
+        </JFXButton>
         <Label layoutX="201.0" layoutY="63.0" text="Los campos con (*) son obligatorios"/>
     </children>
 

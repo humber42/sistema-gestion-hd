@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.controlsfx.dialog.ExceptionDialog;
@@ -51,10 +52,11 @@ public class PrincipalViewController {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(PrincipalViewController.class.getResource("BuscarView.fxml"));
-            AnchorPane pane = loader.load();
+            StackPane pane = loader.load();
             BuscarViewController controller = loader.getController();
             controller.setPrincipalView(this.panelPrincipal);
             controller.setMainApp(this.mainApp);
+            controller.setStackPane(pane);
             panelPrincipal.setCenter(pane);
         } catch (IOException e) {
             e.printStackTrace();
