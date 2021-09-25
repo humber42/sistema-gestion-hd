@@ -34,6 +34,7 @@ import views.dialogs.DialogLoadingController;
 public class JasperReportServiceImpl implements JasperReportService {
 
     private static final String URL_SERVER = ConfigProperties.getProperties().getProperty("URL_DOWNLOAD_IMAGE");
+    private static final String PATH = "src/sistema_identificativo/jasper_reports/";
     private Stage dialogStage;
 
 
@@ -69,7 +70,7 @@ public class JasperReportServiceImpl implements JasperReportService {
                 parameter.put("url_server", URL_SERVER);
                 try{
                     JasperPrint print = JasperFillManager
-                            .fillReport(JasperDocuments.class.getResource("pase_impreso_permanente.jasper").toExternalForm()
+                            .fillReport(PATH + "pase_impreso_permanente.jasper"
                                     , parameter, Conexion.getConnection());
                     view = new JasperViewer(print, false);
                     ServiceLocator.getRegistroImpresionesService().execNewOrUpdateImpressionRegister(CI);
@@ -103,7 +104,7 @@ public class JasperReportServiceImpl implements JasperReportService {
                 parameter.put("numero_identidad", CI);
                 parameter.put("url_server", URL_SERVER);
                 try {
-                    JasperPrint print = JasperFillManager.fillReport(JasperDocuments.class.getResource("pase_impreso_especial.jasper").toExternalForm(), parameter, Conexion.getConnection());
+                    JasperPrint print = JasperFillManager.fillReport(PATH + "pase_impreso_especial.jasper", parameter, Conexion.getConnection());
                     view = new JasperViewer(print, false);
                     ServiceLocator.getRegistroImpresionesService().execNewOrUpdateImpressionRegister(CI);
                 }catch (JRException | SQLException e){
@@ -136,7 +137,7 @@ public class JasperReportServiceImpl implements JasperReportService {
                 parameter.put("numero_identidad", CI);
                 parameter.put("url_server", URL_SERVER);
                 try{
-                    JasperPrint print = JasperFillManager.fillReport(JasperDocuments.class.getResource("pase_impreso_provisional.jasper").toExternalForm(), parameter, Conexion.getConnection());
+                    JasperPrint print = JasperFillManager.fillReport(PATH + "pase_impreso_provisional.jasper", parameter, Conexion.getConnection());
                     view = new JasperViewer(print, false);
                     ServiceLocator.getRegistroImpresionesService().execNewOrUpdateImpressionRegister(CI);
                 }catch (JRException | SQLException e){
@@ -170,7 +171,7 @@ public class JasperReportServiceImpl implements JasperReportService {
                 parameter.put("numero_identidad", CI);
                 parameter.put("url_server", URL_SERVER);
                 try {
-                    JasperPrint print = JasperFillManager.fillReport(JasperDocuments.class.getResource("pase_impreso_negro.jasper").toExternalForm(), parameter, Conexion.getConnection());
+                    JasperPrint print = JasperFillManager.fillReport(PATH + "pase_impreso_negro.jasper", parameter, Conexion.getConnection());
                     view = new JasperViewer(print, false);
                 }catch (JRException | SQLException e){
                     e.printStackTrace();
@@ -203,7 +204,7 @@ public class JasperReportServiceImpl implements JasperReportService {
                 parameter.put("url_server", URL_SERVER);
                 try{
                     updateTable(impresions);
-                    JasperPrint print = JasperFillManager.fillReport(JasperDocuments.class.getResource("pases_impresos_especiales.jasper").toExternalForm(), parameter, Conexion.getConnection());
+                    JasperPrint print = JasperFillManager.fillReport(PATH + "pases_impresos_especiales.jasper", parameter, Conexion.getConnection());
                     view = new JasperViewer(print, false);
                 }catch (JRException | SQLException e){
                     e.printStackTrace();
@@ -236,7 +237,7 @@ public class JasperReportServiceImpl implements JasperReportService {
                 parameter.put("url_server", URL_SERVER);
                 try{
                     updateTable(impresions);
-                    JasperPrint print = JasperFillManager.fillReport(JasperDocuments.class.getResource("pases_impresos_negros.jasper").toExternalForm(), parameter, Conexion.getConnection());
+                    JasperPrint print = JasperFillManager.fillReport(PATH + "pases_impresos_negros.jasper", parameter, Conexion.getConnection());
                     view = new JasperViewer(print, false);
                 }catch (JRException | SQLException e){
                     e.printStackTrace();
@@ -270,7 +271,7 @@ public class JasperReportServiceImpl implements JasperReportService {
                 parameter.put("url_server", URL_SERVER);
                 try{
                     updateTable(impresions);
-                    JasperPrint print = JasperFillManager.fillReport(JasperDocuments.class.getResource("pases_impresos_permanentes.jasper").toExternalForm(), parameter, Conexion.getConnection());
+                    JasperPrint print = JasperFillManager.fillReport(PATH + "pases_impresos_permanentes.jasper", parameter, Conexion.getConnection());
                     view = new JasperViewer(print, false);
                 }catch (JRException | SQLException e){
                     e.printStackTrace();
@@ -302,7 +303,7 @@ public class JasperReportServiceImpl implements JasperReportService {
                 HashMap<String, String> parameter = new HashMap<>();
                 parameter.put("url_server", URL_SERVER);
                 try{
-                    JasperPrint print = JasperFillManager.fillReport(JasperDocuments.class.getResource("pases_impresos_provisionales.jasper").toExternalForm(), parameter, Conexion.getConnection());
+                    JasperPrint print = JasperFillManager.fillReport(PATH + "pases_impresos_provisionales.jasper", parameter, Conexion.getConnection());
                     view = new JasperViewer(print, false);
                 }catch (JRException | SQLException e){
                     e.printStackTrace();
@@ -333,7 +334,7 @@ public class JasperReportServiceImpl implements JasperReportService {
             protected Boolean call() throws Exception {
                 try{
                     JasperPrint print = JasperFillManager
-                            .fillReport(JasperDocuments.class.getResource("resumen_pases_baja.jasper").toExternalForm(),null
+                            .fillReport(PATH + "resumen_pases_baja.jasper",null
                                     ,Conexion.getConnection());
                     view = new JasperViewer(print, false);
                 }catch (JRException | SQLException e){
@@ -375,7 +376,7 @@ public class JasperReportServiceImpl implements JasperReportService {
             protected Boolean call() throws Exception {
                 try{
                     JasperPrint print = JasperFillManager
-                            .fillReport(JasperDocuments.class.getResource("resumen_pases_pendiente_de_foto.jasper").toExternalForm(),null
+                            .fillReport(PATH + "resumen_pases_pendiente_de_foto.jasper",null
                                     ,Conexion.getConnection());
                     view = new JasperViewer(print, false);
                 }catch (JRException | SQLException e){
@@ -407,7 +408,7 @@ public class JasperReportServiceImpl implements JasperReportService {
             protected Boolean call() throws Exception {
                 try{
                     JasperPrint print = JasperFillManager
-                            .fillReport(JasperDocuments.class.getResource("resumen_general_pases.jasper").toExternalForm(),null
+                            .fillReport(PATH + "resumen_general_pases.jasper",null
                                     ,Conexion.getConnection());
                     view = new JasperViewer(print, false);
                 }catch (JRException | SQLException e){
@@ -439,7 +440,7 @@ public class JasperReportServiceImpl implements JasperReportService {
             protected Boolean call() throws Exception {
                 try{
                     JasperPrint print = JasperFillManager
-                            .fillReport(JasperDocuments.class.getResource("resumen_pases_impresos.jasper").toExternalForm(),null
+                            .fillReport(PATH + "resumen_pases_impresos.jasper",null
                                     ,Conexion.getConnection());
                     view = new JasperViewer(print, false);
                 }catch (JRException | SQLException e){
@@ -472,7 +473,7 @@ public class JasperReportServiceImpl implements JasperReportService {
                 parameter.put("id_pase",tipoPase);
                 try{
                     JasperPrint print = JasperFillManager
-                            .fillReport(JasperDocuments.class.getResource("resumen_pases_segun_tipo.jasper").toExternalForm(),
+                            .fillReport(PATH + "resumen_pases_segun_tipo.jasper",
                                     parameter,Conexion.getConnection());
                     view = new JasperViewer(print, false);
                 }catch (JRException | SQLException e){
@@ -507,7 +508,7 @@ public class JasperReportServiceImpl implements JasperReportService {
                 parameter.put("id_uorg",id);
                 try{
                     JasperPrint print = JasperFillManager
-                            .fillReport(JasperDocuments.class.getResource("resumen_pases_uorg.jasper").toExternalForm(),
+                            .fillReport(PATH + "resumen_pases_uorg.jasper",
                                     parameter,Conexion.getConnection());
                     view = new JasperViewer(print, false);
                 }catch (JRException | SQLException e){
