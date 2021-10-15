@@ -8,7 +8,7 @@ public interface RolService {
     List<Rol> getAllRols();
     Rol getRolById(int id);
     Rol getRolByName(String nombre);
-    int saveRol(Rol rol);
+    void saveRol(Rol rol);
     void deleteRolById(int id);
-    int updateRol(Rol rol);
+    void updateRol(Rol rol);
 }

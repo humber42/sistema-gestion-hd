@@ -4,7 +4,8 @@ public class Rol {
     private Integer id_rol;
     private String nombre;
 
-    public Rol(String nombre) {
+    public Rol(Integer id_rol, String nombre) {
+        this.id_rol = id_rol;
         this.nombre = nombre;
     }
 

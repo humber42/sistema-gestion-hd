@@ -7,6 +7,10 @@ import posiciones_agentes.services.TarifaPosicionAgenteService;
 import posiciones_agentes.services.impl.ProveedoresServicioServiceImpl;
 import posiciones_agentes.services.impl.RegistroPosicionesAgentesServiceImpl;
 import posiciones_agentes.services.impl.TarifaPosicionAgenteServiceImpl;
+import seguridad.services.RolService;
+import seguridad.services.UserService;
+import seguridad.services.impl.RolServiceImpl;
+import seguridad.services.impl.UserServiceImpl;
 import sistema_identificativo.services.*;
 import sistema_identificativo.services.impl.*;
 
@@ -41,6 +45,9 @@ public class ServiceLocator {
 
     private static ImpresionService impresionService = null;
     private static JasperReportService jasperReportService = null;
+
+    private static UserService userService = null;
+    private static RolService rolService = null;
 
 
     public static UnidadOrganizativaService getUnidadOrganizativaService() {
@@ -159,6 +166,20 @@ public class ServiceLocator {
             tarifaPosicionAgenteService = new TarifaPosicionAgenteServiceImpl();
         }
         return tarifaPosicionAgenteService;
+    }
+
+    public static UserService getUserService(){
+        if(userService == null){
+            userService = new UserServiceImpl();
+        }
+        return userService;
+    }
+
+    public static RolService getRolService(){
+        if(rolService == null){
+            rolService = new RolServiceImpl();
+        }
+        return rolService;
     }
 
 }
