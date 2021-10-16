@@ -4,9 +4,11 @@ import com.jfoenix.controls.JFXButton;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import posiciones_agentes.views.MainPosicionesAgentesController;
+import seguridad.models.UserLoggedIn;
 import sistema_identificativo.views.MainSistemaIdentificativoController;
 
 import java.io.IOException;
@@ -19,6 +21,12 @@ public class PanatallaPrincipalModulos {
     private JFXButton bottonSistemaIdentificativo;
     @FXML
     private JFXButton bottonPosicionesAgentes;
+    @FXML
+    private Label lblNombre;
+    @FXML
+    private Label lblUsername;
+    @FXML
+    private Label lblRol;
 
     @FXML
     private BorderPane pane;
@@ -39,13 +47,32 @@ public class PanatallaPrincipalModulos {
     private void initialize() {
     }
 
+    public void userLoggedInfo(UserLoggedIn userlin){
+        this.lblNombre.setText(userlin.getNombre());
+        this.lblUsername.setText(userlin.getUsername());
+        this.lblRol.setText(userlin.getRol());
+    }
+
+    private void setEmptyTextOnUserInfo(){
+        this.lblNombre.setText("");
+        this.lblUsername.setText("");
+        this.lblRol.setText("");
+    }
+
+    @FXML
+    private void logout(){
+        setEmptyTextOnUserInfo();
+        this.primaryStage.close();
+        this.mainApp.start(new Stage());
+    }
+
     @FXML
     private void settingHechosExtraordinarios() {
         try {
             //Load principal view
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(PanatallaPrincipalModulos.class.getResource("PrinicipalView.fxml"));
-            BorderPane panelHechos = (BorderPane) loader.load();
+            BorderPane panelHechos = loader.load();
 
             PrincipalViewController controller = loader.getController();
             controller.setMainApp(primaryStage);
@@ -64,7 +91,7 @@ public class PanatallaPrincipalModulos {
 
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(PanatallaPrincipalModulos.class.getResource("/sistema_identificativo/views/MainSistemaIdentificativoView.fxml"));
-            BorderPane panelSistemaIdentificativo = (BorderPane) loader.load();
+            BorderPane panelSistemaIdentificativo = loader.load();
 
             MainSistemaIdentificativoController controller = loader.getController();
             controller.setMainApp(primaryStage);
@@ -83,7 +110,7 @@ public class PanatallaPrincipalModulos {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(PanatallaPrincipalModulos.class.getResource("/posiciones_agentes/views/MainPosicionesAgentesView.fxml"));
-            BorderPane panelPosicionesAgentes = (BorderPane) loader.load();
+            BorderPane panelPosicionesAgentes = loader.load();
 
             MainPosicionesAgentesController controller = loader.getController();
             controller.setMainApp(primaryStage);

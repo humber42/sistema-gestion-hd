@@ -42,10 +42,6 @@ public class LoginController {
         this.mainApp = mainApp;
     }
 
-    public UserLoggedIn getUserLoggedIn(){
-        return userLoggedIn;
-    }
-
     @FXML
     private void initialize(){
     }
@@ -113,7 +109,7 @@ public class LoginController {
             //Load principal view
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(UrlLocation.class.getResource("PantallaPrincipalModulos.fxml"));
-            AnchorPane pane = (AnchorPane) loader.load();
+            AnchorPane pane = loader.load();
             //Show the scene containing the principal view
             Scene scene = new Scene(pane);
 
@@ -123,6 +119,7 @@ public class LoginController {
             controller.setPrimaryStage(primaryStage);
             this.primaryStage.setScene(scene);
             this.primaryStage.show();
+            controller.userLoggedInfo(this.userLoggedIn);
         } catch (IOException e) {
             e.printStackTrace();
         }

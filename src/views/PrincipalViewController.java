@@ -30,7 +30,6 @@ public class PrincipalViewController {
 
     @FXML
     public void initialize() {
-
     }
 
     @FXML
