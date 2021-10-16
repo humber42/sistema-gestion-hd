@@ -1,14 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="seguridad.views.Login"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="448.0" prefWidth="334.0" style="-fx-background-color: White;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seguridad.views.LoginController">
+   <children>
+      <Pane prefHeight="37.0" prefWidth="334.0" styleClass="barra-superior" stylesheets="@../../css/barra-superior.css">
+         <children>
+            <Label layoutX="139.0" layoutY="5.0" text="Login" textFill="#000000f6">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <JFXButton accessibleRole="IMAGE_VIEW" buttonType="RAISED" focusTraversable="false" layoutX="288.0" layoutY="-4.0" onAction="#handleClose" prefHeight="45.0" prefWidth="44.0">
+               <graphic>
+                  <ImageView fitHeight="37.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../icons/icons8_Close_Window_50px.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+         </children>
+      </Pane>
+      <JFXButton buttonType="RAISED" layoutX="111.0" layoutY="386.0" onAction="#login" prefHeight="35.0" prefWidth="114.0" style="-fx-background-color: blue;" stylesheets="@../../css/buttons.css" text="Iniciar Sesión" textFill="WHITE">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </JFXButton>
+      <GridPane layoutX="15.0" layoutY="286.0" prefHeight="82.0" prefWidth="306.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="150.0" minWidth="10.0" prefWidth="42.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="275.0" minWidth="10.0" prefWidth="265.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="40.0" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="40.0" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <ImageView fitHeight="37.0" fitWidth="56.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/icons8_Male_User_3.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="37.0" fitWidth="53.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../../icons/icons8_Password_1.jpg" />
+               </image>
+            </ImageView>
+            <TextField fx:id="username" prefHeight="31.0" prefWidth="261.0" GridPane.columnIndex="1" />
+            <PasswordField fx:id="password" prefHeight="31.0" prefWidth="261.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+         </children>
+      </GridPane>
+      <ImageView fitHeight="149.0" fitWidth="200.0" layoutX="93.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../icons/etecsa_icon.jpg" />
+         </image>
+      </ImageView>
+      <Label layoutX="63.0" layoutY="201.0" prefHeight="45.0" prefWidth="225.0" text="Sistema Informativo">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="127.0" layoutY="238.0" text="ETECSA">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+   </children>
 </AnchorPane>

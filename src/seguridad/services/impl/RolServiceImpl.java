@@ -41,7 +41,7 @@ public class RolServiceImpl implements RolService {
     @Override
     public Rol getRolByName(String nombre) {
         Rol rol = null;
-        String query = "SELECT * FROM rol WHERE nombre = " + nombre;
+        String query = "SELECT * FROM rol WHERE nombre = '" + nombre + "'";
         try {
             ResultSet rs = Util.executeQuery(query);
             rol = getRolFromRS(rs);
@@ -90,16 +90,23 @@ public class RolServiceImpl implements RolService {
     }
 
     private Rol getRolFromRS(ResultSet rs) throws SQLException {
-        return new Rol(
-                rs.getInt(1),
-                rs.getString(2)
-        );
+        Rol rol = null;
+        if(rs.next()) {
+            rol = new Rol(
+                    rs.getInt(1),
+                    rs.getString(2)
+            );
+        }
+        return rol;
     }
 
     private LinkedList<Rol> getRolesFromRS(ResultSet rs) throws SQLException{
         LinkedList<Rol> rolLinkedList = new LinkedList<>();
         while (rs.next()){
-            rolLinkedList.add(this.getRolFromRS(rs));
+            rolLinkedList.add(new Rol(
+                    rs.getInt(1),
+                    rs.getString(2)
+            ));
         }
         return rolLinkedList;
     }

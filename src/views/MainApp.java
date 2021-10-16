@@ -8,19 +8,17 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.controlsfx.dialog.ExceptionDialog;
+import seguridad.views.LoginController;
+import seguridad.views.LoginUrl;
 import util.Conexion;
 import util.ConexionObserver;
-import views.PanatallaPrincipalModulos;
 
-import javax.print.DocFlavor;
 import java.io.IOException;
-import java.net.URL;
 import java.sql.SQLException;
 import java.util.Observer;
 
 
 public class MainApp extends Application {
-
     private Stage primaryStage;
     private AnchorPane principal;
 
@@ -31,15 +29,12 @@ public class MainApp extends Application {
         launch(args);
     }
 
-
-
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage){
         this.primaryStage = primaryStage;
-        this.primaryStage.setTitle("Sistema Informativo");
+        this.primaryStage.setTitle("Login");
         this.primaryStage.setResizable(false);
         initRootLayout();
-
     }
 
     private void initRootLayout() {
@@ -50,7 +45,7 @@ public class MainApp extends Application {
                 Conexion.getConnection().getClientInfo();
                 dataBaseNotFound = false;
                 intentos = 3;
-                this.loadPrincipalHechos();
+                this.loadLogin();
             } catch (SQLException e) {
                 ExceptionDialog dialog = new ExceptionDialog(e);
                 dialog.showAndWait();
@@ -59,25 +54,20 @@ public class MainApp extends Application {
         }
     }
 
-    private void loadPrincipalHechos() {
-        try {
-            //Load principal view
+    private void loadLogin(){
+        try{
             FXMLLoader loader = new FXMLLoader();
-            URL fxmlUrl = getClass().getResource("PantallaPrincipalModulos.fxml");
-            loader.setLocation(fxmlUrl);
+            loader.setLocation(LoginUrl.class.getResource("Login.fxml"));
             this.principal = (AnchorPane) loader.load();
-            //Show the scene containing the principal view
             Scene scene = new Scene(this.principal);
 
-            //Give the controller access to the main app
-            PanatallaPrincipalModulos controller = loader.getController();
+            LoginController controller = loader.getController();
             controller.setMainApp(this);
             controller.setPrimaryStage(primaryStage);
             this.primaryStage.setScene(scene);
             this.primaryStage.initStyle(StageStyle.UNDECORATED);
             this.primaryStage.show();
-
-        } catch (IOException e) {
+        } catch (IOException e){
             e.printStackTrace();
         }
     }

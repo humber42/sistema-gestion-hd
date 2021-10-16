@@ -2,95 +2,78 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml" minHeight="583.0" prefWidth="934.0" xmlns="http://javafx.com/javafx"
-            fx:controller="views.PanatallaPrincipalModulos">
+
+<AnchorPane minHeight="583.0" prefWidth="934.0" style="-fx-background-color: White;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.PanatallaPrincipalModulos">
     <children>
         <BorderPane fx:id="pane" prefHeight="583.0" prefWidth="934.0">
             <left>
                 <Pane prefHeight="583.0" prefWidth="169.0" BorderPane.alignment="TOP_LEFT">
                     <children>
-                        <JFXButton fx:id="bottonHechosExtraordinarios" alignment="BOTTOM_LEFT" buttonType="RAISED"
-                                   contentDisplay="TOP" graphicTextGap="0.0" layoutX="28.0" layoutY="125.0"
-                                   onAction="#settingHechosExtraordinarios" prefHeight="104.0" prefWidth="125.0"
-                                   styleClass="menu-principal-button" stylesheets="@../css/buttons.css"
-                                   text="Hechos Extraordinarios" textAlignment="CENTER" textFill="WHITE"
-                                   textOverrun="CLIP" wrapText="true">
+                        <JFXButton fx:id="bottonHechosExtraordinarios" alignment="BOTTOM_LEFT" buttonType="RAISED" contentDisplay="TOP" graphicTextGap="0.0" layoutX="28.0" layoutY="125.0" onAction="#settingHechosExtraordinarios" prefHeight="104.0" prefWidth="125.0" styleClass="menu-principal-button" stylesheets="@../css/buttons.css" text="Hechos Extraordinarios" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP" wrapText="true">
                             <font>
-                                <Font size="14.0"/>
+                                <Font size="14.0" />
                             </font>
                             <graphic>
                                 <ImageView fitHeight="43.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@../icons/icons8_System_Report_50px.png"/>
+                                        <Image url="@../icons/icons8_System_Report_50px.png" />
                                     </image>
                                 </ImageView>
                             </graphic>
                         </JFXButton>
-                        <JFXButton fx:id="bottonSistemaIdentificativo" alignment="BOTTOM_LEFT" buttonType="RAISED"
-                                   contentDisplay="TOP" graphicTextGap="0.0" layoutX="28.0" layoutY="254.0"
-                                   onAction="#settingSistemaIdentificativo" prefHeight="104.0" prefWidth="125.0"
-                                   styleClass="menu-principal-button" stylesheets="@../css/buttons.css"
-                                   text="Sistema Identificativo" textAlignment="CENTER" textFill="WHITE"
-                                   textOverrun="CLIP" wrapText="true">
+                        <JFXButton fx:id="bottonSistemaIdentificativo" alignment="BOTTOM_LEFT" buttonType="RAISED" contentDisplay="TOP" graphicTextGap="0.0" layoutX="28.0" layoutY="254.0" onAction="#settingSistemaIdentificativo" prefHeight="104.0" prefWidth="125.0" styleClass="menu-principal-button" stylesheets="@../css/buttons.css" text="Sistema Identificativo" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP" wrapText="true">
                             <font>
-                                <Font size="14.0"/>
+                                <Font size="14.0" />
                             </font>
                             <graphic>
                                 <ImageView fitHeight="44.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@../icons/icons8_POS_Terminal_50px_1.png"/>
+                                        <Image url="@../icons/icons8_POS_Terminal_50px_1.png" />
                                     </image>
                                 </ImageView>
                             </graphic>
                         </JFXButton>
-                        <JFXButton fx:id="bottonPosicionesAgentes" alignment="BOTTOM_LEFT" buttonType="RAISED"
-                                   contentDisplay="TOP" graphicTextGap="0.0" layoutX="29.0" layoutY="383.0"
-                                   onAction="#settingsPosicionesAgentes" prefHeight="104.0" prefWidth="125.0"
-                                   styleClass="menu-principal-button" stylesheets="@../css/buttons.css"
-                                   text="Posiciones de Agentes" textAlignment="CENTER" textFill="WHITE"
-                                   textOverrun="CLIP" wrapText="true">
+                        <JFXButton fx:id="bottonPosicionesAgentes" alignment="BOTTOM_LEFT" buttonType="RAISED" contentDisplay="TOP" graphicTextGap="0.0" layoutX="29.0" layoutY="383.0" onAction="#settingsPosicionesAgentes" prefHeight="104.0" prefWidth="125.0" styleClass="menu-principal-button" stylesheets="@../css/buttons.css" text="Posiciones de Agentes" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP" wrapText="true">
                             <font>
-                                <Font size="14.0"/>
+                                <Font size="14.0" />
                             </font>
                             <graphic>
                                 <ImageView fitHeight="51.0" fitWidth="68.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@../icons/icons8_Agent_Smith_50px.png"/>
+                                        <Image url="@../icons/icons8_Agent_Smith_50px.png" />
                                     </image>
                                 </ImageView>
                             </graphic>
                         </JFXButton>
-                        <ImageView fitHeight="86.0" fitWidth="105.0" layoutX="48.0" layoutY="14.0" pickOnBounds="true"
-                                   preserveRatio="true">
+                        <ImageView fitHeight="86.0" fitWidth="105.0" layoutX="48.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../icons/etecsa_icon.jpg"/>
+                                <Image url="@../icons/etecsa_icon.jpg" />
                             </image>
                         </ImageView>
                     </children>
                 </Pane>
             </left>
             <top>
-                <Pane prefHeight="42.0" prefWidth="934.0" styleClass="barra-superior"
-                      stylesheets="@../css/barra-superior.css" BorderPane.alignment="CENTER">
+                <Pane prefHeight="42.0" prefWidth="934.0" styleClass="barra-superior" stylesheets="@../css/barra-superior.css" BorderPane.alignment="CENTER">
                     <children>
-                        <JFXButton cancelButton="true" contentDisplay="CENTER" layoutX="884.0" onAction="#closeSystem"
-                                   prefHeight="42.0" prefWidth="43.0" ripplerFill="#4f333300" styleClass="close-button"
-                                   stylesheets="@../css/buttons.css" text=" " textAlignment="CENTER" wrapText="true">
+                        <JFXButton cancelButton="true" contentDisplay="CENTER" layoutX="884.0" onAction="#closeSystem" prefHeight="42.0" prefWidth="43.0" ripplerFill="#4f333300" styleClass="close-button" stylesheets="@../css/buttons.css" text=" " textAlignment="CENTER" wrapText="true">
                             <graphic>
-                                <ImageView accessibleRole="BUTTON" fitHeight="34.0" fitWidth="34.0"
-                                           nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+                                <ImageView accessibleRole="BUTTON" fitHeight="34.0" fitWidth="34.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@../icons/icons8_Shutdown_50px.png"/>
+                                        <Image url="@../icons/icons8_Shutdown_50px.png" />
                                     </image>
                                 </ImageView>
                             </graphic>
                         </JFXButton>
                         <Label layoutX="357.0" layoutY="9.0" text="Sistema Informativo ETECSA" textFill="WHITE">
                             <font>
-                                <Font size="16.0"/>
+                                <Font size="16.0" />
                             </font>
                         </Label>
                     </children>
