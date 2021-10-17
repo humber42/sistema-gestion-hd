@@ -153,6 +153,7 @@ public class UserRegisterController {
                                 this.btnEliminar.setDisable(true);
                                 this.btnEditar.setDisable(true);
                                 this.btnRegistrar.setText("Registrar");
+                                this.txtUsername.setDisable(false);
                                 cleanFields();
                             }
                         }
@@ -212,6 +213,7 @@ public class UserRegisterController {
         this.selected = tableUsers.getSelectionModel().getSelectedItem();
         this.btnRegistrar.setText("Confirmar");
         this.txtNombre.setText(selected.getNombre());
+        this.txtUsername.setDisable(true);
         this.txtUsername.setText(selected.getUsername());
         String rol = ServiceLocator.getRolService().getRolById(selected.getId_rol()).getNombre();
         this.cboxRoles.getSelectionModel().select(rol);
