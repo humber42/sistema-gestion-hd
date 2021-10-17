@@ -179,6 +179,7 @@ public class JasperReportServiceImpl implements JasperReportService {
                 try {
                     JasperPrint print = JasperFillManager.fillReport(PATH + "pase_impreso_negro.jasper", parameter, Conexion.getConnection());
                     view = new JasperViewer(print, false);
+                    ServiceLocator.getRegistroImpresionesService().execNewOrUpdateImpressionRegister(CI);
                 }catch (JRException | SQLException e){
                     e.printStackTrace();
                 }
