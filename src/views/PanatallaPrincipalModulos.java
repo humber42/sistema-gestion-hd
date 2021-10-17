@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import org.controlsfx.dialog.ExceptionDialog;
 import posiciones_agentes.views.MainPosicionesAgentesController;
 import seguridad.models.UserLoggedIn;
+import seguridad.views.LoginController;
 import seguridad.views.LoginUrl;
 import seguridad.views.UserRegisterController;
 import sistema_identificativo.views.MainSistemaIdentificativoController;
@@ -56,30 +57,30 @@ public class PanatallaPrincipalModulos {
 
     @FXML
     private void initialize() {
-            this.etecsaImg.setOnMouseClicked(event ->
-                    this.handleUsers()
-            );
+        this.logged = LoginController.getUserLoggedIn();
+        userLoggedInfo();
+        this.etecsaImg.setOnMouseClicked(event ->
+             this.handleUsers()
+        );
     }
 
-    public void userLoggedInfo(UserLoggedIn userlin){
-        this.lblNombre.setText(userlin.getNombre());
-        this.lblUsername.setText(userlin.getUsername());
-        this.lblRol.setText(userlin.getRol());
+    private void userLoggedInfo(){
+        this.lblNombre.setText(logged.getNombre());
+        this.lblUsername.setText(logged.getUsername());
+        this.lblRol.setText(logged.getRol());
 
-        logged = userlin;
-
-        if(userlin.hasPermiso_pases()){
+        if(logged.hasPermiso_pases()){
             System.out.println("Especialista");
         }
-        else if(userlin.hasPermiso_visualizacion()){
+        else if(logged.hasPermiso_visualizacion()){
             System.out.println("Jefe");
             this.bottonPosicionesAgentes.setDisable(true);
             this.bottonHechosExtraordinarios.setDisable(true);
         }
-        else if(userlin.hasPermiso_todo()){
+        else if(logged.hasPermiso_todo()){
             System.out.println("Admin");
         }
-        else if(userlin.isSuperuser()){
+        else if(logged.isSuperuser()){
             System.out.println("SuperUser");
         }
     }

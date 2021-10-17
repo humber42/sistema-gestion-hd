@@ -9,12 +9,9 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import seguridad.models.Rol;
 import seguridad.models.User;
-import seguridad.utils.SHA1Encrypt;
 import services.ServiceLocator;
 import util.Util;
 
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,6 +31,8 @@ public class UserRegisterController {
     @FXML
     private JFXButton btnEliminar;
     @FXML
+    private JFXButton btnRegistrar;
+    @FXML
     private TableView<User> tableUsers;
     @FXML
     private TableColumn<User,String> nameColumn;
@@ -41,6 +40,8 @@ public class UserRegisterController {
     private TableColumn<User,String> userColumn;
     @FXML
     private TableColumn<User,String> rolColumn;
+
+    private boolean edicion;
 
     private Stage dialogStage;
 
@@ -52,6 +53,7 @@ public class UserRegisterController {
 
     @FXML
     private void initialize(){
+        this.edicion = false;
         this.txtNombre.setOnKeyTyped(event ->
                 Util.eventToSetUpperCaseToFirstNameAndLastName(event,this.txtNombre)
         );
@@ -67,7 +69,7 @@ public class UserRegisterController {
     private void initializeTable(){
         this.tableUsers.getItems().clear();
         ObservableList<User> observableList = FXCollections.observableList(
-                ServiceLocator.getUserService().getAllUsers()
+                ServiceLocator.getUserService().getAllUsersButNoLoggedInUser(LoginController.getUserLoggedIn().getUsername())
         );
 
         this.tableUsers.setItems(observableList);
@@ -109,33 +111,56 @@ public class UserRegisterController {
     @FXML
     private void handleRegister(){
         if(!emptyFields()){
-            if(password.getText().equals(confirmPassword.getText())) {
-                User newUser = new User();
-                newUser.setNombre(txtNombre.getText());
-                newUser.setUsername(txtUsername.getText());
-                newUser.setId_rol(ServiceLocator.getRolService().getRolByName(
-                        cboxRoles.getSelectionModel().getSelectedItem()
-                ).getId_rol()
-                );
-                try{
-                    newUser.setPassword(SHA1Encrypt.encrypt(SHA1Encrypt.encrypt(password.getText())));
-                } catch (NoSuchAlgorithmException | UnsupportedEncodingException e){
-                    e.printStackTrace();
-                }
-                if(ServiceLocator.getUserService().getUserByUserName(newUser.getUsername())!=null){
-                    Util.dialogResult("Ya existe el usuario " + newUser.getUsername() + ".", Alert.AlertType.INFORMATION);
-                    cleanFields();
-                }
-                else{
-                    ServiceLocator.getUserService().saveUser(newUser);
-                    initializeTable();
-                    cleanFields();
+                if (password.getText().equals(confirmPassword.getText())) {
+                    if(!edicion) {
+                        User newUser = new User();
+                        newUser.setNombre(txtNombre.getText());
+                        newUser.setUsername(txtUsername.getText());
+                        newUser.setId_rol(ServiceLocator.getRolService().getRolByName(
+                                cboxRoles.getSelectionModel().getSelectedItem()
+                                ).getId_rol()
+                        );
+                        newUser.setPassword(password.getText());
+
+                        if (ServiceLocator.getUserService().getUserByUserName(newUser.getUsername()) != null) {
+                            Util.dialogResult("Ya existe el usuario " + newUser.getUsername() + ".", Alert.AlertType.INFORMATION);
+                            cleanFields();
+                        } else {
+                            ServiceLocator.getUserService().saveUser(newUser);
+                            initializeTable();
+                            cleanFields();
+                        }
+                    }
+                    else{
+                        User updateUser = new User();
+                        updateUser.setId_user(this.selected.getId_user());
+                        updateUser.setNombre(txtNombre.getText());
+                        updateUser.setUsername(txtUsername.getText());
+                        updateUser.setId_rol(ServiceLocator.getRolService().getRolByName(
+                                cboxRoles.getSelectionModel().getSelectedItem()
+                                ).getId_rol()
+                        );
+                        updateUser.setPassword(password.getText());
+                        if(ServiceLocator.getUserService().
+                                getUserByIdAndUserName(updateUser.getId_user(), updateUser.getUsername())!=null){
+                            Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
+                                    "¿Desea editar realmente al usuario " + updateUser.getUsername() + "?"
+                                    ,ButtonType.OK, ButtonType.CANCEL);
+                            alert.showAndWait();
+                            if(alert.getResult() == ButtonType.OK) {
+                                ServiceLocator.getUserService().updateUser(updateUser);
+                                initializeTable();
+                                this.btnEliminar.setDisable(true);
+                                this.btnEditar.setDisable(true);
+                                this.btnRegistrar.setText("Registrar");
+                                cleanFields();
+                            }
+                        }
+                    }
+                } else {
+                    Util.dialogResult("Las contraseñas no coinciden.", Alert.AlertType.WARNING);
                 }
             }
-            else{
-                Util.dialogResult("Las contraseñas no coinciden.", Alert.AlertType.WARNING);
-            }
-        }
     }
 
     private void cleanFields(){
@@ -183,7 +208,13 @@ public class UserRegisterController {
 
     @FXML
     private void handleEdit(){
-
+        edicion = true;
+        this.selected = tableUsers.getSelectionModel().getSelectedItem();
+        this.btnRegistrar.setText("Confirmar");
+        this.txtNombre.setText(selected.getNombre());
+        this.txtUsername.setText(selected.getUsername());
+        String rol = ServiceLocator.getRolService().getRolById(selected.getId_rol()).getNombre();
+        this.cboxRoles.getSelectionModel().select(rol);
     }
 
     @FXML
@@ -197,6 +228,8 @@ public class UserRegisterController {
             if(alert.getResult() == ButtonType.OK) {
                 ServiceLocator.getUserService().deleteUserById(selected.getId_user());
                 initializeTable();
+                this.btnEliminar.setDisable(true);
+                this.btnEditar.setDisable(true);
             }
         }
     }

@@ -28,9 +28,36 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<User> getAllUsersButNoLoggedInUser(String username) {
+        List<User> userList = new LinkedList<>();
+        try {
+            String query = "SELECT * FROM usuario WHERE username <> '" + username + "'";
+            userList = getUsuariosFromRS(Util.executeQuery(query));
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return userList;
+    }
+
+    @Override
     public User getUserById(int id) {
         User user = null;
         String query = "SELECT * FROM usuario WHERE user_id = " + id;
+        try {
+            ResultSet rs = Util.executeQuery(query);
+            user = getUsuarioFromRS(rs);
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return user;
+    }
+
+    @Override
+    public User getUserByIdAndUserName(int id, String username) {
+        User user = null;
+        String query = "SELECT * FROM usuario WHERE user_id = " + id
+                + " AND username = '" + username+"'";
         try {
             ResultSet rs = Util.executeQuery(query);
             user = getUsuarioFromRS(rs);
@@ -86,7 +113,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUser(User user) {
-        String function = "{call update_usuario(?,?,?,?,?)}";
+        String function = "{call update_user(?,?,?,?,?)}";
         try{
             CallableStatement statement = Conexion.getConnection().prepareCall(function);
             statement.setInt(1, user.getId_user());

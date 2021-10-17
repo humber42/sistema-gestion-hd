@@ -69,7 +69,7 @@
       </HBox>
       <HBox layoutX="231.0" layoutY="223.0" prefHeight="22.0" prefWidth="223.0">
          <children>
-            <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" onAction="#handleRegister" prefHeight="25.0" prefWidth="116.0" style="-fx-background-color: green;" text="Registrar" textFill="#ebe7e7">
+            <JFXButton fx:id="btnRegistrar" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" onAction="#handleRegister" prefHeight="25.0" prefWidth="116.0" style="-fx-background-color: green;" text="Registrar" textFill="#ebe7e7">
                <HBox.margin>
                   <Insets right="3.0" />
                </HBox.margin>

@@ -36,7 +36,7 @@ public class LoginController {
 
     private MainApp mainApp;
 
-    private UserLoggedIn userLoggedIn;
+    private static UserLoggedIn userLoggedIn = null;
 
     public void setPrimaryStage(Stage primaryStage){
         this.primaryStage = primaryStage;
@@ -61,7 +61,7 @@ public class LoginController {
                 if(user != null){
                     if(user.getPassword().equals(passwordEncrypted)){
                         System.out.println("Logueado");
-                        this.userLoggedIn = new UserLoggedIn(
+                        userLoggedIn = new UserLoggedIn(
                                 user.getNombre(),
                                 user.getUsername(),
                                 user.getPassword(),
@@ -127,9 +127,13 @@ public class LoginController {
             controller.setPrimaryStage(primaryStage);
             this.primaryStage.setScene(scene);
             this.primaryStage.show();
-            controller.userLoggedInfo(this.userLoggedIn);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    public static UserLoggedIn getUserLoggedIn(){
+        if(userLoggedIn == null)
+            userLoggedIn = new UserLoggedIn();
+        return userLoggedIn;
     }
 }

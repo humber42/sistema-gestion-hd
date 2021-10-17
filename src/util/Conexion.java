@@ -3,9 +3,7 @@ package util;
 
 import org.controlsfx.dialog.ExceptionDialog;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.RandomAccessFile;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -46,7 +44,6 @@ public class Conexion {
             } catch (SQLException e) {
                 ExceptionDialog dialog = new ExceptionDialog(e);
                 dialog.showAndWait();
-
             }
 
     }

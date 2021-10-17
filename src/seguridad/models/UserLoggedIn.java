@@ -10,6 +10,8 @@ public class UserLoggedIn {
     private Boolean permiso_todo;
     private Boolean superuser;
 
+    public UserLoggedIn(){}
+
     public UserLoggedIn(String nombre, String username, String password, String rol){
         this.nombre = nombre;
         this.username = username;
