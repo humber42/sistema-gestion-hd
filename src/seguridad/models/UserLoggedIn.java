@@ -17,16 +17,28 @@ public class UserLoggedIn {
         this.rol = rol;
 
         if(rol.equalsIgnoreCase("Admin")){
-             this.permiso_todo = true;
+             permiso_todo = true;
+             permiso_pases = false;
+             permiso_visualizacion = false;
+             superuser = false;
         }
         else if(rol.equalsIgnoreCase("Jefe")){
-             this.permiso_visualizacion = true;
+             permiso_visualizacion = true;
+             permiso_pases = false;
+             permiso_todo = false;
+             superuser = false;
         }
         else if(rol.equalsIgnoreCase("Especialista")){
-             this.permiso_pases = true;
+             permiso_pases = true;
+             permiso_todo = false;
+             permiso_visualizacion = false;
+             superuser = false;
         }
         else if(rol.equalsIgnoreCase("SuperUser")){
-             this.superuser = true;
+             superuser = true;
+             permiso_pases = false;
+             permiso_visualizacion = false;
+             permiso_todo = false;
         }
 
     }
@@ -63,7 +75,7 @@ public class UserLoggedIn {
         this.rol = rol;
     }
 
-    public Boolean getPermiso_pases() {
+    public Boolean hasPermiso_pases() {
         return permiso_pases;
     }
 
@@ -71,7 +83,7 @@ public class UserLoggedIn {
         this.permiso_pases = permiso_pases;
     }
 
-    public Boolean getPermiso_visualizacion() {
+    public Boolean hasPermiso_visualizacion() {
         return permiso_visualizacion;
     }
 
@@ -79,7 +91,7 @@ public class UserLoggedIn {
         this.permiso_visualizacion = permiso_visualizacion;
     }
 
-    public Boolean getPermiso_todo() {
+    public Boolean hasPermiso_todo() {
         return permiso_todo;
     }
 
@@ -87,7 +99,7 @@ public class UserLoggedIn {
         this.permiso_todo = permiso_todo;
     }
 
-    public Boolean getSuperuser() {
+    public Boolean isSuperuser() {
         return superuser;
     }
 

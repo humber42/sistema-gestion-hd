@@ -57,9 +57,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUserById(int id) {
-        String query = "DELETE FROM usuario WHERE user_id = " + id;
+        String function = "{call eliminar_usuario(?)}";
         try {
-            Util.executeQuery(query);
+            CallableStatement statement = Conexion.getConnection().prepareCall(function);
+            statement.setInt(1, id);
+            statement.execute();
+            statement.close();
         } catch (SQLException e){
             e.printStackTrace();
         }

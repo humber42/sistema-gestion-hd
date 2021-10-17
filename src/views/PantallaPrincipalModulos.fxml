@@ -54,7 +54,7 @@
                                 </ImageView>
                             </graphic>
                         </JFXButton>
-                        <ImageView fitHeight="86.0" fitWidth="105.0" layoutX="48.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="etecsaImg" fitHeight="86.0" fitWidth="105.0" layoutX="48.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@../icons/etecsa_icon.jpg" />
                             </image>

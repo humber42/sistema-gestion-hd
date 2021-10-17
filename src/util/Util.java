@@ -267,9 +267,9 @@ public class Util {
 
     public static void showDialog(boolean result) {
         if (result) {
-            Util.dialogResult("Exito", Alert.AlertType.INFORMATION);
+            Util.dialogResult("Operación exitosa.", Alert.AlertType.INFORMATION);
         } else {
-            Util.dialogResult("Fallo", Alert.AlertType.ERROR);
+            Util.dialogResult("Operación fallida.", Alert.AlertType.ERROR);
         }
     }
 

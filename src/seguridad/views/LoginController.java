@@ -1,5 +1,6 @@
 package seguridad.views;
 
+import com.jfoenix.controls.JFXButton;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -17,6 +18,7 @@ import views.MainApp;
 import views.PanatallaPrincipalModulos;
 import views.UrlLocation;
 
+
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
@@ -27,6 +29,8 @@ public class LoginController {
     private TextField username;
     @FXML
     private PasswordField password;
+    @FXML
+    private JFXButton btnLogin;
 
     private Stage primaryStage;
 
@@ -64,6 +68,10 @@ public class LoginController {
                                 ServiceLocator.getRolService().getRolById(user.getId_rol()).getNombre());
                         this.primaryStage.close();
                         loadPrincipalHechos();
+                    }
+                    else{
+                        Util.dialogResult("Contraseña incorrecta.", Alert.AlertType.WARNING);
+                        this.password.setText(null);
                     }
                 }
                 else{

@@ -4,11 +4,18 @@ import com.jfoenix.controls.JFXButton;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.controlsfx.dialog.ExceptionDialog;
 import posiciones_agentes.views.MainPosicionesAgentesController;
 import seguridad.models.UserLoggedIn;
+import seguridad.views.LoginUrl;
+import seguridad.views.UserRegisterController;
 import sistema_identificativo.views.MainSistemaIdentificativoController;
 
 import java.io.IOException;
@@ -27,6 +34,8 @@ public class PanatallaPrincipalModulos {
     private Label lblUsername;
     @FXML
     private Label lblRol;
+    @FXML
+    private ImageView etecsaImg;
 
     @FXML
     private BorderPane pane;
@@ -34,6 +43,8 @@ public class PanatallaPrincipalModulos {
     private MainApp mainApp;
 
     private Stage primaryStage;
+
+    private UserLoggedIn logged;
 
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -45,18 +56,63 @@ public class PanatallaPrincipalModulos {
 
     @FXML
     private void initialize() {
+            this.etecsaImg.setOnMouseClicked(event ->
+                    this.handleUsers()
+            );
     }
 
     public void userLoggedInfo(UserLoggedIn userlin){
         this.lblNombre.setText(userlin.getNombre());
         this.lblUsername.setText(userlin.getUsername());
         this.lblRol.setText(userlin.getRol());
+
+        logged = userlin;
+
+        if(userlin.hasPermiso_pases()){
+            System.out.println("Especialista");
+        }
+        else if(userlin.hasPermiso_visualizacion()){
+            System.out.println("Jefe");
+            this.bottonPosicionesAgentes.setDisable(true);
+            this.bottonHechosExtraordinarios.setDisable(true);
+        }
+        else if(userlin.hasPermiso_todo()){
+            System.out.println("Admin");
+        }
+        else if(userlin.isSuperuser()){
+            System.out.println("SuperUser");
+        }
     }
 
     private void setEmptyTextOnUserInfo(){
         this.lblNombre.setText("");
         this.lblUsername.setText("");
         this.lblRol.setText("");
+    }
+
+    private void handleUsers(){
+        if(logged.isSuperuser()) {
+            try {
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(LoginUrl.class.getResource("UserRegister.fxml"));
+                AnchorPane pane = loader.load();
+                Stage dialogStage = new Stage();
+                dialogStage.setTitle("Administración de usuarios y roles");
+                dialogStage.initModality(Modality.WINDOW_MODAL);
+                dialogStage.setResizable(false);
+                dialogStage.initOwner(this.primaryStage);
+                Scene scene = new Scene(pane);
+                dialogStage.setScene(scene);
+
+                UserRegisterController controller = loader.getController();
+                controller.setDialogStage(dialogStage);
+                dialogStage.showAndWait();
+
+            } catch (IOException e) {
+                ExceptionDialog dialog = new ExceptionDialog(e);
+                dialog.showAndWait();
+            }
+        }
     }
 
     @FXML
