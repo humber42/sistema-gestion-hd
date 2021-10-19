@@ -162,6 +162,6 @@
         <JFXButton defaultButton="true" layoutX="126.0" layoutY="301.0" onAction="#handleFirst" text="Primero"/>
         <JFXButton defaultButton="true" layoutX="364.0" layoutY="301.0" onAction="#handleLast" text="Ultimo"/>
         <JFXTextField labelFloat="true" layoutX="449.0" layoutY="301.0" onKeyPressed="#advancedSearchByCodCDNT"
-                      promptText="Buscar por Cod.DNT"/>
+                      promptText="Buscar por Cod. CDNT"/>
     </children>
 </AnchorPane>

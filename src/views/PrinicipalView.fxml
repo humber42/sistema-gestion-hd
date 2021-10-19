@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.input.*?>
+<?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <BorderPane xmlns:fx="http://javafx.com/fxml" prefHeight="527.0" prefWidth="788.0"
@@ -28,34 +28,18 @@
                                                     shortcut="UP"/>
                             </accelerator>
                         </MenuItem>
-                        <MenuItem fx:id="buscar" mnemonicParsing="false" onAction="#handleSearch" text="Buscar">
-                            <accelerator>
-                                <KeyCodeCombination alt="DOWN" code="B" control="UP" meta="UP" shift="UP"
-                                                    shortcut="UP"/>
-                            </accelerator>
-                        </MenuItem>
+                        <!--<MenuItem fx:id="buscar" mnemonicParsing="false" onAction="#handleSearch" text="Buscar">-->
+                        <!--<accelerator>-->
+                        <!--<KeyCodeCombination alt="DOWN" code="B" control="UP" meta="UP" shift="UP"-->
+                        <!--shortcut="UP"/>-->
+                        <!--</accelerator>-->
+                        <!--</MenuItem>-->
                         <MenuItem fx:id="close" mnemonicParsing="false" onAction="#handleCerrar" text="Cerrar">
                             <accelerator>
                                 <KeyCodeCombination alt="DOWN" code="C" control="UP" meta="UP" shift="UP"
                                                     shortcut="UP"/>
                             </accelerator>
                         </MenuItem>
-                    </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="Ver">
-                    <items>
-                        <MenuItem mnemonicParsing="false" onAction="#handleHechosRegistrados" text="Hechos registrados">
-                            <accelerator>
-                                <KeyCodeCombination alt="DOWN" code="H" control="UP" meta="UP" shift="UP"
-                                                    shortcut="UP"/>
-                            </accelerator>
-                        </MenuItem>
-                        <MenuItem mnemonicParsing="false" onAction="#handleTipoMateriales" text="Tipo Materiales Pext"/>
-                        <MenuItem mnemonicParsing="false" onAction="#handleAfectacion" text="Tipo Afectacion TPubl"/>
-                        <MenuItem mnemonicParsing="false" onAction="#handleUnidadOrganizativa"
-                                  text="Unidades Organizativas"/>
-                        <MenuItem mnemonicParsing="false" onAction="#handleMunicipio" text="Municipios"/>
-                        <MenuItem mnemonicParsing="false" onAction="#handleAveria" text="Tipo de Averia"/>
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Informes">
@@ -108,6 +92,22 @@
                                           text="Otros hechos"/>
                             </items>
                         </Menu>
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Gestionar">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#handleHechosRegistrados" text="Hechos registrados">
+                            <accelerator>
+                                <KeyCodeCombination alt="DOWN" code="H" control="UP" meta="UP" shift="UP"
+                                                    shortcut="UP"/>
+                            </accelerator>
+                        </MenuItem>
+                        <MenuItem mnemonicParsing="false" onAction="#handleTipoMateriales" text="Tipo Materiales Pext"/>
+                        <MenuItem mnemonicParsing="false" onAction="#handleAfectacion" text="Tipo Afectacion TPubl"/>
+                        <MenuItem mnemonicParsing="false" onAction="#handleUnidadOrganizativa"
+                                  text="Unidades Organizativas"/>
+                        <MenuItem mnemonicParsing="false" onAction="#handleMunicipio" text="Municipios"/>
+                        <MenuItem mnemonicParsing="false" onAction="#handleAveria" text="Tipo de Averia"/>
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Ayuda">
