@@ -3,11 +3,14 @@ package sistema_identificativo.views;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.controlsfx.dialog.ExceptionDialog;
+import seguridad.models.UserLoggedIn;
+import seguridad.views.LoginController;
 import services.ServiceLocator;
 import sistema_identificativo.views.dialogs.AddPicturePendingToPass;
 import sistema_identificativo.views.dialogs.DialogGenerarResumenPasesUO;
@@ -21,18 +24,35 @@ public class MainSistemaIdentificativoController {
     private BorderPane panelSistemaIdentificativo;
     private BorderPane panelGrande;
 
+    @FXML
+    private Label lblNombre;
+    @FXML
+    private Label lblUsername;
+    @FXML
+    private Label lblRol;
+
+    private UserLoggedIn logged;
+
     public void setPanelGrande(BorderPane panelGrande) {
         this.panelGrande = panelGrande;
     }
 
     @FXML
     public void initialize() {
+        this.logged = LoginController.getUserLoggedIn();
+        userLoggedInfo();
     }
 
-    @FXML
+    private void userLoggedInfo() {
+        this.lblNombre.setText(logged.getNombre());
+        this.lblUsername.setText(logged.getUsername());
+        this.lblRol.setText(logged.getRol());
+    }
+
+    /*@FXML
     private void handleCerrar() {
         this.panelGrande.setCenter(null);
-    }
+    }*/
 
     public void setMainApp(Stage mainApp) {
         this.mainApp = mainApp;

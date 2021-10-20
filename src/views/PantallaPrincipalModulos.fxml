@@ -95,7 +95,7 @@
          <center>
             <Pane prefHeight="200.0" prefWidth="717.0" BorderPane.alignment="CENTER">
                <children>
-                  <Pane layoutX="14.0" layoutY="514.0" prefHeight="105.0" prefWidth="285.0">
+                  <Pane layoutX="7.0" layoutY="508.0" prefHeight="105.0" prefWidth="285.0">
                      <children>
                         <GridPane layoutX="6.0" layoutY="6.0" prefHeight="94.0" prefWidth="274.0">
                           <columnConstraints>

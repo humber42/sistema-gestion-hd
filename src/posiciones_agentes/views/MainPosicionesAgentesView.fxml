@@ -1,44 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<BorderPane xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx"
-            fx:controller="posiciones_agentes.views.MainPosicionesAgentesController">
-    <center>
-        <AnchorPane prefHeight="527.0" prefWidth="788.0">
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 
-        </AnchorPane>
+<BorderPane xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="posiciones_agentes.views.MainPosicionesAgentesController">
+    <center>
+        <AnchorPane minHeight="583.0" prefWidth="934.0">
+         <children>
+            <GridPane layoutX="14.0" layoutY="489.0" prefHeight="94.0" prefWidth="274.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="127.0" minWidth="10.0" prefWidth="60.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="207.0" minWidth="10.0" prefWidth="207.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label text="Nombre:">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label text="Usuario:" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label text="Rol:" GridPane.rowIndex="2">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblNombre" prefHeight="17.0" prefWidth="195.0" text="&lt;nombre&gt;" GridPane.columnIndex="1">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblUsername" prefHeight="17.0" prefWidth="193.0" text="&lt;username&gt;" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblRol" prefHeight="17.0" prefWidth="173.0" text="&lt;rol&gt;" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </GridPane>
+         </children></AnchorPane>
     </center>
     <top>
         <MenuBar BorderPane.alignment="CENTER">
             <menus>
                 <Menu mnemonicParsing="false" text="Archivo">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Registrar posición de agente" onAction="#cargarRegister">
+                        <MenuItem mnemonicParsing="false" onAction="#cargarRegister" text="Registrar posición de agente">
                      <accelerator>
                         <KeyCodeCombination alt="DOWN" code="R" control="UP" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
                   <MenuItem mnemonicParsing="false" onAction="#editTarifa" text="Editar tarifas" />
-                        <MenuItem mnemonicParsing="false" onAction="#handleCerrar" text="Cerrar">
-                     <accelerator>
-                        <KeyCodeCombination alt="DOWN" code="C" control="UP" meta="UP" shift="UP" shortcut="UP" />
-                     </accelerator></MenuItem>
 
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Resúmenes">
                <items>
-                  <MenuItem mnemonicParsing="false" text="Resumen general" onAction="#generarResumenGeneral">
+                  <MenuItem mnemonicParsing="false" onAction="#generarResumenGeneral" text="Resumen general">
                      <accelerator>
                         <KeyCodeCombination alt="DOWN" code="G" control="UP" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
-                  <MenuItem mnemonicParsing="false" text="Resumen por Unidad Organizativa" onAction="#generarResumenPorUOrg">
+                  <MenuItem mnemonicParsing="false" onAction="#generarResumenPorUOrg" text="Resumen por Unidad Organizativa">
                      <accelerator>
                         <KeyCodeCombination alt="DOWN" code="U" control="UP" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
-                  <MenuItem mnemonicParsing="false" text="Resumen por proveedor de servicio" onAction="#generarResumenPS"/>
+                  <MenuItem mnemonicParsing="false" onAction="#generarResumenPS" text="Resumen por proveedor de servicio" />
                </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Ayuda">

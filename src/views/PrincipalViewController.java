@@ -5,12 +5,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.controlsfx.dialog.ExceptionDialog;
+import seguridad.models.UserLoggedIn;
+import seguridad.views.LoginController;
 import util.Conexion;
 import util.Util;
 import views.dialogDelictivos.DialogGenerarListadosDelictivos;
@@ -24,12 +27,29 @@ public class PrincipalViewController {
     private BorderPane panelPrincipal;
     private BorderPane panelGrande;
 
+    @FXML
+    private Label lblNombre;
+    @FXML
+    private Label lblUsername;
+    @FXML
+    private Label lblRol;
+
+    private UserLoggedIn logged;
+
     public void setPanelGrande(BorderPane panelGrande) {
         this.panelGrande = panelGrande;
     }
 
     @FXML
     public void initialize() {
+        this.logged = LoginController.getUserLoggedIn();
+        userLoggedInfo();
+    }
+
+    private void userLoggedInfo() {
+        this.lblNombre.setText(logged.getNombre());
+        this.lblUsername.setText(logged.getUsername());
+        this.lblRol.setText(logged.getRol());
     }
 
     @FXML
@@ -534,10 +554,10 @@ public class PrincipalViewController {
     }
 
 
-    @FXML
+    /*@FXML
     private void handleCerrar() {
         this.panelGrande.setCenter(null);
-    }
+    }*/
 
             //mainApp.getPrimaryStage().setWidth(1000);
 

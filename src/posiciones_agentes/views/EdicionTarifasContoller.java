@@ -1,5 +1,6 @@
 package posiciones_agentes.views;
 
+import com.jfoenix.controls.JFXTextField;
 import icons.ImageLocation;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -8,6 +9,8 @@ import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import models.UnidadOrganizativa;
 import org.controlsfx.control.textfield.TextFields;
@@ -26,12 +29,14 @@ public class EdicionTarifasContoller {
     private ComboBox<String> unidadesOrganizativas;
     @FXML
     private ComboBox<String> proveedores;
-    @FXML
-    private Spinner<Double> tarifa;
+  //  @FXML
+  // private Spinner<Double> tarifa;
     @FXML
     private ImageView imageEdit;
     @FXML
     private ImageView imageCancel;
+    @FXML
+    private JFXTextField txtTarifa;
 
     private Stage dialogStage;
 
@@ -41,12 +46,14 @@ public class EdicionTarifasContoller {
 
     public void setDialogStage(Stage dialogStage){
         this.dialogStage = dialogStage;
-
     }
 
     @FXML
     private void initialize(){
         this.activeSpinner = false;
+
+        this.txtTarifa.setOnKeyTyped(event ->
+                this.validTarifaValue(event, this.txtTarifa));
 
         this.imageEdit.setOnMouseClicked(event ->
                 this.enableSpinnerTarifa())
@@ -69,11 +76,15 @@ public class EdicionTarifasContoller {
                         .collect(Collectors.toList())
         );
         TextFields.bindAutoCompletion(this.unidadesOrganizativas.getEditor(),this.unidadesOrganizativas.getItems());
-        setValueOnSpinnerTarifas(0);
+        //setValueOnSpinnerTarifas(0);
     }
 
-    private void setValueOnSpinnerTarifas(double value){
+    /*private void setValueOnSpinnerTarifas(double value){
         this.tarifa.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, Double.MAX_VALUE,value,1));
+    }*/
+
+    private void setValueOnTxtTarifa(double value){
+        this.txtTarifa.setText(value+"");
     }
 
     private void enableSpinnerTarifa(){
@@ -87,7 +98,7 @@ public class EdicionTarifasContoller {
         else {
            // File file = new File("../icons/Checkmark_48px.png");
             activeSpinner = true;
-            this.tarifa.setDisable(false);
+            this.txtTarifa.setDisable(false);
             this.imageCancel.setVisible(true);
             this.imageEdit.setImage(new Image(ImageLocation.class.getResource("Checkmark_48px.png").toExternalForm()));
         }
@@ -95,8 +106,8 @@ public class EdicionTarifasContoller {
 
     private void disableSpinnerTarifa(){
         activeSpinner = false;
-        this.tarifa.setDisable(true);
-        this.tarifa.setEditable(false);
+        this.txtTarifa.setDisable(true);
+        //this.txtTarifa.setEditable(false);
         this.imageCancel.setVisible(false);
 
         //File file = new File("../icons/Edit_48px.png");
@@ -108,7 +119,8 @@ public class EdicionTarifasContoller {
     private void cleanFields(){
         this.proveedores.getSelectionModel().clearSelection();
         this.unidadesOrganizativas.getSelectionModel().clearSelection();
-        setValueOnSpinnerTarifas(0);
+        this.txtTarifa.setText(null);
+        //setValueOnSpinnerTarifas(0);
     }
 
     @FXML
@@ -131,11 +143,11 @@ public class EdicionTarifasContoller {
                                        proveedorServicio.getId());
                     if(tarifasPosicionAgente != null) {
                         double valueTarifa = tarifasPosicionAgente.getTarifa();
-                        setValueOnSpinnerTarifas(valueTarifa);
+                        setValueOnTxtTarifa(valueTarifa);
                         tp = tarifasPosicionAgente;
                     }
                     else{
-                        setValueOnSpinnerTarifas(0);
+                        //setValueOnTxtTarifa(0.00);
                         tp = null;
                     }
                 }
@@ -166,21 +178,47 @@ public class EdicionTarifasContoller {
         UnidadOrganizativa uo = ServiceLocator.getUnidadOrganizativaService().searchUnidadOrganizativaByName(uorg);
         if(uo != null){
             ProveedorServicio ps = ServiceLocator.getProveedorServicioService().getByName(prov);
-            if(ps != null){
-                double tarifaValue = this.tarifa.getValue();
-                if(tp != null){
-                    tp.setTarifa(tarifaValue);
-                    ServiceLocator.getTarifaPosicionAgenteService().updateTarifa(tp);
-                    Util.dialogResult("Tarifa modificada correctamente", Alert.AlertType.INFORMATION);
+            if(ps != null) {
+                String stringValue = this.txtTarifa.getText();
+                if (!stringValue.isEmpty()) {
+                    try {
+                        double tarifaValue = Double.parseDouble(stringValue);
+                        if (tp != null) {
+                            tp.setTarifa(tarifaValue);
+                            ServiceLocator.getTarifaPosicionAgenteService().updateTarifa(tp);
+                            Util.dialogResult("Tarifa modificada correctamente", Alert.AlertType.INFORMATION);
+                        } else {
+                            tp = new TarifasPosicionAgente(0, uo, ps, tarifaValue);
+                            ServiceLocator.getTarifaPosicionAgenteService().registerTarifa(tp);
+                            Util.dialogResult("Tarifa registrada correctamente", Alert.AlertType.INFORMATION);
+                            tp.setIdTarifa(ServiceLocator.getTarifaPosicionAgenteService()
+                                    .getTarifaByUoAndProv(uo.getId_unidad_organizativa(), ps.getId()).getIdTarifa());
+                        }
+                    } catch (NumberFormatException e) {
+                        Util.dialogResult("El valor de tarifa no puede tener más de un punto.", Alert.AlertType.ERROR);
+                    }
                 }
                 else{
-                    tp = new TarifasPosicionAgente(0, uo, ps, tarifaValue);
-                    ServiceLocator.getTarifaPosicionAgenteService().registerTarifa(tp);
-                    Util.dialogResult("Tarifa registrada correctamente", Alert.AlertType.INFORMATION);
-                    tp.setIdTarifa(ServiceLocator.getTarifaPosicionAgenteService()
-                                .getTarifaByUoAndProv(uo.getId_unidad_organizativa(), ps.getId()).getIdTarifa());
+                    Util.dialogResult("Tarifa vacía.", Alert.AlertType.WARNING);
                 }
             }
+        }
+    }
+
+    private void validTarifaValue(KeyEvent event, JFXTextField txt){
+        String tarifa = txt.getText();
+
+        if(tarifa.isEmpty()){
+            Util.dialogResult("Tarifa vacía.", Alert.AlertType.WARNING);
+        }
+        else if((tarifa.toCharArray()[tarifa.length()-1] < '0'
+                ||  tarifa.toCharArray()[tarifa.length()-1] > '9')
+                && (tarifa.toCharArray()[tarifa.length()-1] < '.'
+                || tarifa.toCharArray()[tarifa.length()-1] > '.')){
+            event.consume();
+            txt.setText(tarifa.substring(0, tarifa.length()-1));
+            txt.end();
+            Util.dialogResult("El campo de tarifa solo admite valores numéricos y el caracter '.'", Alert.AlertType.INFORMATION);
         }
     }
 }

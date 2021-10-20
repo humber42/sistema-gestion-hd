@@ -1,15 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<BorderPane xmlns:fx="http://javafx.com/fxml" prefHeight="527.0" prefWidth="788.0"
-            xmlns="http://javafx.com/javafx" fx:controller="views.PrincipalViewController">
-    <center>
-        <AnchorPane prefHeight="527.0" prefWidth="788.0">
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 
-        </AnchorPane>
+<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.PrincipalViewController">
+    <center>
+        <AnchorPane minHeight="583.0" prefWidth="934.0">
+         <children>
+            <GridPane layoutX="14.0" layoutY="489.0" prefHeight="94.0" prefWidth="274.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="127.0" minWidth="10.0" prefWidth="60.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="207.0" minWidth="10.0" prefWidth="207.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label text="Nombre:">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label text="Usuario:" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label text="Rol:" GridPane.rowIndex="2">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblNombre" prefHeight="17.0" prefWidth="195.0" text="&lt;nombre&gt;" GridPane.columnIndex="1">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblUsername" prefHeight="17.0" prefWidth="193.0" text="&lt;username&gt;" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblRol" prefHeight="17.0" prefWidth="173.0" text="&lt;rol&gt;" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </GridPane>
+         </children></AnchorPane>
     </center>
     <top>
         <MenuBar BorderPane.alignment="CENTER">
@@ -18,78 +68,49 @@
                     <items>
                         <MenuItem fx:id="registrar" mnemonicParsing="false" onAction="#handleRegister" text="Registrar">
                             <accelerator>
-                                <KeyCodeCombination alt="DOWN" code="R" control="UP" meta="UP" shift="UP"
-                                                    shortcut="UP"/>
+                                <KeyCodeCombination alt="DOWN" code="R" control="UP" meta="UP" shift="UP" shortcut="UP" />
                             </accelerator>
                         </MenuItem>
                         <MenuItem mnemonicParsing="false" onAction="#handleEsclarecer" text="Esclarecimiento">
                             <accelerator>
-                                <KeyCodeCombination alt="DOWN" code="E" control="UP" meta="UP" shift="UP"
-                                                    shortcut="UP"/>
-                            </accelerator>
-                        </MenuItem>
-                        <!--<MenuItem fx:id="buscar" mnemonicParsing="false" onAction="#handleSearch" text="Buscar">-->
-                        <!--<accelerator>-->
-                        <!--<KeyCodeCombination alt="DOWN" code="B" control="UP" meta="UP" shift="UP"-->
-                        <!--shortcut="UP"/>-->
-                        <!--</accelerator>-->
-                        <!--</MenuItem>-->
-                        <MenuItem fx:id="close" mnemonicParsing="false" onAction="#handleCerrar" text="Cerrar">
-                            <accelerator>
-                                <KeyCodeCombination alt="DOWN" code="C" control="UP" meta="UP" shift="UP"
-                                                    shortcut="UP"/>
+                                <KeyCodeCombination alt="DOWN" code="E" control="UP" meta="UP" shift="UP" shortcut="UP" />
                             </accelerator>
                         </MenuItem>
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Informes">
                     <items>
-                        <MenuItem mnemonicParsing="false" onAction="#handleHechosParaResumenMINCOM"
-                                  text="Resumen MINCOM"/>
-                        <MenuItem mnemonicParsing="false" onAction="#handleHechosParaUOrg"
-                                  text="Resumen Hechos por Unidad Organizativa"/>
-                        <MenuItem mnemonicParsing="false" onAction="#handleCentroDireccionInforme" text="Resumen CDNT"/>
-                        <MenuItem mnemonicParsing="false" onAction="#handelFiscaliaInforme" text="Resumen Fiscalía"/>
-                        <MenuItem mnemonicParsing="false" onAction="#handleCertificoHechos" text="Certifico de Hechos"/>
-                        <MenuItem mnemonicParsing="false" onAction="#handleDatosPrevencion"
-                                  text="Informe de Prevención"/>
-                        <MenuItem mnemonicParsing="false" onAction="#handleDatosPendientes"
-                                  text="Resumen Datos Pendientes"/>
-                        <MenuItem mnemonicParsing="false" onAction="#handleHechosPrevenidos"
-                                  text="Resumen Hechos Prevenidos"/>
+                        <MenuItem mnemonicParsing="false" onAction="#handleHechosParaResumenMINCOM" text="Resumen MINCOM" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleHechosParaUOrg" text="Resumen Hechos por Unidad Organizativa" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleCentroDireccionInforme" text="Resumen CDNT" />
+                        <MenuItem mnemonicParsing="false" onAction="#handelFiscaliaInforme" text="Resumen Fiscalía" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleCertificoHechos" text="Certifico de Hechos" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleDatosPrevencion" text="Informe de Prevención" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleDatosPendientes" text="Resumen Datos Pendientes" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleHechosPrevenidos" text="Resumen Hechos Prevenidos" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Listados">
                     <items>
                         <Menu mnemonicParsing="false" text="Delictivos">
                             <items>
-                                <MenuItem mnemonicParsing="false" onAction="#generarDelitoPextListado"
-                                          text="Delito VS PExt"/>
-                                <MenuItem mnemonicParsing="false" onAction="#generarDelitoTpubListado"
-                                          text="Delito VS TPub"/>
-                                <MenuItem mnemonicParsing="false" onAction="#generarDelitoRoboListado" text="Robos"/>
-                                <MenuItem mnemonicParsing="false" onAction="#generarDelitoHurtoListado" text="Hurtos"/>
-                                <MenuItem mnemonicParsing="false" onAction="#generarDelitoFraudeListado"
-                                          text="Fraudes"/>
-                                <MenuItem mnemonicParsing="false" onAction="#generarDelitoAccionCRListado"
-                                          text="Acciones C/R"/>
-                                <MenuItem mnemonicParsing="false" onAction="#generarDelitoOtrosListado"
-                                          text="Otros delitos"/>
+                                <MenuItem mnemonicParsing="false" onAction="#generarDelitoPextListado" text="Delito VS PExt" />
+                                <MenuItem mnemonicParsing="false" onAction="#generarDelitoTpubListado" text="Delito VS TPub" />
+                                <MenuItem mnemonicParsing="false" onAction="#generarDelitoRoboListado" text="Robos" />
+                                <MenuItem mnemonicParsing="false" onAction="#generarDelitoHurtoListado" text="Hurtos" />
+                                <MenuItem mnemonicParsing="false" onAction="#generarDelitoFraudeListado" text="Fraudes" />
+                                <MenuItem mnemonicParsing="false" onAction="#generarDelitoAccionCRListado" text="Acciones C/R" />
+                                <MenuItem mnemonicParsing="false" onAction="#generarDelitoOtrosListado" text="Otros delitos" />
                             </items>
                         </Menu>
                         <Menu mnemonicParsing="false" text="No delictivos">
                             <items>
-                                <MenuItem mnemonicParsing="false" onAction="#generarAveriaPextListado"
-                                          text="Averias PExt"/>
-                                <MenuItem mnemonicParsing="false" onAction="#generarAccTransitoListado"
-                                          text="Accidentes de tránsito"/>
-                                <MenuItem mnemonicParsing="false" onAction="#generarSegInformaticaListado"
-                                          text="Seguridad Informática"/>
-                                <MenuItem mnemonicParsing="false" onAction="#generarIncendioListado" text="Incendios"/>
-                                <MenuItem mnemonicParsing="false" onAction="#generarDiferOrigenListado"
-                                          text="Diferencias de Origen"/>
-                                <MenuItem mnemonicParsing="false" onAction="#generarOtrosHechosListado"
-                                          text="Otros hechos"/>
+                                <MenuItem mnemonicParsing="false" onAction="#generarAveriaPextListado" text="Averias PExt" />
+                                <MenuItem mnemonicParsing="false" onAction="#generarAccTransitoListado" text="Accidentes de tránsito" />
+                                <MenuItem mnemonicParsing="false" onAction="#generarSegInformaticaListado" text="Seguridad Informática" />
+                                <MenuItem mnemonicParsing="false" onAction="#generarIncendioListado" text="Incendios" />
+                                <MenuItem mnemonicParsing="false" onAction="#generarDiferOrigenListado" text="Diferencias de Origen" />
+                                <MenuItem mnemonicParsing="false" onAction="#generarOtrosHechosListado" text="Otros hechos" />
                             </items>
                         </Menu>
                     </items>
@@ -98,21 +119,19 @@
                     <items>
                         <MenuItem mnemonicParsing="false" onAction="#handleHechosRegistrados" text="Hechos registrados">
                             <accelerator>
-                                <KeyCodeCombination alt="DOWN" code="H" control="UP" meta="UP" shift="UP"
-                                                    shortcut="UP"/>
+                                <KeyCodeCombination alt="DOWN" code="H" control="UP" meta="UP" shift="UP" shortcut="UP" />
                             </accelerator>
                         </MenuItem>
-                        <MenuItem mnemonicParsing="false" onAction="#handleTipoMateriales" text="Tipo Materiales Pext"/>
-                        <MenuItem mnemonicParsing="false" onAction="#handleAfectacion" text="Tipo Afectacion TPubl"/>
-                        <MenuItem mnemonicParsing="false" onAction="#handleUnidadOrganizativa"
-                                  text="Unidades Organizativas"/>
-                        <MenuItem mnemonicParsing="false" onAction="#handleMunicipio" text="Municipios"/>
-                        <MenuItem mnemonicParsing="false" onAction="#handleAveria" text="Tipo de Averia"/>
+                        <MenuItem mnemonicParsing="false" onAction="#handleTipoMateriales" text="Tipo Materiales Pext" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleAfectacion" text="Tipo Afectacion TPubl" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleUnidadOrganizativa" text="Unidades Organizativas" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleMunicipio" text="Municipios" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleAveria" text="Tipo de Averia" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Ayuda">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Acerca de..."/>
+                        <MenuItem mnemonicParsing="false" text="Acerca de..." />
                     </items>
                 </Menu>
             </menus>

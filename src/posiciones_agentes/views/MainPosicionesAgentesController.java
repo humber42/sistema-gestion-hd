@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
@@ -13,6 +14,8 @@ import javafx.stage.StageStyle;
 import org.controlsfx.dialog.ExceptionDialog;
 import posiciones_agentes.excels_generators.ExcelGeneratorLocator;
 import posiciones_agentes.views.dialogs.DialogGenerarResumenPorUOController;
+import seguridad.models.UserLoggedIn;
+import seguridad.views.LoginController;
 import util.Util;
 import views.dialogs.DialogLoadingController;
 import views.dialogs.DialogLoadingUrl;
@@ -25,6 +28,15 @@ public class MainPosicionesAgentesController {
     private BorderPane panelPosicionesAgentes;
     private BorderPane panelGrande;
 
+    @FXML
+    private Label lblNombre;
+    @FXML
+    private Label lblUsername;
+    @FXML
+    private Label lblRol;
+
+    private UserLoggedIn logged;
+
     private Stage dialogStage;
 
     public void setPanelGrande(BorderPane panelGrande) {
@@ -33,6 +45,14 @@ public class MainPosicionesAgentesController {
 
     @FXML
     public void initialize() {
+        this.logged = LoginController.getUserLoggedIn();
+        userLoggedInfo();
+    }
+
+    private void userLoggedInfo() {
+        this.lblNombre.setText(logged.getNombre());
+        this.lblUsername.setText(logged.getUsername());
+        this.lblRol.setText(logged.getRol());
     }
 
     @FXML
@@ -58,10 +78,10 @@ public class MainPosicionesAgentesController {
         }
     }
 
-    @FXML
+    /*@FXML
     private void handleCerrar() {
         this.panelGrande.setCenter(null);
-    }
+    }*/
 
     public void setMainApp(Stage mainApp) {
         this.mainApp = mainApp;

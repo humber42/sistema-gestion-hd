@@ -7,6 +7,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import seguridad.models.User;
@@ -51,6 +53,12 @@ public class LoginController {
     }
 
     @FXML
+    private void doClickOnLoginBtn(KeyEvent event){
+        if(event.getCode() == KeyCode.ENTER)
+            login();
+    }
+
+    @FXML
     private void login(){
         if (!emptyFields()){
             String textUsername = this.username.getText();
@@ -60,7 +68,6 @@ public class LoginController {
                 User user = ServiceLocator.getUserService().getUserByUserName(textUsername);
                 if(user != null){
                     if(user.getPassword().equals(passwordEncrypted)){
-                        System.out.println("Logueado");
                         userLoggedIn = new UserLoggedIn(
                                 user.getNombre(),
                                 user.getUsername(),
@@ -70,8 +77,8 @@ public class LoginController {
                         loadPrincipalHechos();
                     }
                     else{
-                        Util.dialogResult("Contraseña incorrecta.", Alert.AlertType.WARNING);
-                        this.password.setText(null);
+                        Util.dialogResult("Usuario o contraseña incorrectos.", Alert.AlertType.WARNING);
+                        cleanFields();
                     }
                 }
                 else{

@@ -70,18 +70,24 @@ public class PanatallaPrincipalModulos {
         this.lblRol.setText(logged.getRol());
 
         if(logged.hasPermiso_pases()){
-            System.out.println("Especialista");
-        }
-        else if(logged.hasPermiso_visualizacion()){
-            System.out.println("Jefe");
             this.bottonPosicionesAgentes.setDisable(true);
             this.bottonHechosExtraordinarios.setDisable(true);
+            this.bottonSistemaIdentificativo.setDisable(false);
+        }
+        else if(logged.hasPermiso_visualizacion()){
+            this.bottonPosicionesAgentes.setDisable(false);
+            this.bottonHechosExtraordinarios.setDisable(false);
+            this.bottonSistemaIdentificativo.setDisable(false);
         }
         else if(logged.hasPermiso_todo()){
-            System.out.println("Admin");
+            this.bottonPosicionesAgentes.setDisable(false);
+            this.bottonHechosExtraordinarios.setDisable(false);
+            this.bottonSistemaIdentificativo.setDisable(false);
         }
         else if(logged.isSuperuser()){
-            System.out.println("SuperUser");
+            this.bottonPosicionesAgentes.setDisable(false);
+            this.bottonHechosExtraordinarios.setDisable(false);
+            this.bottonSistemaIdentificativo.setDisable(false);
         }
     }
 
