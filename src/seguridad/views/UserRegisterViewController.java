@@ -15,7 +15,7 @@ import util.Util;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class UserRegisterController {
+public class UserRegisterViewController {
     @FXML
     private TextField txtNombre;
     @FXML
@@ -69,7 +69,7 @@ public class UserRegisterController {
     private void initializeTable(){
         this.tableUsers.getItems().clear();
         ObservableList<User> observableList = FXCollections.observableList(
-                ServiceLocator.getUserService().getAllUsersButNoLoggedInUser(LoginController.getUserLoggedIn().getUsername())
+                ServiceLocator.getUserService().getAllUsersButNoLoggedInUser(LoginViewController.getUserLoggedIn().getUsername())
         );
 
         this.tableUsers.setItems(observableList);

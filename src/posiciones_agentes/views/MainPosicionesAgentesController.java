@@ -15,7 +15,7 @@ import org.controlsfx.dialog.ExceptionDialog;
 import posiciones_agentes.excels_generators.ExcelGeneratorLocator;
 import posiciones_agentes.views.dialogs.DialogGenerarResumenPorUOController;
 import seguridad.models.UserLoggedIn;
-import seguridad.views.LoginController;
+import seguridad.views.LoginViewController;
 import util.Util;
 import views.dialogs.DialogLoadingController;
 import views.dialogs.DialogLoadingUrl;
@@ -45,7 +45,7 @@ public class MainPosicionesAgentesController {
 
     @FXML
     public void initialize() {
-        this.logged = LoginController.getUserLoggedIn();
+        this.logged = LoginViewController.getUserLoggedIn();
         userLoggedInfo();
     }
 

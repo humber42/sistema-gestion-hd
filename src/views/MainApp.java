@@ -8,7 +8,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.controlsfx.dialog.ExceptionDialog;
-import seguridad.views.LoginController;
+import seguridad.views.LoginViewController;
 import seguridad.views.LoginUrl;
 import util.Conexion;
 import util.ConexionObserver;
@@ -61,7 +61,7 @@ public class MainApp extends Application {
             this.principal = (AnchorPane) loader.load();
             Scene scene = new Scene(this.principal);
 
-            LoginController controller = loader.getController();
+            LoginViewController controller = loader.getController();
             controller.setMainApp(this);
             controller.setPrimaryStage(primaryStage);
             this.primaryStage.setScene(scene);

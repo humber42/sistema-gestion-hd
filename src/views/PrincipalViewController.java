@@ -13,7 +13,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.controlsfx.dialog.ExceptionDialog;
 import seguridad.models.UserLoggedIn;
-import seguridad.views.LoginController;
+import seguridad.views.LoginViewController;
 import util.Conexion;
 import util.Util;
 import views.dialogDelictivos.DialogGenerarListadosDelictivos;
@@ -42,7 +42,7 @@ public class PrincipalViewController {
 
     @FXML
     public void initialize() {
-        this.logged = LoginController.getUserLoggedIn();
+        this.logged = LoginViewController.getUserLoggedIn();
         userLoggedInfo();
     }
 

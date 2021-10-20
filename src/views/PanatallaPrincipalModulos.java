@@ -14,9 +14,9 @@ import javafx.stage.Stage;
 import org.controlsfx.dialog.ExceptionDialog;
 import posiciones_agentes.views.MainPosicionesAgentesController;
 import seguridad.models.UserLoggedIn;
-import seguridad.views.LoginController;
+import seguridad.views.LoginViewController;
 import seguridad.views.LoginUrl;
-import seguridad.views.UserRegisterController;
+import seguridad.views.UserRegisterViewController;
 import sistema_identificativo.views.MainSistemaIdentificativoController;
 
 import java.io.IOException;
@@ -57,7 +57,7 @@ public class PanatallaPrincipalModulos {
 
     @FXML
     private void initialize() {
-        this.logged = LoginController.getUserLoggedIn();
+        this.logged = LoginViewController.getUserLoggedIn();
         userLoggedInfo();
         this.etecsaImg.setOnMouseClicked(event ->
              this.handleUsers()
@@ -111,7 +111,7 @@ public class PanatallaPrincipalModulos {
                 Scene scene = new Scene(pane);
                 dialogStage.setScene(scene);
 
-                UserRegisterController controller = loader.getController();
+                UserRegisterViewController controller = loader.getController();
                 controller.setDialogStage(dialogStage);
                 dialogStage.showAndWait();
 

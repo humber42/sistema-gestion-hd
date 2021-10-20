@@ -10,7 +10,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.controlsfx.dialog.ExceptionDialog;
 import seguridad.models.UserLoggedIn;
-import seguridad.views.LoginController;
+import seguridad.views.LoginViewController;
 import services.ServiceLocator;
 import sistema_identificativo.views.dialogs.AddPicturePendingToPass;
 import sistema_identificativo.views.dialogs.DialogGenerarResumenPasesUO;
@@ -39,7 +39,7 @@ public class MainSistemaIdentificativoController {
 
     @FXML
     public void initialize() {
-        this.logged = LoginController.getUserLoggedIn();
+        this.logged = LoginViewController.getUserLoggedIn();
         userLoggedInfo();
     }
 

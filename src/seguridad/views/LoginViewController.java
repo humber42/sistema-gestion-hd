@@ -26,7 +26,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 
 
-public class LoginController {
+public class LoginViewController {
     @FXML
     private TextField username;
     @FXML
