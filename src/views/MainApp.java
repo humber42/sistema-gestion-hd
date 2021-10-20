@@ -57,7 +57,7 @@ public class MainApp extends Application {
     private void loadLogin(){
         try{
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(LoginUrl.class.getResource("Login.fxml"));
+            loader.setLocation(LoginUrl.class.getResource("LoginView.fxml"));
             this.principal = (AnchorPane) loader.load();
             Scene scene = new Scene(this.principal);
 

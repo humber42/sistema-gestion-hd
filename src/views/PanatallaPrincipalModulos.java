@@ -101,7 +101,7 @@ public class PanatallaPrincipalModulos {
         if(logged.isSuperuser()) {
             try {
                 FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(LoginUrl.class.getResource("UserRegister.fxml"));
+                loader.setLocation(LoginUrl.class.getResource("UserRegisterView.fxml"));
                 AnchorPane pane = loader.load();
                 Stage dialogStage = new Stage();
                 dialogStage.setTitle("Administración de usuarios y roles");
