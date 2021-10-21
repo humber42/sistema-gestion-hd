@@ -7,7 +7,6 @@ public class UserLoggedIn {
     private String rol;
     private Boolean permiso_pases;
     private Boolean permiso_visualizacion;
-    private Boolean permiso_todo;
     private Boolean superuser;
 
     public UserLoggedIn(){}
@@ -19,30 +18,20 @@ public class UserLoggedIn {
         this.rol = rol;
 
         if(rol.equalsIgnoreCase("Admin")){
-             permiso_todo = true;
              permiso_pases = false;
              permiso_visualizacion = false;
-             superuser = false;
+             superuser = true;
         }
         else if(rol.equalsIgnoreCase("Jefe")){
              permiso_visualizacion = true;
              permiso_pases = false;
-             permiso_todo = false;
              superuser = false;
         }
         else if(rol.equalsIgnoreCase("Especialista")){
              permiso_pases = true;
-             permiso_todo = false;
              permiso_visualizacion = false;
              superuser = false;
         }
-        else if(rol.equalsIgnoreCase("SuperUser")){
-             superuser = true;
-             permiso_pases = false;
-             permiso_visualizacion = false;
-             permiso_todo = false;
-        }
-
     }
 
     public String getNombre() {
@@ -91,14 +80,6 @@ public class UserLoggedIn {
 
     public void setPermiso_visualizacion(Boolean permiso_visualizacion) {
         this.permiso_visualizacion = permiso_visualizacion;
-    }
-
-    public Boolean hasPermiso_todo() {
-        return permiso_todo;
-    }
-
-    public void setPermiso_todo(Boolean permiso_todo) {
-        this.permiso_todo = permiso_todo;
     }
 
     public Boolean isSuperuser() {

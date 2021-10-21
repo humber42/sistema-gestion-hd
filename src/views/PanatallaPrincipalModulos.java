@@ -79,11 +79,6 @@ public class PanatallaPrincipalModulos {
             this.bottonHechosExtraordinarios.setDisable(false);
             this.bottonSistemaIdentificativo.setDisable(false);
         }
-        else if(logged.hasPermiso_todo()){
-            this.bottonPosicionesAgentes.setDisable(false);
-            this.bottonHechosExtraordinarios.setDisable(false);
-            this.bottonSistemaIdentificativo.setDisable(false);
-        }
         else if(logged.isSuperuser()){
             this.bottonPosicionesAgentes.setDisable(false);
             this.bottonHechosExtraordinarios.setDisable(false);
