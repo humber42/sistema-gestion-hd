@@ -15,6 +15,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import models.Municipio;
 import org.controlsfx.dialog.ExceptionDialog;
+import seguridad.models.UserLoggedIn;
+import seguridad.views.LoginViewController;
 import services.ServiceLocator;
 import util.Util;
 import views.dialogs.ListarMunicipiosDialogController;
@@ -37,11 +39,15 @@ public class ListaMunicipiosViewController {
     private JFXButton buttonEliminar;
     @FXML
     private JFXButton buttonEditar;
+    @FXML
+    private JFXButton btnNuevo;
 
     private Municipio municipio;
 
     @FXML
     private JFXTextField municipioField;
+
+    private UserLoggedIn logged;
 
     private Stage stage;
 
@@ -54,6 +60,18 @@ public class ListaMunicipiosViewController {
 
     @FXML
     private void initialize() {
+        this.logged = LoginViewController.getUserLoggedIn();
+
+        if(logged.isSuperuser()){
+            btnNuevo.setVisible(true);
+            buttonEditar.setVisible(true);
+            buttonEliminar.setVisible(true);
+        } else if(logged.hasPermiso_pases() || logged.hasPermiso_visualizacion()){
+            btnNuevo.setVisible(false);
+            buttonEditar.setVisible(false);
+            buttonEliminar.setVisible(false);
+        }
+
         municipioField.setDisable(true);
         buttonEditar.setDisable(true);
         buttonEliminar.setDisable(true);

@@ -24,9 +24,11 @@ public interface HechosService {
 
     Hechos searchHechoByCODCDNT(String cdnt);
 
+    Hechos getHechoByUOandFechaOcurrenciaAndTitulo(int id_uorg, Date fecha, String title);
+
     List<Hechos> fetchHechosPextTpub(String offset) throws PSQLException;
 
-    LinkedList<Hechos> fetchBySubStringCodCDNT(String codCdnt, String offset);
+    List<Hechos> fetchBySubStringCodCDNT(String codCdnt, String offset);
 
     int countfetchBySubStringCodCDNT(String codCdnt);
 

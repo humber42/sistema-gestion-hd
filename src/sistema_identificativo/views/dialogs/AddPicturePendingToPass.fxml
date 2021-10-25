@@ -2,13 +2,15 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXListView?>
-<?import javafx.scene.control.*?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml" prefHeight="437.0" prefWidth="600.0" xmlns="http://javafx.com/javafx"
-            fx:controller="sistema_identificativo.views.dialogs.AddPicturePendingToPass">
+
+<AnchorPane prefHeight="437.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sistema_identificativo.views.dialogs.AddPicturePendingToPass">
     <children>
         <TitledPane alignment="TOP_CENTER" collapsible="false" layoutX="246.0" layoutY="14.0" prefHeight="194.0" prefWidth="340.0" text="Información del pase" AnchorPane.leftAnchor="255.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
             <content>
@@ -32,7 +34,8 @@
             <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="0.0" prefWidth="134.0">
                     <children>
-                        <JFXListView fx:id="listaPases" layoutX="21.6" layoutY="29.6" prefHeight="334.0" prefWidth="219.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <JFXListView fx:id="listaPases" layoutX="12.6" layoutY="46.6" prefHeight="364.0" prefWidth="237.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="37.0" />
+                  <JFXTextField fx:id="textName" labelFloat="true" layoutX="30.0" layoutY="11.0" prefHeight="25.0" prefWidth="183.0" promptText="Escriba el nombre aquí..." />
                     </children>
                 </AnchorPane>
             </content>

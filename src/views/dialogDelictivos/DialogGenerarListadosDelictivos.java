@@ -86,7 +86,7 @@ public class DialogGenerarListadosDelictivos {
 
         try {
             int anno = this.obtenerAnno();
-            int mes = obtenerNumeroMes(this.obtenerMes());
+            int mes = Util.obtenerNumeroMes(this.obtenerMes());
             //LinkedList<Hechos> hechos = ServiceLocator.getHechosService().obtenerHechosByTypeAndDate(anno,mes,tipoHecho);
             //GeneradorLocator.getGenerarListados().generarListado(hechos,direccionFile);
             progressBar.setVisible(true);
@@ -160,18 +160,4 @@ public class DialogGenerarListadosDelictivos {
                 .map(integer -> integer.toString())
                 .collect(Collectors.toList());
     }
-
-    private int obtenerNumeroMes(String name) {
-        int mes = 0;
-        boolean notFound = true;
-        for (int i = 0; i < Util.meses2.length && notFound; i++) {
-            if (Util.meses2[i].equalsIgnoreCase(name)) {
-                notFound = false;
-                mes = i + 1;
-            }
-        }
-        return mes;
-    }
-
-
 }

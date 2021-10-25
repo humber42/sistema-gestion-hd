@@ -15,6 +15,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import models.TipoVandalismo;
 import org.controlsfx.dialog.ExceptionDialog;
+import seguridad.models.UserLoggedIn;
+import seguridad.views.LoginViewController;
 import services.ServiceLocator;
 import util.Util;
 import views.dialogs.TipoDeAfectacionDialogController;
@@ -38,11 +40,15 @@ public class TipoAfectacionViewController {
     private JFXButton buttonEliminar;
     @FXML
     private JFXButton buttonEditar;
+    @FXML
+    private JFXButton btnNuevo;
 
     private TipoVandalismo tipoVandalismo;
 
     @FXML
     private JFXTextField afectacionField;
+
+    private UserLoggedIn logged;
 
     public TipoAfectacionViewController() {
     }
@@ -55,6 +61,18 @@ public class TipoAfectacionViewController {
 
     @FXML
     private void initialize() {
+        this.logged = LoginViewController.getUserLoggedIn();
+
+        if(logged.isSuperuser()){
+            btnNuevo.setVisible(true);
+            buttonEditar.setVisible(true);
+            buttonEliminar.setVisible(true);
+        } else if(logged.hasPermiso_visualizacion() || logged.hasPermiso_pases()){
+            btnNuevo.setVisible(false);
+            buttonEditar.setVisible(false);
+            buttonEliminar.setVisible(false);
+        }
+
         afectacionField.setDisable(true);
         buttonEditar.setDisable(true);
         buttonEliminar.setDisable(true);

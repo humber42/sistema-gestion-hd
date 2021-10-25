@@ -51,6 +51,6 @@
             <Image url="@../../icons/Delete_48px.png" />
          </image>
       </ImageView>
-      <JFXTextField fx:id="txtTarifa" disable="true" layoutX="171.0" layoutY="165.0" prefHeight="25.0" prefWidth="102.0" promptText="Valor de tarifa" />
+      <JFXTextField fx:id="txtTarifa" disable="true" labelFloat="true" layoutX="171.0" layoutY="165.0" prefHeight="25.0" prefWidth="102.0" promptText="Valor de tarifa" />
    </children>
 </AnchorPane>

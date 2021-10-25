@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -20,6 +21,7 @@ import models.Municipio;
 import models.TipoHecho;
 import models.UnidadOrganizativa;
 import org.controlsfx.control.textfield.TextFields;
+import org.controlsfx.dialog.ExceptionDialog;
 import services.ServiceLocator;
 import util.Util;
 import views.dialogs.DialogLoadingController;
@@ -32,9 +34,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class BuscarViewController {
-
-    private BorderPane principalView;
-    private StackPane stackPane;
     @FXML
     private JFXToggleButton activarFiltros;
     @FXML
@@ -62,9 +61,7 @@ public class BuscarViewController {
     @FXML
     private TableColumn<Hechos, String> codCDNTColumn;
 
-    public void setStackPane(StackPane stackPane) {
-        this.stackPane = stackPane;
-    }
+    private static Hechos hechoSelected;
 
     private Stage dialogStage;
 
@@ -72,8 +69,15 @@ public class BuscarViewController {
 
     private Boolean activoOrDeactive = false;
 
-    public void setPrincipalView(BorderPane principalView) {
-        this.principalView = principalView;
+    public static Hechos getHechoSeleccionado(){
+        if(hechoSelected == null)
+            hechoSelected = new Hechos();
+        return hechoSelected;
+    }
+
+    public void setDialogStage(Stage dialogStage) {
+        this.dialogStage = dialogStage;
+
     }
 
     public void setMainApp(Stage stage) {
@@ -85,7 +89,6 @@ public class BuscarViewController {
 
         municipio.setEditable(true);
         unidadOrganizativa.setEditable(true);
-
 
         paneFilter.setVisible(false);
         activarFiltros.setOnAction(event -> {
@@ -132,6 +135,32 @@ public class BuscarViewController {
     private List<String> getUnidadesOrganizativas() {
         return ServiceLocator.getUnidadOrganizativaService().fetchAll().stream().map(UnidadOrganizativa::getUnidad_organizativa).collect(Collectors.toList());
     }
+
+    /*private void showDialogRegister(){
+        if(this.tabla.getSelectionModel().getSelectedItem() != null) {
+            hechoSelected = (Hechos)this.tabla.getSelectionModel().getSelectedItem();
+            try {
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(PrincipalViewController.class.getResource("RegistrarView.fxml"));
+                AnchorPane anchorPane = loader.load();
+                Stage stage = new Stage();
+                stage.setTitle("Registrar Hecho");
+                stage.initModality(Modality.WINDOW_MODAL);
+                stage.initOwner(this.dialogStage);
+                stage.setResizable(false);
+                stage.setMaximized(false);
+                stage.setScene(new Scene(anchorPane));
+
+                RegistrarViewController controller = loader.getController();
+                controller.setDialogStage(stage);
+                controller.setFromPrincipal(false);
+                stage.showAndWait();
+            } catch (IOException e) {
+                ExceptionDialog dialog = new ExceptionDialog(e);
+                dialog.showAndWait();
+            }
+        }
+    }*/
 
     @FXML
     private void buscar() {
@@ -219,7 +248,7 @@ public class BuscarViewController {
                 //dialogStage.setScene(new Scene(panel));
                 DialogLoadingController controller = loader.getController();
                 controller.setLabelText("Cargando");
-                dialogStage.show();
+                dialogStage.showAndWait();
 
                 Thread th = new Thread(tarea);
                 th.setDaemon(true);
@@ -240,11 +269,11 @@ public class BuscarViewController {
                         cellData.getValue().getFecha_ocurrencia().toString()
                 )
         );
-        this.tipoHechoColumn.setCellValueFactory(
+       /*this.tipoHechoColumn.setCellValueFactory(
                 cellData -> new SimpleStringProperty(
                         cellData.getValue().getTipoHecho().getTipo_hecho()
                 )
-        );
+        );*/
         this.tituloHechoColumn.setCellValueFactory(
                 cellData -> new SimpleStringProperty(
                         cellData.getValue().getTitulo()

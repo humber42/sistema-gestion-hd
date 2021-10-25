@@ -9,6 +9,8 @@ public interface RegistroPaseService {
 
     List<RegistroPase> getAllRegistroPase();
 
+    List<String> getAllPendingPhotosByContainName(String name);
+
     RegistroPase getRegistroPaseById(int id);
 
     String ultimoRegisroPase(String tipoPase, String codigoPase);

@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
+import java.util.List;
 
 
 public class HechosServiceImpl implements HechosService {
@@ -170,10 +171,9 @@ public class HechosServiceImpl implements HechosService {
     }
 
     @Override
-    public LinkedList<Hechos> fetchBySubStringCodCDNT(String codCdnt, String offset) {
+    public List<Hechos> fetchBySubStringCodCDNT(String codCdnt, String offset) {
         String query = "SELECT * From hechos WHERE (hechos.id_tipo_hecho = 1 or hechos.id_tipo_hecho =2) and cod_cdnt LIKE '%" + codCdnt + "%' ORDER BY fecha_ocurrencia LIMIT 10 OFFSET " + offset;
         return recuperarListaResultSet(query);
-
     }
 
     @Override
@@ -987,5 +987,20 @@ public class HechosServiceImpl implements HechosService {
         statement.setInt(1,hechos.getId_reg());
         statement.execute();
         statement.close();
+    }
+
+    @Override
+    public Hechos getHechoByUOandFechaOcurrenciaAndTitulo(int id_uorg, Date fecha, String title) {
+        Hechos hecho = new Hechos();
+        String query = "SELECT * FROM hechos WHERE id_uorg = "+ id_uorg +
+                " AND titulo = '" + title + "' AND fecha_ocurrencia = '" + fecha + "'";
+        try {
+            ResultSet resultSet = Util.executeQuery(query);
+            if (resultSet.next())
+                hecho = recuperarResultSetHechos(resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return hecho;
     }
 }

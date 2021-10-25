@@ -334,4 +334,16 @@ public class Util {
             Util.dialogResult("El campo ya está vacío", Alert.AlertType.INFORMATION);
         }
     }
+
+    public static int obtenerNumeroMes(String name) {
+        int mes = 0;
+        boolean notFound = true;
+        for (int i = 0; i < Util.meses2.length && notFound; i++) {
+            if (Util.meses2[i].equalsIgnoreCase(name)) {
+                notFound = false;
+                mes = i + 1;
+            }
+        }
+        return mes;
+    }
 }

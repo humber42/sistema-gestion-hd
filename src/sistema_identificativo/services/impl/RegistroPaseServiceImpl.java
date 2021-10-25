@@ -98,12 +98,31 @@ public class RegistroPaseServiceImpl implements RegistroPaseService {
     public List<RegistroPase> getAllRegistroPase() {
         List<RegistroPase> registroPaseList = new LinkedList<>();
         try {
-            String query = "Select * From registro_pases";
+            String query = "Select * From registro_pases WHERE baja = 0";
             registroPaseList = recuperarLista(Util.executeQuery(query));
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return registroPaseList;
+    }
+
+    @Override
+    public List<String> getAllPendingPhotosByContainName(String name) {
+        List<String> nombres = new LinkedList<>();
+        try{
+            String query = "SELECT nombre FROM registro_pases " +
+                    "WHERE baja = 0 AND nombre LIKE '%" + name + "%' " +
+                    "AND registro_pases.image_url='' OR registro_pases.image_url IS NULL OR " +
+                    "registro_pases.image_url='no-img.jpg'";
+            ResultSet rs = Util.executeQuery(query);
+            while (rs.next()) {
+                nombres.add(rs.getString(1));
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return nombres;
     }
 
     @Override
@@ -133,7 +152,7 @@ public class RegistroPaseServiceImpl implements RegistroPaseService {
         List<String> pasesName = new LinkedList<>();
         try {
             String query = "Select nombre from registro_pases " +
-                    "where registro_pases.image_url='' or registro_pases.image_url=null or registro_pases.image_url='no-img.jpg'";
+                    "where baja = 0 and registro_pases.image_url='' or registro_pases.image_url is null or registro_pases.image_url='no-img.jpg'";
             ResultSet resultSet = Util.executeQuery(query);
             while (resultSet.next()) {
                 pasesName.add(resultSet.getString(1));
