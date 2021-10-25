@@ -51,40 +51,43 @@ public class DialogGenerarResumenPorUOController {
     private void generarResumenXUOrg(){
         try{
             String unidadOrganizativa = this.unidadOrganizativa.getValue();
-            this.loading.setVisible(true);
-            this.generar.setDisable(true);
-            this.cancelar.setDisable(true);
-            Task<Boolean> task = new Task<Boolean>() {
-                boolean result = false;
-                String file = "src/informesGenerados/ResumenPosiciones"+unidadOrganizativa+".xlsx";
-                @Override
-                protected Boolean call() throws Exception {
-                    this.result = ExcelGeneratorLocator.getResumenUnidadOrganizativa().generarResumenUnidadOrganizativa(file,
-                            ServiceLocator.getUnidadOrganizativaService().searchUnidadOrganizativaByName(unidadOrganizativa));
-                    return result;
-                }
+            if(unidadOrganizativa.equals("")){
+                Util.dialogResult("Seleccione una unidad organizativa", Alert.AlertType.ERROR);
+            } else {
+                this.loading.setVisible(true);
+                this.generar.setDisable(true);
+                this.cancelar.setDisable(true);
+                Task<Boolean> task = new Task<Boolean>() {
+                    boolean result = false;
+                    String file = "src/informesGenerados/ResumenPosiciones" + unidadOrganizativa + ".xlsx";
 
-                @Override
-                protected void succeeded() {
-                    super.succeeded();
-                    loading.setVisible(false);
-                    generar.setDisable(false);
-                    cancelar.setDisable(false);
-                    try{
-                        Runtime.getRuntime().exec("cmd /c start "+file);
-                    }catch (IOException e){
-                        e.printStackTrace();
+                    @Override
+                    protected Boolean call() throws Exception {
+                        this.result = ExcelGeneratorLocator.getResumenUnidadOrganizativa().generarResumenUnidadOrganizativa(file,
+                                ServiceLocator.getUnidadOrganizativaService().searchUnidadOrganizativaByName(unidadOrganizativa));
+                        return result;
                     }
-                    Util.showDialog(result);
-                }
-            };
-            new Thread(task).start();
+
+                    @Override
+                    protected void succeeded() {
+                        super.succeeded();
+                        loading.setVisible(false);
+                        generar.setDisable(false);
+                        cancelar.setDisable(false);
+                        try {
+                            Runtime.getRuntime().exec("cmd /c start " + file);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        Util.showDialog(result);
+                    }
+                };
+                new Thread(task).start();
+            }
         }catch (NullPointerException e){
             Util.dialogResult("Seleccione una unidad organizativa", Alert.AlertType.ERROR);
             e.printStackTrace();
         }
-
-
     }
 
     @FXML

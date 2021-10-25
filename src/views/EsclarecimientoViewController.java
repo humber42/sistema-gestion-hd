@@ -1,5 +1,6 @@
 package views;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
@@ -13,7 +14,8 @@ import javafx.stage.Stage;
 import models.Hechos;
 import models.HechosEsclarecimiento;
 import org.controlsfx.dialog.ExceptionDialog;
-import org.postgresql.util.PSQLException;
+import seguridad.models.UserLoggedIn;
+import seguridad.views.LoginViewController;
 import services.ServiceLocator;
 import util.DateUtil;
 import util.Util;
@@ -58,6 +60,8 @@ public class EsclarecimientoViewController {
 
     @FXML
     private TitledPane tipoEsclarecimiento;
+    @FXML
+    private JFXButton btnSave;
 
 
     @FXML
@@ -94,27 +98,29 @@ public class EsclarecimientoViewController {
     private LinkedList<HechosEsclarecimiento> hechosCopyOriginalList;
     private LinkedList<HechosEsclarecimiento> hechosList;
 
-    private Hechos hechoActual;
+    private HechosEsclarecimiento hechoActual;
 
-    private int offset;
-    private int buscarOffset;
-    private int offsetBusquedaMaximo;
     private boolean isSearch = false;
-    private JFXTextField buscarPorCodCDNT;
-    private int offsetMaximo;
+
+  //  private int offsetMaximo;
     private MainApp mainApp;
     private Stage dialogStage;
 
+    private UserLoggedIn logged;
+
     @FXML
     private void handleNext() {
-        if (isSearch) {
+       // if (isSearch) {
             try {
-                cargarDatos(hechosList.get(hechosList.indexOf(hechoActual) + 1));
-            } catch (IndexOutOfBoundsException e) {
-                if (buscarOffset + 10 != offsetBusquedaMaximo) {
+                int position = hechosList.indexOf(hechoActual)+1;
+                cargarDatos(hechosList.get(position));
+            } catch (NoSuchElementException | IndexOutOfBoundsException e) {
+                dialogElemento("último");
+                /*if (buscarOffset + 10 != offsetBusquedaMaximo) {
                     hechosList.clear();
                     buscarOffset += 10;
                     hechosList.addAll(this.obtenerHechosBySubStringCodCDNT(subStringFormada, buscarOffset));
+                    System.out.println("Offset Busqueda : " + buscarOffset);
                     try {
                         cargarDatos(hechosList.getFirst());
                     } catch (NoSuchElementException exc) {
@@ -122,21 +128,24 @@ public class EsclarecimientoViewController {
                     }
                 } else {
                     dialogElemento("último");
-                }
+                }*/
             }
-        }
+        //}
         /*
         Aqui no se encuentra buscando
          */
-        else {
+       /* else {
             try {
-                cargarDatos(hechosList.get(hechosList.indexOf(hechoActual) + 1));
-            } catch (IndexOutOfBoundsException e) {
-                if (offset + 30 != offsetMaximo) {
+                int position = hechosList.indexOf(hechoActual)+1;
+                cargarDatos(hechosList.get(position));
+               // System.out.println(position);
+            } catch (NoSuchElementException e) {
+               /* if (offset + 30 != offsetMaximo) {
                     hechosList.clear();
                     offset += 30;
 
                     hechosList.addAll(this.obtenerHechosPextTpub(offset));
+                    System.out.println("Offset No Busqueda: " + offset);
 
                     try {
                         cargarDatos(hechosList.getFirst());
@@ -145,18 +154,26 @@ public class EsclarecimientoViewController {
                     }
                 } else {
                     dialogElemento("último");
-                }
+                }*/
             }
-        }
-    }
+      //  }
+    //}
 
     @FXML
     private void handleLast() {
-        if (isSearch) {
-            cargarDatos(hechosList.getLast());
-        } else {
+       // if (isSearch) {
+           // hechosList.clear();
+           // hechosList.addAll(this.obtenerHechosBySubStringCodCDNT(subStringFormada));
+            try {
+                cargarDatos(hechosList.getLast());
+            } catch(NoSuchElementException | IndexOutOfBoundsException e){
+                dialogElemento("último");
+            }
+       /* } else {
             hechosList.clear();
             offset = offsetMaximo - 30;
+
+            System.out.println("Offset Handle Last : " + offset);
 
             hechosList.addAll(this.obtenerHechosPextTpub(offset));
 
@@ -165,21 +182,24 @@ public class EsclarecimientoViewController {
             } catch (NoSuchElementException e){
                 Util.dialogResult("Usted se encuentra en el último elemento.", Alert.AlertType.INFORMATION);
             }
-        }
+        }*/
     }
 
     @FXML
     private void handlePrevious() {
-        if (isSearch) {
+       // if (isSearch) {
             try {
-                cargarDatos(hechosList.get(hechosList.indexOf(hechoActual) - 1));
-            } catch (IndexOutOfBoundsException e) {
-                hechosList.clear();
+                int position = hechosList.indexOf(hechoActual)-1;
+                cargarDatos(hechosList.get(position ));
+            } catch (NoSuchElementException | IndexOutOfBoundsException e) {
+                dialogElemento("primer");
+              /*  hechosList.clear();
                 if (!(buscarOffset >= 10)) {
                     dialogElemento("primer");
                 } else {
                     buscarOffset -= 10;
                     hechosList.addAll(this.obtenerHechosBySubStringCodCDNT(subStringFormada, buscarOffset));
+                    System.out.println("Offset Busqueda : " + buscarOffset);
                     try {
                         cargarDatos(hechosList.getFirst());
                     } catch (NoSuchElementException exc) {
@@ -187,12 +207,14 @@ public class EsclarecimientoViewController {
                     }
                 }
             }
-            /*
-             Aqui no se encuentra en la busqueda
-             */
+
+           //  Aqui no se encuentra en la busqueda
+
         } else {
             try {
-                cargarDatos(hechosList.get(hechosList.indexOf(hechoActual) - 1));
+                int position = hechosList.indexOf(hechoActual)-1;
+                cargarDatos(hechosList.get(position));
+                System.out.println(position);
             } catch (IndexOutOfBoundsException e) {
                 hechosList.clear();
                 if (!(offset >= 30)) {
@@ -201,6 +223,7 @@ public class EsclarecimientoViewController {
                     offset -= 30;
                     try {
                         hechosList.addAll(this.obtenerHechosPextTpub(offset));
+                        System.out.println("Offset NO Busqueda : " + offset);
                     } catch (Exception exc) {
                         dialogElemento("primer");
                         offset = 0;
@@ -211,15 +234,19 @@ public class EsclarecimientoViewController {
                         dialogElemento("primer");
                     }
                 }
-            }
+            }*/
         }
     }
 
     @FXML
     private void handleFirst() {
-        if (this.isSearch) {
+       // if (this.isSearch) {
+        try {
             cargarDatos(hechosList.getFirst());
-        } else {
+        } catch (NoSuchElementException | IndexOutOfBoundsException e){
+            dialogElemento("primer");
+        }
+       /* } else {
             hechosList.clear();
             offset = 0;
             try {
@@ -229,7 +256,7 @@ public class EsclarecimientoViewController {
                 dialog.showAndWait();
             }
             cargarDatos(hechosList.getFirst());
-        }
+        }*/
     }
 
     public void setMainApp(MainApp mainApp) {
@@ -243,6 +270,14 @@ public class EsclarecimientoViewController {
 
     @FXML
     private void initialize() {
+        this.logged = LoginViewController.getUserLoggedIn();
+
+        if(logged.isSuperuser()){
+            this.btnSave.setVisible(true);
+        } else if(logged.hasPermiso_visualizacion() || logged.hasPermiso_pases()){
+            this.btnSave.setVisible(false);
+        }
+
         this.cantSancionados.setVisible(false);
         this.sentencia.setVisible(false);
         this.fecha.setEditable(false);
@@ -268,7 +303,6 @@ public class EsclarecimientoViewController {
         this.tipoEsclarecimiento.setAnimated(true);
         this.tipoEsclarecimiento.setVisible(false);
         this.tipoEsclarecimiento.setDisable(true);
-        this.buscarOffset = 0;
 
         this.esclarecido.selectedProperty().addListener(
                 (observable, oldValue, newValue) -> {
@@ -313,7 +347,7 @@ public class EsclarecimientoViewController {
         );
 
         try {
-            this.hechosList = (LinkedList<HechosEsclarecimiento>) obtenerHechosPextTpub(offset);
+            this.hechosList = (LinkedList<HechosEsclarecimiento>) obtenerHechosPextTpub();
         } catch (Exception e) {
             ExceptionDialog dialog = new ExceptionDialog(e);
             dialog.showAndWait();
@@ -321,28 +355,28 @@ public class EsclarecimientoViewController {
 
         this.cargarDatos(hechosList.getFirst());
 
-        /*Clonando la lista original para hacer la carga mucho mas rapida luego que se elimino
-            all en la busqueda
-         */
+        //Clonando la lista original para hacer la carga mucho mas rapida luego que se elimino
+         //   all en la busqueda
+
         try {
             this.hechosCopyOriginalList = (LinkedList<HechosEsclarecimiento>) hechosList.clone();
         } catch (ClassCastException e) {
             e.printStackTrace();
         }
 
-        this.offsetMaximo = ServiceLocator.getHechosService().countHechos();
+       // this.offsetMaximo = ServiceLocator.getHechosService().countHechos();
     }
 
     @FXML
     public void advancedSearchByCodCDNT(KeyEvent event) {
-        buscarOffset = 0;
+        //buscarOffset = 0;
         if (event.getCode() != KeyCode.BACK_SPACE) {
             this.subStringFormada += event.getText();
             hechosList.clear();
             this.isSearch = true;
             try {
-                offsetBusquedaMaximo = ServiceLocator.getHechosService().countfetchBySubStringCodCDNT(subStringFormada);
-                hechosList.addAll(this.obtenerHechosBySubStringCodCDNT(subStringFormada, buscarOffset));
+                //offsetBusquedaMaximo = ServiceLocator.getHechosService().countfetchBySubStringCodCDNT(subStringFormada);
+                hechosList.addAll(this.obtenerHechosBySubStringCodCDNT(subStringFormada));
                 cargarDatos(hechosList.getFirst());
                 event.consume();
             } catch (NoSuchElementException e) {
@@ -357,8 +391,8 @@ public class EsclarecimientoViewController {
                     System.out.println("Im here");
                 } else {
                     this.subStringFormada = this.subStringFormada.substring(0, subStringFormada.length() - 1);
-                    offsetBusquedaMaximo = ServiceLocator.getHechosService().countfetchBySubStringCodCDNT(subStringFormada);
-                    hechosList.addAll(this.obtenerHechosBySubStringCodCDNT(subStringFormada, buscarOffset));
+                   // offsetBusquedaMaximo = ServiceLocator.getHechosService().countfetchBySubStringCodCDNT(subStringFormada);
+                    hechosList.addAll(this.obtenerHechosBySubStringCodCDNT(subStringFormada));
                     cargarDatos(hechosList.getFirst());
                     System.out.println("Busque otros hechos");
                 }
@@ -366,10 +400,10 @@ public class EsclarecimientoViewController {
         } else {
             try {
                 this.subStringFormada = this.subStringFormada.substring(0, subStringFormada.length() - 1);
-                offsetBusquedaMaximo = ServiceLocator.getHechosService().countfetchBySubStringCodCDNT(subStringFormada);
+               // offsetBusquedaMaximo = ServiceLocator.getHechosService().countfetchBySubStringCodCDNT(subStringFormada);
                 if (subStringFormada.length() != 0) {
                     hechosList.clear();
-                    hechosList.addAll(this.obtenerHechosBySubStringCodCDNT(subStringFormada, buscarOffset));
+                    hechosList.addAll(this.obtenerHechosBySubStringCodCDNT(subStringFormada));
                     cargarDatos(hechosList.getFirst());
                     event.consume();
                 } else {
@@ -398,7 +432,8 @@ public class EsclarecimientoViewController {
      * @param hechos data who be charged in the user interface
      */
     private void cargarDatos(HechosEsclarecimiento hechos) {
-        this.hechoActual = ServiceLocator.getHechosService().getHecho(hechos.getIdReg());
+        this.hechoActual = hechos;
+        Hechos hecho = ServiceLocator.getHechosService().getHecho(hechos.getIdReg());
 
         this.tipo.setText(hechos.getTipoHecho());
         this.codCDNT.setText(hechos.getCodCDNT());
@@ -411,15 +446,15 @@ public class EsclarecimientoViewController {
         this.afectacionMN.setText(hechos.getAfectacionMN().toString());
         if (ServiceLocator.getTipoHechoService().searchTipoHechoByName(
                 hechos.getTipoHecho()).getId_tipo_hecho() == 1) {
-            this.valorChangerByInfractionType.setText(hechoActual.getMateriales().getMateriales());
+            this.valorChangerByInfractionType.setText(hecho.getMateriales().getMateriales());
         } else {
             this.valorChangerByInfractionType.setText(hechos.getAfectacion());
         }
         this.denuncia.setText(hechos.getNumDenuncia());
-        this.sintesis.setText(hechos.getTitulo() + ". " + hechoActual.getLugar());
+        this.sintesis.setText(hechos.getTitulo() + ". " + hecho.getLugar());
 
         //Cargar boolean data
-        this.chargeBooleanDataToUI(hechoActual);
+        this.chargeBooleanDataToUI(hecho);
     }
 
     private void chargeBooleanDataToUI(Hechos hechos) {
@@ -499,20 +534,21 @@ public class EsclarecimientoViewController {
         String cantSancionadosData = cantSancionados.getText();
         String sentenciaData = sentencia.getText();
 
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setHeaderText(null);
-        alert.setContentText("Desea actualizar este hecho");
-        alert.setTitle("Confirmación");
-        Optional<ButtonType> confirmacion = alert.showAndWait();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
+                "¿Desea actualizar este hecho?"
+                ,ButtonType.OK, ButtonType.CANCEL);
+        alert.showAndWait();
 
-        if (confirmacion.get().equals(ButtonType.OK)) {
+        if (alert.getResult() == ButtonType.OK) {
+            Hechos hecho = ServiceLocator.getHechosService().getHecho(hechoActual.getIdReg());
             ServiceLocator.
                     getHechosService().
-                    esclarecimientoHechoPExtTpubl(hechoActual.getId_reg(),
+                    esclarecimientoHechoPExtTpubl(hecho.getId_reg(),
                             sinDenunciaData, expSACData, esclarecidoData, articulo83Data,
                             articulo82Data, medidasAdministrativasData, pendienteAJuicioData,
                             expedienteFasePreparatoriaData, menorEdadData, pendienteDespachoData,
                             privacionLibertadData, cantSancionadosData, sentenciaData);
+            Util.dialogResult("Hecho actualizado correctamente.", Alert.AlertType.INFORMATION);
         }
     }
 
@@ -530,7 +566,7 @@ public class EsclarecimientoViewController {
         alert.showAndWait();
     }
 
-    private List<HechosEsclarecimiento> obtenerHechosPextTpub(int offset){
+    private List<HechosEsclarecimiento> obtenerHechosPextTpub(){
         List<HechosEsclarecimiento> hechos = new LinkedList<>();
         String query = "SELECT id_reg, cod_cdnt, fecha_ocurrencia, tipo_hecho, afectacion_mn, afectacion_servicio, " +
                 "unidad_organizativa, municipio, numero_denuncia, afectacion_usd, afect_tpublica, titulo " +
@@ -540,7 +576,7 @@ public class EsclarecimientoViewController {
                 "JOIN municipios ON municipios.id_municipio = hechos.id_municipio " +
                 "JOIN tipo_vandalismo ON tipo_vandalismo.id_afect_tpublica = hechos.id_afectacion_telefonia_publica " +
                 "WHERE (hechos.id_tipo_hecho = 1 or hechos.id_tipo_hecho =2) "+
-                "ORDER BY fecha_ocurrencia DESC LIMIT 30 OFFSET "+ offset;
+                "ORDER BY fecha_ocurrencia DESC";
         try {
             ResultSet rs = Util.executeQuery(query);
             hechos = getDataFromResultSet(rs);
@@ -551,7 +587,7 @@ public class EsclarecimientoViewController {
         return hechos;
     }
 
-    private List<HechosEsclarecimiento> obtenerHechosBySubStringCodCDNT(String codCdnt, int offset){
+    private List<HechosEsclarecimiento> obtenerHechosBySubStringCodCDNT(String codCdnt){
         List<HechosEsclarecimiento> hechos = new LinkedList<>();
         String query = "SELECT id_reg, cod_cdnt, fecha_ocurrencia, tipo_hecho, afectacion_mn, afectacion_servicio, " +
                 "unidad_organizativa, municipio, numero_denuncia, afectacion_usd, afect_tpublica, titulo " +
@@ -561,7 +597,7 @@ public class EsclarecimientoViewController {
                 "JOIN municipios ON municipios.id_municipio = hechos.id_municipio " +
                 "JOIN tipo_vandalismo ON tipo_vandalismo.id_afect_tpublica = hechos.id_afectacion_telefonia_publica " +
                 "WHERE (hechos.id_tipo_hecho = 1 or hechos.id_tipo_hecho =2) " +
-                "and cod_cdnt LIKE '%" + codCdnt + "%' ORDER BY fecha_ocurrencia DESC LIMIT 10 OFFSET " + offset;
+                "and cod_cdnt LIKE '%" + codCdnt + "%' ORDER BY fecha_ocurrencia DESC";
 
         try {
             ResultSet rs = Util.executeQuery(query);

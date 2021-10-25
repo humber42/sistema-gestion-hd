@@ -58,8 +58,8 @@ public class RegistroPasesController {
     private Label passCategoryLabel;
     @FXML
     private JFXComboBox<String> passCategory;
-    @FXML
-    private JFXCheckBox passLow;
+   // @FXML
+   // private JFXCheckBox passLow;
     @FXML
     private JFXComboBox<String> organUnity;
     @FXML
@@ -319,14 +319,14 @@ public class RegistroPasesController {
         Date fecha = this.valityDate
                 .getValue() == null ? null : Date.valueOf(this.valityDate.getValue());
 
-        int baja = this.passLow.isSelected() ? 1 : 0;
+       // int baja = this.passLow.isSelected() ? 1 : 0;
         String observacion = this.observations.getText();
         String urlImage = StringUtils.cleanPath(new File(Util.renombrarPath(this.profilePhoto.getImage().getUrl())).getName()).replace(" ","%20");
 
         RegistroPase pase = new RegistroPase(0,
                 tipoPase, codigoPase, passNumber, ci,
                 name, unidadOrganizativa, acceso, fecha,
-                baja, observacion, urlImage
+                0, observacion, urlImage
         );
 
         //Salvando el pase
@@ -360,7 +360,7 @@ public class RegistroPasesController {
         this.passNumber.clear();
         this.passType.getSelectionModel().clearSelection();
         this.passCategory.getSelectionModel().clearSelection();
-        this.passLow.setSelected(false);
+      //  this.passLow.setSelected(false);
         this.organUnity.getSelectionModel().clearSelection();
         this.valityDate.getEditor().clear();
         this.access.clear();

@@ -30,4 +30,6 @@ public interface RegistroPaseService {
     void updateSeleccionado(String identidad) throws SQLException;
 
     void deselectAllSelections() throws SQLException;
+
+    void darBajaPase(int id_reg);
 }

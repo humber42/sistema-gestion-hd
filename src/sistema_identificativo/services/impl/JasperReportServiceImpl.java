@@ -35,8 +35,6 @@ public class JasperReportServiceImpl implements JasperReportService {
     private static final String PATH = "src/sistema_identificativo/jasper_reports/";
     private Stage dialogStage;
 
-
-
     //TODO: Make some thread to dont freeze the User Interface;
     private void loadDialogLoading(Stage mainApp){
         try{

@@ -189,12 +189,10 @@ public class ImprimirPasesController {
                             ServiceLocator.getJasperReportService().imprimirPasesProvisionalesSelected(this.dialogStage,impresionList);
                         else if (typePass.equalsIgnoreCase("Negro"))
                             ServiceLocator.getJasperReportService().imprimirPasesNegrosSelected(this.dialogStage,impresionList);
-
                 } else{
                     Util.dialogResult("Los pases a imprimir deben ser del mismo tipo.", Alert.AlertType.WARNING);
                 }
             }
-
         }
         else{
             Util.dialogResult("No hay elementos seleccionados.", Alert.AlertType.INFORMATION);
@@ -233,6 +231,7 @@ public class ImprimirPasesController {
                 this.filterPane.setExpanded(false);
                 this.filterPane.setVisible(false);
                 this.passType.getSelectionModel().clearSelection();
+                this.passType.setPromptText("Seleccione");
                 this.txtName.clear();
                 this.initializeTable(ServiceLocator.getImpresionService().getAllImpressions());
                 this.table.setPrefHeight(353);

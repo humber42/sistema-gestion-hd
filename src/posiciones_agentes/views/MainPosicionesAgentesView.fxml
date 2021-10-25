@@ -73,7 +73,7 @@
     <top>
         <MenuBar BorderPane.alignment="CENTER">
             <menus>
-                <Menu mnemonicParsing="false" text="Archivo">
+                <Menu fx:id="menuArchivo" mnemonicParsing="false" text="Archivo">
                     <items>
                         <MenuItem mnemonicParsing="false" onAction="#cargarRegister" text="Registrar posición de agente">
                      <accelerator>

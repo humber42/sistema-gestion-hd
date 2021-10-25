@@ -138,6 +138,19 @@ public class RegistroPaseServiceImpl implements RegistroPaseService {
     }
 
     @Override
+    public void darBajaPase(int id_reg){
+        String function = "{call dar_baja_pase(?)}";
+        try {
+            CallableStatement statement = Conexion.getConnection().prepareCall(function);
+            statement.setInt(1, id_reg);
+            statement.execute();
+            statement.close();
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public void deleteRegistroPase(int id) throws SQLException {
         String function = "{call delete_registro_pase(?)}";
         CallableStatement statement = Conexion.getConnection().prepareCall(function);

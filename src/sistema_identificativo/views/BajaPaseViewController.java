@@ -9,9 +9,11 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import services.ServiceLocator;
 import sistema_identificativo.models.Impresion;
+import sistema_identificativo.models.RegistroPase;
 import sistema_identificativo.models.TipoPase;
 import util.Util;
 
+import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -155,59 +157,6 @@ public class BajaPaseViewController {
             this.lblSize.setText(size + " elementos encontrados");
     }
 
-   /* @FXML
-    private void imprimir() {
-        ObservableList<Impresion> impresionList = table.getSelectionModel().getSelectedItems();
-        if(!impresionList.isEmpty()){
-            Impresion impression = impresionList.get(0);
-            if(impresionList.size() == 1){
-                String typePass = impression.getTipoPase();
-                if (typePass.equalsIgnoreCase("Permanente"))
-                    ServiceLocator.getJasperReportService().imprimirPasePermanente(impression.getIdentidad(),this.dialogStage);
-                else if (typePass.equalsIgnoreCase("Especial"))
-                    ServiceLocator.getJasperReportService().imprimirPaseEspecial(impression.getIdentidad(),this.dialogStage);
-                else if (typePass.equalsIgnoreCase("Provisional"))
-                    ServiceLocator.getJasperReportService().imprimirPaseProvisional(impression.getIdentidad(),this.dialogStage);
-                else if (typePass.equalsIgnoreCase("Negro"))
-                    ServiceLocator.getJasperReportService().imprimirPaseNegro(impression.getIdentidad(),this.dialogStage);
-            }
-            else{
-                if(sameTypePass(impresionList)){
-                    String typePass = impresionList.get(0).getTipoPase();
-                    if (typePass.equalsIgnoreCase("Permanente"))
-                        ServiceLocator.getJasperReportService().imprimirPasesPermanentesSelected(this.dialogStage, impresionList);
-                    else if (typePass.equalsIgnoreCase("Especial"))
-                        ServiceLocator.getJasperReportService().imprimirPasesEspecialesSelected(this.dialogStage,impresionList);
-                    else if (typePass.equalsIgnoreCase("Provisional"))
-                        ServiceLocator.getJasperReportService().imprimirPasesProvisionalesSelected(this.dialogStage,impresionList);
-                    else if (typePass.equalsIgnoreCase("Negro"))
-                        ServiceLocator.getJasperReportService().imprimirPasesNegrosSelected(this.dialogStage,impresionList);
-
-                } else{
-                    Util.dialogResult("Los pases a imprimir deben ser del mismo tipo.", Alert.AlertType.WARNING);
-                }
-            }
-
-        }
-        else{
-            Util.dialogResult("No hay elementos seleccionados.", Alert.AlertType.INFORMATION);
-        }
-    }*/
-
-   /* private boolean sameTypePass(ObservableList<Impresion> impresionList){
-        boolean same = true;
-        String firstTypePass = impresionList.get(0).getTipoPase();
-        int i = 1;
-        while (i < impresionList.size() && same){
-            Impresion imp = impresionList.get(i);
-            if(firstTypePass.equalsIgnoreCase(imp.getTipoPase()))
-                i++;
-            else
-                same = false;
-        }
-        return same;
-    }
-*/
     @FXML
     private void actualizeSelections(){
         int cantSelections = table.getSelectionModel().getSelectedItems().size();
@@ -226,6 +175,7 @@ public class BajaPaseViewController {
             this.filterPane.setExpanded(false);
             this.filterPane.setVisible(false);
             this.passType.getSelectionModel().clearSelection();
+            this.passType.setPromptText("Seleccione");
             this.txtName.clear();
             this.initializeTable(ServiceLocator.getImpresionService().getAllImpressions());
             this.table.setPrefHeight(353);
@@ -243,6 +193,65 @@ public class BajaPaseViewController {
             this.filterPane.setVisible(true);
             this.table.setLayoutY(236);
             this.table.setPrefHeight(249);
+        }
+    }
+
+    @FXML
+    private void handleBaja(){
+        ObservableList<Impresion> lista = this.table.getSelectionModel().getSelectedItems();
+        if(!lista.isEmpty()){
+            Impresion data = lista.get(0);
+            if(lista.size() == 1){
+                try {
+                    RegistroPase pase = ServiceLocator.getRegistroPaseService().getPaseByCI(data.getIdentidad());
+                    if(pase != null){
+                        Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
+                                "¿Desea dar baja realmente al pase de " + pase.getNombre() + "?"
+                                ,ButtonType.OK, ButtonType.CANCEL);
+                        alert.showAndWait();
+                        if(alert.getResult() == ButtonType.OK) {
+                            ServiceLocator.getRegistroPaseService().darBajaPase(pase.getIdReg());
+                            Util.dialogResult("El pase fue dado de baja correctamente.", Alert.AlertType.INFORMATION);
+                            List<Impresion> impresionList = ServiceLocator.getImpresionService().getAllImpressions();
+                            this.initializeTable(impresionList);
+                        }
+                    }
+                } catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }
+            else {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
+                        "¿Desea dar baja realmente a los pases seleccionados?"
+                        ,ButtonType.OK, ButtonType.CANCEL);
+                alert.showAndWait();
+                if(alert.getResult() == ButtonType.OK) {
+                    RegistroPase pase;
+                    try {
+                        int contFalloPases = 0;
+                        for (Impresion imp : lista) {
+                            pase = ServiceLocator.getRegistroPaseService().getPaseByCI(imp.getIdentidad());
+                            if(pase != null){
+                                ServiceLocator.getRegistroPaseService().darBajaPase(pase.getIdReg());
+                            } else{
+                                contFalloPases++;
+                            }
+                        }
+                        if(contFalloPases > 0){
+                            Util.dialogResult("El proceso de dar baja a los pases falló en " + contFalloPases
+                                    + " ocasiones.", Alert.AlertType.ERROR);
+                        } else if(contFalloPases == 0){
+                            Util.dialogResult("Los pases seleccionados fueron dados de baja correctamente.", Alert.AlertType.INFORMATION);
+                            List<Impresion> impresionList = ServiceLocator.getImpresionService().getAllImpressions();
+                            this.initializeTable(impresionList);
+                        }
+                    } catch (SQLException e){
+                        Util.dialogResult("Ha ocurrido un error al dar baja a los pases.", Alert.AlertType.ERROR);
+                    }
+                }
+            }
+        } else {
+            Util.dialogResult("No hay elementos seleccionados.", Alert.AlertType.INFORMATION);
         }
     }
 }

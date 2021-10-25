@@ -144,6 +144,7 @@ public class InformacionHechoViewController {
         this.cargarInformacionHechoSeleccionadoBusqueda();
     }
 
+
     private void cargarInformacionHechoSeleccionadoBusqueda(){
         this.hechoSelected = BuscarHechosViewController.getHechoSeleccionado();
         if(hechoSelected != null){

@@ -118,6 +118,7 @@ public class PrincipalViewController {
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Esclarecer hechos");
             dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.setResizable(false);
             dialogStage.initOwner(this.mainApp);
             Scene scene = new Scene(page);
             dialogStage.setScene(scene);

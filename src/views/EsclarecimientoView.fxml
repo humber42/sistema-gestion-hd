@@ -9,6 +9,8 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -116,7 +118,7 @@
         </TitledPane>
         <HBox fx:id="buttonBox" layoutX="381.0" layoutY="469.0">
             <children>
-                <JFXButton buttonType="RAISED" onAction="#handleAccept" prefHeight="30.0" prefWidth="109.0" style="-fx-background-color: green;" text="Guardar" textFill="WHITE">
+                <JFXButton fx:id="btnSave" buttonType="RAISED" onAction="#handleAccept" prefHeight="30.0" prefWidth="109.0" style="-fx-background-color: green;" text="Guardar" textFill="WHITE">
                     <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                     </HBox.margin>
@@ -134,10 +136,50 @@
                 </JFXButton>
             </children>
         </HBox>
-        <JFXButton defaultButton="true" layoutX="203.0" layoutY="301.0" onAction="#handlePrevious" text="Anterior" />
-        <JFXButton defaultButton="true" layoutX="282.0" layoutY="301.0" onAction="#handleNext" text="Siguiente" />
-        <JFXButton defaultButton="true" layoutX="126.0" layoutY="301.0" onAction="#handleFirst" text="Primero" />
-        <JFXButton defaultButton="true" layoutX="364.0" layoutY="301.0" onAction="#handleLast" text="Último" />
         <JFXTextField labelFloat="true" layoutX="449.0" layoutY="301.0" onKeyPressed="#advancedSearchByCodCDNT" promptText="Buscar por Cod. CDNT" />
+      <HBox layoutX="203.0" layoutY="297.0" prefHeight="25.0" prefWidth="98.0">
+         <children>
+            <JFXButton buttonType="RAISED" onAction="#handleFirst" text=" ">
+               <graphic>
+                  <ImageView fitHeight="25.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/icons8_Double_Left_48px.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <JFXButton onAction="#handlePrevious" text=" ">
+               <graphic>
+                  <ImageView fitHeight="25.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/icons8_Back_48px_5.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+         </children>
+      </HBox>
+      <HBox layoutX="332.0" layoutY="297.0">
+         <children>
+            <JFXButton fx:id="btnNext" onAction="#handleNext" text=" ">
+               <graphic>
+                  <ImageView fitHeight="25.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/icons8_Forward_48px.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <JFXButton fx:id="btnLast" onAction="#handleLast" text=" ">
+               <graphic>
+                  <ImageView fitHeight="25.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/icons8_Double_Right_48px.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+         </children>
+      </HBox>
     </children>
 </AnchorPane>

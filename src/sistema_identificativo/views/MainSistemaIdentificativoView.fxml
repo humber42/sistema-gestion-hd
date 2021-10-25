@@ -73,14 +73,14 @@
     <top>
         <MenuBar BorderPane.alignment="CENTER">
             <menus>
-                <Menu mnemonicParsing="false" text="Archivo">
+                <Menu fx:id="menuArchivo" mnemonicParsing="false" text="Archivo">
                     <items>
                         <MenuItem mnemonicParsing="false" onAction="#registrarPase" text="Registrar pase">
                      <accelerator>
                         <KeyCodeCombination alt="DOWN" code="R" control="UP" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator>
                         </MenuItem>
-                  <MenuItem mnemonicParsing="false" onAction="#bajaPase" text="Dar baja pase"/>
+                  <MenuItem mnemonicParsing="false" onAction="#bajaPase" text="Dar baja pase" />
 
                     </items>
                 </Menu>
@@ -91,7 +91,7 @@
                      <accelerator>
                         <KeyCodeCombination alt="DOWN" code="I" control="UP" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
-                        <MenuItem mnemonicParsing="false" onAction="#addPicturesToPassPendents" text="Añadir foto a pase pendiente">
+                        <MenuItem fx:id="mnFotoPasePending" mnemonicParsing="false" onAction="#addPicturesToPassPendents" text="Añadir foto a pase pendiente">
                      <accelerator>
                         <KeyCodeCombination alt="DOWN" code="A" control="UP" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>

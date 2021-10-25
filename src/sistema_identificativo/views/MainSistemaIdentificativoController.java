@@ -4,6 +4,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
@@ -30,6 +32,10 @@ public class MainSistemaIdentificativoController {
     private Label lblUsername;
     @FXML
     private Label lblRol;
+    @FXML
+    private Menu menuArchivo;
+    @FXML
+    private MenuItem mnFotoPasePending;
 
     private UserLoggedIn logged;
 
@@ -41,6 +47,15 @@ public class MainSistemaIdentificativoController {
     public void initialize() {
         this.logged = LoginViewController.getUserLoggedIn();
         userLoggedInfo();
+
+        if(logged.isSuperuser() || logged.hasPermiso_pases()){
+            this.menuArchivo.setVisible(true);
+            this.mnFotoPasePending.setVisible(true);
+        }
+        else if(logged.hasPermiso_visualizacion()){
+            this.menuArchivo.setVisible(false);
+            this.mnFotoPasePending.setVisible(false);
+        }
     }
 
     private void userLoggedInfo() {

@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
@@ -34,6 +35,8 @@ public class MainPosicionesAgentesController {
     private Label lblUsername;
     @FXML
     private Label lblRol;
+    @FXML
+    private Menu menuArchivo;
 
     private UserLoggedIn logged;
 
@@ -47,6 +50,13 @@ public class MainPosicionesAgentesController {
     public void initialize() {
         this.logged = LoginViewController.getUserLoggedIn();
         userLoggedInfo();
+
+        if(logged.isSuperuser()){
+            this.menuArchivo.setVisible(true);
+        }
+        else if(logged.hasPermiso_pases() || logged.hasPermiso_visualizacion()){
+            this.menuArchivo.setVisible(false);
+        }
     }
 
     private void userLoggedInfo() {
