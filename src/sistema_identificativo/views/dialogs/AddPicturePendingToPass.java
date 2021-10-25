@@ -1,6 +1,7 @@
 package sistema_identificativo.views.dialogs;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextField;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -27,6 +28,7 @@ import views.dialogs.DialogLoadingController;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -53,6 +55,8 @@ public class AddPicturePendingToPass {
     private JFXButton annadir;
     @FXML
     private JFXButton guardar;
+    @FXML
+    private JFXTextField textName;
 
     private RegistroPase paseSeleccionado;
     private Stage dialogUploading;
@@ -63,7 +67,10 @@ public class AddPicturePendingToPass {
 
     @FXML
     private void initialize() {
-
+        this.textName.setOnKeyTyped(event -> {
+                Util.eventToSetUpperCaseToFirstNameAndLastName(event, this.textName);
+                this.applySearch();
+        });
 
         this.labelCarneIdentidad.setText(this.paseSeleccionado != null ? this.paseSeleccionado.getNumeroIdentidad() : "(No hay datos seleccionados)");
         this.labelCategoriaPase.setText(this.paseSeleccionado != null ? this.paseSeleccionado.getCodigoPase().getCodigo() : "(No hay datos seleccionados)");
@@ -85,6 +92,15 @@ public class AddPicturePendingToPass {
 
     }
 
+    private void applySearch(){
+        this.listaPases.getItems().clear();
+        this.listaPases.getItems().addAll(
+                this.textName.getText().isEmpty() ?
+                        ServiceLocator.getRegistroPaseService().pasesPendientesFoto() :
+                        ServiceLocator.getRegistroPaseService().getAllPendingPhotosByContainName(this.textName.getText())
+        );
+    }
+
     @FXML
     private void searchPicture() {
         FileChooser fileChooser = new FileChooser();
@@ -104,8 +120,6 @@ public class AddPicturePendingToPass {
 
     @FXML
     private void savePhoto() {
-
-
         Task<Boolean> tarea = new Task<Boolean>() {
             private boolean state = true;
 
@@ -127,9 +141,9 @@ public class AddPicturePendingToPass {
                 super.succeeded();
                 dialogUploading.close();
                 if (state) {
-                    Util.dialogResult("Se añadio la foto con exito", Alert.AlertType.INFORMATION);
+                    Util.dialogResult("La foto fue añadida con éxito.", Alert.AlertType.INFORMATION);
                 } else {
-                    Util.dialogResult("Error al subir la foto", Alert.AlertType.ERROR);
+                    Util.dialogResult("Ocurrió un error añadiendo la foto", Alert.AlertType.ERROR);
                 }
                 cleanData();
                 annadir.setDisable(true);
@@ -169,7 +183,6 @@ public class AddPicturePendingToPass {
         this.labelNumeroPase.setText(this.paseSeleccionado != null ? this.paseSeleccionado.getNumeroPase() : "(No hay datos seleccionados)");
         this.labelTipoPase.setText(this.paseSeleccionado != null ? this.paseSeleccionado.getTipoPase().getTipoPase() : "(No hay datos seleccionados)");
         this.profilePhoto.setImage(new Image("@../../icons/no-img.jpg"));
-
     }
 
     private void uploadPhoto() {
@@ -188,12 +201,20 @@ public class AddPicturePendingToPass {
     }
 
     private void setValuesOnToLabels(String value) {
-        this.paseSeleccionado = ServiceLocator.getRegistroPaseService().getPaseByPassName(value);
-        this.labelCarneIdentidad.setText(this.paseSeleccionado != null ? this.paseSeleccionado.getNumeroIdentidad() : "(No hay datos)");
-        this.labelCategoriaPase.setText(this.paseSeleccionado != null ? this.paseSeleccionado.getCodigoPase().getCodigo() : "(No hay datos)");
-        this.labelNombre.setText(this.paseSeleccionado != null ? this.paseSeleccionado.getNombre() : "(No hay datos)");
-        this.labelNumeroPase.setText(this.paseSeleccionado != null ? this.paseSeleccionado.getNumeroPase() : "(No hay datos)");
-        this.labelTipoPase.setText(this.paseSeleccionado != null ? this.paseSeleccionado.getTipoPase().getTipoPase() : "(No hay datos)");
+        if(value != null){
+            this.paseSeleccionado = ServiceLocator.getRegistroPaseService().getPaseByPassName(value);
+            this.labelCarneIdentidad.setText(this.paseSeleccionado != null ? this.paseSeleccionado.getNumeroIdentidad() : "(No hay datos)");
+            this.labelCategoriaPase.setText(this.paseSeleccionado != null ? this.paseSeleccionado.getCodigoPase().getCodigo() : "(No hay datos)");
+            this.labelNombre.setText(this.paseSeleccionado != null ? this.paseSeleccionado.getNombre() : "(No hay datos)");
+            this.labelNumeroPase.setText(this.paseSeleccionado != null ? this.paseSeleccionado.getNumeroPase() : "(No hay datos)");
+            this.labelTipoPase.setText(this.paseSeleccionado != null ? this.paseSeleccionado.getTipoPase().getTipoPase() : "(No hay datos)");
+        }
+        else{
+            this.labelCarneIdentidad.setText("(No hay datos)");
+            this.labelCategoriaPase.setText("(No hay datos)");
+            this.labelNombre.setText("(No hay datos)");
+            this.labelNumeroPase.setText("(No hay datos)");
+            this.labelTipoPase.setText("(No hay datos)");
+        }
     }
-
 }

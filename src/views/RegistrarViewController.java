@@ -600,5 +600,4 @@ public class RegistrarViewController {
     private TipoMateriales buscarMaterial(String name) {
         return ServiceLocator.getTipoMaterialesService().searchMaterialesByName(name);
     }
-
 }

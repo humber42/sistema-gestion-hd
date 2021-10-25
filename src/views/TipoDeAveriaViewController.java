@@ -19,6 +19,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import models.AveriasPext;
 import org.controlsfx.dialog.ExceptionDialog;
+import seguridad.models.UserLoggedIn;
+import seguridad.views.LoginViewController;
 import services.ServiceLocator;
 import util.Util;
 import views.dialogs.TipoDeAveriaDialogController;
@@ -46,11 +48,15 @@ public class TipoDeAveriaViewController {
     private JFXButton buttonEliminar;
     @FXML
     private JFXButton buttonEditar;
+    @FXML
+    private JFXButton btnNuevo;
 
     private AveriasPext averiasPext;
 
     @FXML
     private JFXTextField causaField;
+
+    private UserLoggedIn logged;
 
     private Stage stage;
 
@@ -67,6 +73,18 @@ public class TipoDeAveriaViewController {
 
     @FXML
     private void initialize() {
+        this.logged = LoginViewController.getUserLoggedIn();
+
+        if(logged.isSuperuser()){
+            this.btnNuevo.setVisible(true);
+            this.buttonEditar.setVisible(true);
+            this.buttonEliminar.setVisible(true);
+        } else if(logged.hasPermiso_pases() || logged.hasPermiso_visualizacion()){
+            this.btnNuevo.setVisible(false);
+            this.buttonEditar.setVisible(false);
+            this.buttonEliminar.setVisible(false);
+        }
+
         causaField.setDisable(true);
         buttonEditar.setDisable(true);
         buttonEliminar.setDisable(true);

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXToggleButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="537.0" prefWidth="652.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sistema_identificativo.views.BajaPaseViewController">
+    <children>
+        <Label alignment="CENTER" layoutX="183.0" layoutY="21.0" prefHeight="53.0" prefWidth="287.0" text="Dar baja pases">
+            <font>
+                <Font size="36.0" />
+            </font>
+        </Label>
+        <HBox layoutX="450.0" layoutY="489.0" prefHeight="38.0" prefWidth="187.0">
+            <children>
+                <HBox>
+                    <children>
+                        <JFXButton buttonType="RAISED" prefHeight="33.0" prefWidth="94.0" style="-fx-background-color: green;" text="Aceptar" textFill="#f5f1f1">
+                            <HBox.margin>
+                                <Insets right="5.0" />
+                            </HBox.margin>
+                        </JFXButton>
+                        <JFXButton buttonType="RAISED" onAction="#closeOrCancelDialog" prefHeight="33.0" prefWidth="86.0" style="-fx-background-color: red;" text="Cancelar" textFill="#f5f1f1" />
+                    </children>
+                </HBox>
+            </children>
+        </HBox>
+        <TitledPane fx:id="filterPane" collapsible="false" disable="true" expanded="false" layoutX="1.0" layoutY="132.0" prefHeight="81.0" prefWidth="652.0" text="Filtros" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="60.0" prefWidth="650.0" visible="false">
+                    <children>
+                        <Label layoutX="14.0" layoutY="14.0" prefHeight="17.0" prefWidth="78.0" text="Tipo de pase" />
+                        <Label layoutX="325.0" layoutY="14.0" text="Nombre y apellidos" />
+                        <ComboBox fx:id="passType" layoutX="124.0" layoutY="10.0" prefHeight="25.0" prefWidth="194.0" promptText="Seleccione" />
+                        <TextField fx:id="txtName" layoutX="442.0" layoutY="10.0" prefHeight="25.0" prefWidth="193.0" />
+                    </children>
+                </AnchorPane>
+            </content>
+        </TitledPane>
+        <JFXToggleButton fx:id="activateFilters" layoutX="474.0" layoutY="75.0" prefHeight="58.0" prefWidth="177.0" text="Activar filtros" />
+        <TableView id="tabla_pases" fx:id="table" accessibleRole="CHECK_BOX" layoutY="132.0" onMouseClicked="#actualizeSelections" prefHeight="354.0" prefWidth="652.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <columns>
+                <TableColumn fx:id="passNumberColumn" maxWidth="2500.0" prefWidth="73.0" text="No. de pase" />
+                <TableColumn fx:id="identityColumn" maxWidth="3000.0" prefWidth="187.0" text="CI" />
+                <TableColumn fx:id="nameColumn" maxWidth="6000.0" prefWidth="176.0" text="Nombre" />
+                <TableColumn fx:id="passTypeColumn" prefWidth="164.0" text="Tipo de pase" />
+                <TableColumn fx:id="passCodeColumn" maxWidth="3000.0" prefWidth="135.0" text="Código de pase" />
+            </columns>
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+            </columnResizePolicy>
+        </TableView>
+        <Label fx:id="lblSize" layoutX="249.0" layoutY="499.0" prefHeight="17.0" prefWidth="187.0" text="(encontrados)" />
+        <Label fx:id="lblSelection" layoutX="33.0" layoutY="499.0" prefHeight="17.0" prefWidth="187.0" text="Ningún elemento seleccionado" />
+    </children>
+</AnchorPane>

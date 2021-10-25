@@ -15,6 +15,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import models.TipoMateriales;
 import org.controlsfx.dialog.ExceptionDialog;
+import seguridad.models.UserLoggedIn;
+import seguridad.views.LoginViewController;
 import services.ServiceLocator;
 import util.Util;
 import views.dialogs.TipoMaterialDialogController;
@@ -39,11 +41,15 @@ public class TipoMaterialViewController {
     private JFXButton buttonEliminar;
     @FXML
     private JFXButton buttonEditar;
+    @FXML
+    private JFXButton btnNuevo;
 
     private TipoMateriales tipoMateriales;
 
     @FXML
     private JFXTextField materialesLabel;
+
+    private UserLoggedIn logged;
 
     private Stage stage;
 
@@ -56,6 +62,18 @@ public class TipoMaterialViewController {
 
     @FXML
     private void initialize() {
+        this.logged = LoginViewController.getUserLoggedIn();
+
+        if(logged.isSuperuser()){
+            this.btnNuevo.setVisible(true);
+            this.buttonEditar.setVisible(true);
+            this.buttonEliminar.setVisible(true);
+        } else if(logged.hasPermiso_pases() || logged.hasPermiso_visualizacion()){
+            this.btnNuevo.setVisible(false);
+            this.buttonEliminar.setVisible(false);
+            this.buttonEditar.setVisible(false);
+        }
+
         materialesLabel.setDisable(true);
         buttonEditar.setDisable(true);
         buttonEliminar.setDisable(true);

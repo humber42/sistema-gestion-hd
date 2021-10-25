@@ -16,6 +16,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import models.UnidadOrganizativa;
 import org.controlsfx.dialog.ExceptionDialog;
+import seguridad.models.UserLoggedIn;
+import seguridad.views.LoginViewController;
 import services.ServiceLocator;
 import util.Util;
 import views.dialogs.UnidadOrgEditDialogController;
@@ -28,9 +30,6 @@ import java.util.Optional;
 public class UnidadesOrgViewController {
 
     private MainApp mainApp;
-
-
-
     @FXML
     private TableView<UnidadOrganizativa> unidadTable;
     @FXML
@@ -41,11 +40,15 @@ public class UnidadesOrgViewController {
     private JFXButton buttonEliminar;
     @FXML
     private JFXButton buttonEditar;
+    @FXML
+    private JFXButton btnNuevo;
 
     private UnidadOrganizativa uo;
 
     @FXML
     private JFXTextField unidadLabel;
+
+    private UserLoggedIn logged;
 
     public UnidadesOrgViewController() {
     }
@@ -58,6 +61,18 @@ public class UnidadesOrgViewController {
 
     @FXML
     private void initialize() {
+        this.logged = LoginViewController.getUserLoggedIn();
+
+        if(logged.isSuperuser()){
+            this.btnNuevo.setVisible(true);
+            this.buttonEditar.setVisible(true);
+            this.buttonEliminar.setVisible(true);
+        } else if(logged.hasPermiso_pases() || logged.hasPermiso_visualizacion()){
+            this.buttonEditar.setVisible(false);
+            this.btnNuevo.setVisible(false);
+            this.buttonEliminar.setVisible(false);
+        }
+
         unidadLabel.setDisable(true);
         buttonEditar.setDisable(true);
         buttonEliminar.setDisable(true);

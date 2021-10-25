@@ -13,40 +13,48 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Paint;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import models.Anno;
 import models.Hechos;
+import models.TipoHecho;
+import models.UnidadOrganizativa;
+import org.controlsfx.control.textfield.TextFields;
 import org.controlsfx.dialog.ExceptionDialog;
+import seguridad.models.UserLoggedIn;
+import seguridad.views.LoginViewController;
 import services.ServiceLocator;
 import util.Util;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class HechosRegistradosViewController {
     private MainApp mainApp;
-    public ObservableList sintesis;
 
     @FXML
-    private TableView<Hechos> hechosTable;
+    private TableView<HechosRegistrados> hechosTable;
     @FXML
-    private TableColumn<Hechos, String> numeroHechosColum;
+    private TableColumn<HechosRegistrados, String> numeroHechosColum;
     @FXML
-    private TableColumn<Hechos, String> codCDNTColum;
+    private TableColumn<HechosRegistrados, String> codCDNTColum;
     @FXML
-    private TableColumn<Hechos, String> uniOrgColum;
+    private TableColumn<HechosRegistrados, String> uniOrgColum;
     @FXML
-    private TableColumn<Hechos, String> tipoColum;
+    private TableColumn<HechosRegistrados, String> tipoColum;
     @FXML
-    private TableColumn<Hechos,String> municipioColum;
+    private TableColumn<HechosRegistrados,String> municipioColum;
     @FXML
-    private TableColumn<Hechos,String> ocurrenciaColum;
+    private TableColumn<HechosRegistrados,String> ocurrenciaColum;
     @FXML
-    private TableColumn<Hechos,String > sintesisColum;
+    private TableColumn<HechosRegistrados,String > sintesisColum;
 
     @FXML
-    private JFXTextField hechoField;
+    private TextArea hechoArea;
     @FXML
     private Label municipioLabel;
     @FXML
@@ -64,18 +72,39 @@ public class HechosRegistradosViewController {
     @FXML
     private JFXButton buttonEditar;
     @FXML
+    private JFXButton btnClean;
+    @FXML
+    private JFXButton btnSearch;
+    @FXML
+    private JFXButton btnNuevo;
+    @FXML
+    private TitledPane infoHechoSelected;
+
+    @FXML
     private TextField offsetMaximoField;
     @FXML
     private TextField offsetField;
+    @FXML
+    private ComboBox<String> cboxAnno;
+    @FXML
+    private ComboBox<String> cboxUorg;
+    @FXML
+    private ComboBox<String> cboxTipoHecho;
 
-    private Hechos hechos;
+    private HechosRegistrados hechoRegistradoSelected;
+
+    private UserLoggedIn logged;
+
     private Stage stage;
 
-
-    private LinkedList<Hechos> hechosList;
     private int offsetMaximo;
     private int offset;
 
+    private boolean usingFilters;
+
+    private String annoPartQuery;
+    private String uorgPartQuery;
+    private String tipoHechoPartQuery;
 
     public void setStage(Stage stage) {
         this.stage = stage;
@@ -86,28 +115,41 @@ public class HechosRegistradosViewController {
 
     @FXML
     private void initialize() {
+        this.logged = LoginViewController.getUserLoggedIn();
+        this.usingFilters = false;
+
+        if(logged.hasPermiso_visualizacion() || logged.hasPermiso_pases()){
+            this.infoHechoSelected.setVisible(false);
+            this.btnNuevo.setVisible(false);
+        }
+        else if(logged.isSuperuser()){
+            this.infoHechoSelected.setVisible(true);
+            this.btnNuevo.setVisible(true);
+        }
+
         buttonEditar.setDisable(true);
         buttonEliminar.setDisable(true);
+        btnClean.setDisable(true);
         municipioLabel.setDisable(true);
         tipoHechoLabel.setDisable(true);
-        hechoField.setDisable(true);
+        hechoArea.setDisable(true);
         ocurreDate.setDisable(true);
         parteDate.setDisable(true);
         centroField.setDisable(true);
         lugarField.setDisable(true);
-        cargarTabla(ServiceLocator.getHechosService().fetchAllHechos2("15","0"));
+        cargarTabla(this.obtenerHechosRegistrados(15,0));
         offset = 0;
         offsetMaximo = ServiceLocator.getHechosService().countAllHechos();
-
 
         hechosTable.getSelectionModel()
                 .selectedItemProperty()
                 .addListener((observable, oldValue, newValue) -> {
                     showHechoDetails(newValue);
-                    this.hechos = newValue;
+                    this.hechoRegistradoSelected = newValue;
                     buttonEditar.setDisable(false);
                     buttonEliminar.setDisable(false);
-                    hechoField.setDisable(false);
+                    btnClean.setDisable(false);
+                    hechoArea.setDisable(false);
                     ocurreDate.setDisable(false);
                     parteDate.setDisable(false);
                     centroField.setDisable(false);
@@ -118,30 +160,62 @@ public class HechosRegistradosViewController {
         offsetMaximoField.setEditable(false);
         ponerNumeroDeTablas();
         ponerOffsetDetablaActual();
+        this.cboxUorg.getItems().setAll(
+                ServiceLocator.getUnidadOrganizativaService()
+                        .fetchAll()
+                        .stream()
+                        .map(UnidadOrganizativa::getUnidad_organizativa)
+                        .collect(Collectors.toList())
+        );
+        this.cboxAnno.getItems().setAll(
+                ServiceLocator.getAnnoServicio()
+                        .allAnno()
+                        .stream()
+                        .map(Anno::getAnno)
+                        .map(integer -> integer.toString())
+                        .collect(Collectors.toList())
+        );
+        this.cboxTipoHecho.getItems().setAll(
+                ServiceLocator.getTipoHechoService()
+                        .fetchAll()
+                        .stream()
+                        .map(TipoHecho::getTipo_hecho)
+                        .collect(Collectors.toList())
+        );
+        TextFields.bindAutoCompletion(this.cboxUorg.getEditor(),this.cboxUorg.getItems());
+        TextFields.bindAutoCompletion(this.cboxAnno.getEditor(),this.cboxAnno.getItems());
     }
 
-    public void ponerOffsetDetablaActual(){
+    private Hechos getHechoSelected(){
+        Hechos h = null;
+        if(hechoRegistradoSelected != null){
+            h = ServiceLocator.getHechosService().getHecho(hechoRegistradoSelected.getId_reg());
+        }
+        return h;
+    }
+
+    private void ponerOffsetDetablaActual(){
         int resto = offset%15;
         int count = offset/15;
         if (resto!= 0){
-            offsetField.setText(Integer.toString(count+1));
+            offsetField.setText(Integer.toString(count));
         }else{
             offsetField.setText(Integer.toString(count));
         }
     }
-    public void ponerNumeroDeTablas(){
+    private void ponerNumeroDeTablas(){
         int resto = offsetMaximo%15;
         int count = offsetMaximo/15;
         if (resto!=0){
-            offsetMaximoField.setText(Integer.toString(count+1));
+            offsetMaximoField.setText(Integer.toString(count));
         }else {
             offsetMaximoField.setText(Integer.toString(count));
         }
     }
-    public void buscarTabla(){
+
+    @FXML
+    private void buscarTabla(){
         try {
-
-
             int busqueda = Integer.parseInt(offsetField.getText());
             offset = busqueda * 15;
             if (offset > offsetMaximo || offset < 0) {
@@ -150,8 +224,14 @@ public class HechosRegistradosViewController {
                 alert.setTitle("Entrada Incorrecta");
                 alert.setContentText("Por favor, introduzca valores entre 0 y " + offsetMaximoField.getText());
                 alert.showAndWait();
-            } else
-                cargarTabla(ServiceLocator.getHechosService().fetchAllHechos2("15", Integer.toString(offset)));
+            } else {
+                if(usingFilters){
+                    cargarTabla(this.obtenerHechosUsingFilters(annoPartQuery, uorgPartQuery,
+                            tipoHechoPartQuery, 15, offset));
+                }else {
+                    cargarTabla(this.obtenerHechosRegistrados(15, offset));
+                }
+            }
         }
         catch (NumberFormatException e){
             Alert alert1 = new Alert(Alert.AlertType.ERROR);
@@ -162,31 +242,31 @@ public class HechosRegistradosViewController {
         }
     }
 
-    public void converToEditable(){
-        if (hechos!=null){
-            hechoField.setEditable(true);
+    private void converToEditable(){
+        if (hechoRegistradoSelected!=null){
+            hechoArea.setEditable(true);
             ocurreDate.setEditable(true);
             parteDate.setEditable(true);
             centroField.setEditable(true);
             lugarField.setEditable(true);
         }
-
     }
 
-
-
-    private void showHechoDetails(Hechos hechos){
-        if (hechos != null){
-            hechoField.setText(hechos.getTitulo());
-            municipioLabel.setText(hechos.getMunicipio().getMunicipio());
-            ocurreDate.getEditor().setText(hechos.getFecha_ocurrencia().toString());
-            parteDate.getEditor().setText(hechos.getFecha_parte().toString());
-            tipoHechoLabel.setText(hechos.getTipoHecho().getTipo_hecho());
-            centroField.setText(hechos.getCentro());
-            lugarField.setText(hechos.getLugar());
+    private void showHechoDetails(HechosRegistrados selected){
+        if (selected != null){
+            Hechos hechos = ServiceLocator.getHechosService().getHecho(selected.getId_reg());
+            if(hechos != null) {
+                hechoArea.setText(hechos.getTitulo());
+                municipioLabel.setText(hechos.getMunicipio().getMunicipio());
+                ocurreDate.getEditor().setText(hechos.getFecha_ocurrencia().toString());
+                parteDate.getEditor().setText(hechos.getFecha_parte().toString());
+                tipoHechoLabel.setText(hechos.getTipoHecho().getTipo_hecho());
+                centroField.setText(hechos.getCentro());
+                lugarField.setText(hechos.getLugar());
+            }
         }
         else {
-            hechoField.setText("");
+            hechoArea.setText("");
             municipioLabel.setText("");
             ocurreDate.setDayCellFactory(null);
             parteDate.setDayCellFactory(null);
@@ -194,59 +274,60 @@ public class HechosRegistradosViewController {
             centroField.setText("");
             lugarField.setText("");
         }
-
     }
 
-    public boolean showDialogToEdit(){
+    @FXML
+    private boolean showDialogToEdit(){
         try {
-            if (hechoField.getText().isEmpty() && centroField.getText().isEmpty() && lugarField.getText().isEmpty() ){
+            Hechos hecho = getHechoSelected();
+            if (hechoArea.getText().isEmpty() && centroField.getText().isEmpty() && lugarField.getText().isEmpty() ){
                 Util.dialogResult("Campo vacío", Alert.AlertType.ERROR);
-                hechoField.setText(hechos.getTitulo());
-                hechoField.setUnFocusColor(Paint.valueOf("red"));
-                hechoField.setFocusColor(Paint.valueOf("red"));
-                centroField.setText(hechos.getCentro());
+                hechoArea.setText(hecho.getTitulo());
+               // hechoArea.setUnFocusColor(Paint.valueOf("red"));
+               // hechoArea.setFocusColor(Paint.valueOf("red"));
+                centroField.setText(hecho.getCentro());
                 centroField.setUnFocusColor(Paint.valueOf("red"));
                 centroField.setFocusColor(Paint.valueOf("red"));
-                lugarField.setText(hechos.getLugar());
+                lugarField.setText(hecho.getLugar());
                 lugarField.setUnFocusColor(Paint.valueOf("red"));
                 lugarField.setFocusColor(Paint.valueOf("red"));
             }
-            else if (hechoField.getText().isEmpty() && centroField.getText().isEmpty()){
-                hechoField.setText(hechos.getTitulo());
-                hechoField.setUnFocusColor(Paint.valueOf("red"));
-                hechoField.setFocusColor(Paint.valueOf("red"));
-                centroField.setText(hechos.getCentro());
+            else if (hechoArea.getText().isEmpty() && centroField.getText().isEmpty()){
+                hechoArea.setText(hecho.getTitulo());
+              //  hechoField.setUnFocusColor(Paint.valueOf("red"));
+              //  hechoField.setFocusColor(Paint.valueOf("red"));
+                centroField.setText(hecho.getCentro());
                 centroField.setUnFocusColor(Paint.valueOf("red"));
                 centroField.setFocusColor(Paint.valueOf("red"));
             }
-            else if (hechoField.getText().isEmpty() && lugarField.getText().isEmpty()){
-                hechoField.setText(hechos.getTitulo());
-                hechoField.setUnFocusColor(Paint.valueOf("red"));
-                hechoField.setFocusColor(Paint.valueOf("red"));
-                lugarField.setText(hechos.getLugar());
+            else if (hechoArea.getText().isEmpty() && lugarField.getText().isEmpty()){
+                hechoArea.setText(hecho.getTitulo());
+               // hechoField.setUnFocusColor(Paint.valueOf("red"));
+              //  hechoField.setFocusColor(Paint.valueOf("red"));
+                lugarField.setText(hecho.getLugar());
                 lugarField.setUnFocusColor(Paint.valueOf("red"));
                 lugarField.setFocusColor(Paint.valueOf("red"));
             }
             else if (centroField.getText().isEmpty() && lugarField.getText().isEmpty()){
-                centroField.setText(hechos.getCentro());
+                centroField.setText(hecho.getCentro());
                 centroField.setUnFocusColor(Paint.valueOf("red"));
                 centroField.setFocusColor(Paint.valueOf("red"));
-                lugarField.setText(hechos.getLugar());
+                lugarField.setText(hecho.getLugar());
                 lugarField.setUnFocusColor(Paint.valueOf("red"));
                 lugarField.setFocusColor(Paint.valueOf("red"));
             }
-            else if (hechoField.getText().isEmpty()){
-                hechoField.setText(hechos.getTitulo());
-                hechoField.setUnFocusColor(Paint.valueOf("red"));
-                hechoField.setFocusColor(Paint.valueOf("red"));
+            else if (hechoArea.getText().isEmpty()){
+                hechoArea.setText(hecho.getTitulo());
+               // hechoField.setUnFocusColor(Paint.valueOf("red"));
+              //  hechoField.setFocusColor(Paint.valueOf("red"));
             }
             else if (centroField.getText().isEmpty()){
-                centroField.setText(hechos.getCentro());
+                centroField.setText(hecho.getCentro());
                 centroField.setUnFocusColor(Paint.valueOf("red"));
                 centroField.setFocusColor(Paint.valueOf("red"));
             }
             else if (lugarField.getText().isEmpty()){
-                lugarField.setText(hechos.getLugar());
+                lugarField.setText(hecho.getLugar());
                 lugarField.setUnFocusColor(Paint.valueOf("red"));
                 lugarField.setFocusColor(Paint.valueOf("red"));
             }
@@ -256,20 +337,20 @@ public class HechosRegistradosViewController {
                 alert.setHeaderText(null);
                 alert.setContentText("Desea editar este hecho");
                 Optional<ButtonType> confirmacion = alert.showAndWait();
-                hechos.setTitulo(hechoField.getText());
-                hechos.setCentro(centroField.getText());
-                hechos.setLugar(lugarField.getText());
-                ServiceLocator.getHechosService().editarHechos(hechos);
+                hecho.setTitulo(hechoArea.getText());
+                hecho.setCentro(centroField.getText());
+                hecho.setLugar(lugarField.getText());
+                ServiceLocator.getHechosService().editarHechos(hecho);
 
                 desactivarButton();
-                hechoField.setFocusColor(Paint.valueOf("blue"));
-                hechoField.setUnFocusColor(Paint.valueOf("white"));
+               // hechoField.setFocusColor(Paint.valueOf("blue"));
+               // hechoField.setUnFocusColor(Paint.valueOf("white"));
                 centroField.setFocusColor(Paint.valueOf("blue"));
                 centroField.setUnFocusColor(Paint.valueOf("white"));
                 lugarField.setFocusColor(Paint.valueOf("blue"));
                 lugarField.setUnFocusColor(Paint.valueOf("white"));
             }
-            cargarTabla(ServiceLocator.getHechosService().fetchAllHechos2("15",Integer.toString(offset)));
+            cargarTabla(this.obtenerHechosRegistrados(15, offset));
         }catch (SQLException e){
             e.printStackTrace();
         }
@@ -279,16 +360,18 @@ public class HechosRegistradosViewController {
     private void desactivarButton(){
         buttonEliminar.setDisable(true);
         buttonEditar.setDisable(true);
+        btnClean.setDisable(true);
         municipioLabel.setDisable(true);
         tipoHechoLabel.setDisable(true);
-        hechoField.setDisable(true);
+        hechoArea.setDisable(true);
         ocurreDate.setDisable(true);
         parteDate.setDisable(true);
         centroField.setDisable(true);
         lugarField.setDisable(true);
     }
 
-    public void showNewDialog(){
+    @FXML
+    private void showNewDialog(){
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(HechosRegistradosViewController.class.getResource("../views/RegistrarView.fxml"));
@@ -308,28 +391,27 @@ public class HechosRegistradosViewController {
             handleFirst();
             desactivarButton();
             ponerNumeroDeTablas();
-
         }catch (IOException e){
             ExceptionDialog dialog = new ExceptionDialog(e);
             dialog.showAndWait();
         }
     }
 
-
-
-    public void deleteHechos(){
+    @FXML
+    private void deleteHechos(){
         try {
+            Hechos hecho = getHechoSelected();
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Confirmación");
             alert.setHeaderText(null);
             alert.setContentText("Desea eliminar este hecho");
             Optional<ButtonType> confirmacion = alert.showAndWait();
             if (confirmacion.get().equals(ButtonType.OK)){
-                ServiceLocator.getHechosService().eliminarHechos(hechos);
+                ServiceLocator.getHechosService().eliminarHechos(hecho);
 
                 desactivarButton();
             }
-            cargarTabla(ServiceLocator.getHechosService().fetchAllHechos2("15",Integer.toString(offset)));
+            cargarTabla(this.obtenerHechosRegistrados(15, offset));
             ponerNumeroDeTablas();
 
         }catch (SQLException e){
@@ -344,7 +426,12 @@ public class HechosRegistradosViewController {
 
         try {
             if (howmuch>0) {
-                cargarTabla(ServiceLocator.getHechosService().fetchAllHechos2("15",Integer.toString(offset)));
+                if(usingFilters){
+                    cargarTabla(this.obtenerHechosUsingFilters(annoPartQuery, uorgPartQuery,
+                            tipoHechoPartQuery, 15, offset));
+                } else {
+                    cargarTabla(this.obtenerHechosRegistrados(15, offset));
+                }
             } else {
                 dialogElemento("último");
                 offset -=15;
@@ -364,13 +451,22 @@ public class HechosRegistradosViewController {
         offset -=15;
         try {
             if (howmuch==0){
-                cargarTabla(ServiceLocator.getHechosService().fetchAllHechos2("15",Integer.toString(offsetMaximo-30)));
-                offset -=15;
-
+                if(usingFilters){
+                    cargarTabla(this.obtenerHechosUsingFilters(annoPartQuery, uorgPartQuery,
+                            tipoHechoPartQuery, 15, offset));
+                } else {
+                    cargarTabla(this.obtenerHechosRegistrados(15, offsetMaximo - 30));
+                    offset -= 15;
+                }
             }
             else{
                 if (offset >= 0){
-                    cargarTabla(ServiceLocator.getHechosService().fetchAllHechos2("15",Integer.toString(offset)));
+                    if(usingFilters){
+                        cargarTabla(this.obtenerHechosUsingFilters(annoPartQuery, uorgPartQuery,
+                                tipoHechoPartQuery, 15, offset));
+                    } else {
+                        cargarTabla(this.obtenerHechosRegistrados(15, offset));
+                    }
                 } else {
                     offset += 15;
                     dialogElemento("primer");
@@ -387,7 +483,11 @@ public class HechosRegistradosViewController {
 
     @FXML
     private void handleFirst() {
-        cargarTabla(ServiceLocator.getHechosService().fetchAllHechos2("15","0"));
+        if(usingFilters){
+            cargarTabla(this.obtenerHechosUsingFilters(annoPartQuery, uorgPartQuery, tipoHechoPartQuery, 15, 0));
+        }else {
+            cargarTabla(this.obtenerHechosRegistrados(15, 0));
+        }
         offset = 0;
         showHechoDetails(null);
         desactivarButton();
@@ -396,16 +496,16 @@ public class HechosRegistradosViewController {
 
     @FXML
     private void handleLast(){
-        cargarTabla(ServiceLocator.getHechosService().fetchAllHechos2("15",Integer.toString(offsetMaximo-15)));
+        if(usingFilters){
+            cargarTabla(this.obtenerHechosUsingFilters(annoPartQuery, uorgPartQuery, tipoHechoPartQuery, 15, offsetMaximo - 15));
+        } else {
+            cargarTabla(this.obtenerHechosRegistrados(15, offsetMaximo - 15));
+        }
         offset = offsetMaximo;
-
-        // Clear person details.
         showHechoDetails(null);
         desactivarButton();
         ponerOffsetDetablaActual();
     }
-
-
 
     private void dialogElemento(String estado) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -415,7 +515,6 @@ public class HechosRegistradosViewController {
         alert.showAndWait();
     }
 
-
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
 
@@ -423,8 +522,8 @@ public class HechosRegistradosViewController {
         //personTable.setItems(mainApp.getPersonData());
     }
 
-    private void cargarTabla(List<Hechos> hechos){
-        ObservableList<Hechos> observableList = FXCollections.observableList(hechos);
+    private void cargarTabla(List<HechosRegistrados> hechos){
+        ObservableList<HechosRegistrados> observableList = FXCollections.observableList(hechos);
         hechosTable.setItems(observableList);
         numeroHechosColum.setCellValueFactory(
                 cellData->
@@ -433,16 +532,230 @@ public class HechosRegistradosViewController {
                         )
         );
         codCDNTColum.setCellValueFactory(cellData->
-                new SimpleStringProperty(cellData.getValue().getCod_cdnt()==null?"(no info)":cellData.getValue().getCod_cdnt().toUpperCase()));
+                new SimpleStringProperty(cellData.getValue().getCodCDNT()==null?"(no info)":cellData.getValue().getCodCDNT().toUpperCase()));
         uniOrgColum.setCellValueFactory(cellData->
-                new SimpleStringProperty(cellData.getValue().getUnidadOrganizativa().getUnidad_organizativa()));
+                new SimpleStringProperty(cellData.getValue().getUo()));
         tipoColum.setCellValueFactory(cellData->
-                new SimpleStringProperty(cellData.getValue().getTipoHecho().getTipo_hecho()));
+                new SimpleStringProperty(cellData.getValue().getTipoHecho()));
         municipioColum.setCellValueFactory(cellData->
-                new SimpleStringProperty(cellData.getValue().getMunicipio().getMunicipio()));
+                new SimpleStringProperty(cellData.getValue().getMunicipio()));
         ocurrenciaColum.setCellValueFactory(cellData->
-                new SimpleStringProperty(cellData.getValue().getFecha_ocurrencia().toString()));
+                new SimpleStringProperty(cellData.getValue().getFechaOcurre().toString()));
         sintesisColum.setCellValueFactory(cellData->
-                new SimpleStringProperty(cellData.getValue().getSintesis()));
+                new SimpleStringProperty(cellData.getValue().getTitulo()));
+    }
+
+    @FXML
+    private void handleCleanFieldsEdition(){
+        this.desactivarButton();
+        this.hechoArea.setText(null);
+        this.tipoHechoLabel.setText(null);
+        this.municipioLabel.setText(null);
+        this.ocurreDate.setValue(null);
+        this.parteDate.setValue(null);
+        this.centroField.setText(null);
+        this.lugarField.setText(null);
+    }
+
+    @FXML
+    private void handleCleanFieldsSearch(){
+        this.cboxTipoHecho.getSelectionModel().clearSelection();
+        this.cboxTipoHecho.setPromptText("Seleccione");
+        this.cboxAnno.getSelectionModel().clearSelection();
+        this.cboxAnno.setPromptText("Seleccione");
+        this.cboxUorg.getSelectionModel().clearSelection();
+        this.cboxUorg.setPromptText("Seleccione");
+        cargarTabla(this.obtenerHechosRegistrados(15, 0));
+        offsetMaximo = ServiceLocator.getHechosService().countAllHechos();
+        ponerNumeroDeTablas();
+        this.usingFilters = false;
+    }
+
+    @FXML
+    private void handleSearch(){
+        offset = 0;
+        ponerNumeroDeTablas();
+        String anno = this.cboxAnno.getSelectionModel().getSelectedItem();
+        String tipoHecho = this.cboxTipoHecho.getSelectionModel().getSelectedItem();
+        String uorg = this.cboxUorg.getSelectionModel().getSelectedItem();
+
+        if((anno == null || anno.equals("")) &&
+                (uorg == null || uorg.equals("")) &&
+                    (tipoHecho == null || tipoHecho.equals(""))){
+            Util.dialogResult("Los campos de búsqueda están vacíos." , Alert.AlertType.WARNING);
+        } else {
+            annoPartQuery = anno == null
+                    ? "" :
+                    " AND date_part('year', hechos.fecha_ocurrencia) = " + Integer.parseInt(anno);
+            tipoHechoPartQuery = tipoHecho == null
+                            ? "" :
+                            " AND hechos.id_tipo_hecho = " +
+                                    ServiceLocator.getTipoHechoService().searchTipoHechoByName(tipoHecho).getId_tipo_hecho();
+            uorgPartQuery = uorg == null
+                            ? "" :
+                            " AND id_uorg = " +
+                                    ServiceLocator.getUnidadOrganizativaService().searchUnidadOrganizativaByName(uorg).getId_unidad_organizativa();
+
+            cargarTabla(this.obtenerHechosUsingFilters(annoPartQuery, uorgPartQuery, tipoHechoPartQuery, 15, 0));
+            this.usingFilters = true;
+            offsetMaximo = countAllHechosUsingFilters(annoPartQuery, uorgPartQuery,tipoHechoPartQuery);
+            ponerOffsetDetablaActual();
+            ponerNumeroDeTablas();
+        }
+    }
+
+    private int countAllHechosUsingFilters(String anno, String uorg, String tipoHecho){
+        String query = "SELECT COUNT(id_reg) FROM hechos WHERE id_reg > 0" + uorg + tipoHecho + anno;
+        int count = 0;
+
+        try {
+            ResultSet rs = Util.executeQuery(query);
+            if(rs.next()){
+                count = rs.getInt(1);
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return count;
+    }
+
+    private List<HechosRegistrados> obtenerHechosUsingFilters(String anno, String uorg, String tipoHecho, int limit, int offset){
+        List<HechosRegistrados> hechos = new LinkedList<>();
+        String fullQuery =
+                "SELECT id_reg, cod_cdnt, unidad_organizativa, tipo_hecho, fecha_ocurrencia, titulo, municipio\n" +
+                        "FROM hechos\n" +
+                        "JOIN unidades_organizativas o on hechos.id_uorg = o.id_unidad_organizativa\n" +
+                        "JOIN municipios m2 on hechos.id_municipio = m2.id_municipio\n" +
+                        "JOIN tipo_hechos h2 on hechos.id_tipo_hecho = h2.id_tipo_hecho\n" +
+                        "WHERE id_reg > 0"
+                        + uorg + tipoHecho + anno
+                        + " ORDER BY fecha_ocurrencia DESC"
+                        + " LIMIT " + limit
+                        + " OFFSET " + offset;
+
+        try {
+            ResultSet rs = Util.executeQuery(fullQuery);
+            hechos = getDataFromResultSet(rs);
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return hechos;
+    }
+
+    private List<HechosRegistrados> obtenerHechosRegistrados(int limit, int offset){
+        List<HechosRegistrados> hechos = new LinkedList<>();
+        String query = "SELECT id_reg, cod_cdnt, unidad_organizativa, tipo_hecho, fecha_ocurrencia, titulo, municipio " +
+                "FROM hechos " +
+                "JOIN unidades_organizativas ON unidades_organizativas.id_unidad_organizativa = hechos.id_uorg " +
+                "JOIN tipo_hechos ON tipo_hechos.id_tipo_hecho = hechos.id_tipo_hecho " +
+                "JOIN municipios ON municipios.id_municipio = hechos.id_municipio" +
+                " Order By hechos.fecha_ocurrencia Desc LIMIT " + limit + " OFFSET " + offset;
+
+        try {
+            ResultSet rs = Util.executeQuery(query);
+            hechos = getDataFromResultSet(rs);
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return hechos;
+    }
+
+    private List<HechosRegistrados> getDataFromResultSet(ResultSet rs) throws SQLException{
+        List<HechosRegistrados> hechos = new LinkedList<>();
+
+        while (rs.next()){
+            hechos.add(new HechosRegistrados(
+                    rs.getInt(1),
+                    rs.getString(2),
+                    rs.getString(3),
+                    rs.getString(4),
+                    rs.getDate(5),
+                    rs.getString(6),
+                    rs.getString(7)
+            ));
+        }
+
+        return hechos;
+    }
+
+    class HechosRegistrados{
+        private int id_reg;
+        private String codCDNT;
+        private String uo;
+        private String tipoHecho;
+        private Date fechaOcurre;
+        private String titulo;
+        private String municipio;
+
+        public HechosRegistrados(){}
+
+        public HechosRegistrados(int id_reg, String codCDNT, String uo, String tipoHecho, Date fechaOcurre, String titulo, String municipio) {
+            this.id_reg = id_reg;
+            this.codCDNT = codCDNT;
+            this.uo = uo;
+            this.tipoHecho = tipoHecho;
+            this.fechaOcurre = fechaOcurre;
+            this.titulo = titulo;
+            this.municipio = municipio;
+        }
+
+        public int getId_reg() {
+            return id_reg;
+        }
+
+        public void setId_reg(int id_reg) {
+            this.id_reg = id_reg;
+        }
+
+        public String getCodCDNT() {
+            return codCDNT;
+        }
+
+        public void setCodCDNT(String codCDNT) {
+            this.codCDNT = codCDNT;
+        }
+
+        public String getUo() {
+            return uo;
+        }
+
+        public void setUo(String uo) {
+            this.uo = uo;
+        }
+
+        public String getTipoHecho() {
+            return tipoHecho;
+        }
+
+        public void setTipoHecho(String tipoHecho) {
+            this.tipoHecho = tipoHecho;
+        }
+
+        public Date getFechaOcurre() {
+            return fechaOcurre;
+        }
+
+        public void setFechaOcurre(Date fechaOcurre) {
+            this.fechaOcurre = fechaOcurre;
+        }
+
+        public String getTitulo() {
+            return titulo;
+        }
+
+        public void setTitulo(String titulo) {
+            this.titulo = titulo;
+        }
+
+        public String getMunicipio() {
+            return municipio;
+        }
+
+        public void setMunicipio(String municipio) {
+            this.municipio = municipio;
+        }
     }
 }

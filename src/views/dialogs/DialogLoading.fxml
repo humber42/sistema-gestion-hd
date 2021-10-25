@@ -1,24 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressIndicator?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
-<StackPane xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx"
-           fx:controller="views.dialogs.DialogLoadingController">
+
+<StackPane prefHeight="113.0" prefWidth="100.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.dialogs.DialogLoadingController">
     <children>
-        <AnchorPane prefHeight="670.0" prefWidth="1040.0">
+        <AnchorPane prefHeight="146.0" prefWidth="167.0">
             <children>
-                <Label fx:id="loading" alignment="CENTER" layoutY="305.0" text="Cargando..." textFill="#000000"
-                       AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                <Label fx:id="loading" alignment="CENTER" layoutX="2.0" layoutY="78.0" text="Cargando..." textFill="#000000" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="-2.0">
                     <font>
-                        <Font size="18.0"/>
+                        <Font size="18.0" />
 
                     </font>
                 </Label>
-                <ProgressIndicator layoutY="223.0" prefHeight="71.0" prefWidth="59.0" style="-fx-accent: #000000;"
-                                   AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"/>
+                <ProgressIndicator layoutY="9.0" prefHeight="66.0" prefWidth="100.0" style="-fx-accent: #000000;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
             </children>
         </AnchorPane>
     </children>

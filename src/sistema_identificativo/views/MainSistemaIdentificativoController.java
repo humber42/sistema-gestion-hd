@@ -176,7 +176,8 @@ public class MainSistemaIdentificativoController {
         this.panelSistemaIdentificativo = pane;
     }
 
-    public void imprimirPase(){
+    @FXML
+    private void imprimirPase(){
         try{
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainSistemaIdentificativoController.class.getResource("ImprimirPasesView.fxml"));
@@ -191,6 +192,30 @@ public class MainSistemaIdentificativoController {
             dialogStage.setScene(scene);
 
             ImprimirPasesController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            dialogStage.showAndWait();
+        } catch (IOException e){
+            ExceptionDialog dialog = new ExceptionDialog(e);
+            dialog.showAndWait();
+        }
+    }
+
+    @FXML
+    private void bajaPase(){
+        try{
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainSistemaIdentificativoController.class.getResource("BajaPaseView.fxml"));
+            AnchorPane pane = loader.load();
+            //Create dialog stage
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Dar baja pases");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.setResizable(false);
+            dialogStage.initOwner(this.mainApp);
+            Scene scene = new Scene(pane);
+            dialogStage.setScene(scene);
+
+            BajaPaseViewController controller = loader.getController();
             controller.setDialogStage(dialogStage);
             dialogStage.showAndWait();
         } catch (IOException e){

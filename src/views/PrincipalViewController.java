@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
@@ -33,6 +34,8 @@ public class PrincipalViewController {
     private Label lblUsername;
     @FXML
     private Label lblRol;
+    @FXML
+    private MenuItem menuRegistrarHecho;
 
     private UserLoggedIn logged;
 
@@ -44,6 +47,11 @@ public class PrincipalViewController {
     public void initialize() {
         this.logged = LoginViewController.getUserLoggedIn();
         userLoggedInfo();
+        if(logged.hasPermiso_visualizacion() || logged.hasPermiso_pases()){
+            this.menuRegistrarHecho.setVisible(false);
+        } else if(logged.isSuperuser()){
+            this.menuRegistrarHecho.setVisible(true);
+        }
     }
 
     private void userLoggedInfo() {
@@ -57,10 +65,19 @@ public class PrincipalViewController {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(PrincipalViewController.class.getResource("RegistrarView.fxml"));
-            AnchorPane page = loader.load();
+            AnchorPane anchorPane = loader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Registrar Hecho");
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initOwner(this.mainApp);
+            stage.setResizable(false);
+            stage.setMaximized(false);
+            stage.setScene(new Scene(anchorPane));
+
             RegistrarViewController controller = loader.getController();
-            controller.setMainApp(this.panelPrincipal);
-            panelPrincipal.setCenter(page);
+            controller.setDialogStage(stage);
+            controller.setFromPrincipal(false);
+            stage.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -70,13 +87,22 @@ public class PrincipalViewController {
     private void handleSearch() {
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(PrincipalViewController.class.getResource("BuscarView.fxml"));
-            StackPane pane = loader.load();
-            BuscarViewController controller = loader.getController();
-            controller.setPrincipalView(this.panelPrincipal);
-            controller.setMainApp(this.mainApp);
-            controller.setStackPane(pane);
-            panelPrincipal.setCenter(pane);
+            loader.setLocation(PrincipalViewController.class.getResource("BuscarHechosView.fxml"));
+            BorderPane pane = loader.load();
+
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Buscar hechos");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.setMaximized(false);
+            dialogStage.setResizable(false);
+            dialogStage.initOwner(this.mainApp);
+            Scene scene = new Scene(pane);
+            dialogStage.setScene(scene);
+
+            BuscarHechosViewController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            dialogStage.showAndWait();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -533,11 +559,11 @@ public class PrincipalViewController {
             hechoStage.setResizable(false);
             hechoStage.initOwner(this.mainApp);
             hechoStage.setScene(new Scene(page));
-            hechoStage.setTitle("Codificador Hechos");
+            hechoStage.setTitle("Hechos Registrados");
 
             HechosRegistradosViewController controller = loader.getController();
             controller.setStage(hechoStage);
-            hechoStage.setHeight(550);
+            hechoStage.setHeight(580);
             hechoStage.setWidth(1000);
             hechoStage.showAndWait();
 //            mainApp.getPrincipal().setCenter(page);
