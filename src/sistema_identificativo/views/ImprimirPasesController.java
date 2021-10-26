@@ -66,7 +66,9 @@ public class ImprimirPasesController {
         );
         List<Impresion> impresionList = ServiceLocator.getImpresionService().getAllImpressions();
         initializeTable(impresionList);
-        this.passType.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->
+
+        this.passType.getSelectionModel().selectedItemProperty().
+                addListener((observable, oldValue, newValue) ->
             this.aplicar()
         );
     }

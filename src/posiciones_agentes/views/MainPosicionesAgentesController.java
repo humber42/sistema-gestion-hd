@@ -152,31 +152,34 @@ public class MainPosicionesAgentesController {
 
     @FXML
     private void generarResumenGeneral(){
-        String path = "src/informesGenerados/ResumenGeneralPosiciones.xlsx";
-        Task<Boolean> task = new Task<Boolean>() {
-            @Override
-            protected Boolean call() throws Exception {
-                ExcelGeneratorLocator.getResumenGeneralGenerator()
-                        .generarResumen(path);
-                return true;
-            }
-            @Override
-            protected void succeeded(){
-                super.succeeded();
-                dialogStage.close();
-                Util.dialogResult("Generado", Alert.AlertType.INFORMATION);
-                try {
-                    Runtime.getRuntime().exec("cmd /c start " + path);
-                } catch (IOException e) {
-                    e.printStackTrace();
+        String path = Util.selectPathToSaveReport(this.dialogStage, 0) + "/ResumenGeneralPosiciones.xlsx";
+        if(!path.contains("null")) {
+            Task<Boolean> task = new Task<Boolean>() {
+                @Override
+                protected Boolean call() throws Exception {
+                    ExcelGeneratorLocator.getResumenGeneralGenerator()
+                            .generarResumen(path);
+                    return true;
                 }
-            }
-        };
 
-        this.loadDialogLoading(mainApp);
-        Thread th = new Thread(task);
-        th.setDaemon(true);
-        th.start();
+                @Override
+                protected void succeeded() {
+                    super.succeeded();
+                    dialogStage.close();
+                    Util.dialogResult("Generado", Alert.AlertType.INFORMATION);
+                    try {
+                        Runtime.getRuntime().exec("cmd /c start " + path);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+
+            this.loadDialogLoading(mainApp);
+            Thread th = new Thread(task);
+            th.setDaemon(true);
+            th.start();
+        }
     }
 
     private void loadDialogLoading(Stage mainApp){
@@ -198,31 +201,34 @@ public class MainPosicionesAgentesController {
     }
 
     @FXML
-    private void generarResumenPS(){
-        String path = "src/informesGenerados/ResumenProveedoresServicio.xlsx";
-        Task<Boolean> task = new Task<Boolean>() {
-            @Override
-            protected Boolean call() throws Exception {
-                ExcelGeneratorLocator.getResumenProveedorServicio()
-                        .generarResumenProveedorServicio(path);
-                return true;
-            }
-            @Override
-            protected void succeeded(){
-                super.succeeded();
-                dialogStage.close();
-                Util.dialogResult("Generado", Alert.AlertType.INFORMATION);
-                try {
-                    Runtime.getRuntime().exec("cmd /c start " + path);
-                } catch (IOException e) {
-                    e.printStackTrace();
+    private void generarResumenPS() {
+        String path = Util.selectPathToSaveReport(this.dialogStage, 0) + "/ResumenProveedoresServicio.xlsx";
+        if (!path.contains("null")) {
+            Task<Boolean> task = new Task<Boolean>() {
+                @Override
+                protected Boolean call() throws Exception {
+                    ExcelGeneratorLocator.getResumenProveedorServicio()
+                            .generarResumenProveedorServicio(path);
+                    return true;
                 }
-            }
-        };
 
-        this.loadDialogLoading(mainApp);
-        Thread th = new Thread(task);
-        th.setDaemon(true);
-        th.start();
+                @Override
+                protected void succeeded() {
+                    super.succeeded();
+                    dialogStage.close();
+                    Util.dialogResult("Generado", Alert.AlertType.INFORMATION);
+                    try {
+                        Runtime.getRuntime().exec("cmd /c start " + path);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+
+            this.loadDialogLoading(mainApp);
+            Thread th = new Thread(task);
+            th.setDaemon(true);
+            th.start();
+        }
     }
 }

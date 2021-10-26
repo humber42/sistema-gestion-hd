@@ -34,6 +34,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class HechosRegistradosViewController {
+    private static final int LIMIT_OF_ROWS = 18;
+
     private MainApp mainApp;
 
     @FXML
@@ -73,10 +75,6 @@ public class HechosRegistradosViewController {
     private JFXButton buttonEditar;
     @FXML
     private JFXButton btnClean;
-    @FXML
-    private JFXButton btnSearch;
-    @FXML
-    private JFXButton btnNuevo;
     @FXML
     private TitledPane infoHechoSelected;
 
@@ -120,11 +118,11 @@ public class HechosRegistradosViewController {
 
         if(logged.hasPermiso_visualizacion() || logged.hasPermiso_pases()){
             this.infoHechoSelected.setVisible(false);
-            this.btnNuevo.setVisible(false);
+            //this.btnNuevo.setVisible(false);
         }
         else if(logged.isSuperuser()){
             this.infoHechoSelected.setVisible(true);
-            this.btnNuevo.setVisible(true);
+            //this.btnNuevo.setVisible(true);
         }
 
         buttonEditar.setDisable(true);
@@ -137,7 +135,7 @@ public class HechosRegistradosViewController {
         parteDate.setDisable(true);
         centroField.setDisable(true);
         lugarField.setDisable(true);
-        cargarTabla(this.obtenerHechosRegistrados(15,0));
+        cargarTabla(this.obtenerHechosRegistrados(LIMIT_OF_ROWS,0));
         offset = 0;
         offsetMaximo = ServiceLocator.getHechosService().countAllHechos();
 
@@ -195,19 +193,20 @@ public class HechosRegistradosViewController {
     }
 
     private void ponerOffsetDetablaActual(){
-        int resto = offset%15;
-        int count = offset/15;
+        int resto = offset % LIMIT_OF_ROWS;
+        int count = offset / LIMIT_OF_ROWS;
+
         if (resto!= 0){
-            offsetField.setText(Integer.toString(count));
+            offsetField.setText(Integer.toString(count+1));
         }else{
-            offsetField.setText(Integer.toString(count));
+            offsetField.setText(Integer.toString(count+1));
         }
     }
     private void ponerNumeroDeTablas(){
-        int resto = offsetMaximo%15;
-        int count = offsetMaximo/15;
+        int resto = offsetMaximo % LIMIT_OF_ROWS;
+        int count = offsetMaximo / LIMIT_OF_ROWS;
         if (resto!=0){
-            offsetMaximoField.setText(Integer.toString(count));
+            offsetMaximoField.setText(Integer.toString(count+1));
         }else {
             offsetMaximoField.setText(Integer.toString(count));
         }
@@ -216,9 +215,10 @@ public class HechosRegistradosViewController {
     @FXML
     private void buscarTabla(){
         try {
-            int busqueda = Integer.parseInt(offsetField.getText());
-            offset = busqueda * 15;
-            if (offset > offsetMaximo || offset < 0) {
+            int valueOfOffsetField = Integer.parseInt(offsetField.getText());
+            int busqueda = valueOfOffsetField-1;
+            offset = busqueda * LIMIT_OF_ROWS;
+            if (offset > offsetMaximo || valueOfOffsetField <= 0) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setHeaderText(null);
                 alert.setTitle("Entrada Incorrecta");
@@ -227,9 +227,9 @@ public class HechosRegistradosViewController {
             } else {
                 if(usingFilters){
                     cargarTabla(this.obtenerHechosUsingFilters(annoPartQuery, uorgPartQuery,
-                            tipoHechoPartQuery, 15, offset));
+                            tipoHechoPartQuery, LIMIT_OF_ROWS, offset));
                 }else {
-                    cargarTabla(this.obtenerHechosRegistrados(15, offset));
+                    cargarTabla(this.obtenerHechosRegistrados(LIMIT_OF_ROWS, offset));
                 }
             }
         }
@@ -241,16 +241,16 @@ public class HechosRegistradosViewController {
             alert1.showAndWait();
         }
     }
-
-    private void converToEditable(){
-        if (hechoRegistradoSelected!=null){
-            hechoArea.setEditable(true);
-            ocurreDate.setEditable(true);
-            parteDate.setEditable(true);
-            centroField.setEditable(true);
-            lugarField.setEditable(true);
-        }
-    }
+//
+//    private void converToEditable(){
+//        if (hechoRegistradoSelected!=null){
+//            hechoArea.setEditable(true);
+//            ocurreDate.setEditable(true);
+//            parteDate.setEditable(true);
+//            centroField.setEditable(true);
+//            lugarField.setEditable(true);
+//        }
+//    }
 
     private void showHechoDetails(HechosRegistrados selected){
         if (selected != null){
@@ -350,7 +350,7 @@ public class HechosRegistradosViewController {
                 lugarField.setFocusColor(Paint.valueOf("blue"));
                 lugarField.setUnFocusColor(Paint.valueOf("white"));
             }
-            cargarTabla(this.obtenerHechosRegistrados(15, offset));
+            cargarTabla(this.obtenerHechosRegistrados(LIMIT_OF_ROWS, offset));
         }catch (SQLException e){
             e.printStackTrace();
         }
@@ -371,33 +371,6 @@ public class HechosRegistradosViewController {
     }
 
     @FXML
-    private void showNewDialog(){
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(HechosRegistradosViewController.class.getResource("../views/RegistrarView.fxml"));
-            AnchorPane anchorPane = loader.load();
-            Stage stage = new Stage();
-            stage.setTitle("Registrar Hecho");
-            stage.initModality(Modality.WINDOW_MODAL);
-            stage.initOwner(this.stage);
-            stage.setResizable(false);
-            stage.setMaximized(false);
-            stage.setScene(new Scene(anchorPane));
-
-            RegistrarViewController controller = loader.getController();
-            controller.setDialogStage(stage);
-            controller.setFromPrincipal(false);
-            stage.showAndWait();
-            handleFirst();
-            desactivarButton();
-            ponerNumeroDeTablas();
-        }catch (IOException e){
-            ExceptionDialog dialog = new ExceptionDialog(e);
-            dialog.showAndWait();
-        }
-    }
-
-    @FXML
     private void deleteHechos(){
         try {
             Hechos hecho = getHechoSelected();
@@ -408,10 +381,9 @@ public class HechosRegistradosViewController {
             Optional<ButtonType> confirmacion = alert.showAndWait();
             if (confirmacion.get().equals(ButtonType.OK)){
                 ServiceLocator.getHechosService().eliminarHechos(hecho);
-
                 desactivarButton();
             }
-            cargarTabla(this.obtenerHechosRegistrados(15, offset));
+            cargarTabla(this.obtenerHechosRegistrados(LIMIT_OF_ROWS, offset));
             ponerNumeroDeTablas();
 
         }catch (SQLException e){
@@ -421,20 +393,20 @@ public class HechosRegistradosViewController {
 
     @FXML
     public void handleNext(){
-        offset +=15;
+        offset += LIMIT_OF_ROWS;
         int howmuch = offsetMaximo-offset;
 
         try {
             if (howmuch>0) {
                 if(usingFilters){
                     cargarTabla(this.obtenerHechosUsingFilters(annoPartQuery, uorgPartQuery,
-                            tipoHechoPartQuery, 15, offset));
+                            tipoHechoPartQuery, LIMIT_OF_ROWS, offset));
                 } else {
-                    cargarTabla(this.obtenerHechosRegistrados(15, offset));
+                    cargarTabla(this.obtenerHechosRegistrados(LIMIT_OF_ROWS, offset));
                 }
             } else {
                 dialogElemento("último");
-                offset -=15;
+                offset -= LIMIT_OF_ROWS;
             }
             desactivarButton();
             showHechoDetails(null);
@@ -448,27 +420,27 @@ public class HechosRegistradosViewController {
     @FXML
     public void handlerPrevious(){
         int howmuch = offsetMaximo - offset;
-        offset -=15;
+        offset -= LIMIT_OF_ROWS;
         try {
             if (howmuch==0){
                 if(usingFilters){
                     cargarTabla(this.obtenerHechosUsingFilters(annoPartQuery, uorgPartQuery,
-                            tipoHechoPartQuery, 15, offset));
+                            tipoHechoPartQuery, LIMIT_OF_ROWS, offset));
                 } else {
-                    cargarTabla(this.obtenerHechosRegistrados(15, offsetMaximo - 30));
-                    offset -= 15;
+                    cargarTabla(this.obtenerHechosRegistrados(LIMIT_OF_ROWS, offsetMaximo - (LIMIT_OF_ROWS*2)));
+                    offset -= LIMIT_OF_ROWS;
                 }
             }
             else{
                 if (offset >= 0){
                     if(usingFilters){
                         cargarTabla(this.obtenerHechosUsingFilters(annoPartQuery, uorgPartQuery,
-                                tipoHechoPartQuery, 15, offset));
+                                tipoHechoPartQuery, LIMIT_OF_ROWS, offset));
                     } else {
-                        cargarTabla(this.obtenerHechosRegistrados(15, offset));
+                        cargarTabla(this.obtenerHechosRegistrados(LIMIT_OF_ROWS, offset));
                     }
                 } else {
-                    offset += 15;
+                    offset += LIMIT_OF_ROWS;
                     dialogElemento("primer");
                 }
             }
@@ -484,9 +456,9 @@ public class HechosRegistradosViewController {
     @FXML
     private void handleFirst() {
         if(usingFilters){
-            cargarTabla(this.obtenerHechosUsingFilters(annoPartQuery, uorgPartQuery, tipoHechoPartQuery, 15, 0));
+            cargarTabla(this.obtenerHechosUsingFilters(annoPartQuery, uorgPartQuery, tipoHechoPartQuery, LIMIT_OF_ROWS, 0));
         }else {
-            cargarTabla(this.obtenerHechosRegistrados(15, 0));
+            cargarTabla(this.obtenerHechosRegistrados(LIMIT_OF_ROWS, 0));
         }
         offset = 0;
         showHechoDetails(null);
@@ -497,9 +469,10 @@ public class HechosRegistradosViewController {
     @FXML
     private void handleLast(){
         if(usingFilters){
-            cargarTabla(this.obtenerHechosUsingFilters(annoPartQuery, uorgPartQuery, tipoHechoPartQuery, 15, offsetMaximo - 15));
+            cargarTabla(this.obtenerHechosUsingFilters(annoPartQuery, uorgPartQuery, tipoHechoPartQuery, LIMIT_OF_ROWS, offsetMaximo - LIMIT_OF_ROWS));
         } else {
-            cargarTabla(this.obtenerHechosRegistrados(15, offsetMaximo - 15));
+            int pos = offsetMaximo - LIMIT_OF_ROWS;
+            cargarTabla(this.obtenerHechosRegistrados(LIMIT_OF_ROWS, pos));
         }
         offset = offsetMaximo;
         showHechoDetails(null);
@@ -565,8 +538,10 @@ public class HechosRegistradosViewController {
         this.cboxAnno.setPromptText("Seleccione");
         this.cboxUorg.getSelectionModel().clearSelection();
         this.cboxUorg.setPromptText("Seleccione");
-        cargarTabla(this.obtenerHechosRegistrados(15, 0));
+        cargarTabla(this.obtenerHechosRegistrados(LIMIT_OF_ROWS, 0));
         offsetMaximo = ServiceLocator.getHechosService().countAllHechos();
+        offset = 0;
+        ponerOffsetDetablaActual();
         ponerNumeroDeTablas();
         this.usingFilters = false;
     }
@@ -579,26 +554,24 @@ public class HechosRegistradosViewController {
         String tipoHecho = this.cboxTipoHecho.getSelectionModel().getSelectedItem();
         String uorg = this.cboxUorg.getSelectionModel().getSelectedItem();
 
-        if((anno == null || anno.equals("")) &&
-                (uorg == null || uorg.equals("")) &&
-                    (tipoHecho == null || tipoHecho.equals(""))){
+        if((anno == null || anno.isEmpty()) &&
+                (uorg == null || uorg.isEmpty()) &&
+                    (tipoHecho == null || tipoHecho.isEmpty())){
             Util.dialogResult("Los campos de búsqueda están vacíos." , Alert.AlertType.WARNING);
         } else {
-            annoPartQuery = anno == null
+            annoPartQuery = (anno == null || anno.isEmpty())
                     ? "" :
                     " AND date_part('year', hechos.fecha_ocurrencia) = " + Integer.parseInt(anno);
-            tipoHechoPartQuery = tipoHecho == null
+            tipoHechoPartQuery = (tipoHecho == null || tipoHecho.isEmpty())
                             ? "" :
                             " AND hechos.id_tipo_hecho = " +
                                     ServiceLocator.getTipoHechoService().searchTipoHechoByName(tipoHecho).getId_tipo_hecho();
-
-            //TODO:Revisar pq los campos no pueden estar vacios lanza NullPointer
-            uorgPartQuery = uorg == null
+            uorgPartQuery = (uorg == null || uorg.isEmpty())
                             ? "" :
                             " AND id_uorg = " +
                                     ServiceLocator.getUnidadOrganizativaService().searchUnidadOrganizativaByName(uorg).getId_unidad_organizativa();
 
-            cargarTabla(this.obtenerHechosUsingFilters(annoPartQuery, uorgPartQuery, tipoHechoPartQuery, 15, 0));
+            cargarTabla(this.obtenerHechosUsingFilters(annoPartQuery, uorgPartQuery, tipoHechoPartQuery, LIMIT_OF_ROWS, 0));
             this.usingFilters = true;
             offsetMaximo = countAllHechosUsingFilters(annoPartQuery, uorgPartQuery,tipoHechoPartQuery);
             ponerOffsetDetablaActual();
@@ -632,7 +605,7 @@ public class HechosRegistradosViewController {
                         "JOIN tipo_hechos h2 on hechos.id_tipo_hecho = h2.id_tipo_hecho\n" +
                         "WHERE id_reg > 0"
                         + uorg + tipoHecho + anno
-                        + " ORDER BY fecha_ocurrencia DESC"
+                        + " ORDER BY id_reg DESC"
                         + " LIMIT " + limit
                         + " OFFSET " + offset;
 
@@ -653,7 +626,7 @@ public class HechosRegistradosViewController {
                 "JOIN unidades_organizativas ON unidades_organizativas.id_unidad_organizativa = hechos.id_uorg " +
                 "JOIN tipo_hechos ON tipo_hechos.id_tipo_hecho = hechos.id_tipo_hecho " +
                 "JOIN municipios ON municipios.id_municipio = hechos.id_municipio" +
-                " Order By hechos.fecha_ocurrencia Desc LIMIT " + limit + " OFFSET " + offset;
+                " Order By hechos.id_reg Desc LIMIT " + limit + " OFFSET " + offset;
 
         try {
             ResultSet rs = Util.executeQuery(query);
@@ -691,8 +664,6 @@ public class HechosRegistradosViewController {
         private Date fechaOcurre;
         private String titulo;
         private String municipio;
-
-        public HechosRegistrados(){}
 
         public HechosRegistrados(int id_reg, String codCDNT, String uo, String tipoHecho, Date fechaOcurre, String titulo, String municipio) {
             this.id_reg = id_reg;

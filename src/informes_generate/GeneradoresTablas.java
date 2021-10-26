@@ -184,7 +184,7 @@ public class GeneradoresTablas {
                 row++;
             }
         }
-        ranges.add(sheet.getCells().getSubrangeAbsolute(rowInitial, 0, row, 0));
+        ranges.add(sheet.getCells().getSubrangeAbsolute(rowInitial+1, 0, row-1, 0));
         //rowInitial = row;
 
         column = 4;
@@ -275,7 +275,7 @@ public class GeneradoresTablas {
                 row++;
             }
         }
-        ranges.add(sheet.getCells().getSubrangeAbsolute(rowInitial, 0, row, 0));
+        ranges.add(sheet.getCells().getSubrangeAbsolute(rowInitial+1, 0, row-1, 0));
         rowInitial = row;
 
         row = writeCellHechosByMunicipio(row, column, ServiceLocator.getHechosService().obtenerHechosPorMunicipio(Date.valueOf(date), 1), sheet);
@@ -299,7 +299,7 @@ public class GeneradoresTablas {
                 row++;
             }
         }
-        ranges.add(sheet.getCells().getSubrangeAbsolute(rowInitial, 0, row, 0));
+        ranges.add(sheet.getCells().getSubrangeAbsolute(rowInitial+1, 0, row-1, 0));
         //rowInitial = row;
 
         column = 4;

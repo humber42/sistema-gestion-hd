@@ -16,8 +16,8 @@ import static util.Util.generarStilo;
 public class GenerarHechosPrevenidosImpl implements GenerarHechosPrevenidos {
 
     @Override
-    public boolean generarHechosPrevenidos(int year) {
-        String DIRECCION_ARCHIVO = "src/informesGenerados/HechosPrevenidos.xlsx";
+    public boolean generarHechosPrevenidos(int year, String path) {
+        String DIRECCION_ARCHIVO = path+"/HechosPrevenidos.xlsx";
         boolean result = false;
         ExcelFile workbook = new ExcelFile();
         if (this.generartabla(year, workbook)) {

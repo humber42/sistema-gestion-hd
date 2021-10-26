@@ -14,8 +14,8 @@ import static util.Util.generarStilo;
 public class GenerarHechosPendientesImpl implements GenerarHechosPendientes {
 
     @Override
-    public boolean generarHechosPendientes(LinkedList<Hechos> pendientes) {
-        String DIRECCION_ARCHIVO = "src/informesGenerados/HechosPendientes.xlsx";
+    public boolean generarHechosPendientes(LinkedList<Hechos> pendientes, String path) {
+        String DIRECCION_ARCHIVO = path+"/HechosPendientes.xlsx";
         boolean result = false;
         ExcelFile workbook = new ExcelFile();
         if (generarTabla(workbook, pendientes))

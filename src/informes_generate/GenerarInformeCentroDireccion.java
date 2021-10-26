@@ -5,6 +5,6 @@ import java.sql.Date;
 public interface GenerarInformeCentroDireccion {
 
 
-    boolean generarInformeCentroDireccion(Date date);
+    boolean generarInformeCentroDireccion(Date date, String path);
 
 }

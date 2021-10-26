@@ -11,8 +11,8 @@ import java.util.Objects;
 public class GenerarHechosParaUorgImpl implements GenerarHechosParaUOrg {
 
     @Override
-    public boolean generarHechosParaUorg(LinkedList<Hechos> hechos) {
-        String DIRECCION_ARCHIVO = "src/informesGenerados/HechosParaUnidadOrganizativa.xlsx";
+    public boolean generarHechosParaUorg(LinkedList<Hechos> hechos, String path) {
+        String DIRECCION_ARCHIVO = path+"/HechosParaUnidadOrganizativa.xlsx";
         boolean result = false;
         ExcelFile workbook = new ExcelFile();
         if (generarTabla(workbook, hechos)) {

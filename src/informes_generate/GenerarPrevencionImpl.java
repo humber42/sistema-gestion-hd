@@ -24,8 +24,8 @@ import static util.Util.generarStilo;
 public class GenerarPrevencionImpl implements GenerarPrevencion {
 
     @Override
-    public boolean generarInformePrevencion(Date fechaInicio, Date fechaFin) {
-        String DIRECCION_ARCHIVO = "src/informesGenerados/InformePrevencion.xlsx";
+    public boolean generarInformePrevencion(Date fechaInicio, Date fechaFin, String path) {
+        String DIRECCION_ARCHIVO = path+"/InformePrevencion.xlsx";
         boolean result = false;
         ExcelFile workbook = new ExcelFile();
         if (this.generarTablaResumen(fechaInicio, Date.valueOf(fechaFin.toLocalDate().minusDays(1)), workbook)

@@ -3,18 +3,26 @@ package views;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import models.*;
 import org.controlsfx.control.textfield.TextFields;
 import org.controlsfx.dialog.ExceptionDialog;
 import services.ServiceLocator;
 import util.Util;
+import views.dialogs.DialogLoadingController;
 import views.dialogs.DialogLoadingUrl;
 import views.dialogs.InformacionHechoViewController;
 
@@ -51,8 +59,8 @@ public class BuscarHechosViewController {
 
     private Stage mainApp;
 
-    public static Hechos getHechoSeleccionado(){
-        if(hechoSelected == null)
+    public static Hechos getHechoSeleccionado() {
+        if (hechoSelected == null)
             hechoSelected = new Hechos();
         return hechoSelected;
     }
@@ -78,7 +86,7 @@ public class BuscarHechosViewController {
         );
     }
 
-    private List<String> getAllAnnos(){
+    private List<String> getAllAnnos() {
         return ServiceLocator.getAnnoServicio().allAnno().stream().map(Anno::getAnno)
                 .map(integer -> integer.toString()).collect(Collectors.toList());
     }
@@ -101,8 +109,8 @@ public class BuscarHechosViewController {
         return devolver;
     }
 
-    private void showDialogHechoInformation(){
-        if(this.tabla.getSelectionModel().getSelectedItem() != null) {
+    private void showDialogHechoInformation() {
+        if (this.tabla.getSelectionModel().getSelectedItem() != null) {
             HechosBusqueda hb = (HechosBusqueda) this.tabla.getSelectionModel().getSelectedItem();
             hechoSelected = ServiceLocator.getHechosService().getHecho(hb.getIdReg());
             if (hechoSelected != null) {
@@ -129,70 +137,115 @@ public class BuscarHechosViewController {
         }
     }
 
+    private void loadDialogLoading(Stage mainApp) {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(DialogLoadingUrl.class.getResource("DialogLoading.fxml"));
+            StackPane panel = loader.load();
+            dialogStage = new Stage();
+
+            dialogStage.initOwner(mainApp);
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initStyle(StageStyle.TRANSPARENT);
+            panel.setStyle(
+                    "-fx-background-color: rgba(144,144,144,0.5);" +
+                            "-fx-background-insets: 50;"
+            );
+
+            Scene scene = new Scene(panel);
+            scene.setFill(Color.TRANSPARENT);
+            dialogStage.setScene(scene);
+            //dialogStage.setScene(new Scene(panel));
+            DialogLoadingController controller = loader.getController();
+            controller.setLabelText("Cargando");
+            dialogStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     @FXML
     private void buscar() {
-        if(this.unidadOrganizativa.getSelectionModel().isEmpty() &&
-            this.cboxMes.getSelectionModel().isEmpty() &&
-            this.cboxAnno.getSelectionModel().isEmpty() &&
-            this.tipoHecho.getSelectionModel().isEmpty()){
+        Task<Boolean> task = new Task<Boolean>() {
+            List<HechosBusqueda> hechos;
 
+            @Override
+            protected Boolean call() throws Exception {
+                this.hechos = new LinkedList<>();
+                String unidadOrganizativaSql = unidadOrganizativa.getSelectionModel().isEmpty()
+                        ? ""
+                        : " and id_uorg=" +
+                        ServiceLocator.getUnidadOrganizativaService().searchUnidadOrganizativaByName(
+                                unidadOrganizativa.getSelectionModel().getSelectedItem()
+                        ).getId_unidad_organizativa();
+
+                String tipoHechoSql = tipoHecho.getSelectionModel().isEmpty()
+                        ? ""
+                        : " and id_tipo_hecho=" +
+                        ServiceLocator.getTipoHechoService().searchTipoHechoByName(
+                                tipoHecho.getSelectionModel().getSelectedItem()
+                        ).getId_tipo_hecho();
+
+                String annoSql = cboxAnno.getSelectionModel().isEmpty()
+                        ? ""
+                        : " and date_part('year', hechos.fecha_ocurrencia) = "
+                        + Integer.parseInt(cboxAnno.getSelectionModel().getSelectedItem());
+
+                String mesSql = cboxMes.getSelectionModel().isEmpty()
+                        ? ""
+                        : " and date_part('mons', hechos.fecha_ocurrencia) = "
+                        + Util.obtenerNumeroMes(obtenerMesFromComboBoxMeses());
+
+
+                String query = "SELECT id_reg, id_uorg, fecha_ocurrencia, cod_cdnt, titulo FROM hechos WHERE id_reg > 0"
+                        + unidadOrganizativaSql + tipoHechoSql + annoSql + mesSql;
+
+                try {
+                    ResultSet rs = Util.executeQuery(query);
+                    while (rs.next())
+                        hechos.add(new HechosBusqueda(
+                                rs.getInt(1),
+                                rs.getInt(2),
+                                rs.getDate(3),
+                                rs.getString(4),
+                                rs.getString(5)
+                        ));
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+                return true;
+            }
+
+            @Override
+            protected void succeeded() {
+                super.succeeded();
+                if (!hechos.isEmpty()) {
+                    loadTable(this.hechos);
+                    dialogStage.close();
+                } else {
+                    dialogStage.close();
+                    tabla.getItems().clear();
+                    Util.dialogResult("No se han encontrado resultados para la búsqueda.", Alert.AlertType.INFORMATION);
+                }
+            }
+        };
+        if (unidadOrganizativa.getSelectionModel().isEmpty() &&
+                cboxMes.getSelectionModel().isEmpty() &&
+                cboxAnno.getSelectionModel().isEmpty() &&
+                tipoHecho.getSelectionModel().isEmpty()) {
             Util.dialogResult("Campos de búsqueda vacíos.", Alert.AlertType.WARNING);
-
         } else {
-            String unidadOrganizativaSql = unidadOrganizativa.getSelectionModel().isEmpty()
-                    ? ""
-                    : " and id_uorg=" +
-                    ServiceLocator.getUnidadOrganizativaService().searchUnidadOrganizativaByName(
-                            unidadOrganizativa.getSelectionModel().getSelectedItem()
-                    ).getId_unidad_organizativa();
-
-            String tipoHechoSql = tipoHecho.getSelectionModel().isEmpty()
-                    ? ""
-                    : " and id_tipo_hecho=" +
-                    ServiceLocator.getTipoHechoService().searchTipoHechoByName(
-                            tipoHecho.getSelectionModel().getSelectedItem()
-                    ).getId_tipo_hecho();
-
-            String annoSql = cboxAnno.getSelectionModel().isEmpty()
-                    ? ""
-                    : " and date_part('year', hechos.fecha_ocurrencia) = "
-                    + Integer.parseInt(cboxAnno.getSelectionModel().getSelectedItem());
-
-            String mesSql = cboxMes.getSelectionModel().isEmpty()
-                    ? ""
-                    : " and date_part('mons', hechos.fecha_ocurrencia) = "
-                    + Util.obtenerNumeroMes(obtenerMesFromComboBoxMeses());
-
-            List<HechosBusqueda> hechos = new LinkedList<>();
-
-            String query = "SELECT id_reg, id_uorg, fecha_ocurrencia, cod_cdnt, titulo FROM hechos WHERE id_reg > 0"
-                    + unidadOrganizativaSql + tipoHechoSql + annoSql + mesSql;
-
-            try {
-                ResultSet rs = Util.executeQuery(query);
-                while(rs.next())
-                    hechos.add(new HechosBusqueda(
-                            rs.getInt(1),
-                            rs.getInt(2),
-                            rs.getDate(3),
-                            rs.getString(4),
-                            rs.getString(5)
-                    ));
-            } catch (SQLException e){
-                e.printStackTrace();
-            }
-
-            if(!hechos.isEmpty()) {
-                loadTable(hechos);
-            } else{
-                this.tabla.getItems().clear();
-                Util.dialogResult("No se han encontrado resultados para la búsqueda.", Alert.AlertType.INFORMATION);
-            }
+            this.loadDialogLoading(this.mainApp);
+            Thread th = new Thread(task);
+            th.setDaemon(true);
+            th.start();
         }
     }
 
     @FXML
-    private void cleanSearchFields(){
+    private void cleanSearchFields() {
         this.tabla.getItems().clear();
         this.cboxAnno.getSelectionModel().clearSelection();
         this.cboxAnno.setPromptText("Seleccione");
@@ -210,7 +263,7 @@ public class BuscarHechosViewController {
         this.unidadOrgColumn.setCellValueFactory(
                 cellData -> new SimpleStringProperty(
                         ServiceLocator.getUnidadOrganizativaService()
-                        .getOneUnidadOrganizativa(cellData.getValue().getIdUnidadOrganizativa()).getUnidad_organizativa()
+                                .getOneUnidadOrganizativa(cellData.getValue().getIdUnidadOrganizativa()).getUnidad_organizativa()
                 )
         );
         this.fechaHechoColumn.setCellValueFactory(

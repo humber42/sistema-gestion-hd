@@ -1,17 +1,20 @@
 package util;
 
 import com.gembox.spreadsheet.*;
-
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
 import models.Afectaciones;
 import models.HechosPorMunicipio;
 import models.MunicipioServiciosAfectados;
 import models.ResumenModels;
 
 import java.awt.*;
+import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -311,7 +314,6 @@ public class Util {
         return style;
     }
 
-
     public static void eventToSetUpperCaseToFirstNameAndLastName(KeyEvent event, TextField nameAndLastName) {
         String txtAhoraMismo = nameAndLastName.getText();
         try {
@@ -345,5 +347,31 @@ public class Util {
             }
         }
         return mes;
+    }
+
+    public static String selectPathToSaveReport(Stage dialog, int intentos) {
+        String path = null;
+        if (intentos > 2) {
+            Util.dialogResult("Al parecer usted está muy seguro de no querer generar este reporte.", Alert.AlertType.INFORMATION);
+        } else {
+            DirectoryChooser directory = new DirectoryChooser();
+            directory.setTitle("Seleccione una carpeta..");
+
+            File file = directory.showDialog(dialog);
+
+            if (file != null) {
+                path = file.getAbsolutePath();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
+                        "Debe seleccionar una carpeta para salvar el archivo."
+                        , ButtonType.OK);
+                alert.showAndWait();
+                if (alert.getResult() == ButtonType.OK) {
+                    path = selectPathToSaveReport(dialog, intentos + 1);
+                }
+            }
+        }
+
+        return path;
     }
 }

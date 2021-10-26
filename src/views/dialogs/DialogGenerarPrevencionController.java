@@ -192,39 +192,41 @@ public class DialogGenerarPrevencionController {
 
     @FXML
     private void handleGenerar() {
-
-        LinkedList<Date> fechas = devolverFechas();
+        String path = Util.selectPathToSaveReport(this.dialogStage, 0);
+        if(path != null) {
+            LinkedList<Date> fechas = devolverFechas();
 //        GeneradorLocator.getGenerarPrevencion()
 //                    .generarInformePrevencion(fechas.getFirst(),fechas.getLast());
-        if (Objects.nonNull(fechas)) {
-            progressBar.setVisible(true);
-            Task<Boolean> task = new Task<Boolean>() {
-                boolean result = false;
+            if (Objects.nonNull(fechas)) {
+                progressBar.setVisible(true);
+                Task<Boolean> task = new Task<Boolean>() {
+                    boolean result = false;
 
-                @Override
-                protected Boolean call() throws Exception {
-                    this.result = GeneradorLocator.getGenerarPrevencion()
-                            .generarInformePrevencion(fechas.getFirst(), fechas.getLast());
+                    @Override
+                    protected Boolean call() throws Exception {
+                        this.result = GeneradorLocator.getGenerarPrevencion()
+                                .generarInformePrevencion(fechas.getFirst(), fechas.getLast(), path);
 
-                    return result;
-                }
-
-                @Override
-                protected void succeeded() {
-                    super.succeeded();
-                    progressBar.setVisible(false);
-                    String file = "src/informesGenerados/InformePrevencion.xlsx";
-                    try {
-                        Runtime.getRuntime().exec("cmd /c start " + file);
-                    } catch (Exception e) {
-                        ExceptionDialog x = new ExceptionDialog(e);
-                        x.showAndWait();
+                        return result;
                     }
-                    Util.showDialog(result);
-                }
-            };
 
-            new Thread(task).start();
+                    @Override
+                    protected void succeeded() {
+                        super.succeeded();
+                        progressBar.setVisible(false);
+                        String file = path+"/InformePrevencion.xlsx";
+                        try {
+                            Runtime.getRuntime().exec("cmd /c start " + file);
+                        } catch (Exception e) {
+                            ExceptionDialog x = new ExceptionDialog(e);
+                            x.showAndWait();
+                        }
+                        //Util.showDialog(result);
+                    }
+                };
+
+                new Thread(task).start();
+            }
         }
     }
 

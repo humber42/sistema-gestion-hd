@@ -12,8 +12,8 @@ import java.util.LinkedList;
 public class GenerarResumenMINCOMImpl implements GenerarResumenMINCOM {
 
     @Override
-    public boolean generarResumenMINCOM(LinkedList<Hechos> hechos) {
-        String DIRECCION_ARCHIVO = "src/informesGenerados/ResumenMINCOM.xlsx";
+    public boolean generarResumenMINCOM(LinkedList<Hechos> hechos, String path) {
+        String DIRECCION_ARCHIVO = path+"/ResumenMINCOM.xlsx";
         boolean result = false;
         ExcelFile workbook = new ExcelFile();
         if (generarResumen(workbook, hechos) && generarHechos(hechos, workbook)) {

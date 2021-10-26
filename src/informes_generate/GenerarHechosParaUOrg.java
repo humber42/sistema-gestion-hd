@@ -6,6 +6,6 @@ import java.util.LinkedList;
 
 public interface GenerarHechosParaUOrg {
 
-    boolean generarHechosParaUorg(LinkedList<Hechos> hechos);
+    boolean generarHechosParaUorg(LinkedList<Hechos> hechos, String path);
 
 }

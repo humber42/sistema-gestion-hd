@@ -143,7 +143,7 @@
                 </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="441.0" prefWidth="484.0">
                     <children>
-                        <TableView fx:id="hechosTable" layoutX="93.0" layoutY="48.0" prefHeight="317.0" prefWidth="363.0" AnchorPane.bottomAnchor="124.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <TableView fx:id="hechosTable" layoutX="93.0" layoutY="48.0" prefHeight="488.0" prefWidth="664.0" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                             <columns>
                                 <TableColumn fx:id="numeroHechosColum" prefWidth="54.0" text="No." />
                                 <TableColumn fx:id="codCDNTColum" prefWidth="99.0" text="Cod. CDNT" />
@@ -154,7 +154,7 @@
                         <TableColumn fx:id="municipioColum" prefWidth="114.0" text="Municipio" />
                             </columns>
                         </TableView>
-                        <HBox layoutX="166.0" layoutY="435.0" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="166.0">
+                        <HBox layoutX="168.0" layoutY="501.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="168.0">
                             <children>
                                 <JFXButton fx:id="btnFirst" buttonType="RAISED" onAction="#handleFirst" text=" ">
                            <graphic>
@@ -174,7 +174,7 @@
                            </graphic></JFXButton>
                             </children>
                         </HBox>
-                        <HBox layoutX="398.0" layoutY="435.0" AnchorPane.bottomAnchor="80.0" AnchorPane.rightAnchor="168.0">
+                        <HBox layoutX="399.0" layoutY="501.0" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="167.0">
                             <children>
                                 <JFXButton fx:id="btnNext" onAction="#handleNext" text=" ">
                            <graphic>
@@ -194,18 +194,13 @@
                            </graphic></JFXButton>
                             </children>
                         </HBox>
-                        <TextField fx:id="offsetMaximoField" layoutX="345.0" layoutY="439.0" prefHeight="25.0" prefWidth="36.0" promptText="No." AnchorPane.bottomAnchor="84.0" AnchorPane.rightAnchor="283.0" />
-                  <Label layoutX="329.0" layoutY="439.0" text="/" AnchorPane.bottomAnchor="84.0" AnchorPane.rightAnchor="328.0">
+                        <TextField fx:id="offsetMaximoField" layoutX="346.0" layoutY="505.0" prefHeight="25.0" prefWidth="36.0" promptText="No." AnchorPane.bottomAnchor="18.0" AnchorPane.rightAnchor="282.0" />
+                  <Label layoutX="330.0" layoutY="505.0" text="/" AnchorPane.bottomAnchor="18.0" AnchorPane.rightAnchor="327.0">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="offsetField" layoutX="281.0" layoutY="439.0" onAction="#buscarTabla" prefHeight="25.0" prefWidth="36.0" AnchorPane.bottomAnchor="84.0" AnchorPane.rightAnchor="347.0" />
-                          <JFXButton fx:id="btnNuevo" buttonType="RAISED" layoutX="417.0" layoutY="402.0" onAction="#showNewDialog" style="-fx-background-color: green;" text="Nuevo" textFill="WHITE" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="27.0">
-                     <font>
-                        <Font size="13.0" />
-                     </font>
-                  </JFXButton>
+                  <TextField fx:id="offsetField" layoutX="282.0" layoutY="505.0" onAction="#buscarTabla" prefHeight="25.0" prefWidth="36.0" AnchorPane.bottomAnchor="18.0" AnchorPane.rightAnchor="346.0" />
                     </children>
                 </AnchorPane>
             </items>

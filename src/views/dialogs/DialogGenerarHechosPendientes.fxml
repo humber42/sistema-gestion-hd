@@ -7,6 +7,7 @@
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
+<?import com.jfoenix.controls.JFXProgressBar?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml" prefHeight="146.0" prefWidth="304.0"
             xmlns="http://javafx.com/javafx"
             fx:controller="views.dialogs.DialogGenerarHechosPendientesController">
@@ -42,7 +43,7 @@
                 <Font size="17.0"/>
             </font>
         </Label>
-        <ProgressBar layoutX="62.0" layoutY="89.0" prefWidth="200.0" fx:id="progressBar"/>
+        <JFXProgressBar layoutX="62.0" layoutY="89.0" prefWidth="200.0" fx:id="progressBar"/>
     </children>
 </AnchorPane>
 

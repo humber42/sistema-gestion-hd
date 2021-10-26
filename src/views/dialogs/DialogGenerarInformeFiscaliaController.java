@@ -1,5 +1,6 @@
 package views.dialogs;
 
+import com.jfoenix.controls.JFXProgressBar;
 import informes_generate.GeneradorLocator;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -15,7 +16,7 @@ public class DialogGenerarInformeFiscaliaController {
     private DatePicker fechaCierre;
 
     @FXML
-    private ProgressBar progressBar;
+    private JFXProgressBar progressBar;
 
     private Stage dialogStage;
 
@@ -37,33 +38,41 @@ public class DialogGenerarInformeFiscaliaController {
     @FXML
     private void handleGenerate() {
         //TODO: arreglar metodo de generacion ya que explota cuando en el año no ha sucedido nada
-       // GeneradorLocator.getGenerateInformeFiscalia().generarInformeCompleto(fechaCierre.getValue());
-        progressBar.setVisible(true);
-        Task<Boolean> task = new Task<Boolean>() {
-            boolean result = false;
+        // GeneradorLocator.getGenerateInformeFiscalia().generarInformeCompleto(fechaCierre.getValue());
+        if (fechaCierre.getValue() == null) {
+            Util.dialogResult("Seleccione una fecha de cierre.", Alert.AlertType.WARNING);
+        } else {
+            String path = Util.selectPathToSaveReport(this.dialogStage, 0);
+            if (path != null) {
+                progressBar.setVisible(true);
+                Task<Boolean> task = new Task<Boolean>() {
+                    boolean result = false;
 
-            @Override
-            protected Boolean call() throws Exception {
-                this.result = GeneradorLocator.getGenerateInformeFiscalia().generarInformeCompleto(fechaCierre.getValue());
-                return result;
+                    @Override
+                    protected Boolean call() throws Exception {
+                        this.result = GeneradorLocator.getGenerateInformeFiscalia().
+                                generarInformeCompleto(fechaCierre.getValue(), path);
+                        return result;
+                    }
+
+                    @Override
+                    protected void succeeded() {
+                        super.succeeded();
+                        progressBar.setVisible(false);
+                        String file = path + "/ResumenFGR.xlsx";
+                        try {
+                            Runtime.getRuntime().exec("cmd /c start " + file);
+                        } catch (Exception e) {
+                            System.out.println("Error al abrir el archivo");
+                        }
+                        //showDialog(result);
+                    }
+
+                };
+
+                new Thread(task).start();
             }
-
-            @Override
-            protected void succeeded() {
-                super.succeeded();
-                progressBar.setVisible(false);
-                String file = "src/informesGenerados/ResumenFGR.xlsx";
-                try {
-                    Runtime.getRuntime().exec("cmd /c start " + file);
-                } catch (Exception e) {
-                    System.out.println("Error al abrir el archivo");
-                }
-                showDialog(result);
-            }
-
-        };
-
-        new Thread(task).start();
+        }
     }
 
     private void showDialog(boolean result) {

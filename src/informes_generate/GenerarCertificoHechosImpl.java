@@ -14,8 +14,8 @@ public class GenerarCertificoHechosImpl implements GenerarCertificoHechos {
 
 
     @Override
-    public boolean generarCertificoHechos(int anno, String mes) {
-        String DIRECCION_ARCHIVO = "src/informesGenerados/CertificoHechos.xlsx";
+    public boolean generarCertificoHechos(int anno, String mes, String path) {
+        String DIRECCION_ARCHIVO = path+"/CertificoHechos.xlsx";
         boolean result = false;
         ExcelFile workbook = new ExcelFile();
         if (crearCertifico(anno, mes, workbook))

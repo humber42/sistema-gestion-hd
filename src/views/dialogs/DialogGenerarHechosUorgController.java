@@ -1,5 +1,6 @@
 package views.dialogs;
 
+import com.jfoenix.controls.JFXProgressBar;
 import informes_generate.GeneradorLocator;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -61,7 +62,7 @@ public class DialogGenerarHechosUorgController {
     @FXML
     private CheckBox otrosHechos;
     @FXML
-    private ProgressBar progressBar;
+    private JFXProgressBar progressBar;
 
     private Stage stage;
 
@@ -127,54 +128,56 @@ public class DialogGenerarHechosUorgController {
     }
 
     private void executeInforme() throws NullPointerException {
+        String path = Util.selectPathToSaveReport(this.stage, 0);
+        if(path != null) {
+            Task<Boolean> tarea = new Task<Boolean>() {
+                boolean result = false;
+                LinkedList<Hechos> hechos = new LinkedList<>();
+                int mes = 0;
+                boolean datosVacios = false;
 
-        Task<Boolean> tarea = new Task<Boolean>() {
-            boolean result = false;
-            LinkedList<Hechos> hechos = new LinkedList<>();
-            int mes = 0;
-            boolean datosVacios = false;
-
-            @Override
-            protected Boolean call() throws Exception {
-                progressBar.setVisible(true);
-                if (!meses.getSelectionModel().getSelectedItem().equalsIgnoreCase("<<todos>>")) {
-                    mes = obtenerNumeroMes(meses.getSelectionModel().getSelectedItem());
-                }
-                hechos = filtrarHechos(ServiceLocator.getHechosService()
-                        .obtenerHechosParaUnidadOrganizativaPorMesYAnno(
-                                mes,
-                                annos.getSelectionModel().getSelectedItem(),
-                                obtenerUOrg(unidadesOrganizativas.getSelectionModel().getSelectedItem())
-                        )
-                );
-                if (hechos.isEmpty()) {
-                    datosVacios = true;
-                } else {
-                    this.result = GeneradorLocator.getGenerarHechosParaUOrg().generarHechosParaUorg(hechos);
-                }
-                return true;
-            }
-
-            @Override
-            protected void succeeded() {
-                super.succeeded();
-                progressBar.setVisible(false);
-                String file = "src/informesGenerados/HechosParaUnidadOrganizativa.xlsx";
-                if (!datosVacios && result) {
-                    try {
-                        Runtime.getRuntime().exec("cmd /c start " + file);
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                @Override
+                protected Boolean call() throws Exception {
+                    progressBar.setVisible(true);
+                    if (!meses.getSelectionModel().getSelectedItem().equalsIgnoreCase("<<todos>>")) {
+                        mes = obtenerNumeroMes(meses.getSelectionModel().getSelectedItem());
                     }
-                    Util.dialogResult("Exito", Alert.AlertType.INFORMATION);
-                } else if (datosVacios) {
-                    Util.dialogResult("No hay datos que mostrar", Alert.AlertType.INFORMATION);
-                } else {
-                    Util.dialogResult("Error al generar", Alert.AlertType.ERROR);
+                    hechos = filtrarHechos(ServiceLocator.getHechosService()
+                            .obtenerHechosParaUnidadOrganizativaPorMesYAnno(
+                                    mes,
+                                    annos.getSelectionModel().getSelectedItem(),
+                                    obtenerUOrg(unidadesOrganizativas.getSelectionModel().getSelectedItem())
+                            )
+                    );
+                    if (hechos.isEmpty()) {
+                        datosVacios = true;
+                    } else {
+                        this.result = GeneradorLocator.getGenerarHechosParaUOrg().generarHechosParaUorg(hechos, path);
+                    }
+                    return true;
                 }
-            }
-        };
-        new Thread(tarea).start();
+
+                @Override
+                protected void succeeded() {
+                    super.succeeded();
+                    progressBar.setVisible(false);
+                    String file = path+"/HechosParaUnidadOrganizativa.xlsx";
+                    if (!datosVacios && result) {
+                        try {
+                            Runtime.getRuntime().exec("cmd /c start " + file);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                       // Util.dialogResult("Exito", Alert.AlertType.INFORMATION);
+                    } else if (datosVacios) {
+                        Util.dialogResult("No hay datos que mostrar", Alert.AlertType.INFORMATION);
+                    } else {
+                        Util.dialogResult("Error al generar", Alert.AlertType.ERROR);
+                    }
+                }
+            };
+            new Thread(tarea).start();
+        }
     }
 
     private LinkedList<Hechos> filtrarHechos(LinkedList<Hechos> hechosUOrg) {

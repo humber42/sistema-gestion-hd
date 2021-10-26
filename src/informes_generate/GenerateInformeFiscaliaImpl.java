@@ -37,9 +37,9 @@ public class GenerateInformeFiscaliaImpl implements GenerateInformeFiscalia {
     }
 
     @Override
-    public boolean generarInformeCompleto(LocalDate localDate) {
+    public boolean generarInformeCompleto(LocalDate localDate, String path) {
         ExcelFile workbook = new ExcelFile();
-        String DIRECCION_ARCHIVO = "src/informesGenerados/ResumenFGR.xlsx";
+        String DIRECCION_ARCHIVO = path+"/ResumenFGR.xlsx";
         boolean result = false;
         if (generarTotales(localDate, workbook)
                 && generarResumen(localDate, workbook)

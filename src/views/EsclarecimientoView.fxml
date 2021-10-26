@@ -5,6 +5,7 @@
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
@@ -136,7 +137,6 @@
                 </JFXButton>
             </children>
         </HBox>
-        <JFXTextField labelFloat="true" layoutX="449.0" layoutY="301.0" onKeyPressed="#advancedSearchByCodCDNT" promptText="Buscar por Cod. CDNT" />
       <HBox layoutX="203.0" layoutY="297.0" prefHeight="25.0" prefWidth="98.0">
          <children>
             <JFXButton buttonType="RAISED" onAction="#handleFirst" text=" ">
@@ -181,5 +181,6 @@
             </JFXButton>
          </children>
       </HBox>
+      <ComboBox fx:id="cboxUorg" layoutX="446.0" layoutY="301.0" prefWidth="150.0" promptText="Buscar por U/O" />
     </children>
 </AnchorPane>

@@ -2,5 +2,5 @@ package informes_generate;
 
 public interface GenerarCertificoHechos {
 
-    boolean generarCertificoHechos(int anno, String mes);
+    boolean generarCertificoHechos(int anno, String mes, String path);
 }

@@ -1,5 +1,6 @@
 package views.dialogs;
 
+import com.jfoenix.controls.JFXProgressBar;
 import informes_generate.GeneradorLocator;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -25,7 +26,7 @@ public class DialogGenerarHechosPendientesController {
     @FXML
     private ComboBox<Integer> annos;
     @FXML
-    private ProgressBar progressBar;
+    private JFXProgressBar progressBar;
 
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
@@ -45,49 +46,51 @@ public class DialogGenerarHechosPendientesController {
 //                .obtenerHechosDatosPendientes(annos.getSelectionModel().getSelectedItem());
 //        GeneradorLocator.getGenerarHechosPendientes().generarHechosPendientes(pendientes);
 
-
         if (annos.getSelectionModel().isEmpty()) {
             Util.dialogResult("Seleccione un año", Alert.AlertType.WARNING);
         } else {
-            try {
-                progressBar.setVisible(true);
-                Task<Boolean> task = new Task<Boolean>() {
-                    boolean result = false;
-                    boolean dataEmpty = false;
+            String path = Util.selectPathToSaveReport(this.dialogStage, 0);
+            if (path != null) {
+                try {
+                    progressBar.setVisible(true);
+                    Task<Boolean> task = new Task<Boolean>() {
+                        boolean result = false;
+                        boolean dataEmpty = false;
 
-                    @Override
-                    protected Boolean call() throws Exception {
-                        LinkedList<Hechos> pendientes = ServiceLocator.getHechosService()
-                                .obtenerHechosDatosPendientes(annos.getSelectionModel().getSelectedItem());
-                        if (Objects.isNull(pendientes)) {
-                            dataEmpty = true;
-                        } else {
-                            GeneradorLocator.getGenerarHechosPendientes().generarHechosPendientes(pendientes);
-                            result = true;
-                        }
-                        return result;
-                    }
-
-                    @Override
-                    protected void succeeded() {
-                        super.succeeded();
-                        progressBar.setVisible(false);
-                        if (dataEmpty) {
-                            Util.dialogResult("No existen datos", Alert.AlertType.INFORMATION);
-                        } else {
-                            String file = "src/informesGenerados/HechosPendientes.xlsx";
-                            try {
-                                Runtime.getRuntime().exec("cmd /c start " + file);
-                            } catch (IOException e) {
-                                e.printStackTrace();
+                        @Override
+                        protected Boolean call() throws Exception {
+                            LinkedList<Hechos> pendientes = ServiceLocator.getHechosService()
+                                    .obtenerHechosDatosPendientes(annos.getSelectionModel().getSelectedItem());
+                            if (Objects.isNull(pendientes)) {
+                                dataEmpty = true;
+                            } else {
+                                GeneradorLocator.getGenerarHechosPendientes().generarHechosPendientes(pendientes, path);
+                                result = true;
                             }
-                            showDialog(result);
+                            return result;
                         }
-                    }
-                };
-                new Thread(task).start();
-            } catch (NullPointerException e) {
-                e.printStackTrace();
+
+                        @Override
+                        protected void succeeded() {
+                            super.succeeded();
+                            progressBar.setVisible(false);
+                            if (dataEmpty) {
+                                Util.dialogResult("No existen datos", Alert.AlertType.INFORMATION);
+                            } else {
+                                String file = path+"/HechosPendientes.xlsx";
+                                try {
+                                    Runtime.getRuntime().exec("cmd /c start " + file);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                                //showDialog(result);
+                            }
+                        }
+                    };
+                    new Thread(task).start();
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                }
             }
         }
 

@@ -328,7 +328,6 @@ public class JasperReportServiceImpl implements JasperReportService {
         Thread th = new Thread(task);
         th.setDaemon(true);
         th.start();
-
     }
 
     @Override
@@ -353,7 +352,6 @@ public class JasperReportServiceImpl implements JasperReportService {
                 super.succeeded();
                 dialogStage.close();
                 view.setVisible(true);
-
             }
         };
 

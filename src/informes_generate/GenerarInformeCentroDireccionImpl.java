@@ -25,11 +25,11 @@ import static util.Util.*;
  */
 public class GenerarInformeCentroDireccionImpl implements GenerarInformeCentroDireccion {
 
-    private static String DIRECCION_ARCHIVO = "src/informesGenerados/ResumenCDNT.xlsx";
+    private static String DIRECCION_ARCHIVO = "/ResumenCDNT.xlsx";
 
 
     @Override
-    public boolean generarInformeCentroDireccion(Date date) {
+    public boolean generarInformeCentroDireccion(Date date, String path) {
         boolean result = false;
         ExcelFile workbook = new ExcelFile();
         if (generararHojaResumenMensual(date, workbook)
@@ -39,7 +39,7 @@ public class GenerarInformeCentroDireccionImpl implements GenerarInformeCentroDi
         ) {
 
             try {
-                workbook.save(DIRECCION_ARCHIVO);
+                workbook.save(path+DIRECCION_ARCHIVO);
                 result = true;
             } catch (IOException e) {
                 e.printStackTrace();

@@ -1,5 +1,6 @@
 package views.dialogs;
 
+import com.jfoenix.controls.JFXProgressBar;
 import informes_generate.GeneradorLocator;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -24,7 +25,7 @@ public class DialogGenerarCertificoHechosController {
     @FXML
     ComboBox<String> anno;
     @FXML
-    ProgressBar progressBar;
+    JFXProgressBar progressBar;
 
     private Stage dialogStage;
 
@@ -56,42 +57,51 @@ public class DialogGenerarCertificoHechosController {
 
     @FXML
     private void handleGenerate() {
-
-        try {
-            int anno = this.obtenerAnno();
-            String mes = this.obtenerMes();
-
-            progressBar.setVisible(true);
-            Task<Boolean> task = new Task<Boolean>() {
-                boolean result = false;
-
-                @Override
-                protected Boolean call() throws Exception {
-                    this.result = GeneradorLocator.getGenerarCertificoHechos().generarCertificoHechos(
-                            anno, mes
-                    );
-                    return result;
-                }
-
-                @Override
-                protected void succeeded() {
-                    super.succeeded();
-                    progressBar.setVisible(false);
-                    String file = "src/informesGenerados/CertificoHechos.xlsx";
-                    try {
-                        Runtime.getRuntime().exec("cmd /c start " + file);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    showDialog(result);
-                }
-            };
-            new Thread(task).start();
-        } catch (NullPointerException e) {
-            Util.dialogResult("Seleccione un año", Alert.AlertType.ERROR);
-            e.printStackTrace();
+        if(anno.getSelectionModel().getSelectedItem() == null){
+            Util.dialogResult("Seleccione un año.", Alert.AlertType.INFORMATION);
         }
+        else if(meses.getSelectionModel().getSelectedItem() == null){
+            Util.dialogResult("Seleccione un mes.", Alert.AlertType.INFORMATION);
+        }
+        else {
+            String path = Util.selectPathToSaveReport(this.dialogStage, 0);
+            if (path != null) {
+                try {
+                    int anno = this.obtenerAnno();
+                    String mes = this.obtenerMes();
 
+                    progressBar.setVisible(true);
+                    Task<Boolean> task = new Task<Boolean>() {
+                        boolean result = false;
+
+                        @Override
+                        protected Boolean call() throws Exception {
+                            this.result = GeneradorLocator.getGenerarCertificoHechos().generarCertificoHechos(
+                                    anno, mes, path
+                            );
+                            return result;
+                        }
+
+                        @Override
+                        protected void succeeded() {
+                            super.succeeded();
+                            progressBar.setVisible(false);
+                            String file = path + "/CertificoHechos.xlsx";
+                            try {
+                                Runtime.getRuntime().exec("cmd /c start " + file);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                           // showDialog(result);
+                        }
+                    };
+                    new Thread(task).start();
+                } catch (NullPointerException e) {
+                    Util.dialogResult("Seleccione un año", Alert.AlertType.ERROR);
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     private int obtenerAnno() {

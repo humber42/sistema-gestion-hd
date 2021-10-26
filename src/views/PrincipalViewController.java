@@ -336,79 +336,79 @@ public class PrincipalViewController {
 
     @FXML
     private void generarDelitoPextListado() {
-        this.cargarPantallaDialogosListadosDelictivos("src/informesGenerados/PextListado.xlsx",
+        this.cargarPantallaDialogosListadosDelictivos("/PextListado.xlsx",
                 1, "Delito VS PExt");
     }
 
     @FXML
     private void generarDelitoTpubListado() {
-        this.cargarPantallaDialogosListadosDelictivos("src/informesGenerados/TPubListado.xlsx",
+        this.cargarPantallaDialogosListadosDelictivos("/TPubListado.xlsx",
                 2, "Delito vs TPub");
     }
 
     @FXML
     private void generarDelitoHurtoListado() {
-        this.cargarPantallaDialogosListadosDelictivos("src/informesGenerados/HurtoListado.xlsx", 4,
+        this.cargarPantallaDialogosListadosDelictivos("/HurtoListado.xlsx", 4,
                 "Delito Hurto");
     }
 
     @FXML
     private void generarDelitoRoboListado() {
-        this.cargarPantallaDialogosListadosDelictivos("src/informesGenerados/RoboListado.xlsx", 3,
+        this.cargarPantallaDialogosListadosDelictivos("/RoboListado.xlsx", 3,
                 "Delito Robo");
     }
 
     @FXML
     private void generarDelitoFraudeListado() {
-        this.cargarPantallaDialogosListadosDelictivos("src/informesGenerados/FraudeListado.xlsx", 5,
+        this.cargarPantallaDialogosListadosDelictivos("/FraudeListado.xlsx", 5,
                 "Delito Fraude");
     }
 
     @FXML
     private void generarDelitoAccionCRListado() {
-        this.cargarPantallaDialogosListadosDelictivos("src/informesGenerados/HurtoListado.xlsx", 6,
+        this.cargarPantallaDialogosListadosDelictivos("/HurtoListado.xlsx", 6,
                 "Delito Acción C/R");
     }
 
     @FXML
     private void generarDelitoOtrosListado() {
-        this.cargarPantallaDialogosListadosDelictivos("src/informesGenerados/OtrosDelitosListado.xlsx", 7,
+        this.cargarPantallaDialogosListadosDelictivos("/OtrosDelitosListado.xlsx", 7,
                 "Otros Delitos");
     }
 
     @FXML
     private void generarAveriaPextListado() {
-        this.cargarPantallaDialogosListadosDelictivos("src/informesGenerados/AveriaPextListado.xlsx",
+        this.cargarPantallaDialogosListadosDelictivos("/AveriaPextListado.xlsx",
                 8, "Averia Pext");
     }
 
     @FXML
     private void generarAccTransitoListado() {
-        this.cargarPantallaDialogosListadosDelictivos("src/informesGenerados/AccTransitoListado.xlsx",
+        this.cargarPantallaDialogosListadosDelictivos("/AccTransitoListado.xlsx",
                 9, "Accidente de Tránsito");
     }
 
     @FXML
     private void generarSegInformaticaListado() {
-        this.cargarPantallaDialogosListadosDelictivos("src/informesGenerados/SegInfListado.xlsx",
+        this.cargarPantallaDialogosListadosDelictivos("/SegInfListado.xlsx",
                 10, "Seguridad Informática");
     }
 
     @FXML
     private void generarIncendioListado() {
-        this.cargarPantallaDialogosListadosDelictivos("src/informesGenerados/IncendioListado.xlsx",
+        this.cargarPantallaDialogosListadosDelictivos("/IncendioListado.xlsx",
                 11, "Incendio");
     }
 
     @FXML
     private void generarDiferOrigenListado() {
-        this.cargarPantallaDialogosListadosDelictivos("src/informesGenerados/DiferOrigenListado.xlsx",
+        this.cargarPantallaDialogosListadosDelictivos("/DiferOrigenListado.xlsx",
                 13, "Diferente Origen");
     }
 
     @FXML
     private void generarOtrosHechosListado() {
-        this.cargarPantallaDialogosListadosDelictivos("src/informesGenerados/OtrosHechosListado.xlsx",
+        this.cargarPantallaDialogosListadosDelictivos("/OtrosHechosListado.xlsx",
                 14, "Otros Hechos");
     }
 

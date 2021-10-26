@@ -6,6 +6,6 @@ import java.util.LinkedList;
 
 public interface GenerarResumenMINCOM {
 
-    boolean generarResumenMINCOM(LinkedList<Hechos> hechos);
+    boolean generarResumenMINCOM(LinkedList<Hechos> hechos, String path);
 
 }

@@ -4,6 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
+<?import com.jfoenix.controls.JFXProgressBar?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml" prefHeight="186.0" prefWidth="371.0"
             xmlns="http://javafx.com/javafx" fx:controller="views.dialogs.DialogGenerarInformeFiscaliaController">
     <children>
@@ -43,6 +44,6 @@
                 <Font size="18.0"/>
             </font>
         </Label>
-        <ProgressBar fx:id="progressBar" layoutX="96.0" layoutY="113.0" prefWidth="200.0"/>
+        <JFXProgressBar fx:id="progressBar" layoutX="96.0" layoutY="113.0" prefWidth="200.0"/>
     </children>
 </AnchorPane>

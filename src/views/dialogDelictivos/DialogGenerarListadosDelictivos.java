@@ -83,57 +83,66 @@ public class DialogGenerarListadosDelictivos {
 
     @FXML
     private void handleGenerate() {
-
-        try {
-            int anno = this.obtenerAnno();
-            int mes = Util.obtenerNumeroMes(this.obtenerMes());
-            //LinkedList<Hechos> hechos = ServiceLocator.getHechosService().obtenerHechosByTypeAndDate(anno,mes,tipoHecho);
-            //GeneradorLocator.getGenerarListados().generarListado(hechos,direccionFile);
-            progressBar.setVisible(true);
-            Task<Boolean> task = new Task<Boolean>() {
-                boolean result = false;
-                boolean datosVacios = false;
-
-                @Override
-                protected Boolean call() throws Exception {
-
-                    LinkedList<Hechos> hechos = ServiceLocator.getHechosService().obtenerHechosByTypeAndDate(anno, mes, tipoHecho);
-                    if (hechos.isEmpty()) {
-                        datosVacios = true;
-                    } else {
-                        if (tipoHecho < 8)
-                            result = GeneradorLocator.getGenerarListados().generarListado(hechos, direccionFile);
-                        else
-                            result = GeneradorLocator.getGenerarListados().generarListado(hechos, direccionFile, tipoHecho);
-                    }
-                    return result;
-                }
-
-                @Override
-                protected void succeeded() {
-                    super.succeeded();
-                    progressBar.setVisible(false);
-                    if (datosVacios && !result) {
-                        Util.dialogResult("No hay datos que mostrar", Alert.AlertType.INFORMATION);
-                    } else if (!result) {
-                        Util.showDialog(result);
-                    } else {
-                        String file = direccionFile;
-                        try {
-                            Runtime.getRuntime().exec("cmd /c start " + file);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        showDialog(result);
-                    }
-                }
-            };
-            new Thread(task).start();
-        } catch (NullPointerException e) {
-            Util.dialogResult("Seleccione un año", Alert.AlertType.ERROR);
-            e.printStackTrace();
+        if(anno.getSelectionModel().getSelectedItem() == null){
+            Util.dialogResult("Seleccione un año.", Alert.AlertType.INFORMATION);
         }
+        else if(meses.getSelectionModel().getSelectedItem() == null){
+            Util.dialogResult("Seleccione un mes.", Alert.AlertType.INFORMATION);
+        }
+        else {
+            String path = Util.selectPathToSaveReport(this.dialogStage, 0) + this.direccionFile;
+            if (!path.contains("null")) {
+                try {
+                    int anno = this.obtenerAnno();
+                    int mes = Util.obtenerNumeroMes(this.obtenerMes());
+                    //LinkedList<Hechos> hechos = ServiceLocator.getHechosService().obtenerHechosByTypeAndDate(anno,mes,tipoHecho);
+                    //GeneradorLocator.getGenerarListados().generarListado(hechos,direccionFile);
+                    progressBar.setVisible(true);
+                    Task<Boolean> task = new Task<Boolean>() {
+                        boolean result = false;
+                        boolean datosVacios = false;
 
+                        @Override
+                        protected Boolean call() throws Exception {
+
+                            LinkedList<Hechos> hechos = ServiceLocator.getHechosService().obtenerHechosByTypeAndDate(anno, mes, tipoHecho);
+                            if (hechos.isEmpty()) {
+                                datosVacios = true;
+                            } else {
+                                if (tipoHecho < 8)
+                                    result = GeneradorLocator.getGenerarListados().generarListado(hechos, path);
+                                else
+                                    result = GeneradorLocator.getGenerarListados().generarListado(hechos, path, tipoHecho);
+                            }
+                            return result;
+                        }
+
+                        @Override
+                        protected void succeeded() {
+                            super.succeeded();
+                            progressBar.setVisible(false);
+                            if (datosVacios && !result) {
+                                Util.dialogResult("No hay datos que mostrar", Alert.AlertType.INFORMATION);
+                            } else if (!result) {
+                                Util.showDialog(result);
+                            } else {
+                                String file = path;
+                                try {
+                                    Runtime.getRuntime().exec("cmd /c start " + file);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                                //showDialog(result);
+                            }
+                        }
+                    };
+                    new Thread(task).start();
+                } catch (NullPointerException e) {
+                    Util.dialogResult("Seleccione un año", Alert.AlertType.ERROR);
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     private int obtenerAnno() {

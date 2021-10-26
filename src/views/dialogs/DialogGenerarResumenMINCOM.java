@@ -1,5 +1,6 @@
 package views.dialogs;
 
+import com.jfoenix.controls.JFXProgressBar;
 import informes_generate.GeneradorLocator;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -26,7 +27,7 @@ public class DialogGenerarResumenMINCOM {
     @FXML
     ComboBox<String> anno;
     @FXML
-    ProgressBar progressBar;
+    JFXProgressBar progressBar;
 
     private Stage dialogStage;
 
@@ -58,54 +59,63 @@ public class DialogGenerarResumenMINCOM {
 
     @FXML
     private void handleGenerate() {
-
-        try {
-            int anno = this.obtenerAnno();
-            int mes = obtenerNumeroMes(this.obtenerMes());
-            //LinkedList<Hechos> hechos = ServiceLocator.getHechosService().obtenerHechosResumenMincom(anno, mes);
-            //GeneradorLocator.getGenerarResumenMINCOM().generarResumenMINCOM(hechos);
-            progressBar.setVisible(true);
-            Task<Boolean> task = new Task<Boolean>() {
-                boolean result = false;
-                boolean datosVacios = false;
-
-                @Override
-                protected Boolean call() throws Exception {
-
-                    LinkedList<Hechos> hechos = ServiceLocator.getHechosService().obtenerHechosResumenMincom(anno, mes);
-                    if (hechos.isEmpty()) {
-                        datosVacios = true;
-                    } else {
-                        result = GeneradorLocator.getGenerarResumenMINCOM().generarResumenMINCOM(hechos);
-                    }
-                    return result;
-                }
-
-                @Override
-                protected void succeeded() {
-                    super.succeeded();
-                    progressBar.setVisible(false);
-                    if (datosVacios && !result) {
-                        Util.dialogResult("No hay datos que mostrar", Alert.AlertType.INFORMATION);
-                    } else if (!result) {
-                        Util.showDialog(result);
-                    } else {
-                        String file = "src/informesGenerados/ResumenMINCOM.xlsx";
-                        try {
-                            Runtime.getRuntime().exec("cmd /c start " + file);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        showDialog(result);
-                    }
-                }
-            };
-            new Thread(task).start();
-        } catch (NullPointerException e) {
-            Util.dialogResult("Seleccione un año", Alert.AlertType.ERROR);
-            e.printStackTrace();
+        if(anno.getSelectionModel().getSelectedItem() == null){
+            Util.dialogResult("Seleccione un año.", Alert.AlertType.INFORMATION);
         }
+        else if(meses.getSelectionModel().getSelectedItem() == null){
+            Util.dialogResult("Seleccione un mes.", Alert.AlertType.INFORMATION);
+        }
+        else {
+            String path = Util.selectPathToSaveReport(this.dialogStage, 0);
+            if(path != null) {
+                try {
+                    int anno = this.obtenerAnno();
+                    int mes = obtenerNumeroMes(this.obtenerMes());
+                    //LinkedList<Hechos> hechos = ServiceLocator.getHechosService().obtenerHechosResumenMincom(anno, mes);
+                    //GeneradorLocator.getGenerarResumenMINCOM().generarResumenMINCOM(hechos);
+                    progressBar.setVisible(true);
+                    Task<Boolean> task = new Task<Boolean>() {
+                        boolean result = false;
+                        boolean datosVacios = false;
 
+                        @Override
+                        protected Boolean call() throws Exception {
+
+                            LinkedList<Hechos> hechos = ServiceLocator.getHechosService().obtenerHechosResumenMincom(anno, mes);
+                            if (hechos.isEmpty()) {
+                                datosVacios = true;
+                            } else {
+                                result = GeneradorLocator.getGenerarResumenMINCOM().generarResumenMINCOM(hechos, path);
+                            }
+                            return result;
+                        }
+
+                        @Override
+                        protected void succeeded() {
+                            super.succeeded();
+                            progressBar.setVisible(false);
+                            if (datosVacios && !result) {
+                                Util.dialogResult("No hay datos que mostrar", Alert.AlertType.INFORMATION);
+                            } else if (!result) {
+                                Util.showDialog(result);
+                            } else {
+                                String file = path + "/ResumenMINCOM.xlsx";
+                                try {
+                                    Runtime.getRuntime().exec("cmd /c start " + file);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                               // showDialog(result);
+                            }
+                        }
+                    };
+                    new Thread(task).start();
+                } catch (NullPointerException e) {
+                    Util.dialogResult("Seleccione un año", Alert.AlertType.ERROR);
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     private int obtenerAnno() {

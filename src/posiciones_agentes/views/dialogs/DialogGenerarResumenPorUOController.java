@@ -35,7 +35,7 @@ public class DialogGenerarResumenPorUOController {
     }
 
     @FXML
-    private void initialize(){
+    private void initialize() {
         unidadOrganizativa.getItems()
                 .setAll(ServiceLocator.getUnidadOrganizativaService()
                         .fetchAll()
@@ -43,55 +43,62 @@ public class DialogGenerarResumenPorUOController {
                         .map(UnidadOrganizativa::getUnidad_organizativa)
                         .collect(Collectors.toList()
                         ));
-        TextFields.bindAutoCompletion(this.unidadOrganizativa.getEditor(),this.unidadOrganizativa.getItems());
+        TextFields.bindAutoCompletion(this.unidadOrganizativa.getEditor(), this.unidadOrganizativa.getItems());
         this.loading.setVisible(false);
     }
 
     @FXML
-    private void generarResumenXUOrg(){
-        try{
-            String unidadOrganizativa = this.unidadOrganizativa.getValue();
-            if(unidadOrganizativa.equals("")){
-                Util.dialogResult("Seleccione una unidad organizativa", Alert.AlertType.ERROR);
-            } else {
-                this.loading.setVisible(true);
-                this.generar.setDisable(true);
-                this.cancelar.setDisable(true);
-                Task<Boolean> task = new Task<Boolean>() {
-                    boolean result = false;
-                    String file = "src/informesGenerados/ResumenPosiciones" + unidadOrganizativa + ".xlsx";
+    private void generarResumenXUOrg() {
+        if (this.unidadOrganizativa.getSelectionModel().isEmpty()) {
+            Util.dialogResult("Seleccione una unidad organizativa", Alert.AlertType.WARNING);
+        } else {
+            String path = Util.selectPathToSaveReport(this.dialogStage, 0);
+            if (path != null) {
+                try {
+                    String unidadOrganizativa = this.unidadOrganizativa.getValue();
+                    if (unidadOrganizativa.equals("")) {
+                        Util.dialogResult("Seleccione una unidad organizativa", Alert.AlertType.ERROR);
+                    } else {
+                        this.loading.setVisible(true);
+                        this.generar.setDisable(true);
+                        this.cancelar.setDisable(true);
+                        Task<Boolean> task = new Task<Boolean>() {
+                            boolean result = false;
+                            String file = path + "/ResumenPosiciones" + unidadOrganizativa + ".xlsx";
 
-                    @Override
-                    protected Boolean call() throws Exception {
-                        this.result = ExcelGeneratorLocator.getResumenUnidadOrganizativa().generarResumenUnidadOrganizativa(file,
-                                ServiceLocator.getUnidadOrganizativaService().searchUnidadOrganizativaByName(unidadOrganizativa));
-                        return result;
-                    }
+                            @Override
+                            protected Boolean call() throws Exception {
+                                this.result = ExcelGeneratorLocator.getResumenUnidadOrganizativa().generarResumenUnidadOrganizativa(file,
+                                        ServiceLocator.getUnidadOrganizativaService().searchUnidadOrganizativaByName(unidadOrganizativa));
+                                return result;
+                            }
 
-                    @Override
-                    protected void succeeded() {
-                        super.succeeded();
-                        loading.setVisible(false);
-                        generar.setDisable(false);
-                        cancelar.setDisable(false);
-                        try {
-                            Runtime.getRuntime().exec("cmd /c start " + file);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        Util.showDialog(result);
+                            @Override
+                            protected void succeeded() {
+                                super.succeeded();
+                                loading.setVisible(false);
+                                generar.setDisable(false);
+                                cancelar.setDisable(false);
+                                try {
+                                    Runtime.getRuntime().exec("cmd /c start " + file);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                                Util.showDialog(result);
+                            }
+                        };
+                        new Thread(task).start();
                     }
-                };
-                new Thread(task).start();
+                } catch (NullPointerException e) {
+                    Util.dialogResult("Seleccione una unidad organizativa", Alert.AlertType.ERROR);
+                    e.printStackTrace();
+                }
             }
-        }catch (NullPointerException e){
-            Util.dialogResult("Seleccione una unidad organizativa", Alert.AlertType.ERROR);
-            e.printStackTrace();
         }
     }
 
     @FXML
-    private void cancelar(){
+    private void cancelar() {
         this.dialogStage.close();
     }
 

@@ -1,6 +1,7 @@
 package views.dialogs;
 
 
+import com.jfoenix.controls.JFXProgressBar;
 import informes_generate.GeneradorLocator;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -21,7 +22,7 @@ public class DialogGenerarHechosPrevenidosController {
     @FXML
     private ComboBox<Integer> annos;
     @FXML
-    private ProgressBar progressBar;
+    private JFXProgressBar progressBar;
 
     private Stage dialogStage;
 
@@ -40,41 +41,44 @@ public class DialogGenerarHechosPrevenidosController {
 
     @FXML
     private void handleGenerar() {
-
         // GeneradorLocator.getGenerarHechosPrevenidos().generarHechosPrevenidos(annos.getSelectionModel().getSelectedItem());
         if (annos.getSelectionModel().isEmpty()) {
             Util.dialogResult("Seleccione un año", Alert.AlertType.WARNING);
         } else {
-            progressBar.setVisible(true);
-            Task<Boolean> task = new Task<Boolean>() {
-                boolean result = false;
+            String path = Util.selectPathToSaveReport(this.dialogStage, 0);
+            if (path != null) {
+                progressBar.setVisible(true);
+                Task<Boolean> task = new Task<Boolean>() {
+                    boolean result = false;
 
-                @Override
-                protected Boolean call() throws Exception {
+                    @Override
+                    protected Boolean call() throws Exception {
 
-                    this.result = GeneradorLocator.getGenerarHechosPrevenidos().generarHechosPrevenidos(annos.getSelectionModel().getSelectedItem());
-                    return result;
-                }
-
-                @Override
-                protected void succeeded() {
-                    super.succeeded();
-                    progressBar.setVisible(false);
-                    String file = "src/informesGenerados/HechosPrevenidos.xlsx";
-                    if (result) {
-                        try {
-                            Runtime.getRuntime().exec("cmd /c start " + file);
-                        } catch (IOException e) {
-                            ExceptionDialog dialog = new ExceptionDialog(e);
-                            dialog.showAndWait();
-                        }
-                        Util.dialogResult("Exito", Alert.AlertType.INFORMATION);
-                    } else {
-                        Util.dialogResult("Error al generar", Alert.AlertType.ERROR);
+                        this.result = GeneradorLocator.getGenerarHechosPrevenidos().
+                                generarHechosPrevenidos(annos.getSelectionModel().getSelectedItem(), path);
+                        return result;
                     }
-                }
-            };
-            new Thread(task).start();
+
+                    @Override
+                    protected void succeeded() {
+                        super.succeeded();
+                        progressBar.setVisible(false);
+                        String file = path+"/HechosPrevenidos.xlsx";
+                        if (result) {
+                            try {
+                                Runtime.getRuntime().exec("cmd /c start " + file);
+                            } catch (IOException e) {
+                                ExceptionDialog dialog = new ExceptionDialog(e);
+                                dialog.showAndWait();
+                            }
+                          //  Util.dialogResult("Exito", Alert.AlertType.INFORMATION);
+                        } else {
+                            Util.dialogResult("Error al generar", Alert.AlertType.ERROR);
+                        }
+                    }
+                };
+                new Thread(task).start();
+            }
         }
     }
 
