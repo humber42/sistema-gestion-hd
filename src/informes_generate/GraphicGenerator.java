@@ -112,6 +112,7 @@ public class GraphicGenerator {
         return true;
     }
 
+
     public static boolean generarGraficoLineas(CellRange range, ExcelWorksheet worksheet,
                                                String positionInit, String positionFinal, String title, boolean fiscalia) {
         LineChart chart = (LineChart) worksheet.getCharts().add(ChartType.LINE, positionInit, positionFinal);

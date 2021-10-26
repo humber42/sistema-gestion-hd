@@ -9,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -182,7 +183,7 @@ public class MainPosicionesAgentesController {
         try{
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(DialogLoadingUrl.class.getResource("DialogLoading.fxml"));
-            AnchorPane panel = loader.load();
+            StackPane panel = loader.load();
             dialogStage = new Stage();
             dialogStage.setScene(new Scene(panel));
             dialogStage.initModality(Modality.WINDOW_MODAL);

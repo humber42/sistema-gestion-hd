@@ -591,6 +591,8 @@ public class HechosRegistradosViewController {
                             ? "" :
                             " AND hechos.id_tipo_hecho = " +
                                     ServiceLocator.getTipoHechoService().searchTipoHechoByName(tipoHecho).getId_tipo_hecho();
+
+            //TODO:Revisar pq los campos no pueden estar vacios lanza NullPointer
             uorgPartQuery = uorg == null
                             ? "" :
                             " AND id_uorg = " +

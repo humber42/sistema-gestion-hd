@@ -48,7 +48,7 @@
                             </graphic>
                         </JFXButton>
                         <JFXButton alignment="BOTTOM_CENTER" buttonType="RAISED" contentDisplay="TOP"
-                                   graphicTextGap="0.0" layoutX="29.0" layoutY="501.0" onAction="#logout"
+                                   graphicTextGap="0.0" layoutX="29.0" layoutY="509.0" onAction="#logout"
                                    prefHeight="104.0" prefWidth="125.0" styleClass="menu-principal-button"
                                    stylesheets="@../css/buttons.css" text="Cerrar Sesión" textAlignment="CENTER"
                                    textFill="WHITE" textOverrun="CLIP" wrapText="true">
