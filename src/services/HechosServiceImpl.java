@@ -43,6 +43,39 @@ public class HechosServiceImpl implements HechosService {
         return this.recuperarListaResultSet(query);
     }
 
+    @Override
+    public void updateHecho(Hechos hechos) throws SQLException {
+        String function = "{call update_hecho(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+
+        CallableStatement statement = Conexion.getConnection().prepareCall(function);
+        statement.setInt(1, hechos.getId_reg());
+        statement.setString(2, hechos.getTitulo());
+        statement.setInt(3, hechos.getTipoHecho().getId_tipo_hecho());
+        statement.setDate(4, hechos.getFecha_ocurrencia());
+        statement.setDate(5, hechos.getFecha_parte());
+        statement.setInt(6, hechos.getUnidadOrganizativa().getId_unidad_organizativa());
+        statement.setString(7, hechos.getCentro());
+        statement.setString(8, hechos.getLugar());
+        statement.setInt(9, hechos.getMunicipio().getId_municipio());
+        statement.setString(10, hechos.getNumero_denuncia());
+        statement.setDouble(11, hechos.getAfectacion_usd());
+        statement.setDouble(12, hechos.getAfectacion_mn());
+        statement.setDouble(13, hechos.getAfectacion_servicio());
+        statement.setString(14, hechos.getObservaciones());
+        statement.setString(15, hechos.getCod_cdnt());
+        statement.setBoolean(16, hechos.isImputable());
+        statement.setBoolean(17, hechos.isIncidencias());
+        statement.setObject(18, hechos.getMateriales() == null
+                ? null
+                : hechos.getMateriales().getId_materiales());
+        statement.setInt(19, hechos.getCantidad());
+        statement.setObject(20, hechos.getTipoVandalismo() == null
+                ? null
+                : hechos.getTipoVandalismo().getId_afect_tpublica());
+        statement.execute();
+        statement.close();
+    }
+
     /**
      * Delito vs TPubl
      *
@@ -970,21 +1003,21 @@ public class HechosServiceImpl implements HechosService {
         return resumenModels;
     }
 
-    public void editarHechos(Hechos hechos)throws SQLException{
+    public void editarHechos(Hechos hechos) throws SQLException {
         String function = "{call editar_hechos(?,?,?,?)}";
         CallableStatement statement = Conexion.getConnection().prepareCall(function);
-        statement.setInt(1,hechos.getId_reg());
-        statement.setString(2,hechos.getTitulo());
-        statement.setString(3,hechos.getCentro());
-        statement.setString(4,hechos.getLugar());
+        statement.setInt(1, hechos.getId_reg());
+        statement.setString(2, hechos.getTitulo());
+        statement.setString(3, hechos.getCentro());
+        statement.setString(4, hechos.getLugar());
         statement.execute();
         statement.close();
     }
 
-    public void eliminarHechos (Hechos hechos)throws SQLException{
+    public void eliminarHechos(Hechos hechos) throws SQLException {
         String function = "{call eliminar_hechos(?)}";
         CallableStatement statement = Conexion.getConnection().prepareCall(function);
-        statement.setInt(1,hechos.getId_reg());
+        statement.setInt(1, hechos.getId_reg());
         statement.execute();
         statement.close();
     }
@@ -992,7 +1025,7 @@ public class HechosServiceImpl implements HechosService {
     @Override
     public Hechos getHechoByUOandFechaOcurrenciaAndTitulo(int id_uorg, Date fecha, String title) {
         Hechos hecho = new Hechos();
-        String query = "SELECT * FROM hechos WHERE id_uorg = "+ id_uorg +
+        String query = "SELECT * FROM hechos WHERE id_uorg = " + id_uorg +
                 " AND titulo = '" + title + "' AND fecha_ocurrencia = '" + fecha + "'";
         try {
             ResultSet resultSet = Util.executeQuery(query);

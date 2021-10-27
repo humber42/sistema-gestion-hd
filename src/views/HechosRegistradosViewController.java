@@ -104,11 +104,23 @@ public class HechosRegistradosViewController {
     private String uorgPartQuery;
     private String tipoHechoPartQuery;
 
+    private static Hechos hechoSeleccionado;
+
     public void setStage(Stage stage) {
         this.stage = stage;
     }
 
     public HechosRegistradosViewController() {
+    }
+
+    public static Hechos getHechoSeleccionado(){
+        if(hechoSeleccionado == null)
+            hechoSeleccionado = new Hechos();
+        return hechoSeleccionado;
+    }
+
+    public static void setHechoSeleccionado(Hechos hechoSelect){
+        hechoSeleccionado = hechoSelect;
     }
 
     @FXML
@@ -117,11 +129,15 @@ public class HechosRegistradosViewController {
         this.usingFilters = false;
 
         if(logged.hasPermiso_visualizacion() || logged.hasPermiso_pases()){
-            this.infoHechoSelected.setVisible(false);
+            this.buttonEditar.setVisible(false);
+            this.buttonEliminar.setVisible(false);
+            //this.infoHechoSelected.setVisible(false);
             //this.btnNuevo.setVisible(false);
         }
         else if(logged.isSuperuser()){
-            this.infoHechoSelected.setVisible(true);
+            this.buttonEditar.setVisible(true);
+            this.buttonEliminar.setVisible(true);
+            //this.infoHechoSelected.setVisible(true);
             //this.btnNuevo.setVisible(true);
         }
 
@@ -277,6 +293,35 @@ public class HechosRegistradosViewController {
     }
 
     @FXML
+    private void handleEdit(){
+        if(this.getHechoSelected() != null){
+            hechoSeleccionado = this.getHechoSelected();
+            this.openDialogRegisterFact();
+        }
+    }
+
+    private void openDialogRegisterFact(){
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(PrincipalViewController.class.getResource("RegistrarView.fxml"));
+            AnchorPane anchorPane = loader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Modificar Hecho");
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initOwner(this.stage);
+            stage.setResizable(false);
+            stage.setMaximized(false);
+            stage.setScene(new Scene(anchorPane));
+
+            RegistrarViewController controller = loader.getController();
+            controller.setDialogStage(stage);
+            stage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+   /* @FXML
     private boolean showDialogToEdit(){
         try {
             Hechos hecho = getHechoSelected();
@@ -356,6 +401,7 @@ public class HechosRegistradosViewController {
         }
         return true;
     }
+    */
 
     private void desactivarButton(){
         buttonEliminar.setDisable(true);
@@ -381,6 +427,9 @@ public class HechosRegistradosViewController {
             Optional<ButtonType> confirmacion = alert.showAndWait();
             if (confirmacion.get().equals(ButtonType.OK)){
                 ServiceLocator.getHechosService().eliminarHechos(hecho);
+                desactivarButton();
+            } else{
+                this.hechosTable.getSelectionModel().clearSelection();
                 desactivarButton();
             }
             cargarTabla(this.obtenerHechosRegistrados(LIMIT_OF_ROWS, offset));

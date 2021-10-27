@@ -1,6 +1,7 @@
 package views;
 
 
+import com.jfoenix.controls.JFXButton;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
@@ -17,7 +18,6 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Dialog to register a new Hechos into the database
@@ -100,9 +100,10 @@ public class RegistrarViewController {
     @FXML
     private DatePicker fechaOcurrencia;
 
-    public void setFromPrincipal(boolean principal){
+    public void setFromPrincipal(boolean principal) {
         this.fromPrincipal = principal;
     }
+
     /**
      * This a callback to no make selectable the cell in the calendar before
      *
@@ -132,6 +133,11 @@ public class RegistrarViewController {
     private Stage dialogStage;
     @FXML
     private ComboBox<String> vandalismoComboBox;
+    @FXML
+    private JFXButton btnRegister;
+
+    private Hechos hechoToUpdate;
+    private boolean toUpdate;
 
     private BorderPane mainApp;
 
@@ -154,14 +160,8 @@ public class RegistrarViewController {
      */
     @FXML
     private void handleCancel() {
-        //dialogStage.close();
-
-//        mainApp.setCenter(null);
-
-        if(fromPrincipal)
-            mainApp.setCenter(null);
-        else
-            dialogStage.close();
+        HechosRegistradosViewController.setHechoSeleccionado(null);
+        dialogStage.close();
     }
 
 
@@ -218,6 +218,61 @@ public class RegistrarViewController {
                     System.out.println("Imputable " + this.imputable);
                     System.out.println("Incidente" + this.incidente);
                 });
+
+        this.toUpdate = false;
+
+        this.hechoToUpdate = HechosRegistradosViewController.getHechoSeleccionado();
+        if (hechoToUpdate != null && hechoToUpdate.getId_reg() > 0) {
+            this.btnRegister.setText("Editar");
+            this.toUpdate = true;
+            System.out.println("ToUpdate");
+            this.cargarInformacionHechoSeleccionadoBusqueda();
+        }
+    }
+
+    private void cargarInformacionHechoSeleccionadoBusqueda() {
+        if (hechoToUpdate != null) {
+            this.titulo.setText(hechoToUpdate.getTitulo());
+            this.codCDNT.setText(hechoToUpdate.getCod_cdnt() == null
+                    ? "(sin información)"
+                    : hechoToUpdate.getCod_cdnt());
+            String tipoH = hechoToUpdate.getTipoHecho().getTipo_hecho();
+            this.tipoHechoComboBox.getSelectionModel().select(tipoH);
+            if (tipoH.equalsIgnoreCase("Delito vs PExt")) {
+                this.activePaneDelitoVSPExt();
+                String material = hechoToUpdate.getMateriales().getMateriales();
+                this.materialComboBox.getSelectionModel().select(material);
+                this.cantidad.setText(hechoToUpdate.getCantidad() + "");
+            } else if (tipoH.equalsIgnoreCase("Delito vs TPúb")) {
+                this.activePaneDelitoVSTPubl();
+                String afect = hechoToUpdate.getTipoVandalismo().getAfect_tpublica();
+                this.vandalismoComboBox.getSelectionModel().select(afect);
+            } else if (tipoH.equalsIgnoreCase("Acc. Tránsito")) {
+                this.activePaneAccTransito();
+                this.radioButtonImputable.setSelected(hechoToUpdate.isImputable());
+                this.radioButtonIncidente.setSelected(hechoToUpdate.isIncidencias());
+            } else {
+                this.disableALLPanes();
+            }
+            this.fechaOcurrencia.setValue(hechoToUpdate.getFecha_ocurrencia().toLocalDate());
+            this.fechaResumen.setValue(hechoToUpdate.getFecha_parte().toLocalDate());
+            this.denuncia.setText(hechoToUpdate.getNumero_denuncia() == null
+                    ? "(sin información)"
+                    : hechoToUpdate.getNumero_denuncia());
+            this.centro.setText(hechoToUpdate.getCentro());
+            this.lugarOcurrencia.setText(hechoToUpdate.getLugar());
+            String municip = hechoToUpdate.getMunicipio().getMunicipio();
+            this.municipioComboBox.getSelectionModel().select(municip);
+            String uo = hechoToUpdate.getUnidadOrganizativa().getUnidad_organizativa();
+            this.unidadOrganizativaComboBox.getSelectionModel().select(uo);
+            this.afectacionMN.setText(hechoToUpdate.getAfectacion_mn() + "");
+            this.afectacionMLC.setText(hechoToUpdate.getAfectacion_usd() + "");
+            this.afectacionService.setText(hechoToUpdate.getAfectacion_servicio() + "");
+            this.observaciones.setText(hechoToUpdate.getObservaciones() == null
+                    ? "(sin información)"
+                    : hechoToUpdate.getObservaciones());
+
+        }
     }
 
     private List<String> llenarComboMunicipios() {
@@ -277,7 +332,6 @@ public class RegistrarViewController {
         } else {
             disableALLPanes();
         }
-
     }
 
     private void activePaneDelitoVSPExt() {
@@ -487,27 +541,42 @@ public class RegistrarViewController {
     @FXML
     public void handleRegistrar() {
         this.settearColoresNormalesLetras();
-        boolean insertado = false;
-        int cantIntentos = 0;
         if (validarCamposVacios()) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setHeaderText(null);
-            alert.setTitle("Confirmación");
-            alert.setContentText("¿Desea registrar el hecho?");
-            Optional<ButtonType> action = alert.showAndWait();
-            if (action.get().equals(ButtonType.OK)) {
-                while (!insertado && cantIntentos < 100000) {
-                    insertado = registrarHecho();
-                    cantIntentos++;
+            if (!toUpdate) {
+                boolean insertado = false;
+                int cantIntentos = 0;
+
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setHeaderText(null);
+                alert.setTitle("Confirmación");
+                alert.setContentText("¿Desea registrar el hecho?");
+                alert.showAndWait();
+
+                if (alert.getResult() == ButtonType.OK) {
+                  //  while (!insertado && cantIntentos < 100000) {
+                        insertado = registrarHecho();
+                       // cantIntentos++;
+                   // }
                 }
+                if (insertado) {
+                    Util.dialogResult("Se registró correctamente el hecho.", Alert.AlertType.INFORMATION);
+                } else
+                    Util.dialogResult("Error al registrar", Alert.AlertType.ERROR);
+            } else {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
+                        "¿Desea editar realmente este hecho?"
+                        , ButtonType.OK, ButtonType.CANCEL);
+                alert.showAndWait();
+                boolean updated = false;
+                if (alert.getResult() == ButtonType.OK) {
+                    updated = this.updateHecho();
+                }
+                if (updated) {
+                    Util.dialogResult("El hecho fue modificado correctamente.", Alert.AlertType.INFORMATION);
+                } else
+                    Util.dialogResult("Ha ocurrido un error en la modificación.", Alert.AlertType.ERROR);
+
             }
-
-            if (insertado) {
-                Util.dialogResult("Se registro correctamente el hecho", Alert.AlertType.INFORMATION);
-            } else
-                Util.dialogResult("Error al registrar", Alert.AlertType.ERROR);
-
-
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(null);
@@ -515,8 +584,69 @@ public class RegistrarViewController {
             alert.setContentText("Existen campos en blanco por favor rellenelos");
             alert.showAndWait();
         }
+    }
 
+    public boolean updateHecho() {
+        boolean updated = false;
 
+        hechoToUpdate.setTitulo(titulo.getText());
+        hechoToUpdate.setUnidadOrganizativa(this.buscarUnidadOrganizativa(
+                unidadOrganizativaComboBox.getSelectionModel().getSelectedItem())
+        );
+        hechoToUpdate.setMunicipio(this.buscarMunicipio(
+                municipioComboBox.getSelectionModel().getSelectedItem())
+        );
+        hechoToUpdate.setTipoHecho(this.buscarTipoHecho(
+                tipoHechoComboBox.getSelectionModel().getSelectedItem())
+        );
+        hechoToUpdate.setNumero_denuncia(denuncia.getText());
+        hechoToUpdate.setCod_cdnt(codCDNT.getText());
+        hechoToUpdate.setLugar(lugarOcurrencia.getText());
+        hechoToUpdate.setCentro(centro.getText());
+        hechoToUpdate.setObservaciones(observaciones.getText());
+        hechoToUpdate.setFecha_ocurrencia(Date.valueOf(fechaOcurrencia.getValue()));
+        hechoToUpdate.setFecha_parte(Date.valueOf(fechaResumen.getValue()));
+        hechoToUpdate.setAfectacion_mn(Double.valueOf(afectacionMN.getText()));
+        hechoToUpdate.setAfectacion_usd(Double.valueOf(afectacionMLC.getText()));
+        hechoToUpdate.setAfectacion_servicio(Double.valueOf(afectacionService.getText()));
+
+        if (!delitoVSPExtPanel.isDisabled()) {
+            TipoMateriales material = this.buscarMaterial(this.materialComboBox.getValue());
+            hechoToUpdate.setMateriales(material);
+            int cantidadMaterial = Integer.valueOf(this.cantidad.getText());
+            hechoToUpdate.setCantidad(cantidadMaterial);
+            hechoToUpdate.setTipoVandalismo(null);
+            hechoToUpdate.setImputable(false);
+            hechoToUpdate.setIncidencias(false);
+        } else if (!delitoVSTPublPanel.isDisabled()) {
+            TipoVandalismo afectacion = this.buscarAfectacion(this.vandalismoComboBox.getValue());
+            hechoToUpdate.setTipoVandalismo(afectacion);
+            hechoToUpdate.setMateriales(null);
+            hechoToUpdate.setCantidad(0);
+            hechoToUpdate.setImputable(false);
+            hechoToUpdate.setIncidencias(false);
+        } else if (!accidenteTransitoPanel.isDisabled()) {
+            hechoToUpdate.setImputable(this.imputable);
+            hechoToUpdate.setIncidencias(this.incidente);
+            hechoToUpdate.setMateriales(null);
+            hechoToUpdate.setCantidad(0);
+            hechoToUpdate.setTipoVandalismo(null);
+        } else {
+            hechoToUpdate.setImputable(false);
+            hechoToUpdate.setIncidencias(false);
+            hechoToUpdate.setMateriales(null);
+            hechoToUpdate.setCantidad(0);
+            hechoToUpdate.setTipoVandalismo(null);
+        }
+
+        try {
+            ServiceLocator.getHechosService().updateHecho(hechoToUpdate);
+            updated = true;
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return updated;
     }
 
     public boolean registrarHecho() {

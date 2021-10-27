@@ -14,6 +14,8 @@ public interface HechosService {
 
     LinkedList<Hechos> fetchAllHechos(String limit, String offset);
 
+    void updateHecho(Hechos hechos) throws SQLException;
+
     void registrarHecho(Hechos hechos) throws SQLException;
 
     void registrarHecho(Hechos hechos, TipoVandalismo vandalismo) throws SQLException;

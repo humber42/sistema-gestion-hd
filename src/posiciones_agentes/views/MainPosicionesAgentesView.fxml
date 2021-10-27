@@ -96,11 +96,6 @@
                   <MenuItem mnemonicParsing="false" onAction="#generarResumenPS" text="Resumen por proveedor de servicio" />
                </items>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Ayuda">
-                    <items>
-                        <MenuItem mnemonicParsing="false" text="Información" />
-                    </items>
-                </Menu>
             </menus>
         </MenuBar>
     </top>

@@ -138,11 +138,6 @@
                      </accelerator></MenuItem>
                </items>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Ayuda">
-                    <items>
-                        <MenuItem mnemonicParsing="false" text="Información" />
-                    </items>
-                </Menu>
             </menus>
         </MenuBar>
     </top>

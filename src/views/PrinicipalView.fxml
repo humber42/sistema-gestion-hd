@@ -143,11 +143,6 @@
                         <MenuItem mnemonicParsing="false" onAction="#handleAveria" text="Tipo de Averia" />
                     </items>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Ayuda">
-                    <items>
-                        <MenuItem mnemonicParsing="false" text="Acerca de..." />
-                    </items>
-                </Menu>
             </menus>
         </MenuBar>
 

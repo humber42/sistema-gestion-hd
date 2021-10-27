@@ -564,8 +564,6 @@ public class PrincipalViewController {
 
             HechosRegistradosViewController controller = loader.getController();
             controller.setStage(hechoStage);
-            hechoStage.setHeight(580);
-            hechoStage.setWidth(1000);
             hechoStage.showAndWait();
 //            mainApp.getPrincipal().setCenter(page);
 //            mainApp.getPrimaryStage().setWidth(1000);
