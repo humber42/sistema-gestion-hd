@@ -2,17 +2,8 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXTextField?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.RadioButton?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.TitledPane?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
-
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <AnchorPane prefHeight="509.0" prefWidth="772.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.dialogs.InformacionHechoViewController">
     <children>
         <GridPane layoutX="27.0" layoutY="96.0" prefHeight="167.0" prefWidth="392.0">
@@ -28,16 +19,18 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <ComboBox fx:id="municipioComboBox" prefHeight="26.0" prefWidth="266.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                 <Label fx:id="unidadOragnizativaLabel" text="Unidad Organizativa" GridPane.rowIndex="2" />
-                <ComboBox fx:id="unidadOrganizativaComboBox" prefHeight="26.0" prefWidth="274.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                 <Label fx:id="tituloLabel" text="Titulo" />
-                <TextField fx:id="titulo" editable="false" prefHeight="26.0" prefWidth="267.0" GridPane.columnIndex="1" />
+                <TextField fx:id="titulo" editable="false" pickOnBounds="false" prefHeight="26.0" prefWidth="267.0"
+                           GridPane.columnIndex="1"/>
                 <Label fx:id="centroLabel" text="Centro" GridPane.rowIndex="3" />
                 <TextField fx:id="centro" editable="false" prefWidth="266.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                 <Label fx:id="denunciaLabel" text="No. Denuncia" GridPane.rowIndex="1" />
                 <TextField fx:id="denuncia" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                 <Label fx:id="municipioLabel" text="Municipio" GridPane.rowIndex="4" />
+                <TextField fx:id="unidadOrganizativaComboBox" editable="false" GridPane.columnIndex="1"
+                           GridPane.rowIndex="2"/>
+                <TextField fx:id="municipioComboBox" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
             </children>
         </GridPane>
         <GridPane layoutX="467.0" layoutY="20.0" prefHeight="128.0" prefWidth="298.0">
@@ -90,9 +83,9 @@
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="54.0" prefWidth="245.0">
                     <children>
                         <Label fx:id="materialLabel" layoutX="14.0" layoutY="14.0" text="Material" />
-                        <ComboBox fx:id="materialComboBox" layoutX="81.0" layoutY="10.0" prefWidth="150.0" />
                         <Label fx:id="cantidadLabel" layoutX="12.0" layoutY="47.0" text="Cantidad" />
                         <TextField fx:id="cantidad" editable="false" layoutX="82.0" layoutY="43.0" prefHeight="26.0" prefWidth="148.0" />
+                        <TextField fx:id="materialComboBox" editable="false" layoutX="82.0" layoutY="10.0"/>
                     </children>
                 </AnchorPane>
             </content>
@@ -102,7 +95,7 @@
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="62.0" prefWidth="254.0">
                     <children>
                         <Label fx:id="vandalismoLabel" layoutX="14.0" layoutY="21.0" text="Afectación" />
-                        <ComboBox fx:id="vandalismoComboBox" layoutX="75.0" layoutY="17.0" prefHeight="25.0" prefWidth="174.0" />
+                        <TextField fx:id="vandalismoComboBox" editable="false" layoutX="82.0" layoutY="17.0"/>
                     </children>
                 </AnchorPane>
             </content>
@@ -120,10 +113,13 @@
         <Label fx:id="codCDNTLabel" layoutX="27.0" layoutY="24.0" text="Cod CDNT" />
         <TextField fx:id="codCDNT" editable="false" layoutX="151.0" layoutY="20.0" prefHeight="22.0" prefWidth="266.0" />
         <Label fx:id="tipoHechoLabel" layoutX="26.0" layoutY="63.0" text="Tipo de hecho" />
-        <ComboBox fx:id="tipoHechoComboBox" layoutX="151.0" layoutY="58.0" prefHeight="26.0" prefWidth="267.0" />
         <Label fx:id="lugarOcurrenciaLabel" layoutX="28.0" layoutY="282.0" text="Lugar" />
         <TextArea fx:id="lugarOcurrencia" editable="false" layoutX="151.0" layoutY="266.0" prefHeight="50.0" prefWidth="267.0" wrapText="true" />
         <TextField fx:id="afectacionService" editable="false" layoutX="576.0" layoutY="212.0" prefHeight="26.0" prefWidth="174.0" />
-          <JFXButton buttonType="RAISED" layoutX="672.0" layoutY="453.0" onAction="#handleCancel" prefHeight="33.0" prefWidth="86.0" style="-fx-background-color: red;" text="Cancelar" textFill="#f5f1f1" />
+        <JFXButton buttonType="RAISED" layoutX="672.0" layoutY="453.0" onAction="#handleCancel" prefHeight="33.0"
+                   prefWidth="86.0" style="-fx-background-color: red;" text="Cerrar" textFill="#f5f1f1"
+                   viewOrder="-1.0"/>
+        <TextField fx:id="tipoHechoComboBox" editable="false" layoutX="151.0" layoutY="59.0" prefHeight="26.0"
+                   prefWidth="266.0"/>
     </children>
 </AnchorPane>

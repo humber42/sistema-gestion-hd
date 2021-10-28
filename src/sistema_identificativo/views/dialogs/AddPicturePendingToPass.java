@@ -12,7 +12,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -152,7 +152,7 @@ public class AddPicturePendingToPass {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(AddPicturePendingToPass.class.getResource("../../../views/dialogs/DialogLoading.fxml"));
-            AnchorPane panel = loader.load();
+            StackPane panel = loader.load();
             dialogUploading = new Stage();
             dialogUploading.setScene(new Scene(panel));
             dialogUploading.initOwner(this.dialogStage);

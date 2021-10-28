@@ -168,6 +168,8 @@ public class RegistrarViewController {
     @FXML
     private void initialize() {
         this.titulo.requestFocus();
+        this.afectacionMLC.setText("0.0");
+        this.afectacionMN.setText("0.0");
 
         /*
         Initializing the comboBox that is necesary
@@ -553,10 +555,10 @@ public class RegistrarViewController {
                 alert.showAndWait();
 
                 if (alert.getResult() == ButtonType.OK) {
-                  //  while (!insertado && cantIntentos < 100000) {
+                    while (!insertado && cantIntentos < 100000) {
                         insertado = registrarHecho();
-                       // cantIntentos++;
-                   // }
+                        cantIntentos++;
+                    }
                 }
                 if (insertado) {
                     Util.dialogResult("Se registró correctamente el hecho.", Alert.AlertType.INFORMATION);
@@ -661,9 +663,9 @@ public class RegistrarViewController {
         String codCDNT = this.codCDNT.getText();
         String centro = this.centro.getText();
         String denuncia = this.denuncia.getText();
-        String perdidaMN = this.afectacionMN.getText();
-        String perdiadMLC = this.afectacionMLC.getText();
-        int serviciosAfectados = Integer.valueOf(this.afectacionService.getText());
+        String perdidaMN = this.afectacionMN.getText().isEmpty() ? "0.0" : this.afectacionMN.getText();
+        String perdiadMLC = this.afectacionMLC.getText().isEmpty() ? "0.0" : this.afectacionMLC.getText();
+        int serviciosAfectados = this.afectacionService.getText().isEmpty() ? '0' : Integer.valueOf(this.afectacionService.getText());
         String observaciones = this.observaciones.getText();
 
         //Obteniendo los datos del combobox para recuperarlos después

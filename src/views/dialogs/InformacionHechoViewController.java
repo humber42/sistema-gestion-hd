@@ -5,24 +5,9 @@ import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.util.Callback;
-import models.*;
-import org.controlsfx.control.textfield.TextFields;
-import services.ServiceLocator;
-import util.Util;
+import models.Hechos;
 import views.BuscarHechosViewController;
-import views.BuscarViewController;
-
-import java.sql.Date;
-import java.sql.SQLException;
-import java.time.LocalDate;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
 /**
  * Dialog to show the information about one fact
  *
@@ -56,13 +41,13 @@ public class InformacionHechoViewController {
     @FXML
     private TitledPane accidenteTransitoPanel;
     @FXML
-    private ComboBox<String> tipoHechoComboBox;
+    private TextField tipoHechoComboBox;
     @FXML
-    private ComboBox<String> municipioComboBox;
+    private TextField municipioComboBox;
     @FXML
-    private ComboBox<String> unidadOrganizativaComboBox;
+    private TextField unidadOrganizativaComboBox;
     @FXML
-    private ComboBox<String> materialComboBox;
+    private TextField materialComboBox;
     @FXML
     private TextField afectacionService;
     @FXML
@@ -70,7 +55,7 @@ public class InformacionHechoViewController {
     @FXML
     private RadioButton radioButtonImputable;
     @FXML
-    private ComboBox<String> vandalismoComboBox;
+    private TextField vandalismoComboBox;
     @FXML
     private JFXTextField txtFechaOcurrencia;
     @FXML
@@ -106,19 +91,6 @@ public class InformacionHechoViewController {
 
     @FXML
     private void initialize() {
-        municipioComboBox.getItems().setAll(
-            ServiceLocator.getMunicipiosService().fetchAll()
-            .stream().map(Municipio::getMunicipio).collect(Collectors.toList())
-        );
-        tipoHechoComboBox.getItems().setAll(
-                ServiceLocator.getTipoHechoService().fetchAll()
-                .stream().map(TipoHecho::getTipo_hecho).collect(Collectors.toList())
-        );
-        unidadOrganizativaComboBox.getItems().setAll(
-            ServiceLocator.getUnidadOrganizativaService().fetchAll()
-            .stream().map(UnidadOrganizativa::getUnidad_organizativa).collect(Collectors.toList())
-        );
-
         accidenteTransitoPanel.setExpanded(false);
         delitoVSPExtPanel.setExpanded(false);
         delitoVSTPublPanel.setExpanded(false);
@@ -153,17 +125,17 @@ public class InformacionHechoViewController {
                     ? "(sin información)"
                     : hechoSelected.getCod_cdnt());
             String tipoH = hechoSelected.getTipoHecho().getTipo_hecho();
-            this.tipoHechoComboBox.getSelectionModel().select(tipoH);
+            this.tipoHechoComboBox.setText(tipoH);
             if(tipoH.equalsIgnoreCase("Delito vs PExt")) {
                 this.activePaneDelitoVSPExt();
                 String material = hechoSelected.getMateriales().getMateriales();
-                this.materialComboBox.getSelectionModel().select(material);
+                this.materialComboBox.setText(material);
                 this.cantidad.setText(hechoSelected.getCantidad()+"");
             }
             else if(tipoH.equalsIgnoreCase("Delito vs TPúb")) {
                 this.activePaneDelitoVSTPubl();
                 String afect = hechoSelected.getTipoVandalismo().getAfect_tpublica();
-                this.vandalismoComboBox.getSelectionModel().select(afect);
+                this.vandalismoComboBox.setText(afect);
             }
             else if(tipoH.equalsIgnoreCase("Acc. Tránsito")) {
                 this.activePaneAccTransito();
@@ -181,9 +153,9 @@ public class InformacionHechoViewController {
             this.centro.setText(hechoSelected.getCentro());
             this.lugarOcurrencia.setText(hechoSelected.getLugar());
             String municip = hechoSelected.getMunicipio().getMunicipio();
-            this.municipioComboBox.getSelectionModel().select(municip);
+            this.municipioComboBox.setText(municip);
             String uo = hechoSelected.getUnidadOrganizativa().getUnidad_organizativa();
-            this.unidadOrganizativaComboBox.getSelectionModel().select(uo);
+            this.unidadOrganizativaComboBox.setText(uo);
             this.afectacionMN.setText(hechoSelected.getAfectacion_mn()+"");
             this.afectacionMLC.setText(hechoSelected.getAfectacion_usd()+"");
             this.afectacionService.setText(hechoSelected.getAfectacion_servicio()+"");
@@ -201,7 +173,7 @@ public class InformacionHechoViewController {
         accidenteTransitoPanel.setDisable(true);
         delitoVSPExtPanel.setDisable(false);
         delitoVSTPublPanel.setDisable(true);
-        llenarComboMaterial();
+        //llenarComboMaterial();
     }
 
     private void activePaneDelitoVSTPubl() {
@@ -211,7 +183,7 @@ public class InformacionHechoViewController {
         accidenteTransitoPanel.setDisable(true);
         delitoVSTPublPanel.setDisable(false);
         delitoVSPExtPanel.setDisable(true);
-        llenarComboAfectacion();
+//        llenarComboAfectacion();
     }
 
     private void activePaneAccTransito() {
@@ -232,26 +204,26 @@ public class InformacionHechoViewController {
         delitoVSTPublPanel.setDisable(true);
     }
 
-    private void llenarComboMaterial() {
-        this.materialComboBox.setPromptText("Seleccione");
-        this.materialComboBox.getItems().setAll(
-                ServiceLocator.getTipoMaterialesService()
-                .fetchAll()
-                .stream()
-                .map(TipoMateriales::getMateriales)
-                .collect(Collectors.toList())
-        );
-    }
+//    private void llenarComboMaterial() {
+//        this.materialComboBox.setPromptText("Seleccione");
+//        this.materialComboBox.getItems().setAll(
+//                ServiceLocator.getTipoMaterialesService()
+//                .fetchAll()
+//                .stream()
+//                .map(TipoMateriales::getMateriales)
+//                .collect(Collectors.toList())
+//        );
+//    }
 
-    private void llenarComboAfectacion() {
-        this.vandalismoComboBox.setPromptText("Seleccione");
-        this.vandalismoComboBox.getItems().setAll(
-                ServiceLocator.getTipoVandalismoService()
-                        .fetchAll()
-                        .stream()
-                        .map(TipoVandalismo::getAfect_tpublica)
-                        .collect(Collectors.toList())
-        );
-    }
+//    private void llenarComboAfectacion() {
+//        this.vandalismoComboBox.setPromptText("Seleccione");
+//        this.vandalismoComboBox.getItems().setAll(
+//                ServiceLocator.getTipoVandalismoService()
+//                        .fetchAll()
+//                        .stream()
+//                        .map(TipoVandalismo::getAfect_tpublica)
+//                        .collect(Collectors.toList())
+//        );
+//    }
 
 }

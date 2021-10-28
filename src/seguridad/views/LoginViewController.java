@@ -1,6 +1,7 @@
 package seguridad.views;
 
 import com.jfoenix.controls.JFXButton;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -19,7 +20,6 @@ import util.Util;
 import views.MainApp;
 import views.PanatallaPrincipalModulos;
 import views.UrlLocation;
-
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -93,7 +93,7 @@ public class LoginViewController {
 
     @FXML
     private void handleClose(){
-        this.primaryStage.close();
+        Platform.exit();
     }
 
     private boolean emptyFields(){

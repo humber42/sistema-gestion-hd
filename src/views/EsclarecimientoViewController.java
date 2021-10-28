@@ -4,7 +4,6 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
@@ -13,7 +12,6 @@ import javafx.stage.Stage;
 import models.Hechos;
 import models.HechosEsclarecimiento;
 import models.UnidadOrganizativa;
-import org.controlsfx.dialog.ExceptionDialog;
 import seguridad.models.UserLoggedIn;
 import seguridad.views.LoginViewController;
 import services.ServiceLocator;
@@ -111,7 +109,7 @@ public class EsclarecimientoViewController {
             int position = hechosList.indexOf(hechoActual) + 1;
             cargarDatos(hechosList.get(position));
         } catch (NoSuchElementException | IndexOutOfBoundsException e) {
-            dialogElemento("último");
+            dialogElemento("primer");
         }
     }
 
@@ -121,7 +119,7 @@ public class EsclarecimientoViewController {
         try {
             cargarDatos(hechosList.getLast());
         } catch (NoSuchElementException | IndexOutOfBoundsException e) {
-            dialogElemento("último");
+            dialogElemento("primer");
         }
     }
 
@@ -131,7 +129,7 @@ public class EsclarecimientoViewController {
             int position = hechosList.indexOf(hechoActual) - 1;
             cargarDatos(hechosList.get(position));
         } catch (NoSuchElementException | IndexOutOfBoundsException e) {
-            dialogElemento("primer");
+            dialogElemento("último");
         }
     }
 
@@ -140,7 +138,7 @@ public class EsclarecimientoViewController {
         try {
             cargarDatos(hechosList.getFirst());
         } catch (NoSuchElementException | IndexOutOfBoundsException e) {
-            dialogElemento("primer");
+            dialogElemento("último");
         }
     }
 
@@ -162,6 +160,12 @@ public class EsclarecimientoViewController {
         } else if (logged.hasPermiso_visualizacion() || logged.hasPermiso_pases()) {
             this.btnSave.setVisible(false);
         }
+        //try {
+        this.hechosList = (LinkedList<HechosEsclarecimiento>) obtenerHechosPextTpub();
+//        } catch (Exception e) {
+//            ExceptionDialog dialog = new ExceptionDialog(e);
+//            dialog.showAndWait();
+//        }
 
         this.cantSancionados.setVisible(false);
         this.sentencia.setVisible(false);
@@ -251,23 +255,23 @@ public class EsclarecimientoViewController {
                 }
         );
 
-        try {
-            this.hechosList = (LinkedList<HechosEsclarecimiento>) obtenerHechosPextTpub();
-        } catch (Exception e) {
-            ExceptionDialog dialog = new ExceptionDialog(e);
-            dialog.showAndWait();
-        }
+//        try {
+//            this.hechosList = (LinkedList<HechosEsclarecimiento>) obtenerHechosPextTpub();
+//        } catch (Exception e) {
+//            ExceptionDialog dialog = new ExceptionDialog(e);
+//            dialog.showAndWait();
+//        }
 
         this.cargarDatos(hechosList.getFirst());
 
         //Clonando la lista original para hacer la carga mucho mas rapida luego que se elimino
         //   all en la busqueda
 
-        try {
-            this.hechosCopyOriginalList = (LinkedList<HechosEsclarecimiento>) hechosList.clone();
-        } catch (ClassCastException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            this.hechosCopyOriginalList = (LinkedList<HechosEsclarecimiento>) hechosList.clone();
+//        } catch (ClassCastException e) {
+//            e.printStackTrace();
+//        }
     }
 
     private void advancedSearchByUOrg() {
@@ -305,23 +309,22 @@ public class EsclarecimientoViewController {
         this.hechoActual = hechos;
         Hechos hecho = ServiceLocator.getHechosService().getHecho(hechos.getIdReg());
 
-        this.tipo.setText(hechos.getTipoHecho());
-        this.codCDNT.setText(hechos.getCodCDNT());
-        this.unidadOrganizativa.setText(hechos.getUnidadOrganizativa());
-        this.municipio.setText(hechos.getMunicipio());
+        this.tipo.setText(hecho.getTipoHecho().getTipo_hecho());
+        this.codCDNT.setText(hecho.getCod_cdnt());
+        this.unidadOrganizativa.setText(hecho.getUnidadOrganizativa().getUnidad_organizativa());
+        this.municipio.setText(hecho.getMunicipio().getMunicipio());
 
-        this.fecha.setText(DateUtil.format(hechos.getFechaOcurrencia().toLocalDate()));
-        this.afectacionServicios.setText(hechos.getServiciosAfect().toString());
-        this.afectacionMLC.setText(hechos.getAfectacionMLC().toString());
-        this.afectacionMN.setText(hechos.getAfectacionMN().toString());
-        if (ServiceLocator.getTipoHechoService().searchTipoHechoByName(
-                hechos.getTipoHecho()).getId_tipo_hecho() == 1) {
+        this.fecha.setText(DateUtil.format(hecho.getFecha_ocurrencia().toLocalDate()));
+        this.afectacionServicios.setText(hecho.getAfectacion_servicio().toString());
+        this.afectacionMLC.setText(hecho.getAfectacion_usd().toString());
+        this.afectacionMN.setText(hecho.getAfectacion_mn().toString());
+        if (hecho.getTipoHecho().getId_tipo_hecho() == 1) {
             this.valorChangerByInfractionType.setText(hecho.getMateriales().getMateriales());
         } else {
-            this.valorChangerByInfractionType.setText(hechos.getAfectacion());
+            this.valorChangerByInfractionType.setText(hecho.getTipoVandalismo().getAfect_tpublica());
         }
-        this.denuncia.setText(hechos.getNumDenuncia());
-        this.sintesis.setText(hechos.getTitulo() + ". " + hecho.getLugar());
+        this.denuncia.setText(hecho.getNumero_denuncia());
+        this.sintesis.setText(hecho.getTitulo() + ". " + hecho.getLugar());
 
         //Cargar boolean data
         this.chargeBooleanDataToUI(hecho);
@@ -438,13 +441,8 @@ public class EsclarecimientoViewController {
 
     private List<HechosEsclarecimiento> obtenerHechosPextTpub() {
         List<HechosEsclarecimiento> hechos = new LinkedList<>();
-        String query = "SELECT id_reg, cod_cdnt, fecha_ocurrencia, tipo_hecho, afectacion_mn, afectacion_servicio, " +
-                "unidad_organizativa, municipio, numero_denuncia, afectacion_usd, afect_tpublica, titulo " +
+        String query = "SELECT id_reg " +
                 "From hechos " +
-                "JOIN tipo_hechos ON tipo_hechos.id_tipo_hecho = hechos.id_tipo_hecho " +
-                "JOIN unidades_organizativas ON unidades_organizativas.id_unidad_organizativa = hechos.id_uorg " +
-                "JOIN municipios ON municipios.id_municipio = hechos.id_municipio " +
-                "JOIN tipo_vandalismo ON tipo_vandalismo.id_afect_tpublica = hechos.id_afectacion_telefonia_publica " +
                 "WHERE (hechos.id_tipo_hecho = 1 or hechos.id_tipo_hecho =2) " +
                 "ORDER BY fecha_ocurrencia DESC";
         try {
@@ -459,15 +457,13 @@ public class EsclarecimientoViewController {
 
     private List<HechosEsclarecimiento> obtenerHechosBySubStringCodCDNT(String uo) {
         List<HechosEsclarecimiento> hechos = new LinkedList<>();
-        String query = "SELECT id_reg, cod_cdnt, fecha_ocurrencia, tipo_hecho, afectacion_mn, afectacion_servicio, " +
-                "unidad_organizativa, municipio, numero_denuncia, afectacion_usd, afect_tpublica, titulo " +
+        String query = "SELECT  id_reg " +
                 "From hechos " +
-                "JOIN tipo_hechos ON tipo_hechos.id_tipo_hecho = hechos.id_tipo_hecho " +
+
                 "JOIN unidades_organizativas ON unidades_organizativas.id_unidad_organizativa = hechos.id_uorg " +
-                "JOIN municipios ON municipios.id_municipio = hechos.id_municipio " +
-                "JOIN tipo_vandalismo ON tipo_vandalismo.id_afect_tpublica = hechos.id_afectacion_telefonia_publica " +
-                "WHERE (hechos.id_tipo_hecho = 1 or hechos.id_tipo_hecho =2) " +
-                "and unidades_organizativas.unidad_organizativa = '" + uo + "' ORDER BY fecha_ocurrencia DESC";
+
+                "WHERE (hechos.id_tipo_hecho = 1 or hechos.id_tipo_hecho = 2)" +
+                "and unidades_organizativas.unidad_organizativa = '" + uo + "'  ORDER BY fecha_ocurrencia DESC";
 
         try {
             ResultSet rs = Util.executeQuery(query);
@@ -484,18 +480,7 @@ public class EsclarecimientoViewController {
 
         while (rs.next()) {
             hechos.add(new HechosEsclarecimiento(
-                    rs.getInt(1),
-                    rs.getString(2),
-                    rs.getDate(3),
-                    rs.getString(4),
-                    rs.getDouble(5),
-                    rs.getDouble(6),
-                    rs.getString(7),
-                    rs.getString(8),
-                    rs.getString(9),
-                    rs.getDouble(10),
-                    rs.getString(11),
-                    rs.getString(12)
+                    rs.getInt(1)
             ));
         }
 

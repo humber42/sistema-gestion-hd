@@ -19,6 +19,9 @@ public class HechosEsclarecimiento {
     public HechosEsclarecimiento() {
     }
 
+    public HechosEsclarecimiento(int idReg) {
+        this.idReg = idReg;
+    }
     public HechosEsclarecimiento(int idReg, String codCDNT, Date fechaOcurrencia, String tipoHecho, Double afectacionMN, Double serviciosAfect, String unidadOrganizativa, String municipio, String numDenuncia, Double afectacionMLC, String afectacion, String titulo) {
         this.idReg = idReg;
         this.codCDNT = codCDNT;

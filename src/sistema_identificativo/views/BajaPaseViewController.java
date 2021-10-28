@@ -14,7 +14,6 @@ import sistema_identificativo.models.TipoPase;
 import util.Util;
 
 import java.sql.SQLException;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -206,12 +205,12 @@ public class BajaPaseViewController {
                     RegistroPase pase = ServiceLocator.getRegistroPaseService().getPaseByCI(data.getIdentidad());
                     if(pase != null){
                         Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
-                                "¿Desea dar baja realmente al pase de " + pase.getNombre() + "?"
+                                "¿Desea dar baja al pase de " + pase.getNombre() + "?"
                                 ,ButtonType.OK, ButtonType.CANCEL);
                         alert.showAndWait();
                         if(alert.getResult() == ButtonType.OK) {
                             ServiceLocator.getRegistroPaseService().darBajaPase(pase.getIdReg());
-                            Util.dialogResult("El pase fue dado de baja correctamente.", Alert.AlertType.INFORMATION);
+                            Util.dialogResult("El pase fue dado de baja con éxito.", Alert.AlertType.INFORMATION);
                             List<Impresion> impresionList = ServiceLocator.getImpresionService().getAllImpressions();
                             this.initializeTable(impresionList);
                         }
@@ -222,7 +221,7 @@ public class BajaPaseViewController {
             }
             else {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
-                        "¿Desea dar baja realmente a los pases seleccionados?"
+                        "¿Desea dar baja a los pases seleccionados?"
                         ,ButtonType.OK, ButtonType.CANCEL);
                 alert.showAndWait();
                 if(alert.getResult() == ButtonType.OK) {
@@ -241,7 +240,7 @@ public class BajaPaseViewController {
                             Util.dialogResult("El proceso de dar baja a los pases falló en " + contFalloPases
                                     + " ocasiones.", Alert.AlertType.ERROR);
                         } else if(contFalloPases == 0){
-                            Util.dialogResult("Los pases seleccionados fueron dados de baja correctamente.", Alert.AlertType.INFORMATION);
+                            Util.dialogResult("Los pases seleccionados fueron dados de baja con éxito.", Alert.AlertType.INFORMATION);
                             List<Impresion> impresionList = ServiceLocator.getImpresionService().getAllImpressions();
                             this.initializeTable(impresionList);
                         }

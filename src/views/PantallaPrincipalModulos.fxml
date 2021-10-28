@@ -48,9 +48,9 @@
                             </graphic>
                         </JFXButton>
                         <JFXButton alignment="BOTTOM_CENTER" buttonType="RAISED" contentDisplay="TOP"
-                                   graphicTextGap="0.0" layoutX="29.0" layoutY="509.0" onAction="#logout"
-                                   prefHeight="104.0" prefWidth="125.0" styleClass="menu-principal-button"
-                                   stylesheets="@../css/buttons.css" text="Cerrar Sesión" textAlignment="CENTER"
+                                   graphicTextGap="0.0" layoutX="29.0" layoutY="509.0" prefHeight="104.0"
+                                   prefWidth="125.0" styleClass="menu-principal-button"
+                                   stylesheets="@../css/buttons.css" text="Crear salva" textAlignment="CENTER"
                                    textFill="WHITE" textOverrun="CLIP" wrapText="true">
                             <font>
                                 <Font size="14.0"/>
@@ -58,7 +58,7 @@
                             <graphic>
                                 <ImageView fitHeight="51.0" fitWidth="68.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@../icons/icons8_Exit.png_32.png"/>
+                                        <Image url="@../icons/Data_Backup_80px.png"/>
                                     </image>
                                 </ImageView>
                             </graphic>
@@ -76,7 +76,9 @@
             <top>
                 <Pane prefHeight="42.0" prefWidth="934.0" styleClass="barra-superior" stylesheets="@../css/barra-superior.css" BorderPane.alignment="CENTER">
                     <children>
-                        <JFXButton cancelButton="true" contentDisplay="CENTER" layoutX="884.0" onAction="#closeSystem" prefHeight="42.0" prefWidth="43.0" ripplerFill="#4f333300" styleClass="close-button" stylesheets="@../css/buttons.css" text=" " textAlignment="CENTER" wrapText="true">
+                        <JFXButton cancelButton="true" contentDisplay="CENTER" layoutX="884.0" onAction="#logout"
+                                   prefHeight="42.0" prefWidth="43.0" ripplerFill="#4f333300" styleClass="close-button"
+                                   stylesheets="@../css/buttons.css" text=" " textAlignment="CENTER" wrapText="true">
                             <graphic>
                                 <ImageView accessibleRole="BUTTON" fitHeight="34.0" fitWidth="34.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -85,7 +87,8 @@
                                 </ImageView>
                             </graphic>
                         </JFXButton>
-                        <Label layoutX="357.0" layoutY="9.0" text="Sistema Informativo ETECSA" textFill="WHITE">
+                        <Label layoutX="271.0" layoutY="9.0" text="Sistema Informativo de Seguridad y Protección ETECSA"
+                               textFill="WHITE">
                             <font>
                                 <Font size="16.0" />
                             </font>
