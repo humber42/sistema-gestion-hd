@@ -1,5 +1,6 @@
 package util;
 
+import com.gembox.internal.core.DivideByZeroException;
 import com.gembox.spreadsheet.*;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -373,5 +374,9 @@ public class Util {
         }
 
         return path;
+    }
+
+    public static double getPercent(int part, int total) throws DivideByZeroException {
+        return (part*100)/total;
     }
 }

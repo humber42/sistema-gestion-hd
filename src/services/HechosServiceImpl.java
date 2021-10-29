@@ -216,6 +216,32 @@ public class HechosServiceImpl implements HechosService {
     }
 
     @Override
+    public int countAllHechosByAnno(int anno) {
+        String query = "SELECT count(id_reg) FROM hechos WHERE date_part('year', fecha_ocurrencia) = " + anno;
+        return Util.count(query);
+    }
+
+    @Override
+    public int cantHechosByTipoHechoAndAnno(int tipoHecho, int anno) {
+        String function = "{call cant_hechos_anno(?,?)}";
+        int cant = -1;
+        try {
+            CallableStatement statement = Conexion.getConnection().prepareCall(function);
+            statement.setInt(1, tipoHecho);
+            statement.setInt(2, anno);
+            statement.execute();
+            ResultSet rs = statement.getResultSet();
+            if(rs.next()){
+                cant = rs.getInt(1);
+            }
+            statement.close();
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return cant;
+    }
+
+    @Override
     public int countfetchBySubStringCodCDNT(String codCdnt) {
         String query = "SELECT count(id_reg) From hechos WHERE (hechos.id_tipo_hecho = 1 or hechos.id_tipo_hecho =2) and cod_cdnt LIKE '%" + codCdnt + "%'";
         return Util.count(query);

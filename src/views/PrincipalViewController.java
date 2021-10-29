@@ -1,27 +1,31 @@
 package views;
 
 
+import com.gembox.internal.core.DivideByZeroException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
+import javafx.scene.chart.*;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import models.TipoHecho;
 import org.controlsfx.dialog.ExceptionDialog;
 import seguridad.models.UserLoggedIn;
 import seguridad.views.LoginViewController;
+import services.ServiceLocator;
 import util.Conexion;
+import util.PieChartUtils;
 import util.Util;
 import views.dialogDelictivos.DialogGenerarListadosDelictivos;
 import views.dialogs.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.stream.Collectors;
 
 public class PrincipalViewController {
     private Stage mainApp;
@@ -36,8 +40,20 @@ public class PrincipalViewController {
     private Label lblRol;
     @FXML
     private MenuItem menuRegistrarHecho;
+    @FXML
+    private PieChart jfxPieChart;
+    @FXML
+    private BarChart jfxBarChart;
+    @FXML
+    private TitledPane panePieChart;
+    @FXML
+    private TitledPane paneBarChart;
+    @FXML
+    private ComboBox<String> cboxTipoHechos;
 
     private UserLoggedIn logged;
+
+    private int currentYear;
 
     public void setPanelGrande(BorderPane panelGrande) {
         this.panelGrande = panelGrande;
@@ -46,18 +62,41 @@ public class PrincipalViewController {
     @FXML
     public void initialize() {
         this.logged = LoginViewController.getUserLoggedIn();
-        userLoggedInfo();
+        this.userLoggedInfo();
+
         if(logged.hasPermiso_visualizacion() || logged.hasPermiso_pases()){
             this.menuRegistrarHecho.setVisible(false);
         } else if(logged.isSuperuser()){
             this.menuRegistrarHecho.setVisible(true);
         }
+
+        this.currentYear = LocalDate.now().getYear();
+
+        this.panePieChart.setText("Comportamiento de los hechos en el año " + LocalDate.now().getYear());
+        //cargando el grafico de pastel
+        this.loadPieChart();
+
+        this.cboxTipoHechos.getItems().setAll(
+            ServiceLocator.getTipoHechoService().fetchAll()
+            .stream()
+            .map(TipoHecho::getTipo_hecho)
+            .collect(Collectors.toList())
+        );
+        //cargando el grafico de barras
+        this.cboxTipoHechos.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> {
+                    this.paneBarChart.setText("Comportamiento de los hechos de tipo: " + newValue);
+                    this.loadBarChart();
+                }
+        );
+
+
     }
 
     private void userLoggedInfo() {
-        this.lblNombre.setText(logged.getNombre());
-        this.lblUsername.setText(logged.getUsername());
-        this.lblRol.setText(logged.getRol());
+        this.lblNombre.setText(lblNombre.getText() + " " + logged.getNombre());
+       // this.lblUsername.setText(logged.getUsername());
+       // this.lblRol.setText(logged.getRol());
     }
 
     @FXML
@@ -594,5 +633,143 @@ public class PrincipalViewController {
 
     public void setPanelPrincipal(BorderPane pane) {
         this.panelPrincipal = pane;
+    }
+
+    private void loadPieChart(){
+        PieChartUtils pieChartUtils = new PieChartUtils(this.jfxPieChart);
+        //pieChartUtils.operatePieChart();
+        int totalHechos = ServiceLocator.getHechosService().countAllHechosByAnno(currentYear);
+
+        if(totalHechos > 0){
+            int hechosPext = ServiceLocator.getHechosService().
+                    cantHechosByTipoHechoAndAnno(1, currentYear);
+            int hechosTpub = ServiceLocator.getHechosService().
+                    cantHechosByTipoHechoAndAnno(2, currentYear);
+            int hechosRobo = ServiceLocator.getHechosService().
+                    cantHechosByTipoHechoAndAnno(3, currentYear);
+            int hechosHurto = ServiceLocator.getHechosService().
+                    cantHechosByTipoHechoAndAnno(4, currentYear);
+            int hechosFraude = ServiceLocator.getHechosService().
+                    cantHechosByTipoHechoAndAnno(5, currentYear);
+            int hechosAccionCR = ServiceLocator.getHechosService().
+                    cantHechosByTipoHechoAndAnno(6, currentYear);
+            int hechosOtrosDelitos = ServiceLocator.getHechosService().
+                    cantHechosByTipoHechoAndAnno(7, currentYear);
+            int hechosAveria = ServiceLocator.getHechosService().
+                    cantHechosByTipoHechoAndAnno(8, currentYear);
+            int hechosTransito = ServiceLocator.getHechosService().
+                    cantHechosByTipoHechoAndAnno(9, currentYear);
+            int hechosSegInf = ServiceLocator.getHechosService().
+                    cantHechosByTipoHechoAndAnno(10, currentYear);
+            int hechosIncendioInt = ServiceLocator.getHechosService().
+                    cantHechosByTipoHechoAndAnno(11, currentYear);
+            int hechosIncendioExt = ServiceLocator.getHechosService().
+                    cantHechosByTipoHechoAndAnno(12, currentYear);
+            int hechosDifOrigen = ServiceLocator.getHechosService().
+                    cantHechosByTipoHechoAndAnno(13, currentYear);
+            int otrosHechos = ServiceLocator.getHechosService().
+                    cantHechosByTipoHechoAndAnno(14, currentYear);
+
+            //insertando datos en el grafico
+            try{
+                pieChartUtils.addData("Delito vs PExt",
+                        Util.getPercent(hechosPext, totalHechos));
+                pieChartUtils.addData("Delito vs TPúb",
+                        Util.getPercent(hechosTpub, totalHechos));
+                pieChartUtils.addData("Robo",
+                        Util.getPercent(hechosRobo, totalHechos));
+                pieChartUtils.addData("Hurto",
+                        Util.getPercent(hechosHurto, totalHechos));
+                pieChartUtils.addData("Fraude",
+                        Util.getPercent(hechosFraude, totalHechos));
+                pieChartUtils.addData("Acción C/R",
+                        Util.getPercent(hechosAccionCR, totalHechos));
+                pieChartUtils.addData("Otros Delitos",
+                        Util.getPercent(hechosOtrosDelitos, totalHechos));
+                pieChartUtils.addData("Avería PExt",
+                        Util.getPercent(hechosAveria, totalHechos));
+                pieChartUtils.addData("Acc. Tránsito",
+                        Util.getPercent(hechosTransito, totalHechos));
+                pieChartUtils.addData("Seg. Informática",
+                        Util.getPercent(hechosSegInf, totalHechos));
+                pieChartUtils.addData("Incendio Int.",
+                        Util.getPercent(hechosIncendioInt, totalHechos));
+                pieChartUtils.addData("Incendio Ext.",
+                        Util.getPercent(hechosIncendioExt, totalHechos));
+                pieChartUtils.addData("Difer. Origen",
+                        Util.getPercent(hechosDifOrigen, totalHechos));
+                pieChartUtils.addData("Otros Hechos",
+                        Util.getPercent(otrosHechos, totalHechos));
+            } catch (DivideByZeroException e){
+                Util.dialogResult("Ocurrió un error. División por 0.", Alert.AlertType.ERROR);
+            }
+
+            //mostrando grafico
+            pieChartUtils.showChart();
+
+          /*  //estableciendo el color
+            pieChartUtils.setDataColor(0, "red");
+            pieChartUtils.setDataColor(1, "blue");
+            pieChartUtils.setDataColor(2, "green");
+            pieChartUtils.setDataColor(3, "yellow");
+            pieChartUtils.setDataColor(4, "orange");
+            pieChartUtils.setDataColor(5, "black");
+            pieChartUtils.setDataColor(6, "brown");
+            pieChartUtils.setDataColor(7, "pink");
+            pieChartUtils.setDataColor(8, "purple");
+            pieChartUtils.setDataColor(9, "ligth blue");
+            pieChartUtils.setDataColor(10, "white");
+            pieChartUtils.setDataColor(11, "violet");
+            pieChartUtils.setDataColor(12, "golden");
+            pieChartUtils.setDataColor(13, "silver");
+
+            pieChartUtils.setMarkVisible(true);
+
+            // Establecer el color de la serie de datos del gráfico
+            HashMap<Integer, String> hashMap = new HashMap<>();
+            hashMap.put(0, "red");
+            hashMap.put(1, "blue");
+            hashMap.put(2, "green");
+            hashMap.put(3, "yellow");
+            hashMap.put(4, "orange");
+            hashMap.put(5, "black");
+            hashMap.put(6, "brown");
+            hashMap.put(7, "pink");
+            hashMap.put(8, "purple");
+            hashMap.put(9, "ligth blue");
+            hashMap.put(10, "white");
+            hashMap.put(11, "violet");
+            hashMap.put(12, "golden");
+            hashMap.put(13, "silver");
+*/
+            //poniendo los colores en la leyenda
+         //   pieChartUtils.setLegendColor(hashMap);
+            pieChartUtils.setLegendSide("Bottom");
+        } else{
+            Util.dialogResult("No existen hechos registrados en el año " + currentYear, Alert.AlertType.INFORMATION);
+        }
+    }
+
+    private void loadBarChart(){
+        final CategoryAxis xAxis = (CategoryAxis) jfxBarChart.getXAxis();
+        final NumberAxis yAxis = (NumberAxis) jfxBarChart.getYAxis();
+
+        xAxis.setLabel("Año");
+        yAxis.setLabel("Cantidad");
+
+        XYChart.Series<Integer, Integer> series = new XYChart.Series<>();
+
+        int id_tipo_hecho = ServiceLocator.getTipoHechoService().
+                searchTipoHechoByName( this.cboxTipoHechos.getSelectionModel().getSelectedItem())
+                .getId_tipo_hecho();
+
+        while (currentYear >= 2007){
+            int year = currentYear;
+            series.getData().add(new XYChart.Data<>(year,
+                    ServiceLocator.getHechosService().cantHechosByTipoHechoAndAnno(id_tipo_hecho ,year)));
+            currentYear--;
+        }
+
+        jfxBarChart.getData().add(series);
     }
 }

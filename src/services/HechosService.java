@@ -44,6 +44,9 @@ public interface HechosService {
 
     int countAllHechos();
 
+    int countAllHechosByAnno(int anno);
+
+    int cantHechosByTipoHechoAndAnno(int tipoHecho, int anno);
 
     int cantHechosPextCierreFiscalia(Date date, int tipoHecho);
 

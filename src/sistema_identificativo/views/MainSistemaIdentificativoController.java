@@ -59,9 +59,9 @@ public class MainSistemaIdentificativoController {
     }
 
     private void userLoggedInfo() {
-        this.lblNombre.setText(logged.getNombre());
-        this.lblUsername.setText(logged.getUsername());
-        this.lblRol.setText(logged.getRol());
+        this.lblNombre.setText(lblNombre.getText() + " " + logged.getNombre());
+     //   this.lblUsername.setText(logged.getUsername());
+      //  this.lblRol.setText(logged.getRol());
     }
 
     /*@FXML
