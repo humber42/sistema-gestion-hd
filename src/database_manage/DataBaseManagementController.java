@@ -15,7 +15,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import util.ConfigProperties;
 import util.Util;
-import views.dialogs.DialogLoadingController;
+import views.dialogs.DialogLoadingController2;
 import views.dialogs.DialogLoadingUrl;
 
 import java.io.*;
@@ -172,9 +172,8 @@ public class DataBaseManagementController {
     @FXML
     private void restore_SALVA() {
 
-        Process proceso;
         ProcessBuilder constructor;
-
+        Process proceso;
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("All Files", "*.*"),
@@ -206,7 +205,6 @@ public class DataBaseManagementController {
                 e.printStackTrace();
             }
         }
-
 
     }
 
@@ -253,23 +251,24 @@ public class DataBaseManagementController {
             }
         };
         Thread th = new Thread(task);
-        loadDialogLoading(this.dialogStage);
+        loadDialogLoading(this.dialogStage, process);
         th.start();
 
     }
 
-    private void loadDialogLoading(Stage mainApp) {
+    private void loadDialogLoading(Stage mainApp, Process process) {
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(DialogLoadingUrl.class.getResource("DialogLoading.fxml"));
+            loader.setLocation(DialogLoadingUrl.class.getResource("DialogLoading2.fxml"));
             StackPane panel = loader.load();
             dialogLoading = new Stage();
             dialogLoading.setScene(new Scene(panel));
             dialogLoading.initModality(Modality.WINDOW_MODAL);
             dialogLoading.initOwner(mainApp);
             dialogLoading.initStyle(StageStyle.UNDECORATED);
-            DialogLoadingController controller = loader.getController();
+            DialogLoadingController2 controller = loader.getController();
             controller.setLabelText("Cargando");
+            controller.setProcess(process);
             dialogLoading.show();
         } catch (IOException e) {
             e.printStackTrace();
