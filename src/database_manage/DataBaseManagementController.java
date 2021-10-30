@@ -187,6 +187,7 @@ public class DataBaseManagementController {
             String user = ConfigProperties.getProperties().getProperty("BD_USERNAME");
             String password = ConfigProperties.getProperties().getProperty("BD_PASSWORD");
             String database = ConfigProperties.getProperties().getProperty("BD_NAME");
+            //String database = "test";
             try {
                 File pgRestore = new File(ConfigProperties.getProperties().getProperty("PG_DUMP_ROUTE") + "\\pg_restore.exe");
                 String pgRestorePath = ConfigProperties.getProperties().getProperty("PG_DUMP_ROUTE") + "\\pg_restore.exe";
