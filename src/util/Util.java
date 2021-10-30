@@ -374,4 +374,19 @@ public class Util {
 
         return path;
     }
+
+    public static String selectPathToSaveDatabase(Stage dialog) {
+        String path = null;
+        DirectoryChooser directory = new DirectoryChooser();
+        directory.setTitle("Seleccione una carpeta para guardar la salva");
+        File file = directory.showDialog(dialog);
+        try {
+            path = file.getAbsolutePath();
+        } catch (NullPointerException e) {
+            path = null;
+        }
+        return path;
+    }
+
+
 }

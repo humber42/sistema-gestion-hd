@@ -1,9 +1,7 @@
 package util;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.time.LocalDate;
 import java.util.Properties;
 
 public class ConfigProperties {
@@ -15,6 +13,7 @@ public class ConfigProperties {
     public ConfigProperties() throws IOException {
         configInput = new FileInputStream(new File("src/config/configuration.properties").getAbsoluteFile());
         config.load(configInput);
+        configInput.close();
     }
 
     public static Properties getProperties() {
@@ -26,5 +25,16 @@ public class ConfigProperties {
             }
         }
         return configProperties.config;
+    }
+
+    public static void guardarProperties(String key, String value) {
+        try {
+            FileOutputStream oFile = new FileOutputStream(new File("src/config/configuration.properties").getAbsoluteFile());
+            getProperties().setProperty(key, value);
+            getProperties().store(oFile, "Actualizado " + LocalDate.now());
+            oFile.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

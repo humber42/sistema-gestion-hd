@@ -47,18 +47,19 @@
                                 </ImageView>
                             </graphic>
                         </JFXButton>
-                        <JFXButton alignment="BOTTOM_CENTER" buttonType="RAISED" contentDisplay="TOP"
-                                   graphicTextGap="0.0" layoutX="29.0" layoutY="509.0" prefHeight="104.0"
-                                   prefWidth="125.0" styleClass="menu-principal-button"
-                                   stylesheets="@../css/buttons.css" text="Crear salva" textAlignment="CENTER"
-                                   textFill="WHITE" textOverrun="CLIP" wrapText="true">
+                        <JFXButton fx:id="bottonSalvaBD" alignment="BOTTOM_CENTER" buttonType="RAISED"
+                                   contentDisplay="TOP" graphicTextGap="0.0" layoutX="29.0" layoutY="509.0"
+                                   onAction="#manejar_database" prefHeight="104.0" prefWidth="125.0"
+                                   styleClass="menu-principal-button" stylesheets="@../css/buttons.css"
+                                   text="Administrar base de datos" textAlignment="CENTER" textFill="WHITE"
+                                   textOverrun="CLIP" wrapText="true">
                             <font>
                                 <Font size="14.0"/>
                             </font>
                             <graphic>
                                 <ImageView fitHeight="51.0" fitWidth="68.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@../icons/Data_Backup_80px.png"/>
+                                        <Image url="@../icons/Database_Administrator_80px.png"/>
                                     </image>
                                 </ImageView>
                             </graphic>

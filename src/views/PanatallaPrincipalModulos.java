@@ -1,6 +1,7 @@
 package views;
 
 import com.jfoenix.controls.JFXButton;
+import database_manage.DataBaseManagementController;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,11 +12,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.controlsfx.dialog.ExceptionDialog;
 import posiciones_agentes.views.MainPosicionesAgentesController;
 import seguridad.models.UserLoggedIn;
-import seguridad.views.LoginViewController;
 import seguridad.views.LoginUrl;
+import seguridad.views.LoginViewController;
 import seguridad.views.UserRegisterViewController;
 import sistema_identificativo.views.MainSistemaIdentificativoController;
 
@@ -29,6 +31,8 @@ public class PanatallaPrincipalModulos {
     private JFXButton bottonSistemaIdentificativo;
     @FXML
     private JFXButton bottonPosicionesAgentes;
+    @FXML
+    private JFXButton bottonSalvaBD;
     @FXML
     private Label lblNombre;
     @FXML
@@ -68,10 +72,11 @@ public class PanatallaPrincipalModulos {
         this.lblNombre.setText(logged.getNombre());
         this.lblUsername.setText(logged.getUsername());
         this.lblRol.setText(logged.getRol());
+        this.bottonPosicionesAgentes.setDisable(true);
+        this.bottonHechosExtraordinarios.setDisable(true);
+        this.bottonSalvaBD.setDisable(true);
 
-        if(logged.hasPermiso_pases()){
-            this.bottonPosicionesAgentes.setDisable(true);
-            this.bottonHechosExtraordinarios.setDisable(true);
+        if (logged.hasPermiso_pases()) {
             this.bottonSistemaIdentificativo.setDisable(false);
         }
         else if(logged.hasPermiso_visualizacion()){
@@ -83,6 +88,8 @@ public class PanatallaPrincipalModulos {
             this.bottonPosicionesAgentes.setDisable(false);
             this.bottonHechosExtraordinarios.setDisable(false);
             this.bottonSistemaIdentificativo.setDisable(false);
+            this.bottonSalvaBD.setDisable(false);
+
         }
     }
 
@@ -179,6 +186,30 @@ public class PanatallaPrincipalModulos {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    private void manejar_database() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(DataBaseManagementController.class.getResource("DataBaseManagement.fxml"));
+            AnchorPane page = loader.load();
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Base de datos");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initStyle(StageStyle.UNDECORATED);
+            dialogStage.setResizable(false);
+            dialogStage.initOwner(this.primaryStage);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+            DataBaseManagementController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            dialogStage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
 
     @FXML
