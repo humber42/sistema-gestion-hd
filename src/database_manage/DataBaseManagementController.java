@@ -160,7 +160,7 @@ public class DataBaseManagementController {
                     constructor.environment().put("PGDATABASE", database);
                     constructor.redirectErrorStream(true);
                     proceso = constructor.start();
-                    this.escribirProceso(proceso);
+                    this.escribirProceso(proceso, false);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -198,7 +198,7 @@ public class DataBaseManagementController {
                     constructor.redirectErrorStream(true);
 
                     proceso = constructor.start();
-                    this.escribirProceso(proceso);
+                    this.escribirProceso(proceso, true);
 
                 }
 
@@ -209,7 +209,7 @@ public class DataBaseManagementController {
 
     }
 
-    private void escribirProceso(Process process) {
+    private void escribirProceso(Process process, boolean restore) {
         Task<Boolean> task = new Task<Boolean>() {
             @Override
             protected Boolean call() throws Exception {
@@ -252,12 +252,12 @@ public class DataBaseManagementController {
             }
         };
         Thread th = new Thread(task);
-        loadDialogLoading(this.dialogStage, process);
+        loadDialogLoading(this.dialogStage, process, restore);
         th.start();
 
     }
 
-    private void loadDialogLoading(Stage mainApp, Process process) {
+    private void loadDialogLoading(Stage mainApp, Process process, boolean restore) {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(DialogLoadingUrl.class.getResource("DialogLoading2.fxml"));
@@ -268,7 +268,12 @@ public class DataBaseManagementController {
             dialogLoading.initOwner(mainApp);
             dialogLoading.initStyle(StageStyle.UNDECORATED);
             DialogLoadingController2 controller = loader.getController();
-            controller.setLabelText("Cargando");
+            if (restore) {
+                controller.setLabelText("Restaurando");
+            } else {
+                controller.setLabelText("Salvando");
+            }
+            //controller.setLabelText("Cargando");
             controller.setProcess(process);
             dialogLoading.show();
         } catch (IOException e) {
