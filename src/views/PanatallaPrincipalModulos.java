@@ -41,6 +41,8 @@ public class PanatallaPrincipalModulos {
     private Label lblRol;
     @FXML
     private ImageView etecsaImg;
+    @FXML
+    private JFXButton btnSalva;
 
     @FXML
     private BorderPane pane;
@@ -66,15 +68,17 @@ public class PanatallaPrincipalModulos {
         this.etecsaImg.setOnMouseClicked(event ->
              this.handleUsers()
         );
+        if(logged.isSuperuser()){
+            this.btnSalva.setDisable(false);
+        }
+        else if(logged.hasPermiso_visualizacion() || logged.hasPermiso_pases())
+            this.btnSalva.setDisable(true);
     }
 
     private void userLoggedInfo(){
-        this.lblNombre.setText(logged.getNombre());
-        this.lblUsername.setText(logged.getUsername());
-        this.lblRol.setText(logged.getRol());
-        this.bottonPosicionesAgentes.setDisable(true);
-        this.bottonHechosExtraordinarios.setDisable(true);
-        this.bottonSalvaBD.setDisable(true);
+        this.lblNombre.setText(lblNombre.getText() + " " + logged.getNombre());
+       // this.lblUsername.setText(logged.getUsername());
+       // this.lblRol.setText(logged.getRol());
 
         if (logged.hasPermiso_pases()) {
             this.bottonSistemaIdentificativo.setDisable(false);
@@ -95,8 +99,8 @@ public class PanatallaPrincipalModulos {
 
     private void setEmptyTextOnUserInfo(){
         this.lblNombre.setText("");
-        this.lblUsername.setText("");
-        this.lblRol.setText("");
+       // this.lblUsername.setText("");
+       // this.lblRol.setText("");
     }
 
     private void handleUsers(){

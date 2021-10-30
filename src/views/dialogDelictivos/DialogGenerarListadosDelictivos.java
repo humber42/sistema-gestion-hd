@@ -1,5 +1,6 @@
 package views.dialogDelictivos;
 
+import com.jfoenix.controls.JFXProgressBar;
 import informes_generate.GeneradorLocator;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -24,11 +25,11 @@ import static util.Util.showDialog;
 public class DialogGenerarListadosDelictivos {
 
     @FXML
-    ComboBox<String> meses;
+    private ComboBox<String> meses;
     @FXML
-    ComboBox<String> anno;
+    private ComboBox<String> anno;
     @FXML
-    ProgressBar progressBar;
+    private JFXProgressBar progressBar;
 
     @FXML
     private Label labelTitulo;

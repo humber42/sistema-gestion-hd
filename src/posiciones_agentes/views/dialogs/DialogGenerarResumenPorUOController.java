@@ -1,6 +1,7 @@
 package posiciones_agentes.views.dialogs;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXProgressBar;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -21,7 +22,7 @@ public class DialogGenerarResumenPorUOController {
     @FXML
     private ComboBox<String> unidadOrganizativa;
     @FXML
-    private ProgressBar loading;
+    private JFXProgressBar loading;
 
     @FXML
     private JFXButton generar;

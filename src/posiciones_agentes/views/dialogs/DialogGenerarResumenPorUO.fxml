@@ -3,9 +3,9 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
+<?import com.jfoenix.controls.JFXProgressBar?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml" prefHeight="217.0" prefWidth="414.0" xmlns="http://javafx.com/javafx"
             fx:controller="posiciones_agentes.views.dialogs.DialogGenerarResumenPorUOController">
    <children>
@@ -26,6 +26,6 @@
             <Font size="14.0" />
          </font>
       </JFXButton>
-      <ProgressBar fx:id="loading" layoutX="115.0" layoutY="140.0" prefWidth="200.0" />
+      <JFXProgressBar fx:id="loading" layoutX="115.0" layoutY="140.0" prefWidth="200.0" />
    </children>
 </AnchorPane>
