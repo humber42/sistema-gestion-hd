@@ -68,11 +68,6 @@ public class PanatallaPrincipalModulos {
         this.etecsaImg.setOnMouseClicked(event ->
              this.handleUsers()
         );
-        if(logged.isSuperuser()){
-            this.btnSalva.setDisable(false);
-        }
-        else if(logged.hasPermiso_visualizacion() || logged.hasPermiso_pases())
-            this.btnSalva.setDisable(true);
     }
 
     private void userLoggedInfo(){
@@ -92,8 +87,7 @@ public class PanatallaPrincipalModulos {
             this.bottonPosicionesAgentes.setDisable(false);
             this.bottonHechosExtraordinarios.setDisable(false);
             this.bottonSistemaIdentificativo.setDisable(false);
-            this.bottonSalvaBD.setDisable(false);
-
+            this.btnSalva.setDisable(false);
         }
     }
 
