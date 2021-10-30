@@ -43,7 +43,7 @@ public class PrincipalViewController {
     @FXML
     private PieChart jfxPieChart;
     @FXML
-    private BarChart jfxBarChart;
+    private BarChart<String, Number> jfxBarChart;
     @FXML
     private TitledPane panePieChart;
     @FXML
@@ -64,9 +64,9 @@ public class PrincipalViewController {
         this.logged = LoginViewController.getUserLoggedIn();
         this.userLoggedInfo();
 
-        if(logged.hasPermiso_visualizacion() || logged.hasPermiso_pases()){
+        if (logged.hasPermiso_visualizacion() || logged.hasPermiso_pases()) {
             this.menuRegistrarHecho.setVisible(false);
-        } else if(logged.isSuperuser()){
+        } else if (logged.isSuperuser()) {
             this.menuRegistrarHecho.setVisible(true);
         }
 
@@ -77,10 +77,10 @@ public class PrincipalViewController {
         this.loadPieChart();
 
         this.cboxTipoHechos.getItems().setAll(
-            ServiceLocator.getTipoHechoService().fetchAll()
-            .stream()
-            .map(TipoHecho::getTipo_hecho)
-            .collect(Collectors.toList())
+                ServiceLocator.getTipoHechoService().fetchAll()
+                        .stream()
+                        .map(TipoHecho::getTipo_hecho)
+                        .collect(Collectors.toList())
         );
         //cargando el grafico de barras
         this.cboxTipoHechos.getSelectionModel().selectedItemProperty().addListener(
@@ -95,8 +95,8 @@ public class PrincipalViewController {
 
     private void userLoggedInfo() {
         this.lblNombre.setText(lblNombre.getText() + " " + logged.getNombre());
-       // this.lblUsername.setText(logged.getUsername());
-       // this.lblRol.setText(logged.getRol());
+        // this.lblUsername.setText(logged.getUsername());
+        // this.lblRol.setText(logged.getRol());
     }
 
     @FXML
@@ -483,11 +483,11 @@ public class PrincipalViewController {
 
 
     @FXML
-    private void handleMunicipio(){
-        try{
+    private void handleMunicipio() {
+        try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(PrincipalViewController.class.getResource("ListaMunicipiosView.fxml"));
-            AnchorPane page =  loader.load();
+            AnchorPane page = loader.load();
             Stage municipioStage = new Stage();
             municipioStage.initModality(Modality.WINDOW_MODAL);
             municipioStage.setMaximized(false);
@@ -503,17 +503,17 @@ public class PrincipalViewController {
 //            mainApp.getPrincipal().setCenter(page);
 //            mainApp.getPrimaryStage().setWidth(805);
 
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     @FXML
-    private void handleUnidadOrganizativa(){
-        try{
+    private void handleUnidadOrganizativa() {
+        try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(PrincipalViewController.class.getResource("UnidadesOrgView.fxml"));
-            AnchorPane page =  loader.load();
+            AnchorPane page = loader.load();
             Stage uniOrgStage = new Stage();
             uniOrgStage.initModality(Modality.WINDOW_MODAL);
             uniOrgStage.setMaximized(false);
@@ -529,17 +529,17 @@ public class PrincipalViewController {
 //            mainApp.getPrincipal().setCenter(page);
 //            mainApp.getPrimaryStage().setWidth(805);
 
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     @FXML
-    private void handleAfectacion(){
-        try{
+    private void handleAfectacion() {
+        try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(PrincipalViewController.class.getResource("TipoAfectacionView.fxml"));
-            AnchorPane page =  loader.load();
+            AnchorPane page = loader.load();
             Stage afectacionStage = new Stage();
             afectacionStage.initModality(Modality.WINDOW_MODAL);
             afectacionStage.setMaximized(false);
@@ -556,17 +556,17 @@ public class PrincipalViewController {
 //            mainApp.getPrincipal().setCenter(page);
 //            mainApp.getPrimaryStage().setWidth(805);
 
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     @FXML
-    private void handleTipoMateriales(){
-        try{
+    private void handleTipoMateriales() {
+        try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(PrincipalViewController.class.getResource("TipoMaterialView.fxml"));
-            AnchorPane page =  loader.load();
+            AnchorPane page = loader.load();
             Stage tipoMateStage = new Stage();
             tipoMateStage.initModality(Modality.WINDOW_MODAL);
             tipoMateStage.setMaximized(false);
@@ -582,17 +582,17 @@ public class PrincipalViewController {
             tipoMateStage.showAndWait();
 //            mainApp.getPrincipal().setCenter(page);
 //            mainApp.getPrimaryStage().setWidth(805);
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     @FXML
-    private void handleHechosRegistrados(){
-        try{
+    private void handleHechosRegistrados() {
+        try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(PrincipalViewController.class.getResource("HechosRegistradosView.fxml"));
-            AnchorPane page =  loader.load();
+            AnchorPane page = loader.load();
             Stage hechoStage = new Stage();
             hechoStage.initModality(Modality.WINDOW_MODAL);
             hechoStage.setMaximized(false);
@@ -612,7 +612,7 @@ public class PrincipalViewController {
             //mainApp.getPrincipal().setPrefWidth(631);
             //mainApp.getPrincipal().setPrefHeight(616);
 
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -623,9 +623,9 @@ public class PrincipalViewController {
         this.panelGrande.setCenter(null);
     }*/
 
-            //mainApp.getPrimaryStage().setWidth(1000);
+    //mainApp.getPrimaryStage().setWidth(1000);
 
-          //  mainApp.getPrimaryStage().setWidth(788);
+    //  mainApp.getPrimaryStage().setWidth(788);
 
     public void setMainApp(Stage mainAppL) {
         this.mainApp = mainAppL;
@@ -635,12 +635,12 @@ public class PrincipalViewController {
         this.panelPrincipal = pane;
     }
 
-    private void loadPieChart(){
+    private void loadPieChart() {
         PieChartUtils pieChartUtils = new PieChartUtils(this.jfxPieChart);
         //pieChartUtils.operatePieChart();
         int totalHechos = ServiceLocator.getHechosService().countAllHechosByAnno(currentYear);
 
-        if(totalHechos > 0){
+        if (totalHechos > 0) {
             int hechosPext = ServiceLocator.getHechosService().
                     cantHechosByTipoHechoAndAnno(1, currentYear);
             int hechosTpub = ServiceLocator.getHechosService().
@@ -671,7 +671,7 @@ public class PrincipalViewController {
                     cantHechosByTipoHechoAndAnno(14, currentYear);
 
             //insertando datos en el grafico
-            try{
+            try {
                 pieChartUtils.addData("Delito vs PExt",
                         Util.getPercent(hechosPext, totalHechos));
                 pieChartUtils.addData("Delito vs TPúb",
@@ -700,7 +700,7 @@ public class PrincipalViewController {
                         Util.getPercent(hechosDifOrigen, totalHechos));
                 pieChartUtils.addData("Otros Hechos",
                         Util.getPercent(otrosHechos, totalHechos));
-            } catch (DivideByZeroException e){
+            } catch (DivideByZeroException e) {
                 Util.dialogResult("Ocurrió un error. División por 0.", Alert.AlertType.ERROR);
             }
 
@@ -743,33 +743,36 @@ public class PrincipalViewController {
             hashMap.put(13, "silver");
 */
             //poniendo los colores en la leyenda
-         //   pieChartUtils.setLegendColor(hashMap);
+            //   pieChartUtils.setLegendColor(hashMap);
             pieChartUtils.setLegendSide("Bottom");
-        } else{
+        } else {
             Util.dialogResult("No existen hechos registrados en el año " + currentYear, Alert.AlertType.INFORMATION);
         }
     }
 
-    private void loadBarChart(){
+    private void loadBarChart() {
+        jfxBarChart.getData().clear();
         final CategoryAxis xAxis = (CategoryAxis) jfxBarChart.getXAxis();
         final NumberAxis yAxis = (NumberAxis) jfxBarChart.getYAxis();
 
         xAxis.setLabel("Año");
         yAxis.setLabel("Cantidad");
 
-        XYChart.Series<Integer, Integer> series = new XYChart.Series<>();
-
         int id_tipo_hecho = ServiceLocator.getTipoHechoService().
-                searchTipoHechoByName( this.cboxTipoHechos.getSelectionModel().getSelectedItem())
+                searchTipoHechoByName(this.cboxTipoHechos.getSelectionModel().getSelectedItem())
                 .getId_tipo_hecho();
 
-        while (currentYear >= 2007){
-            int year = currentYear;
-            series.getData().add(new XYChart.Data<>(year,
-                    ServiceLocator.getHechosService().cantHechosByTipoHechoAndAnno(id_tipo_hecho ,year)));
-            currentYear--;
+        int year = currentYear;
+
+        while (year >= 2007) {
+            XYChart.Series<String, Number> series = new XYChart.Series<>();
+            int cantidad = ServiceLocator.getHechosService().cantHechosByTipoHechoAndAnno(id_tipo_hecho, year);
+            series.setName(year + "");
+            series.getData().add(new XYChart.Data<>(Integer.toString(year), cantidad));
+            year--;
+            jfxBarChart.getData().add(series);
         }
 
-        jfxBarChart.getData().add(series);
+        jfxBarChart.setAnimated(false);
     }
 }

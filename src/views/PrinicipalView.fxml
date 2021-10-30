@@ -84,11 +84,11 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <TitledPane fx:id="paneBarChart" alignment="CENTER" animated="false" collapsible="false" layoutX="385.0" layoutY="50.0" prefHeight="369.0" prefWidth="371.0" text="Comportamiento de los hechos en el año actual" wrapText="true">
+            <TitledPane fx:id="paneBarChart" alignment="CENTER" animated="false" collapsible="false" layoutX="385.0" layoutY="50.0" prefHeight="369.0" prefWidth="375.0" text="Comportamiento de los hechos en el año actual" wrapText="true">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <BarChart fx:id="jfxBarChart" layoutX="18.6" layoutY="37.6" prefHeight="305.0" prefWidth="350.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="28.0">
+                        <BarChart fx:id="jfxBarChart" animated="false" layoutX="4.0" layoutY="48.0" legendVisible="false" prefHeight="291.0" prefWidth="366.0">
                           <xAxis>
                             <CategoryAxis side="BOTTOM" />
                           </xAxis>
