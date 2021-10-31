@@ -7,6 +7,7 @@ import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import models.UnidadOrganizativa;
@@ -30,6 +31,8 @@ import util.ConfigProperties;
 import util.PostFile;
 import util.Util;
 import views.dialogs.DialogLoadingController;
+import views.dialogs.DialogLoadingUrl;
+
 import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
@@ -243,8 +246,8 @@ public class RegistroPasesController {
         if (!this.valityEmptyFields()) {
             try {
                 FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(RegistroPasesController.class.getResource("../../views/dialogs/DialogLoading.fxml"));
-                AnchorPane panel = loader.load();
+                loader.setLocation(DialogLoadingUrl.class.getResource("DialogLoading.fxml"));
+                StackPane panel = loader.load();
                 dialogExecuting = new Stage();
                 dialogExecuting.setScene(new Scene(panel));
                 dialogExecuting.initOwner(this.dialogStage);
