@@ -25,4 +25,7 @@ public interface RegistroImpresionesService {
 
     void execNewOrUpdateImpressionRegister(String CI) throws SQLException;
 
+    int countAllPasesImpresos();
+
+    int contPasesImpresosTipoPase(int id_tipo_pase);
 }

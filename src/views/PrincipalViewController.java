@@ -2,13 +2,20 @@ package views;
 
 
 import com.gembox.internal.core.DivideByZeroException;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Bounds;
+import javafx.scene.Group;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import models.TipoHecho;
@@ -25,6 +32,7 @@ import views.dialogs.*;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.stream.Collectors;
 
 public class PrincipalViewController {
@@ -709,41 +717,41 @@ public class PrincipalViewController {
 
           /*  //estableciendo el color
             pieChartUtils.setDataColor(0, "red");
-            pieChartUtils.setDataColor(1, "blue");
-            pieChartUtils.setDataColor(2, "green");
-            pieChartUtils.setDataColor(3, "yellow");
-            pieChartUtils.setDataColor(4, "orange");
-            pieChartUtils.setDataColor(5, "black");
-            pieChartUtils.setDataColor(6, "brown");
-            pieChartUtils.setDataColor(7, "pink");
-            pieChartUtils.setDataColor(8, "purple");
-            pieChartUtils.setDataColor(9, "ligth blue");
-            pieChartUtils.setDataColor(10, "white");
-            pieChartUtils.setDataColor(11, "violet");
-            pieChartUtils.setDataColor(12, "golden");
-            pieChartUtils.setDataColor(13, "silver");
+            pieChartUtils.setDataColor(1, "darkred");
+            pieChartUtils.setDataColor(2, "orange");
+            pieChartUtils.setDataColor(3, "darkorange");
+            pieChartUtils.setDataColor(4, "yellow");
+            pieChartUtils.setDataColor(5, "blue");
+            pieChartUtils.setDataColor(6, "darkblue");
+            pieChartUtils.setDataColor(7, "purple");
+            pieChartUtils.setDataColor(8, "violet");
+            pieChartUtils.setDataColor(9, "pink");
+            pieChartUtils.setDataColor(10, "green");
+            pieChartUtils.setDataColor(11, "gray");
+            pieChartUtils.setDataColor(12, "beige");
+            pieChartUtils.setDataColor(13, "black");
 
             pieChartUtils.setMarkVisible(true);
 
             // Establecer el color de la serie de datos del gráfico
-            HashMap<Integer, String> hashMap = new HashMap<>();
-            hashMap.put(0, "red");
-            hashMap.put(1, "blue");
-            hashMap.put(2, "green");
-            hashMap.put(3, "yellow");
-            hashMap.put(4, "orange");
-            hashMap.put(5, "black");
-            hashMap.put(6, "brown");
-            hashMap.put(7, "pink");
-            hashMap.put(8, "purple");
-            hashMap.put(9, "ligth blue");
-            hashMap.put(10, "white");
-            hashMap.put(11, "violet");
-            hashMap.put(12, "golden");
-            hashMap.put(13, "silver");
+            HashMap<Integer, String> colors = new HashMap<>();
+            colors.put(0, "red");
+            colors.put(1, "darkred");
+            colors.put(2, "orange");
+            colors.put(3, "darkorange");
+            colors.put(4, "yellow");
+            colors.put(5, "blue");
+            colors.put(6, "darkblue");
+            colors.put(7, "purple");
+            colors.put(8, "violet");
+            colors.put(9, "pink");
+            colors.put(10, "green");
+            colors.put(11, "gray");
+            colors.put(12, "beige");
+            colors.put(13, "black");
 */
             //poniendo los colores en la leyenda
-            //   pieChartUtils.setLegendColor(hashMap);
+          //  pieChartUtils.setLegendColor(colors);
             pieChartUtils.setLegendSide("Bottom");
         } else {
             Util.dialogResult("No existen hechos registrados en el año " + currentYear, Alert.AlertType.INFORMATION);

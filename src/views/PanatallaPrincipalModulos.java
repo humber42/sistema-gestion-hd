@@ -80,18 +80,21 @@ public class PanatallaPrincipalModulos {
             this.bottonHechosExtraordinarios.setDisable(true);
             this.bottonSistemaIdentificativo.setDisable(false);
             this.btnSalva.setDisable(true);
+            this.settingSistemaIdentificativo();
         }
         else if(logged.hasPermiso_visualizacion()){
             this.bottonPosicionesAgentes.setDisable(false);
             this.bottonHechosExtraordinarios.setDisable(false);
             this.bottonSistemaIdentificativo.setDisable(false);
             this.btnSalva.setDisable(true);
+            this.settingHechosExtraordinarios();
         }
         else if(logged.isSuperuser()){
             this.bottonPosicionesAgentes.setDisable(false);
             this.bottonHechosExtraordinarios.setDisable(false);
             this.bottonSistemaIdentificativo.setDisable(false);
             this.btnSalva.setDisable(false);
+            this.settingHechosExtraordinarios();
         }
     }
 
@@ -146,7 +149,6 @@ public class PanatallaPrincipalModulos {
             pane.setCenter(panelHechos);
             controller.setPanelPrincipal(panelHechos);
             controller.setPanelGrande(pane);
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -155,7 +157,6 @@ public class PanatallaPrincipalModulos {
     @FXML
     private void settingSistemaIdentificativo() {
         try {
-
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(PanatallaPrincipalModulos.class.getResource("/sistema_identificativo/views/MainSistemaIdentificativoView.fxml"));
             BorderPane panelSistemaIdentificativo = loader.load();
@@ -168,8 +169,6 @@ public class PanatallaPrincipalModulos {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
 
     @FXML
@@ -211,11 +210,4 @@ public class PanatallaPrincipalModulos {
         }
     }
 
-
-
-
-    @FXML
-    private void closeSystem() {
-        Platform.exit();
-    }
 }

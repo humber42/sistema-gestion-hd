@@ -1,8 +1,11 @@
 package sistema_identificativo.views;
 
+import com.gembox.internal.core.DivideByZeroException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
@@ -16,9 +19,13 @@ import seguridad.views.LoginViewController;
 import services.ServiceLocator;
 import sistema_identificativo.views.dialogs.AddPicturePendingToPass;
 import sistema_identificativo.views.dialogs.DialogGenerarResumenPasesUO;
+import util.PieChartUtils;
+import util.Util;
 
 
+import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.util.HashMap;
 
 public class MainSistemaIdentificativoController {
 
@@ -36,6 +43,10 @@ public class MainSistemaIdentificativoController {
     private Menu menuArchivo;
     @FXML
     private MenuItem mnFotoPasePending;
+    @FXML
+    private PieChart pieChartRegistrados;
+    @FXML
+    private PieChart pieChartImpresos;
 
     private UserLoggedIn logged;
 
@@ -56,6 +67,8 @@ public class MainSistemaIdentificativoController {
             this.menuArchivo.setVisible(false);
             this.mnFotoPasePending.setVisible(false);
         }
+        this.loadPieChartPasesRegistrados();
+        this.loadPieChartPasesImpresos();
     }
 
     private void userLoggedInfo() {
@@ -239,4 +252,99 @@ public class MainSistemaIdentificativoController {
         }
     }
 
+    private void loadPieChartPasesRegistrados(){
+        PieChartUtils pieChartUtils = new PieChartUtils(this.pieChartRegistrados);
+
+        int totalPasesRegistrados = ServiceLocator.getRegistroPaseService().countAllPasesRegistrados();
+
+        if(totalPasesRegistrados > 0){
+            int pases_permanentes = ServiceLocator.getRegistroPaseService()
+                    .cantPasesRegistradosByTipoPase(1);
+            int pases_provisionales = ServiceLocator.getRegistroPaseService()
+                    .cantPasesRegistradosByTipoPase(2);
+            int pases_especiales = ServiceLocator.getRegistroPaseService()
+                    .cantPasesRegistradosByTipoPase(3);
+            int pases_negros = ServiceLocator.getRegistroPaseService()
+                    .cantPasesRegistradosByTipoPase(4);
+
+            try{
+                pieChartUtils.addData("Permanente",
+                        Util.getPercent(pases_permanentes, totalPasesRegistrados));
+                pieChartUtils.addData("Provisional",
+                        Util.getPercent(pases_provisionales, totalPasesRegistrados));
+                pieChartUtils.addData("Especial",
+                        Util.getPercent(pases_especiales, totalPasesRegistrados));
+                pieChartUtils.addData("Negro",
+                        Util.getPercent(pases_negros, totalPasesRegistrados));
+            } catch (DivideByZeroException e) {
+                Util.dialogResult("Ocurrió un error. División por 0.", Alert.AlertType.ERROR);
+            }
+
+            pieChartUtils.showChart();
+
+            pieChartUtils.setDataColor(0, "darkblue");
+            pieChartUtils.setDataColor(1, "darkorange");
+            pieChartUtils.setDataColor(2, "green");
+            pieChartUtils.setDataColor(3, "black");
+
+            pieChartUtils.setMarkVisible(true);
+
+            HashMap<Integer, String> colors = new HashMap<>();
+            colors.put(0, "darkblue");
+            colors.put(1, "darkorange");
+            colors.put(2, "green");
+            colors.put(3, "black");
+
+            pieChartUtils.setLegendColor(colors);
+            pieChartUtils.setLegendSide("Bottom");
+        }
+    }
+
+    private void loadPieChartPasesImpresos(){
+        PieChartUtils pieChartUtils = new PieChartUtils(this.pieChartImpresos);
+
+        int totalPasesImpresos = ServiceLocator.getRegistroImpresionesService().countAllPasesImpresos();
+
+        if(totalPasesImpresos > 0){
+            int pases_permanentes = ServiceLocator.getRegistroImpresionesService()
+                    .contPasesImpresosTipoPase(1);
+            int pases_provisionales = ServiceLocator.getRegistroImpresionesService()
+                    .contPasesImpresosTipoPase(2);
+            int pases_especiales = ServiceLocator.getRegistroImpresionesService()
+                    .contPasesImpresosTipoPase(3);
+            int pases_negros = ServiceLocator.getRegistroImpresionesService()
+                    .contPasesImpresosTipoPase(4);
+
+            try{
+                pieChartUtils.addData("Permanente",
+                        Util.getPercent(pases_permanentes, totalPasesImpresos));
+                pieChartUtils.addData("Provisional",
+                        Util.getPercent(pases_provisionales, totalPasesImpresos));
+                pieChartUtils.addData("Especial",
+                        Util.getPercent(pases_especiales, totalPasesImpresos));
+                pieChartUtils.addData("Negro",
+                        Util.getPercent(pases_negros, totalPasesImpresos));
+            } catch (DivideByZeroException e) {
+                Util.dialogResult("Ocurrió un error. División por 0.", Alert.AlertType.ERROR);
+            }
+
+            pieChartUtils.showChart();
+
+            pieChartUtils.setDataColor(0, "darkblue");
+            pieChartUtils.setDataColor(1, "darkorange");
+            pieChartUtils.setDataColor(2, "green");
+            pieChartUtils.setDataColor(3, "black");
+
+            pieChartUtils.setMarkVisible(true);
+
+            HashMap<Integer, String> colors = new HashMap<>();
+            colors.put(0, "darkblue");
+            colors.put(1, "darkorange");
+            colors.put(2, "green");
+            colors.put(3, "black");
+
+            pieChartUtils.setLegendColor(colors);
+            pieChartUtils.setLegendSide("Bottom");
+        }
+    }
 }

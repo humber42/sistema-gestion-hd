@@ -139,4 +139,31 @@ public class RegistroImpresionesServiceImpl implements RegistroImpresionesServic
         return registroImpresionesLinkedList;
     }
 
+    @Override
+    public int countAllPasesImpresos() {
+        String query = "SELECT COUNT(registro_impresiones.id) FROM registro_impresiones\n" +
+                    "JOIN registro_pases rp on registro_impresiones.id_reg = rp.id_reg\n" +
+                    "WHERE baja = 0";
+        return Util.count(query);
+    }
+
+    @Override
+    public int contPasesImpresosTipoPase(int id_tipo_pase) {
+        String function = "{call cant_pases_impresos_tipo_pase(?)}";
+        int cant = -1;
+
+        try{
+            CallableStatement statement = Conexion.getConnection().prepareCall(function);
+            statement.setInt(1, id_tipo_pase);
+            statement.execute();
+            ResultSet rs = statement.getResultSet();
+            if(rs.next())
+                cant = rs.getInt(1);
+            statement.close();
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return cant;
+    }
 }

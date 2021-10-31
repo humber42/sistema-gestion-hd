@@ -265,4 +265,29 @@ public class RegistroPaseServiceImpl implements RegistroPaseService {
         statement.execute();
         statement.close();
     }
+
+    @Override
+    public int countAllPasesRegistrados() {
+        String query = "SELECT COUNT(registro_pases.id_reg) FROM registro_pases WHERE baja = 0 AND registro_pases.id_tipo_pase IS NOT NULL";
+        return Util.count(query);
+    }
+
+    @Override
+    public int cantPasesRegistradosByTipoPase(int id_tipo_pase) {
+        String function = "{call cant_pases_registrados_tipo_pase(?)}";
+        int cant = -1;
+        try{
+            CallableStatement statement = Conexion.getConnection().prepareCall(function);
+            statement.setInt(1, id_tipo_pase);
+            statement.execute();
+            ResultSet rs = statement.getResultSet();
+            if(rs.next())
+                cant = rs.getInt(1);
+            statement.close();
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return cant;
+    }
 }

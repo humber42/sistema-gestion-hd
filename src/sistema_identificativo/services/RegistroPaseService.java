@@ -15,6 +15,10 @@ public interface RegistroPaseService {
 
     String ultimoRegisroPase(String tipoPase, String codigoPase);
 
+    int countAllPasesRegistrados();
+
+    int cantPasesRegistradosByTipoPase(int id_tipo_pase);
+
     int addPictureToRegistroPase(String imagen, int idRegistro) throws SQLException;
 
     int saveRegistroPase(RegistroPase registroPase) throws SQLException;
