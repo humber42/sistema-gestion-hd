@@ -9,8 +9,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.controlsfx.dialog.ExceptionDialog;
@@ -22,8 +24,6 @@ import sistema_identificativo.views.dialogs.DialogGenerarResumenPasesUO;
 import util.PieChartUtils;
 import util.Util;
 
-
-import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -36,9 +36,9 @@ public class MainSistemaIdentificativoController {
     @FXML
     private Label lblNombre;
     @FXML
-    private Label lblUsername;
+    private Label lblImpresos;
     @FXML
-    private Label lblRol;
+    private Label lblRegistrados;
     @FXML
     private Menu menuArchivo;
     @FXML
@@ -282,10 +282,7 @@ public class MainSistemaIdentificativoController {
 
             pieChartUtils.showChart();
 
-            pieChartUtils.setDataColor(0, "darkblue");
-            pieChartUtils.setDataColor(1, "darkorange");
-            pieChartUtils.setDataColor(2, "green");
-            pieChartUtils.setDataColor(3, "black");
+
 
             pieChartUtils.setMarkVisible(true);
 
@@ -296,7 +293,23 @@ public class MainSistemaIdentificativoController {
             colors.put(3, "black");
 
             pieChartUtils.setLegendColor(colors);
+
+            this.pieChartRegistrados.setLabelsVisible(false);
             pieChartUtils.setLegendSide("Bottom");
+            this.lblRegistrados.setTextFill(Color.WHITE);
+
+            //TODO:HACER MODIFICACIONES PARA LOS PIECHARTS
+            for (PieChart.Data data : this.pieChartRegistrados.getData()) {
+                data.getNode().addEventHandler(MouseEvent.MOUSE_MOVED, e -> {
+                    this.lblRegistrados.setTranslateX(e.getX() - 30);
+                    this.lblRegistrados.setTranslateY(e.getY());
+                    String text = String.format("%.1f%%", data.getPieValue());
+                    this.lblRegistrados.setText(data.getName() + " " + text);
+                });
+            }
+            pieChartRegistrados.addEventHandler(MouseEvent.MOUSE_EXITED, e -> {
+                this.lblRegistrados.setText("");
+            });
         }
     }
 
@@ -345,6 +358,20 @@ public class MainSistemaIdentificativoController {
 
             pieChartUtils.setLegendColor(colors);
             pieChartUtils.setLegendSide("Bottom");
+
+            this.lblImpresos.setTextFill(Color.WHITE);
+            this.pieChartImpresos.setLabelsVisible(false);
+            for (PieChart.Data data : this.pieChartImpresos.getData()) {
+                data.getNode().addEventHandler(MouseEvent.MOUSE_MOVED, e -> {
+                    this.lblImpresos.setTranslateX(e.getX() - 30);
+                    this.lblImpresos.setTranslateY(e.getY());
+                    String text = String.format("%.1f%%", data.getPieValue());
+                    this.lblImpresos.setText(data.getName() + " " + text);
+                });
+            }
+            this.pieChartImpresos.addEventHandler(MouseEvent.MOUSE_EXITED, e -> {
+                this.lblImpresos.setText("");
+            });
         }
     }
 }

@@ -2,20 +2,14 @@ package views;
 
 
 import com.gembox.internal.core.DivideByZeroException;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Bounds;
-import javafx.scene.Group;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.*;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import models.TipoHecho;
@@ -32,7 +26,6 @@ import views.dialogs.*;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.HashMap;
 import java.util.stream.Collectors;
 
 public class PrincipalViewController {
@@ -612,13 +605,7 @@ public class PrincipalViewController {
             HechosRegistradosViewController controller = loader.getController();
             controller.setStage(hechoStage);
             hechoStage.showAndWait();
-//            mainApp.getPrincipal().setCenter(page);
-//            mainApp.getPrimaryStage().setWidth(1000);
 
-
-            //mainApp.getPrimaryStage().setHeight(660);
-            //mainApp.getPrincipal().setPrefWidth(631);
-            //mainApp.getPrincipal().setPrefHeight(616);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -626,14 +613,6 @@ public class PrincipalViewController {
     }
 
 
-    /*@FXML
-    private void handleCerrar() {
-        this.panelGrande.setCenter(null);
-    }*/
-
-    //mainApp.getPrimaryStage().setWidth(1000);
-
-    //  mainApp.getPrimaryStage().setWidth(788);
 
     public void setMainApp(Stage mainAppL) {
         this.mainApp = mainAppL;
@@ -715,44 +694,21 @@ public class PrincipalViewController {
             //mostrando grafico
             pieChartUtils.showChart();
 
-          /*  //estableciendo el color
-            pieChartUtils.setDataColor(0, "red");
-            pieChartUtils.setDataColor(1, "darkred");
-            pieChartUtils.setDataColor(2, "orange");
-            pieChartUtils.setDataColor(3, "darkorange");
-            pieChartUtils.setDataColor(4, "yellow");
-            pieChartUtils.setDataColor(5, "blue");
-            pieChartUtils.setDataColor(6, "darkblue");
-            pieChartUtils.setDataColor(7, "purple");
-            pieChartUtils.setDataColor(8, "violet");
-            pieChartUtils.setDataColor(9, "pink");
-            pieChartUtils.setDataColor(10, "green");
-            pieChartUtils.setDataColor(11, "gray");
-            pieChartUtils.setDataColor(12, "beige");
-            pieChartUtils.setDataColor(13, "black");
+            this.lblUsername.setStyle("-fx-font-size: 13");
 
-            pieChartUtils.setMarkVisible(true);
+            for (PieChart.Data data : jfxPieChart.getData()) {
+                data.getNode().addEventHandler(MouseEvent.MOUSE_MOVED, e -> {
+                    this.lblUsername.setTranslateX(e.getX());
+                    this.lblUsername.setTranslateY(e.getY() - 35);
+                    String text = String.format("%.1f%%", data.getPieValue());
+                    this.lblUsername.setText(data.getName() + " " + text);
+                });
+            }
 
-            // Establecer el color de la serie de datos del gráfico
-            HashMap<Integer, String> colors = new HashMap<>();
-            colors.put(0, "red");
-            colors.put(1, "darkred");
-            colors.put(2, "orange");
-            colors.put(3, "darkorange");
-            colors.put(4, "yellow");
-            colors.put(5, "blue");
-            colors.put(6, "darkblue");
-            colors.put(7, "purple");
-            colors.put(8, "violet");
-            colors.put(9, "pink");
-            colors.put(10, "green");
-            colors.put(11, "gray");
-            colors.put(12, "beige");
-            colors.put(13, "black");
-*/
-            //poniendo los colores en la leyenda
-          //  pieChartUtils.setLegendColor(colors);
-            pieChartUtils.setLegendSide("Bottom");
+            jfxPieChart.setLabelsVisible(false);
+            jfxBarChart.addEventHandler(MouseEvent.MOUSE_EXITED, e -> {
+                this.lblUsername.setText("");
+            });
         } else {
             Util.dialogResult("No existen hechos registrados en el año " + currentYear, Alert.AlertType.INFORMATION);
         }
@@ -770,14 +726,14 @@ public class PrincipalViewController {
                 searchTipoHechoByName(this.cboxTipoHechos.getSelectionModel().getSelectedItem())
                 .getId_tipo_hecho();
 
-        int year = currentYear;
+        int year = 2007;
 
-        while (year >= 2007) {
+        while (year <= currentYear) {
             XYChart.Series<String, Number> series = new XYChart.Series<>();
             int cantidad = ServiceLocator.getHechosService().cantHechosByTipoHechoAndAnno(id_tipo_hecho, year);
             series.setName(year + "");
             series.getData().add(new XYChart.Data<>(Integer.toString(year), cantidad));
-            year--;
+            year++;
             jfxBarChart.getData().add(series);
         }
 
