@@ -508,9 +508,13 @@ public class HechosServiceImpl implements HechosService {
     @Override
     public LinkedList<HechosMesAnno> hechosMesesAnno(Date date) {
         LinkedList<HechosMesAnno> hechosMesAnnos = new LinkedList<>();
-        String query = "SELECT * FROM obtener_hechos_mes_anno(" + date.toLocalDate().getYear() + "::double precision)";
+        String function = " {call obtener_hechos_mes_anno_modified(?,?)}";
         try {
-            hechosMesAnnos = recuperarHechosMesAnno(Util.executeQuery(query));
+            CallableStatement statement = Conexion.getConnection().prepareCall(function);
+            statement.setDate(1, date);
+            statement.setDate(2, Date.valueOf(date.toLocalDate().getYear() + "-01-01"));
+            statement.execute();
+            hechosMesAnnos = recuperarHechosMesAnno(statement.getResultSet());
         } catch (SQLException e) {
             e.printStackTrace();
         }
