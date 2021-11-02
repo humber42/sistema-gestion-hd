@@ -4,6 +4,10 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
@@ -15,6 +19,8 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.controlsfx.dialog.ExceptionDialog;
 import posiciones_agentes.excels_generators.ExcelGeneratorLocator;
+import posiciones_agentes.models.ProveedorGasto;
+import posiciones_agentes.utils.CalculoByOurg;
 import posiciones_agentes.views.dialogs.DialogGenerarResumenPorUOController;
 import seguridad.models.UserLoggedIn;
 import seguridad.views.LoginViewController;
@@ -23,6 +29,7 @@ import views.dialogs.DialogLoadingController;
 import views.dialogs.DialogLoadingUrl;
 
 import java.io.IOException;
+import java.util.List;
 
 
 public class MainPosicionesAgentesController {
@@ -38,6 +45,8 @@ public class MainPosicionesAgentesController {
     private Label lblRol;
     @FXML
     private Menu menuArchivo;
+    @FXML
+    private BarChart<String, Number> barChart;
 
     private UserLoggedIn logged;
 
@@ -230,5 +239,27 @@ public class MainPosicionesAgentesController {
             th.setDaemon(true);
             th.start();
         }
+    }
+
+    private void loadBarChart(){
+        this.barChart.getData().clear();
+        final CategoryAxis xAxis = (CategoryAxis) barChart.getXAxis();
+        final NumberAxis yAxis = (NumberAxis) barChart.getYAxis();
+
+        xAxis.setLabel("Proveedor de Servicio");
+        yAxis.setLabel("Cantidad de posiciones");
+
+        List<ProveedorGasto> proveedorGastoList = CalculoByOurg.calculoProveedorGasto();
+
+        if(!proveedorGastoList.isEmpty()) {
+            for (ProveedorGasto pg : proveedorGastoList) {
+                XYChart.Series<String, Number> series = new XYChart.Series<>();
+                series.setName(pg.getProveedor());
+                series.getData().add(new XYChart.Data<>(pg.getProveedor(), pg.getCantPosiciones()));
+                this.barChart.getData().add(series);
+            }
+        }
+
+        this.barChart.setAnimated(false);
     }
 }

@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.*?>
+<?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
 <AnchorPane minHeight="583.0" prefWidth="934.0" style="-fx-background-color: White;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.PanatallaPrincipalModulos">
     <children>
         <BorderPane fx:id="pane" prefHeight="675.0" prefWidth="934.0">
@@ -47,18 +51,14 @@
                                 </ImageView>
                             </graphic>
                         </JFXButton>
-                        <JFXButton fx:id="btnSalva" alignment="BOTTOM_CENTER" buttonType="RAISED" contentDisplay="TOP"
-                                   graphicTextGap="0.0" layoutX="29.0" layoutY="509.0" onAction="#manejar_database"
-                                   prefHeight="104.0" prefWidth="125.0" styleClass="menu-principal-button"
-                                   stylesheets="@../css/buttons.css" text="Administrar base de datos"
-                                   textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP" wrapText="true">
+                        <JFXButton fx:id="btnSalva" alignment="BOTTOM_CENTER" buttonType="RAISED" contentDisplay="TOP" graphicTextGap="0.0" layoutX="29.0" layoutY="509.0" onAction="#manejar_database" prefHeight="104.0" prefWidth="125.0" styleClass="menu-principal-button" stylesheets="@../css/buttons.css" text="Administrar base de datos" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP" wrapText="true">
                             <font>
                                 <Font size="14.0" />
                             </font>
                             <graphic>
                                 <ImageView fitHeight="51.0" fitWidth="68.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@../icons/Database_Administrator_80px.png"/>
+                                        <Image url="@../icons/Database_Administrator_80px.png" />
                                     </image>
                                 </ImageView>
                             </graphic>
@@ -75,9 +75,7 @@
             <top>
                 <Pane prefHeight="42.0" prefWidth="934.0" styleClass="barra-superior" stylesheets="@../css/barra-superior.css" BorderPane.alignment="CENTER">
                     <children>
-                        <JFXButton cancelButton="true" contentDisplay="CENTER" layoutX="920.0" onAction="#logout"
-                                   prefHeight="42.0" prefWidth="43.0" ripplerFill="#4f333300" styleClass="close-button"
-                                   stylesheets="@../css/buttons.css" text=" " textAlignment="CENTER" wrapText="true">
+                        <JFXButton cancelButton="true" contentDisplay="CENTER" layoutX="920.0" onAction="#logout" prefHeight="42.0" prefWidth="43.0" ripplerFill="#4f333300" styleClass="close-button" stylesheets="@../css/buttons.css" text=" " textAlignment="CENTER" wrapText="true">
                             <graphic>
                                 <ImageView accessibleRole="BUTTON" fitHeight="34.0" fitWidth="34.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -91,6 +89,15 @@
                                 <Font size="16.0" />
                             </font>
                         </Label>
+                  <JFXButton cancelButton="true" contentDisplay="CENTER" layoutX="877.0" onAction="#minimize" prefHeight="42.0" prefWidth="43.0" ripplerFill="#4f333300" styleClass="minimize-button" stylesheets="@../css/buttons.css" text=" " textAlignment="CENTER" wrapText="true">
+                     <graphic>
+                        <ImageView accessibleRole="BUTTON" fitHeight="26.0" fitWidth="39.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/icons8-minimizar-la-ventana-50.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
                     </children>
                 </Pane>
             </top>

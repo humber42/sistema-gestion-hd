@@ -210,4 +210,8 @@ public class PanatallaPrincipalModulos {
         }
     }
 
+    @FXML
+    private void minimize(){
+        this.primaryStage.setIconified(true);
+    }
 }

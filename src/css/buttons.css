@@ -16,6 +16,10 @@
     -fx-background-color: #d6808b;
 }
 
+.minimize-button:hover{
+    -fx-background-color: #5f62ff;
+}
+
 .image-visor:hover {
     -fx-background-color: #ced2ff;
 }
