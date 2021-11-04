@@ -168,6 +168,8 @@
             </JFXButton>
          </children>
       </HBox>
-      <ComboBox fx:id="cboxUorg" layoutX="446.0" layoutY="301.0" prefWidth="150.0" promptText="Buscar por U/O" />
+        <ComboBox fx:id="cboxUorg" editable="true" layoutX="498.0" layoutY="301.0" prefHeight="26.0" prefWidth="98.0"
+                  promptText="Seleccione"/>
+        <Label layoutX="459.0" layoutY="306.0" text="U/O"/>
     </children>
 </AnchorPane>

@@ -3,9 +3,13 @@ package informes_generate;
 import com.gembox.spreadsheet.CellRange;
 import com.gembox.spreadsheet.ExcelWorksheet;
 import com.gembox.spreadsheet.charts.*;
+import models.Afectaciones;
+import services.ServiceLocator;
 import util.Util;
 
+import java.sql.Date;
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * @author Humberto Cabrera Dominguez
@@ -71,8 +75,16 @@ public class GraphicGenerator {
 //        valueAxis.setMinorTickMarkType(TickMarkType.CROSS);
         chart.getLegend().setPosition(ChartLegendPosition.TOP_RIGHT);
         chart.getLegend().setAllowOverlap(true);
+        double epInstaladas = 0;
+        double serviciosAfectados = 0;
+        List<Afectaciones> afectacionesList = ServiceLocator.getHechosService().calculoServiciosAfectadosEstacionesPublicas(Date.valueOf(date));
+        for (Afectaciones afectaciones : afectacionesList) {
+            epInstaladas += afectaciones.getCantEstacionesPublicas();
+            serviciosAfectados += afectaciones.getAfectaciones();
+        }
+        double calculate = (100 * serviciosAfectados / epInstaladas);
 
-        chart.getSeries().get(0).setName("Servicios vs Técnica");
+        chart.getSeries().get(0).setName(String.valueOf(calculate).substring(0, 4) + "% Servicios vs Técnica");
         chart.getDataLabels().setLabelContainsValue(true);
         chart.getTitle().setVisible(false);
     }

@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 import models.Hechos;
 import models.HechosEsclarecimiento;
 import models.UnidadOrganizativa;
+import org.controlsfx.control.textfield.TextFields;
 import seguridad.models.UserLoggedIn;
 import seguridad.views.LoginViewController;
 import services.ServiceLocator;
@@ -201,6 +202,8 @@ public class EsclarecimientoViewController {
                         .collect(Collectors.toList())
         );
 
+        TextFields.bindAutoCompletion(this.cboxUorg.getEditor(), this.cboxUorg.getItems());
+
         this.cboxUorg.getSelectionModel().selectedItemProperty().addListener(
                 ((observable, oldValue, newValue) -> {
                     if (!newValue.equalsIgnoreCase("<<Todos>>"))
@@ -212,6 +215,27 @@ public class EsclarecimientoViewController {
                     }
                 }
                 ));
+
+        this.cboxUorg.editorProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.getText().equalsIgnoreCase("<<Todos>>"))
+                this.advancedSearchByUOrg();
+            else {
+                this.hechosList.clear();
+                this.hechosList.addAll(this.obtenerHechosPextTpub());
+                this.cargarDatos(this.hechosList.getFirst());
+            }
+        });
+
+//        this.cboxUorg.addEventHandler(MouseEvent.MOUSE_CLICKED,event -> {
+//
+//            if(this.cboxUorg.getValue().equalsIgnoreCase("<<Todos>>")){
+//                this.hechosList.clear();
+//                this.hechosList.addAll(this.obtenerHechosPextTpub());
+//                this.cargarDatos(this.hechosList.getFirst());
+//            }else{
+//                this.advancedSearchByUOrg();
+//            }
+//        });
 
         this.esclarecido.selectedProperty().addListener(
                 (observable, oldValue, newValue) -> {
@@ -272,6 +296,8 @@ public class EsclarecimientoViewController {
 //        } catch (ClassCastException e) {
 //            e.printStackTrace();
 //        }
+
+
     }
 
     private void advancedSearchByUOrg() {
@@ -288,6 +314,7 @@ public class EsclarecimientoViewController {
                 cargarDatos(hechosList.getFirst());
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setHeaderText(null);
+                alert.initOwner(this.dialogStage);
                 alert.setContentText("No se ha encontrado ningún elemento");
                 alert.setTitle("Elemento no encontrado");
                 alert.showAndWait();
@@ -459,9 +486,7 @@ public class EsclarecimientoViewController {
         List<HechosEsclarecimiento> hechos = new LinkedList<>();
         String query = "SELECT  id_reg " +
                 "From hechos " +
-
                 "JOIN unidades_organizativas ON unidades_organizativas.id_unidad_organizativa = hechos.id_uorg " +
-
                 "WHERE (hechos.id_tipo_hecho = 1 or hechos.id_tipo_hecho = 2)" +
                 "and unidades_organizativas.unidad_organizativa = '" + uo + "'  ORDER BY fecha_ocurrencia DESC";
 

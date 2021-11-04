@@ -174,6 +174,7 @@ public class GenerarInformeCentroDireccionImpl implements GenerarInformeCentroDi
     private boolean generarResumen(Date date, ExcelFile workbook) {
         ExcelWorksheet worksheet = workbook.addWorksheet("Resumen");
         GeneradoresTablas.generarTotales(date.toLocalDate(), worksheet, GenerateInformeFiscaliaImpl.executingConsult(date.toLocalDate()));
+        GeneradoresTablas.generarTotalesHurtosRobos(date.toLocalDate(), worksheet);
         return generarTablaResumen2(date.toLocalDate(), worksheet);
     }
 
@@ -681,6 +682,23 @@ public class GenerarInformeCentroDireccionImpl implements GenerarInformeCentroDi
                 "Y45",
                 "Telefonía Pública - Comportamiento Mensual",
                 false);
+
+        generarGraficoLineas(
+                cellRange.get(10),
+                sheet,
+                "S50",
+                "Z62",
+                "Robos - Comportamiento Mensual",
+                false);
+
+        generarGraficoLineas(
+                cellRange.get(11),
+                sheet,
+                "U72",
+                "AB85",
+                "Hurtos - Comportamiento Mensual",
+                false
+        );
 
 
         return true;

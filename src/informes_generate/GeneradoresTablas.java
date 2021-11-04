@@ -9,6 +9,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 import static util.Util.*;
 
@@ -77,6 +78,76 @@ public class GeneradoresTablas {
 
         hojaTotales.getCell("D5").setFormula("=IF(D3<D2,ROUND(100*(D2-D3)/D2,0) & \"% Red\",IF(D3=D2,0%,ROUND(100*(D3-D2)/D2,0) & \"% Inc\"))");
         hojaTotales.getCell("D5").calculate();
+
+        return true;
+    }
+
+    public static boolean generarTotalesHurtosRobos(LocalDate localDate, ExcelWorksheet sheet) {
+        ExcelWorksheet hojaTotales = sheet;
+        hojaTotales.getCell("F1").setValue("Año");
+        hojaTotales.getCell("G1").setValue("Robo");
+        hojaTotales.getCell("H1").setValue("Hurto");
+        hojaTotales.getCell("I1").setValue("Total");
+        for (int i = 5; i < 9; i++) {
+            hojaTotales.getCell(0, i).setStyle(generarStilo());
+        }
+        for (int i = 0; i < 5; i++) {
+            hojaTotales.getRow(i).setHeight(5, LengthUnit.ZERO_CHARACTER_WIDTH);
+        }
+        for (int i = 5; i < 9; i++) {
+            if (i == 5)
+                hojaTotales.getColumn(i).setWidth(10, LengthUnit.ZERO_CHARACTER_WIDTH);
+            else
+                hojaTotales.getColumn(i).setWidth(12, LengthUnit.ZERO_CHARACTER_WIDTH);
+        }
+        for (int row = 1; row < 5; row++) {
+            for (int column = 5; column < 9; column++) {
+                hojaTotales.getCell(row, column).setStyle(estiloColumnasHojasTotales());
+            }
+        }
+
+        hojaTotales.getPrintOptions().setFitWorksheetWidthToPages(1);
+
+        int actualRobo = ServiceLocator.getHechosService().cantHechosPextCierreFiscalia(Date.valueOf(localDate), 3);
+        int anteriorRobo = ServiceLocator.getHechosService().cantHechosPextCierreFiscalia(Date.valueOf(localDate.minusYears(1)), 3);
+        int actualHurto = ServiceLocator.getHechosService().cantHechosPextCierreFiscalia(Date.valueOf(localDate), 4);
+        int anteriorHurto = ServiceLocator.getHechosService().cantHechosPextCierreFiscalia(Date.valueOf(localDate.minusYears(1)), 4);
+
+        hojaTotales.getCell("F2").setValue(localDate.getYear() - 1);
+        hojaTotales.getCell("F3").setValue(localDate.getYear());
+        hojaTotales.getCell("F4").setValue("Dif");
+        hojaTotales.getCell("F5").setValue("%");
+
+        hojaTotales.getCell("G2").setValue(anteriorRobo);
+        hojaTotales.getCell("H2").setValue(anteriorHurto);
+        hojaTotales.getCell("G3").setValue(actualRobo);
+        hojaTotales.getCell("H3").setValue(actualHurto);
+
+        hojaTotales.getCell("I2").setFormula("=G2+H2");
+        hojaTotales.getCell("I3").setFormula("=G3+H3");
+        hojaTotales.getCell("I2").calculate();
+        hojaTotales.getCell("I3").calculate();
+
+        hojaTotales.getCells().getSubrange("G2:H3").getStyle()
+                .getFillPattern().setSolid(SpreadsheetColor.fromName(ColorName.WHITE));
+        hojaTotales.getCell("G4").setFormula("=IF(G3>G2,(G3-G2)&\" más\",IF(G2>G3,(G2-G3)&\" menos\",\"Igual\"))");
+        hojaTotales.getCell("G4").calculate();
+
+        hojaTotales.getCell("H4").setFormula("=IF(H3>H2,(H3-H2)&\" más\",IF(H2>H3,(H2-H3)&\" menos\",\"Igual\"))");
+        hojaTotales.getCell("H4").calculate();
+
+        hojaTotales.getCell("I4").setFormula("=IF(I3>I2,(I3-I2)&\" más\",IF(I2>I3,(I2-I3)&\" menos\",\"Igual\"))");
+        hojaTotales.getCell("I4").calculate();
+
+
+        hojaTotales.getCell("G5").setFormula("=IF(G3<G2,ROUND(100*(G2-G3)/G2,0)" + "  & " + " \"% Red\",IF(G3=G2,0%,ROUND(100*(G3-G2)/G2,0) & \"% Inc\"))");
+        hojaTotales.getCell("G5").calculate();
+
+        hojaTotales.getCell("H5").setFormula("=IF(H3<H2,ROUND(100*(H2-H3)/H2,0) & \"% Red\",IF(H3=H2,0%,ROUND(100*(H3-H2)/H2,0) & \"% Inc\"))");
+        hojaTotales.getCell("H5").calculate();
+
+        hojaTotales.getCell("I5").setFormula("=IF(I3<I2,ROUND(100*(I2-I3)/I2,0) & \"% Red\",IF(I3=I2,0%,ROUND(100*(I3-I2)/I2,0) & \"% Inc\"))");
+        hojaTotales.getCell("I5").calculate();
 
         return true;
     }
@@ -197,13 +268,12 @@ public class GeneradoresTablas {
         rowInitial = row;
 
 
-        ///Cambiar
         row = writeCellHechosByMunicipioServiciosAfectados(row, column, ServiceLocator.getHechosService().serviciosAfectadosPorMunicipio(Date.valueOf(date), 2), sheet);
         ranges.add(sheet.getCells().getSubrangeAbsolute(rowInitial, column, row - 1, column + 1));
         rowInitial = row;
 
 
-        row = writeCellAfectaciones(row, column, ServiceLocator.getHechosService().afectacionesTPubMunicipio(Date.valueOf(date)), sheet);
+        row = writeCellAfectaciones(row, column, ServiceLocator.getHechosService().afectacionesTPubMunicipio(Date.valueOf(date)), sheet, date);
         ranges.add(sheet.getCells().getSubrangeAbsolute(rowInitial, column, row - 1, column + 1));
 
 
@@ -213,6 +283,7 @@ public class GeneradoresTablas {
     public static LinkedList<CellRange> generarTablasParaGraficos(ExcelWorksheet worksheet, LocalDate date, int titleRow, boolean centroDireccion) {
         LinkedList<CellRange> ranges = new LinkedList<>();
         ExcelWorksheet sheet = worksheet;
+
         LinkedList<MaterialsFiscaliaModels> materialsFiscaliaListAnnoAnterior = new LinkedList<>();
         LinkedList<MaterialsFiscaliaModels> materialsFiscaliaListAnnoActual = new LinkedList<>();
         ServiceLocator.getTipoMaterialesService().materialesPorAnno(Date.valueOf(date.minusYears(1))).forEach(
@@ -258,14 +329,18 @@ public class GeneradoresTablas {
         int column = 0;
         int rowInitial = row;
 
+        // range 0
         row = writeCellMaterialesGrafico(row, column, materialsFiscaliaListAnnoAnterior, sheet);
         ranges.add(sheet.getCells().getSubrangeAbsolute(rowInitial, column, row, 2));
         rowInitial = row;
 
+
+        //range 1
         row = writeCellMaterialesGrafico(row, column, materialsFiscaliaListAnnoActual, sheet);
         ranges.add(sheet.getCells().getSubrangeAbsolute(rowInitial, column, row, 2));
         rowInitial = row;
 
+        //range 2
         //Se toma directo de las hojas del libro de calculo para grafico de lineas
         sheet.getCell(row++, column).setValue("Cant-Hechos");
         CellRange range = sheet.getParent().getWorksheet(2).getCells().getSubrange("D42:D65");
@@ -278,18 +353,22 @@ public class GeneradoresTablas {
         ranges.add(sheet.getCells().getSubrangeAbsolute(rowInitial+1, 0, row-1, 0));
         rowInitial = row;
 
+        //range 3
         row = writeCellHechosByMunicipio(row, column, ServiceLocator.getHechosService().obtenerHechosPorMunicipio(Date.valueOf(date), 1), sheet);
         ranges.add(sheet.getCells().getSubrangeAbsolute(rowInitial, 0, row - 1, 1));
         rowInitial = row;
 
+        //range 4
         row = writeCellAfectacionGrafico(row, column, afectacionFiscaliaModelsAnnoAnterior, sheet);
         ranges.add(sheet.getCells().getSubrangeAbsolute(rowInitial, column, row, 2));
         rowInitial = row;
 
+        //range 5
         row = writeCellAfectacionGrafico(row, column, afectacionFiscaliaModelsAnnoActual, sheet);
         ranges.add(sheet.getCells().getSubrangeAbsolute(rowInitial, column, row, 2));
         rowInitial = row;
 
+        //range 6
         //Se toma directo de las hojas del libro de calculo para grafico de lineas
         sheet.getCell(row++, column).setValue("Cant-Hechos-Tpub");
         CellRange range2 = sheet.getParent().getWorksheet(2).getCells().getSubrange("E42:E65");
@@ -302,6 +381,7 @@ public class GeneradoresTablas {
         ranges.add(sheet.getCells().getSubrangeAbsolute(rowInitial+1, 0, row-1, 0));
         //rowInitial = row;
 
+        //range 7
         column = 4;
         row = titleRow;
         rowInitial = row;
@@ -313,14 +393,43 @@ public class GeneradoresTablas {
 
 
         ///Cambiar
+        //range 8
         row = writeCellHechosByMunicipioServiciosAfectados(row, column, ServiceLocator.getHechosService().serviciosAfectadosPorMunicipio(Date.valueOf(date), 2), sheet);
         ranges.add(sheet.getCells().getSubrangeAbsolute(rowInitial, column, row - 1, column + 1));
         rowInitial = row;
 
-
-        row = writeCellAfectaciones(row, column, ServiceLocator.getHechosService().afectacionesTPubMunicipio(Date.valueOf(date)), sheet);
+        //range 9
+        row = writeCellAfectaciones(row, column, ServiceLocator.getHechosService().afectacionesTPubMunicipio(Date.valueOf(date)), sheet, date);
         ranges.add(sheet.getCells().getSubrangeAbsolute(rowInitial, column, row - 1, column + 1));
+        rowInitial = row;
 
+        LinkedList<HechosByAnno> hechosByAnnosActual = ServiceLocator.getHechosService().cantidadRobosHurtosByAnno(date.getYear());
+        LinkedList<HechosByAnno> hechosByAnnosAnterior = ServiceLocator.getHechosService().cantidadRobosHurtosByAnno(date.minusYears(1).getYear());
+        //range10
+        sheet.getCell(row++, column).setValue("Cant-Robos");
+        for (HechosByAnno hechos : hechosByAnnosAnterior) {
+            sheet.getCell(row, column).setValue(hechos.getCantPext());
+            row++;
+        }
+        for (HechosByAnno hechos : hechosByAnnosActual) {
+            sheet.getCell(row, column).setValue(hechos.getCantPext());
+            row++;
+        }
+        ranges.add(sheet.getCells().getSubrangeAbsolute(rowInitial + 1, column, row - 1, column));
+        rowInitial = row;
+
+        //range11
+        sheet.getCell(row++, column).setValue("Cant-Hurtos");
+        for (HechosByAnno hechos : hechosByAnnosAnterior) {
+            sheet.getCell(row, column).setValue(hechos.getCantTpub());
+            row++;
+        }
+        for (HechosByAnno hechos : hechosByAnnosActual) {
+            sheet.getCell(row, column).setValue(hechos.getCantTpub());
+            row++;
+        }
+        ranges.add(sheet.getCells().getSubrangeAbsolute(rowInitial + 1, column, row - 1, column));
+        rowInitial = row;
 
         return ranges;
     }
@@ -375,10 +484,20 @@ public class GeneradoresTablas {
         return row;
     }
 
-    private static int writeCellAfectaciones(int row, int column, LinkedList<Afectaciones> afectaciones, ExcelWorksheet sheet) {
-        int percentMedio = 0;
+    private static int writeCellAfectaciones(int row, int column, LinkedList<Afectaciones> afectaciones, ExcelWorksheet sheet, LocalDate date) {
+        double percentMedio = 0;
         sheet.getCell(row, column).setValue("Municipio");
-        sheet.getCell(row, column + 1).setValue("% Servicios Afectados");
+
+        double epInstaladas = 0;
+        double serviciosAfectados = 0;
+        List<Afectaciones> afectacionesList = ServiceLocator.getHechosService().calculoServiciosAfectadosEstacionesPublicas(Date.valueOf(date));
+        for (Afectaciones afectacion : afectacionesList) {
+            epInstaladas += afectacion.getCantEstacionesPublicas();
+            serviciosAfectados += afectacion.getAfectaciones();
+        }
+
+        percentMedio = (100 * serviciosAfectados / epInstaladas);
+        sheet.getCell(row, column + 1).setValue(String.valueOf(percentMedio).substring(0, 4) + "% Servicios Afectados");
         row++;
         for (Afectaciones afectaciones1 : Util.reordenandoAfectaciones(afectaciones)) {
             sheet.getCell(row, column).setValue(afectaciones1.getUnidadOrganizativa());

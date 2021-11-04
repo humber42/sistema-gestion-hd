@@ -164,8 +164,12 @@ public class Util {
                 hechosPorMunicipio -> hechosPorMunicipio.getCantHechos() > 2
         ).collect(Collectors.toCollection(LinkedList::new));
 
-        hechosRetorno.add(hechoModified(hechosDeDos));
-        hechosRetorno.add(hechoModified(hechosdeUno));
+        if (hechosDeDos.size() > 0) {
+            hechosRetorno.add(hechoModified(hechosDeDos));
+        }
+        if (hechosdeUno.size() > 0) {
+            hechosRetorno.add(hechoModified(hechosdeUno));
+        }
 
         return hechosRetorno;
     }

@@ -96,4 +96,6 @@ public interface HechosService {
 
     LinkedList<Hechos> fetchAllHechos2(String limit, String offset);
 
+    LinkedList<HechosByAnno> cantidadRobosHurtosByAnno(int anno);
+
 }

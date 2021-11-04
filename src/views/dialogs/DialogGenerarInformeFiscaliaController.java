@@ -6,7 +6,6 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.ProgressBar;
 import javafx.stage.Stage;
 import util.Util;
 
@@ -37,14 +36,14 @@ public class DialogGenerarInformeFiscaliaController {
 
     @FXML
     private void handleGenerate() {
-        //TODO: arreglar metodo de generacion ya que explota cuando en el año no ha sucedido nada
-        // GeneradorLocator.getGenerateInformeFiscalia().generarInformeCompleto(fechaCierre.getValue());
         if (fechaCierre.getValue() == null) {
             Util.dialogResult("Seleccione una fecha de cierre.", Alert.AlertType.WARNING);
         } else {
             String path = Util.selectPathToSaveReport(this.dialogStage, 0);
             if (path != null) {
                 progressBar.setVisible(true);
+//                GeneradorLocator.getGenerateInformeFiscalia().
+//                        generarInformeCompleto(fechaCierre.getValue(), path);
                 Task<Boolean> task = new Task<Boolean>() {
                     boolean result = false;
 

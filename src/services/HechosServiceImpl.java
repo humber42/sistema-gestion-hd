@@ -360,6 +360,23 @@ public class HechosServiceImpl implements HechosService {
     }
 
     @Override
+    public LinkedList<HechosByAnno> cantidadRobosHurtosByAnno(int anno) {
+        LinkedList<HechosByAnno> hechosByAnnos = new LinkedList<>();
+        String function = "{call obtener_cant_hechos_hurto_robo_mes_anno(?)}";
+        try {
+            CallableStatement statement = Conexion.getConnection().prepareCall(function);
+            statement.setDouble(1, Double.parseDouble(String.valueOf(anno)));
+            statement.execute();
+            hechosByAnnos = this.recuperarHechosByAnno(statement.getResultSet());
+            statement.closeOnCompletion();
+            Conexion.getConnection().close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return hechosByAnnos;
+    }
+
+    @Override
     public LinkedList<EstacionesPublicas> getEstacionesPublicasCant() {
         LinkedList<EstacionesPublicas> estacionesPublicas = new LinkedList<>();
         try {
@@ -476,17 +493,28 @@ public class HechosServiceImpl implements HechosService {
     @Override
     public LinkedList<Afectaciones> calculoServiciosAfectadosEstacionesPublicas(Date date) {
         LinkedList<Afectaciones> afectacionesLinkedList = new LinkedList<>();
-        String query = "Select * From obtener_telefonia_publica_anno(" + date.toLocalDate().getYear() + "::double precision)";
+        String function = "{call obtener_telefonia_publica_anno_modified(?,?)}";
         try {
-            ResultSet resulset = Util.executeQuery(query);
-            afectacionesLinkedList = recuperararAfectaciones(resulset);
+            CallableStatement statement = Conexion.getConnection().prepareCall(function);
+            statement.setDate(1, date);
+            statement.setDate(2, Date.valueOf(date.toLocalDate().getYear() + "-01-01"));
+            statement.execute();
+            afectacionesLinkedList = recuperararAfectaciones(statement.getResultSet());
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        query = "Select * FROM obtener_telefonia_publica_habana_anno(" + date.toLocalDate().getYear() + "::double precision,29,30,31,32)";
+        function = "{call obtener_telefonia_publica_habana_anno_modified(?,?,?,?,?,?)}";
         try {
-            ResultSet resultset = Util.executeQuery(query);
+            CallableStatement statement = Conexion.getConnection().prepareCall(function);
+            statement.setDate(1, date);
+            statement.setInt(2, 29);
+            statement.setInt(3, 30);
+            statement.setInt(4, 31);
+            statement.setInt(5, 32);
+            statement.setDate(6, Date.valueOf(date.toLocalDate().getYear() + "-01-01"));
+            statement.execute();
+            ResultSet resultset = statement.getResultSet();
             if (resultset.next()) {
                 afectacionesLinkedList.add(new Afectaciones(
                         resultset.getString(1),

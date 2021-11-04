@@ -225,7 +225,7 @@ public class RegistrarViewController {
 
         this.hechoToUpdate = HechosRegistradosViewController.getHechoSeleccionado();
         if (hechoToUpdate != null && hechoToUpdate.getId_reg() > 0) {
-            this.btnRegister.setText("Editar");
+            this.btnRegister.setText("Guardar");
             this.toUpdate = true;
             System.out.println("ToUpdate");
             this.cargarInformacionHechoSeleccionadoBusqueda();
@@ -494,17 +494,17 @@ public class RegistrarViewController {
                     this.vandalismoLabel.setText(this.vandalismoLabel.getText() + " *");
                     this.vandalismoLabel.setTextFill(Color.RED);
                 }
-            } else if (this.tipoHechoComboBox.getValue().equalsIgnoreCase("Acc. Tránsito")) {
-
-                if (!imputable && !incidente) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("No definido el tipo de accidente");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Debe seleccionar el tipo de accidente de tránsito");
-                    alert.showAndWait();
-                    correcto = false;
-                }
-            }
+            } //else if (this.tipoHechoComboBox.getValue().equalsIgnoreCase("Acc. Tránsito")) {
+//
+//                if (!imputable && !incidente) {
+//                    Alert alert = new Alert(Alert.AlertType.ERROR);
+//                    alert.setTitle("No definido el tipo de accidente");
+//                    alert.setHeaderText(null);
+//                    alert.setContentText("Debe seleccionar el tipo de accidente de tránsito");
+//                    alert.showAndWait();
+//                    correcto = false;
+//                }
+//            }
         } catch (NullPointerException e) {
 
             this.tipoHechoLabel.setTextFill(Color.RED);
