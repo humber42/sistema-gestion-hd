@@ -23,7 +23,7 @@ import sistema_identificativo.views.MainSistemaIdentificativoController;
 
 import java.io.IOException;
 
-public class PanatallaPrincipalModulos {
+public class PantallaPrincipalModulos {
 
     @FXML
     private JFXButton bottonHechosExtraordinarios;
@@ -130,6 +130,11 @@ public class PanatallaPrincipalModulos {
     }
 
     @FXML
+    private void close(){
+        Platform.exit();
+    }
+
+    @FXML
     private void logout(){
         setEmptyTextOnUserInfo();
         this.primaryStage.close();
@@ -141,7 +146,7 @@ public class PanatallaPrincipalModulos {
         try {
             //Load principal view
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(PanatallaPrincipalModulos.class.getResource("PrinicipalView.fxml"));
+            loader.setLocation(PantallaPrincipalModulos.class.getResource("PrinicipalView.fxml"));
             BorderPane panelHechos = loader.load();
 
             PrincipalViewController controller = loader.getController();
@@ -158,7 +163,7 @@ public class PanatallaPrincipalModulos {
     private void settingSistemaIdentificativo() {
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(PanatallaPrincipalModulos.class.getResource("/sistema_identificativo/views/MainSistemaIdentificativoView.fxml"));
+            loader.setLocation(PantallaPrincipalModulos.class.getResource("/sistema_identificativo/views/MainSistemaIdentificativoView.fxml"));
             BorderPane panelSistemaIdentificativo = loader.load();
 
             MainSistemaIdentificativoController controller = loader.getController();
@@ -175,7 +180,7 @@ public class PanatallaPrincipalModulos {
     private void settingsPosicionesAgentes(){
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(PanatallaPrincipalModulos.class.getResource("/posiciones_agentes/views/MainPosicionesAgentesView.fxml"));
+            loader.setLocation(PantallaPrincipalModulos.class.getResource("/posiciones_agentes/views/MainPosicionesAgentesView.fxml"));
             BorderPane panelPosicionesAgentes = loader.load();
 
             MainPosicionesAgentesController controller = loader.getController();

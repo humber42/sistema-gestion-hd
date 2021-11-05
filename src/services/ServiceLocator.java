@@ -49,6 +49,8 @@ public class ServiceLocator {
     private static UserService userService = null;
     private static RolService rolService = null;
 
+    private static EstacionPublicaCentroAgenteService estacionPublicaCentroAgenteService = null;
+
 
     public static UnidadOrganizativaService getUnidadOrganizativaService() {
         if (unidadOrganizativaService == null) {
@@ -180,6 +182,12 @@ public class ServiceLocator {
             rolService = new RolServiceImpl();
         }
         return rolService;
+    }
+
+    public static EstacionPublicaCentroAgenteService getEstacionPublicaCentroAgenteService(){
+        if(estacionPublicaCentroAgenteService == null)
+            estacionPublicaCentroAgenteService = new EstacionPublicaCentroAgenteImpl();
+        return estacionPublicaCentroAgenteService;
     }
 
 }
