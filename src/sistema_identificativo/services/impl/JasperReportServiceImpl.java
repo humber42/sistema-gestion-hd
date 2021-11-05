@@ -1,5 +1,6 @@
 package sistema_identificativo.services.impl;
 
+import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -24,6 +25,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Henry A. Serra Morejon
@@ -64,7 +66,7 @@ public class JasperReportServiceImpl implements JasperReportService {
     }
 
     @Override
-    public void imprimirPasePermanente(String CI, Stage mainApp) {
+    public void imprimirPasePermanente(String CI, Stage mainApp, ObservableList<Impresion> listToUpdate) {
         Task<Boolean> task = new Task<Boolean>() {
             JasperViewer view = null;
             @Override
@@ -87,6 +89,10 @@ public class JasperReportServiceImpl implements JasperReportService {
             @Override
             protected void succeeded() {
                 super.succeeded();
+                if (Objects.nonNull(listToUpdate)) {
+                    listToUpdate.clear();
+                    listToUpdate.setAll(ServiceLocator.getImpresionService().getAllImpressions());
+                }
                 dialogStage.close();
                 view.setVisible(true);
             }
@@ -99,7 +105,7 @@ public class JasperReportServiceImpl implements JasperReportService {
     }
 
     @Override
-    public void imprimirPaseEspecial(String CI, Stage mainApp) {
+    public void imprimirPaseEspecial(String CI, Stage mainApp, ObservableList<Impresion> listToUpdate) {
         Task<Boolean> task = new Task<Boolean>() {
             JasperViewer view = null;
             @Override
@@ -120,6 +126,10 @@ public class JasperReportServiceImpl implements JasperReportService {
             @Override
             protected void succeeded() {
                 super.succeeded();
+                if (Objects.nonNull(listToUpdate)) {
+                    listToUpdate.clear();
+                    listToUpdate.setAll(ServiceLocator.getImpresionService().getAllImpressions());
+                }
                 dialogStage.close();
                 view.setVisible(true);
             }
@@ -132,7 +142,7 @@ public class JasperReportServiceImpl implements JasperReportService {
     }
 
     @Override
-    public void imprimirPaseProvisional(String CI, Stage mainApp) {
+    public void imprimirPaseProvisional(String CI, Stage mainApp, ObservableList<Impresion> listToUpdate) {
         Task<Boolean> task = new Task<Boolean>() {
             JasperViewer view = null;
             @Override
@@ -153,6 +163,10 @@ public class JasperReportServiceImpl implements JasperReportService {
             @Override
             protected void succeeded() {
                 super.succeeded();
+                if (Objects.nonNull(listToUpdate)) {
+                    listToUpdate.clear();
+                    listToUpdate.setAll(ServiceLocator.getImpresionService().getAllImpressions());
+                }
                 dialogStage.close();
                 view.setVisible(true);
             }
@@ -166,7 +180,7 @@ public class JasperReportServiceImpl implements JasperReportService {
     }
 
     @Override
-    public void imprimirPaseNegro(String CI, Stage mainApp) {
+    public void imprimirPaseNegro(String CI, Stage mainApp, ObservableList<Impresion> listToUpdate) {
         Task<Boolean> task = new Task<Boolean>() {
             JasperViewer view = null;
             @Override
@@ -187,6 +201,10 @@ public class JasperReportServiceImpl implements JasperReportService {
             @Override
             protected void succeeded() {
                 super.succeeded();
+                if (Objects.nonNull(listToUpdate)) {
+                    listToUpdate.clear();
+                    listToUpdate.setAll(ServiceLocator.getImpresionService().getAllImpressions());
+                }
                 dialogStage.close();
                 view.setVisible(true);
             }
@@ -200,7 +218,7 @@ public class JasperReportServiceImpl implements JasperReportService {
     }
 
     @Override
-    public void imprimirPasesEspecialesSelected(Stage mainApp, List<Impresion> impresions) {
+    public void imprimirPasesEspecialesSelected(Stage mainApp, List<Impresion> impresions, ObservableList<Impresion> listToUpdate) {
         Task<Boolean> task = new Task<Boolean>() {
             JasperViewer view = null;
             @Override
@@ -220,6 +238,10 @@ public class JasperReportServiceImpl implements JasperReportService {
             @Override
             protected void succeeded(){
                 super.succeeded();
+                if (Objects.nonNull(listToUpdate)) {
+                    listToUpdate.clear();
+                    listToUpdate.setAll(ServiceLocator.getImpresionService().getAllImpressions());
+                }
                 dialogStage.close();
                 view.setVisible(true);
             }
@@ -233,7 +255,7 @@ public class JasperReportServiceImpl implements JasperReportService {
     }
 
     @Override
-    public void imprimirPasesNegrosSelected(Stage mainApp,List<Impresion> impresions) {
+    public void imprimirPasesNegrosSelected(Stage mainApp,List<Impresion> impresions, ObservableList<Impresion> listToUpdate) {
         Task<Boolean> task = new Task<Boolean>() {
             JasperViewer view = null;
             @Override
@@ -253,6 +275,10 @@ public class JasperReportServiceImpl implements JasperReportService {
             @Override
             protected void succeeded() {
                 super.succeeded();
+                if (Objects.nonNull(listToUpdate)) {
+                    listToUpdate.clear();
+                    listToUpdate.setAll(ServiceLocator.getImpresionService().getAllImpressions());
+                }
                 dialogStage.close();
                 view.setVisible(true);
             }
@@ -267,7 +293,7 @@ public class JasperReportServiceImpl implements JasperReportService {
     }
 
     @Override
-    public void imprimirPasesPermanentesSelected(Stage mainApp,List<Impresion> impresions) {
+    public void imprimirPasesPermanentesSelected(Stage mainApp,List<Impresion> impresions, ObservableList<Impresion> listToUpdate) {
         Task<Boolean> task = new Task<Boolean>() {
             JasperViewer view = null;
             @Override
@@ -287,6 +313,10 @@ public class JasperReportServiceImpl implements JasperReportService {
             @Override
             protected void succeeded() {
                 super.succeeded();
+                if (Objects.nonNull(listToUpdate)) {
+                    listToUpdate.clear();
+                    listToUpdate.setAll(ServiceLocator.getImpresionService().getAllImpressions());
+                }
                 dialogStage.close();
                 view.setVisible(true);
             }
@@ -299,7 +329,7 @@ public class JasperReportServiceImpl implements JasperReportService {
     }
 
     @Override
-    public void imprimirPasesProvisionalesSelected( Stage mainApp, List<Impresion> impresions) {
+    public void imprimirPasesProvisionalesSelected( Stage mainApp, List<Impresion> impresions, ObservableList<Impresion> listToUpdate) {
         Task<Boolean> task = new Task<Boolean>() {
             JasperViewer view = null;
             @Override
@@ -319,6 +349,10 @@ public class JasperReportServiceImpl implements JasperReportService {
             @Override
             protected void succeeded() {
                 super.succeeded();
+                if (Objects.nonNull(listToUpdate)) {
+                    listToUpdate.clear();
+                    listToUpdate.setAll(ServiceLocator.getImpresionService().getAllImpressions());
+                }
                 dialogStage.close();
                 view.setVisible(true);
             }

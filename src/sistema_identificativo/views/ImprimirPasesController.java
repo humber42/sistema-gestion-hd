@@ -167,30 +167,37 @@ public class ImprimirPasesController {
     @FXML
     private void imprimir() {
         ObservableList<Impresion> impresionList = table.getSelectionModel().getSelectedItems();
+
         if(!impresionList.isEmpty()){
             Impresion impression = impresionList.get(0);
             if(impresionList.size() == 1){
                 String typePass = impression.getTipoPase();
-            if (typePass.equalsIgnoreCase("Permanente"))
-                ServiceLocator.getJasperReportService().imprimirPasePermanente(impression.getIdentidad(),this.dialogStage);
-            else if (typePass.equalsIgnoreCase("Especial"))
-                ServiceLocator.getJasperReportService().imprimirPaseEspecial(impression.getIdentidad(),this.dialogStage);
-            else if (typePass.equalsIgnoreCase("Provisional"))
-                ServiceLocator.getJasperReportService().imprimirPaseProvisional(impression.getIdentidad(),this.dialogStage);
-            else if (typePass.equalsIgnoreCase("Negro"))
-                ServiceLocator.getJasperReportService().imprimirPaseNegro(impression.getIdentidad(),this.dialogStage);
+            if (typePass.equalsIgnoreCase("Permanente")) {
+                ServiceLocator.getJasperReportService().imprimirPasePermanente(impression.getIdentidad(), this.dialogStage,this.table.getItems());
+
+            }
+            else if (typePass.equalsIgnoreCase("Especial")) {
+                ServiceLocator.getJasperReportService().imprimirPaseEspecial(impression.getIdentidad(), this.dialogStage,this.table.getItems());
+
+            }
+            else if (typePass.equalsIgnoreCase("Provisional")) {
+                ServiceLocator.getJasperReportService().imprimirPaseProvisional(impression.getIdentidad(), this.dialogStage,this.table.getItems());
+            }
+            else if (typePass.equalsIgnoreCase("Negro")) {
+                ServiceLocator.getJasperReportService().imprimirPaseNegro(impression.getIdentidad(), this.dialogStage,this.table.getItems());
+            }
             }
             else{
                 if(sameTypePass(impresionList)){
                     String typePass = impresionList.get(0).getTipoPase();
                         if (typePass.equalsIgnoreCase("Permanente"))
-                            ServiceLocator.getJasperReportService().imprimirPasesPermanentesSelected(this.dialogStage, impresionList);
+                            ServiceLocator.getJasperReportService().imprimirPasesPermanentesSelected(this.dialogStage, impresionList,this.table.getItems());
                         else if (typePass.equalsIgnoreCase("Especial"))
-                            ServiceLocator.getJasperReportService().imprimirPasesEspecialesSelected(this.dialogStage,impresionList);
+                            ServiceLocator.getJasperReportService().imprimirPasesEspecialesSelected(this.dialogStage,impresionList,this.table.getItems());
                         else if (typePass.equalsIgnoreCase("Provisional"))
-                            ServiceLocator.getJasperReportService().imprimirPasesProvisionalesSelected(this.dialogStage,impresionList);
+                            ServiceLocator.getJasperReportService().imprimirPasesProvisionalesSelected(this.dialogStage,impresionList,this.table.getItems());
                         else if (typePass.equalsIgnoreCase("Negro"))
-                            ServiceLocator.getJasperReportService().imprimirPasesNegrosSelected(this.dialogStage,impresionList);
+                            ServiceLocator.getJasperReportService().imprimirPasesNegrosSelected(this.dialogStage,impresionList,this.table.getItems());
                 } else{
                     Util.dialogResult("Los pases a imprimir deben ser del mismo tipo.", Alert.AlertType.WARNING);
                 }

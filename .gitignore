@@ -1,0 +1,8 @@
+*.properties
+*.classpath
+*.gitignore
+*.project
+
+/.idea
+/libraries
+/out
