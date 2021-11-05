@@ -68,7 +68,7 @@ public class Hechos {
                 null, null, null,
                 null, null, null,
                 null, null, null,
-                null, null);
+                null, null, false);
     }
 
     /**
@@ -92,7 +92,7 @@ public class Hechos {
     public Hechos(String titulo, TipoHecho tipoHecho, Date fecha_ocurrencia, Date fecha_parte,
                   UnidadOrganizativa unidadOrganizativa, String centro, String lugar, Municipio municipio,
                   String numero_denuncia, Double afectacion_usd, Double afectacion_mn, Double afectacion_servicio,
-                  String observaciones, String cod_cdnt) {
+                  String observaciones, String cod_cdnt, boolean prevenido) {
         this.titulo = titulo;
         this.tipoHecho = tipoHecho;
         this.fecha_ocurrencia = fecha_ocurrencia;
@@ -107,6 +107,7 @@ public class Hechos {
         this.afectacion_servicio = afectacion_servicio;
         this.observaciones = observaciones;
         this.cod_cdnt = cod_cdnt;
+        this.prevenido = prevenido;
     }
 
     public int getId_reg() {

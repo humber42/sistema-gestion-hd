@@ -38,7 +38,7 @@
             <Font size="15.0" />
          </font>
       </JFXButton>
-      <GridPane layoutX="15.0" layoutY="286.0" prefHeight="82.0" prefWidth="306.0">
+      <GridPane focusTraversable="true" layoutX="15.0" layoutY="286.0" prefHeight="82.0" prefWidth="306.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="150.0" minWidth="10.0" prefWidth="42.0" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="275.0" minWidth="10.0" prefWidth="265.0" />

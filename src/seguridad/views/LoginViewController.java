@@ -18,7 +18,7 @@ import seguridad.utils.SHA1Encrypt;
 import services.ServiceLocator;
 import util.Util;
 import views.MainApp;
-import views.PanatallaPrincipalModulos;
+import views.PantallaPrincipalModulos;
 import views.UrlLocation;
 
 import java.io.IOException;
@@ -129,7 +129,7 @@ public class LoginViewController {
             Scene scene = new Scene(pane);
 
             //Give the controller access to the main app
-            PanatallaPrincipalModulos controller = loader.getController();
+            PantallaPrincipalModulos controller = loader.getController();
             controller.setMainApp(this.mainApp);
             controller.setPrimaryStage(primaryStage);
             this.primaryStage.setScene(scene);

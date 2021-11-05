@@ -612,7 +612,27 @@ public class PrincipalViewController {
         }
     }
 
+    @FXML
+    private void handleTelefoniaPublica(){
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(UrlLocation.class.getResource("TelefoniaPublicaView.fxml"));
+            AnchorPane page = loader.load();
+            Stage hechoStage = new Stage();
+            hechoStage.initModality(Modality.WINDOW_MODAL);
+            hechoStage.setMaximized(false);
+            hechoStage.setResizable(false);
+            hechoStage.initOwner(this.mainApp);
+            hechoStage.setScene(new Scene(page));
+            hechoStage.setTitle("Telefonía Pública");
 
+            TelefoniaPublicaViewController controller = loader.getController();
+            controller.setDialogStage(hechoStage);
+            hechoStage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void setMainApp(Stage mainAppL) {
         this.mainApp = mainAppL;

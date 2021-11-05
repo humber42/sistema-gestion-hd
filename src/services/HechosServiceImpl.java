@@ -45,7 +45,7 @@ public class HechosServiceImpl implements HechosService {
 
     @Override
     public void updateHecho(Hechos hechos) throws SQLException {
-        String function = "{call update_hecho(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+        String function = "{call update_hecho(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
 
         CallableStatement statement = Conexion.getConnection().prepareCall(function);
         statement.setInt(1, hechos.getId_reg());
@@ -72,6 +72,7 @@ public class HechosServiceImpl implements HechosService {
         statement.setObject(20, hechos.getTipoVandalismo() == null
                 ? null
                 : hechos.getTipoVandalismo().getId_afect_tpublica());
+        statement.setBoolean(21, hechos.isPrevenido());
         statement.execute();
         statement.close();
     }
@@ -152,8 +153,7 @@ public class HechosServiceImpl implements HechosService {
      * @param hechos hechos model
      */
     public void registrarHecho(Hechos hechos) throws SQLException {
-        String function = "{call registrar_hecho(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
-
+        String function = "{call registrar_hecho_modified(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
 
         CallableStatement callableStatement = Conexion.getConnection().prepareCall(function);
         callableStatement.setString(1, hechos.getTitulo());
@@ -170,11 +170,10 @@ public class HechosServiceImpl implements HechosService {
         callableStatement.setDouble(12, hechos.getAfectacion_servicio());
         callableStatement.setString(13, hechos.getObservaciones());
         callableStatement.setString(14, hechos.getCod_cdnt());
+        callableStatement.setBoolean(15, hechos.isPrevenido());
         callableStatement.execute();
         callableStatement.close();
         Conexion.getConnection().close();
-
-
     }
 
     public Hechos searchHechoByCODCDNT(String cod_cdnt) {

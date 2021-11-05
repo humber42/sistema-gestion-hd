@@ -60,11 +60,14 @@ public class InformacionHechoViewController {
     private JFXTextField txtFechaOcurrencia;
     @FXML
     private JFXTextField txtFechaResumen;
+    @FXML
+    private CheckBox checkPrevenido;
 
     private Stage dialogStage;
 
     private BorderPane mainApp;
 
+    private boolean preven;
     private Hechos hechoSelected;
 
     public void setMainApp(BorderPane mainApp) {
@@ -98,6 +101,9 @@ public class InformacionHechoViewController {
         delitoVSPExtPanel.setDisable(true);
         delitoVSTPublPanel.setDisable(true);
 
+        this.checkPrevenido.setOnMouseClicked(event -> {
+            this.checkPrevenido.setSelected(preven);
+        });
         //Established group for RadioButtons
         final ToggleGroup group = new ToggleGroup();
         radioButtonImputable.setToggleGroup(group);
@@ -142,6 +148,11 @@ public class InformacionHechoViewController {
                 this.radioButtonImputable.setSelected(hechoSelected.isImputable());
                 this.radioButtonIncidente.setSelected(hechoSelected.isIncidencias());
             }
+            else if(tipoH.equalsIgnoreCase("Robo")) {
+                this.checkPrevenido.setVisible(true);
+                this.preven=hechoSelected.isPrevenido();
+                this.checkPrevenido.setSelected(hechoSelected.isPrevenido());
+            }
             else {
                 this.disableALLPanes();
             }
@@ -173,7 +184,7 @@ public class InformacionHechoViewController {
         accidenteTransitoPanel.setDisable(true);
         delitoVSPExtPanel.setDisable(false);
         delitoVSTPublPanel.setDisable(true);
-        //llenarComboMaterial();
+        hideCheckPrevenido();
     }
 
     private void activePaneDelitoVSTPubl() {
@@ -183,7 +194,7 @@ public class InformacionHechoViewController {
         accidenteTransitoPanel.setDisable(true);
         delitoVSTPublPanel.setDisable(false);
         delitoVSPExtPanel.setDisable(true);
-//        llenarComboAfectacion();
+        hideCheckPrevenido();
     }
 
     private void activePaneAccTransito() {
@@ -193,6 +204,7 @@ public class InformacionHechoViewController {
         delitoVSPExtPanel.setDisable(true);
         accidenteTransitoPanel.setDisable(false);
         delitoVSTPublPanel.setDisable(true);
+        hideCheckPrevenido();
     }
 
     private void disableALLPanes() {
@@ -202,6 +214,12 @@ public class InformacionHechoViewController {
         delitoVSPExtPanel.setDisable(true);
         accidenteTransitoPanel.setDisable(true);
         delitoVSTPublPanel.setDisable(true);
+        hideCheckPrevenido();
+    }
+
+    private void hideCheckPrevenido(){
+        this.checkPrevenido.setVisible(false);
+        this.checkPrevenido.setSelected(false);
     }
 
 //    private void llenarComboMaterial() {

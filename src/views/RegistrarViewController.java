@@ -99,6 +99,8 @@ public class RegistrarViewController {
     private RadioButton radioButtonImputable;
     @FXML
     private DatePicker fechaOcurrencia;
+    @FXML
+    private CheckBox checkPrevenido;
 
     public void setFromPrincipal(boolean principal) {
         this.fromPrincipal = principal;
@@ -253,6 +255,10 @@ public class RegistrarViewController {
                 this.activePaneAccTransito();
                 this.radioButtonImputable.setSelected(hechoToUpdate.isImputable());
                 this.radioButtonIncidente.setSelected(hechoToUpdate.isIncidencias());
+            } else if (tipoH.equalsIgnoreCase("Robo")) {
+                this.disableALLPanes();
+                this.checkPrevenido.setVisible(true);
+                this.checkPrevenido.setSelected(hechoToUpdate.isPrevenido());
             } else {
                 this.disableALLPanes();
             }
@@ -273,7 +279,6 @@ public class RegistrarViewController {
             this.observaciones.setText(hechoToUpdate.getObservaciones() == null
                     ? "(sin información)"
                     : hechoToUpdate.getObservaciones());
-
         }
     }
 
@@ -331,12 +336,21 @@ public class RegistrarViewController {
             this.activePaneDelitoVSTPubl();
         } else if (value.equalsIgnoreCase("Acc. Tránsito")) {
             this.activePaneAccTransito();
+        } else if (value.equalsIgnoreCase("Robo")) {
+            disableALLPanes();
+            this.checkPrevenido.setVisible(true);
         } else {
             disableALLPanes();
         }
     }
 
+    private void hideCheckPrevenido(){
+        this.checkPrevenido.setVisible(false);
+        this.checkPrevenido.setSelected(false);
+    }
+
     private void activePaneDelitoVSPExt() {
+        hideCheckPrevenido();
         accidenteTransitoPanel.setExpanded(false);
         delitoVSPExtPanel.setExpanded(true);
         delitoVSTPublPanel.setExpanded(false);
@@ -347,6 +361,7 @@ public class RegistrarViewController {
     }
 
     private void activePaneDelitoVSTPubl() {
+        hideCheckPrevenido();
         accidenteTransitoPanel.setExpanded(false);
         delitoVSPExtPanel.setExpanded(false);
         delitoVSTPublPanel.setExpanded(true);
@@ -357,6 +372,7 @@ public class RegistrarViewController {
     }
 
     private void activePaneAccTransito() {
+        hideCheckPrevenido();
         accidenteTransitoPanel.setExpanded(true);
         delitoVSPExtPanel.setExpanded(false);
         delitoVSTPublPanel.setExpanded(false);
@@ -366,6 +382,7 @@ public class RegistrarViewController {
     }
 
     private void disableALLPanes() {
+        hideCheckPrevenido();
         accidenteTransitoPanel.setExpanded(false);
         delitoVSPExtPanel.setExpanded(false);
         delitoVSTPublPanel.setExpanded(false);
@@ -639,6 +656,7 @@ public class RegistrarViewController {
             hechoToUpdate.setMateriales(null);
             hechoToUpdate.setCantidad(0);
             hechoToUpdate.setTipoVandalismo(null);
+            hechoToUpdate.setPrevenido(this.checkPrevenido.isSelected());
         }
 
         try {
@@ -667,6 +685,7 @@ public class RegistrarViewController {
         String perdiadMLC = this.afectacionMLC.getText().isEmpty() ? "0.0" : this.afectacionMLC.getText();
         int serviciosAfectados = this.afectacionService.getText().isEmpty() ? '0' : Integer.valueOf(this.afectacionService.getText());
         String observaciones = this.observaciones.getText();
+        boolean prevenido = this.checkPrevenido.isSelected();
 
         //Obteniendo los datos del combobox para recuperarlos después
         TipoHecho tipoHecho = this.buscarTipoHecho(tipoHechoComboBox.getValue());
@@ -676,7 +695,7 @@ public class RegistrarViewController {
         UnidadOrganizativa unidadOrganizativa = this.buscarUnidadOrganizativa(unidadOrganizativaComboBox.getValue());
         Hechos hechos = new Hechos(titulo, tipoHecho, dateOcurrencia, dateResumen, unidadOrganizativa,
                 centro, lugarOcurrencia, municipio, denuncia, Double.valueOf(perdiadMLC), Double.valueOf(perdidaMN),
-                Double.valueOf(Integer.toString(serviciosAfectados)), observaciones, codCDNT);
+                Double.valueOf(Integer.toString(serviciosAfectados)), observaciones, codCDNT, prevenido);
 
         try {
             //Moderando los datos respecto a algunos tipo de delitos
