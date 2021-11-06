@@ -96,6 +96,24 @@ public class EstacionPublicaCentroAgenteImpl implements EstacionPublicaCentroAge
     }
 
     @Override
+    public void updateEstacionPublicaByIdMunicipio(EstacionPublicaCentroAgente estacion) {
+        String function = "{call update_estacion_publica_centro_agente_by_id_municipio(?,?,?,?)}";
+        int id_municipio = ServiceLocator.getMunicipiosService()
+                .searchMunicipioByName(estacion.getMunicipio()).getId_municipio();
+        int id_uorg =  ServiceLocator.getUnidadOrganizativaService()
+                .searchUnidadOrganizativaByName(estacion.getUnidadOrganizativa()).getId_unidad_organizativa();
+        try {
+            CallableStatement statement = Conexion.getConnection().prepareCall(function);
+            statement.setInt(1, id_municipio);
+            statement.setInt(2, id_uorg);
+            statement.setInt(3, estacion.getCentroAgente());
+            statement.setInt(4, estacion.getEstacionPublica());
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public void updateEstacionPublicaCentroAgente(EstacionPublicaCentroAgente estacion) {
         String function = "{call update_estacion_publica_centro_agente(?,?,?,?,?)}";
         int id_municipio = ServiceLocator.getMunicipiosService()

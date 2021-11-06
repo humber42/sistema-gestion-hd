@@ -10,6 +10,7 @@ public interface EstacionPublicaCentroAgenteService {
     List<EstacionPublicaCentroAgente> getAllByIdUORG(int id_uorg);
     EstacionPublicaCentroAgente getEstacionPublicaById(int id);
     void addEstacionPublicaCentroAgente(EstacionPublicaCentroAgente estacion);
+    void updateEstacionPublicaByIdMunicipio(EstacionPublicaCentroAgente estacion);
     void updateEstacionPublicaCentroAgente(EstacionPublicaCentroAgente estacion);
     void deleteEstacionPublicaCentroAgente(int id);
 }

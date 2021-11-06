@@ -26,3 +26,13 @@ begin
 end;
 $BODY$
 LANGUAGE plpgsql VOLATILE
+
+CREATE OR REPLACE FUNCTION update_estacion_publica_centro_agente_by_id_municipio(id_municipio integer, id_uorg integer, centros integer, estaciones integer)
+  RETURNS void AS
+$BODY$
+begin
+  UPDATE estacion_publica_centro_agente SET id_uorg = $2, centros_agente = $3, estaciones_publicas = $4
+  WHERE estacion_publica_centro_agente.id_municipio = $1;
+end;
+$BODY$
+LANGUAGE plpgsql VOLATILE
