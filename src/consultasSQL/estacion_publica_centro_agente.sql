@@ -15,7 +15,7 @@ begin
   WHERE estacion_publica_centro_agente.id_reg = $1;
 end;
 $BODY$
-LANGUAGE plpgsql VOLATILE
+LANGUAGE plpgsql VOLATILE;
 
 CREATE OR REPLACE FUNCTION delete_estacion_publica_centro_agente(id_reg integer)
   RETURNS void AS
@@ -25,13 +25,13 @@ begin
   WHERE estacion_publica_centro_agente.id_reg = $1;
 end;
 $BODY$
-LANGUAGE plpgsql VOLATILE
+LANGUAGE plpgsql VOLATILE;
 
-CREATE OR REPLACE FUNCTION update_estacion_publica_centro_agente_by_id_municipio(id_municipio integer, id_uorg integer, centros integer, estaciones integer)
+CREATE OR REPLACE FUNCTION update_estacion_publica_centro_agente_by_id_municipio(id_municipio integer, centros integer, estaciones integer)
   RETURNS void AS
 $BODY$
 begin
-  UPDATE estacion_publica_centro_agente SET id_uorg = $2, centros_agente = $3, estaciones_publicas = $4
+  UPDATE estacion_publica_centro_agente SET centros_agente = $2, estaciones_publicas = $3
   WHERE estacion_publica_centro_agente.id_municipio = $1;
 end;
 $BODY$
