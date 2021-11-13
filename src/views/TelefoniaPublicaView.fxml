@@ -46,7 +46,7 @@
       </JFXButton>
       <ComboBox fx:id="cboxUORG" editable="true" focusTraversable="false" layoutX="84.0" layoutY="14.0" prefHeight="25.0" prefWidth="170.0" promptText="Seleccione" />
       <Label layoutX="50.0" layoutY="18.0" text="U/O:" />
-      <JFXButton buttonType="RAISED" layoutX="349.0" layoutY="6.0" prefHeight="38.0" prefWidth="56.0" style="-fx-background-color: white;" textFill="#f8f6f6">
+      <JFXButton buttonType="RAISED" layoutX="349.0" layoutY="6.0" onAction="#handleLoadDataFromExcelFile" prefHeight="38.0" prefWidth="56.0" style="-fx-background-color: white;" textFill="#f8f6f6">
          <font>
             <Font size="13.0" />
          </font>

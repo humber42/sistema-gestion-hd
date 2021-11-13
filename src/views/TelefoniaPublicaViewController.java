@@ -1,6 +1,7 @@
 package views;
 
 import com.jfoenix.controls.JFXButton;
+import informes_generate.ProcessExcelTPub;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import models.EstacionPublicaCentroAgente;
@@ -19,6 +21,7 @@ import seguridad.views.LoginViewController;
 import services.ServiceLocator;
 import util.Util;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -227,6 +230,24 @@ public class TelefoniaPublicaViewController {
             hechoStage.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleLoadDataFromExcelFile(){
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("All Files","*.*"),
+                new FileChooser.ExtensionFilter("Excel Files 2007 And High", "*.xlsx"),
+                new FileChooser.ExtensionFilter("Excel Files 97-2003","*.xls")
+
+        );
+        File fileExcel = fileChooser.showOpenDialog(this.dialogStage);
+        if(fileExcel!=null){
+            if(fileExcel.getPath().contains(".xslx"))
+                ProcessExcelTPub.getDataFromExcel(fileExcel,true);
+            else
+                ProcessExcelTPub.getDataFromExcel(fileExcel);
         }
     }
 
