@@ -54,6 +54,47 @@ public class GraphicGenerator {
         chart.getLegend().setPosition(ChartLegendPosition.BOTTOM);
     }
 
+    public static void generarGraficoBarrasDoblesParaRobosHurtos(String title, String position1, String position2, ExcelWorksheet sheet, LocalDate date, CellRange rango1, CellRange rango2, CellRange rango3, CellRange categorias) {
+//        int cantAnnos = 2;
+//        int cantUnidadesOrganizativas = 16;
+
+        //Create chart and select data for it
+        ColumnChart chart = (ColumnChart) sheet.getCharts().add(ChartType.COLUMN, position1, position2);
+
+        //Set Chart title
+        chart.getTitle().setText(title);
+
+        //Set Axis titles
+        chart.getAxes().getVertical().setVisible(false);
+        chart.getAxes().getHorizontal().getTitle().setText("Unidades organizativas");
+
+        //For all charts except (Pie and Bar ) value axis is vertical
+        ValueAxis valueAxis = chart.getAxes().getVerticalValue();
+
+        //Adding data
+        chart.getSeries().add(
+                "Robos",
+                Util.formatedLetter(rango1));
+        chart.getSeries().add(
+                "Hurtos",
+                Util.formatedLetter(rango2)
+        );
+        chart.getSeries().add(
+                "Intentos de robo",
+                Util.formatedLetter(rango3)
+        );
+
+        chart.setCategoryLabelsReference(Util.formatedLetter(categorias));
+        chart.getDataLabels().setLabelContainsValue(true);
+
+        //Set value axis scaling, unit, gridlines and tick marks
+        valueAxis.getMajorGridlines().setVisible(true);
+        valueAxis.getMinorGridlines().setVisible(false);
+//        valueAxis.setMajorTickMarkType(TickMarkType.OUTSIDE);
+//        valueAxis.setMinorTickMarkType(TickMarkType.CROSS);
+        chart.getLegend().setPosition(ChartLegendPosition.BOTTOM);
+    }
+
     public static void generarGraficoBarrasNormal(String title, String position1, String position2, ExcelWorksheet sheet, LocalDate date, CellRange rango1) {
 
         //Create chart and select data for it

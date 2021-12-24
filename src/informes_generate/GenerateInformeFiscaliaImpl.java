@@ -418,7 +418,7 @@ public class GenerateInformeFiscaliaImpl implements GenerateInformeFiscalia {
         worksheet.getCells().getSubrange("D4:D38").getStyle().setHorizontalAlignment(HorizontalAlignmentStyle.RIGHT);
         worksheet.getCells().getSubrange("G4:G38").getStyle().setHorizontalAlignment(HorizontalAlignmentStyle.RIGHT);
 
-        //TODO:Usar datos booleanos despues
+
         boolean completeLlenadoPextAnnoAnterior = this.llenarCamposPextTpu(resumenModelsPextAnterrior, worksheet, letrasListPextAnnoAnterior);
         boolean completeLlenadoPextAnnoActual = this.llenarCamposPextTpu(resumenModelsPextActual, worksheet, letrasListPextAnnoActual);
         boolean completeLlenadoTpubAnnoAnterior = this.llenarCamposPextTpu(resumenModelsTPubAnterrior, worksheet, letrasListTpubAnnoAnterior);

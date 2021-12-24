@@ -264,7 +264,6 @@ public class GenerarPrevencionImpl implements GenerarPrevencion {
         );
 
 
-        //TODO: Agregar graficos de puntos
         this.generarGraficoLineas(worksheet.getCells().getSubrange("C2:C25"), worksheet, "F2", "P17"
                 , "Planta Exterior");
         this.generarGraficoLineas(worksheet.getCells().getSubrange("D2:D25"), worksheet, "F19", "P34",

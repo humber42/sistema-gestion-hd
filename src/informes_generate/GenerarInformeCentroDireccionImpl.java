@@ -178,6 +178,7 @@ public class GenerarInformeCentroDireccionImpl implements GenerarInformeCentroDi
         return generarTablaResumen2(date.toLocalDate(), worksheet);
     }
 
+
     private boolean generarTablaResumen2(LocalDate date, ExcelWorksheet sheet) {
 
         CellRange rangeA8A9 = sheet.getCells().getSubrange("A8:A9");
@@ -623,6 +624,18 @@ public class GenerarInformeCentroDireccionImpl implements GenerarInformeCentroDi
                 Util.cantPextTpubTotal(
                         ServiceLocator.getHechosService().cantidadHechosPextPorUnidadOrganizativaAnnosFiscaliaCierre(Date.valueOf(date.toLocalDate()), 2)
                 )
+        );
+
+        GraphicGenerator.generarGraficoBarrasDoblesParaRobosHurtos(
+                "Comportamiento Territorial: Robos y hurtos",
+                "U88",
+                "AC102",
+                sheet
+                , date.toLocalDate()
+                , cellRange.get(13)
+                , cellRange.get(14)
+                , cellRange.get(15)
+                , cellRange.get(12)
         );
 
 

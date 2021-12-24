@@ -1,26 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXListView?>
-<?import com.jfoenix.controls.JFXTextField?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TitledPane?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-
-<AnchorPane prefHeight="437.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sistema_identificativo.views.dialogs.AddPicturePendingToPass">
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="437.0" prefWidth="600.0"
+            xmlns="http://javafx.com/javafx/9.0.1"
+            fx:controller="sistema_identificativo.views.dialogs.AddPicturePendingToPass" fx:id="panelImagen">
     <children>
-        <TitledPane alignment="TOP_CENTER" collapsible="false" layoutX="246.0" layoutY="14.0" prefHeight="194.0" prefWidth="340.0" text="Información del pase" AnchorPane.leftAnchor="255.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
+        <TitledPane alignment="TOP_CENTER" collapsible="false" layoutX="246.0" layoutY="14.0" prefHeight="194.0"
+                    prefWidth="340.0" text="Información del pase" AnchorPane.leftAnchor="255.0"
+                    AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
             <content>
                 <AnchorPane prefHeight="187.0" prefWidth="338.0">
                     <children>
-                        <Label layoutX="18.0" layoutY="135.0" text="Categoría de pase:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="130.0" />
-                        <Label layoutX="14.0" layoutY="21.0" text="Nombre y apellidos:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0" />
-                        <Label layoutX="15.0" layoutY="52.0" text="Número de pase:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="40.0" />
-                        <Label layoutX="15.0" layoutY="80.0" text="Carné de identidad:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="70.0" />
-                        <Label layoutX="15.0" layoutY="106.0" text="Tipo de pase:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="100.0" />
+                        <Label layoutX="18.0" layoutY="135.0" text="Categoría de pase:" AnchorPane.leftAnchor="10.0"
+                               AnchorPane.topAnchor="130.0"/>
+                        <Label layoutX="14.0" layoutY="21.0" text="Nombre y apellidos:" AnchorPane.leftAnchor="10.0"
+                               AnchorPane.topAnchor="10.0"/>
+                        <Label layoutX="15.0" layoutY="52.0" text="Número de pase:" AnchorPane.leftAnchor="10.0"
+                               AnchorPane.topAnchor="40.0"/>
+                        <Label layoutX="15.0" layoutY="80.0" text="Carné de identidad:" AnchorPane.leftAnchor="10.0"
+                               AnchorPane.topAnchor="70.0"/>
+                        <Label layoutX="15.0" layoutY="106.0" text="Tipo de pase:" AnchorPane.leftAnchor="10.0"
+                               AnchorPane.topAnchor="100.0"/>
                         <Label fx:id="labelNombre" layoutX="139.0" layoutY="20.0" prefHeight="18.0" prefWidth="180.0" text="LabelNombre" />
                         <Label fx:id="labelNumeroPase" layoutX="139.0" layoutY="50.0" prefHeight="18.0" prefWidth="181.0" text="LabelNumeroPase" />
                         <Label fx:id="labelCarneIdentidad" layoutX="139.0" layoutY="80.0" prefHeight="18.0" prefWidth="181.0" text="LabellCI" />

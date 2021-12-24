@@ -8,7 +8,10 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Paint;
 import javafx.stage.Modality;
@@ -26,7 +29,6 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
-//TODO: Validacion de editar
 public class TipoMaterialViewController {
 
     private MainApp mainApp;

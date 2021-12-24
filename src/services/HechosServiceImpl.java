@@ -2,6 +2,8 @@ package services;
 
 
 import models.*;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.postgresql.util.PSQLException;
 import util.Conexion;
 import util.Util;
@@ -373,6 +375,24 @@ public class HechosServiceImpl implements HechosService {
             e.printStackTrace();
         }
         return hechosByAnnos;
+    }
+
+    @Override
+    public LinkedList<HurtosRobosPrevUorg> obtenerRobosHurtosPrev(Date fecha) {
+        LinkedList<HurtosRobosPrevUorg> hechosByUorg = new LinkedList<>();
+        String function = "{call obtener_robos_hurtos_prev(?,?)}";
+        try {
+            CallableStatement statement = Conexion.getConnection().prepareCall(function);
+            statement.setDate(1, fecha);
+            statement.setDate(2, Date.valueOf(fecha.toLocalDate().getYear() + "-01-01"));
+            statement.execute();
+            hechosByUorg = this.recuperarHechosHurtosRobosPrevUorg(statement.getResultSet());
+            statement.closeOnCompletion();
+            Conexion.getConnection().close();
+        } catch (SQLException e) {
+            Logger.getLogger(this.getClass()).log(Level.ERROR, "Ha ocurrido una excepcion", e);
+        }
+        return hechosByUorg;
     }
 
     @Override
@@ -1058,6 +1078,24 @@ public class HechosServiceImpl implements HechosService {
             e0.printStackTrace();
         }
         return resumenModels;
+    }
+
+
+    private LinkedList<HurtosRobosPrevUorg> recuperarHechosHurtosRobosPrevUorg(ResultSet set) {
+        LinkedList<HurtosRobosPrevUorg> hechos = new LinkedList<>();
+        try {
+            while (set.next()) {
+                hechos.add(new HurtosRobosPrevUorg(
+                        set.getString(1),
+                        set.getInt(2),
+                        set.getInt(3),
+                        set.getInt(4)
+                ));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return hechos;
     }
 
     public void editarHechos(Hechos hechos) throws SQLException {

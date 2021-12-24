@@ -12,6 +12,8 @@ import java.util.Observable;
 
 
 /**
+ * The author define this class to make some easier the database connection
+ *
  * @author Henry A. Serra Morejon
  */
 public class Conexion {

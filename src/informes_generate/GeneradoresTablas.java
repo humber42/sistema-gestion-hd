@@ -276,6 +276,39 @@ public class GeneradoresTablas {
         row = writeCellAfectaciones(row, column, ServiceLocator.getHechosService().afectacionesTPubMunicipio(Date.valueOf(date)), sheet, date);
         ranges.add(sheet.getCells().getSubrangeAbsolute(rowInitial, column, row - 1, column + 1));
 
+        //range12
+        sheet.getCell(row++, column).setValue("HurtosRobosPrevenidos");
+//        int rowInstant= row;
+//        int columnInstant = column;
+        LinkedList<HurtosRobosPrevUorg> hurtosRobosPrevUorgs = ServiceLocator.getHechosService().obtenerRobosHurtosPrev(Date.valueOf(date));
+        List<HurtosRobosPrevUorg> processedListHurtosRobosPrevUorgs = Util.cleaningAndFormatingList(hurtosRobosPrevUorgs);
+
+        int rowInstant = row;
+        for (HurtosRobosPrevUorg hecho : processedListHurtosRobosPrevUorgs) {
+            int columnInstant = column;
+            sheet.getCell(rowInstant, columnInstant++).setValue(hecho.getUorg());
+            sheet.getCell(rowInstant, columnInstant++).setValue(hecho.getCantRobos());
+            sheet.getCell(rowInstant, columnInstant++).setValue(hecho.getCantHurtos());
+            sheet.getCell(rowInstant, columnInstant++).setValue(hecho.getCantPrevenidos());
+            rowInstant++;
+        }
+
+        /**
+         * Defining cell ranges
+         * range 12
+         * range 13
+         * range 14
+         * range 15
+         * **/
+        //Unidades Organizativas
+        ranges.add(sheet.getCells().getSubrangeAbsolute(row, column, rowInstant, column));
+        //Cantidad Robos
+        ranges.add(sheet.getCells().getSubrangeAbsolute(row, column + 1, rowInstant, column + 1));
+        // Cantidad de Hurtos
+        ranges.add(sheet.getCells().getSubrangeAbsolute(row, column + 2, rowInstant, column + 2));
+        // Cantidad de Prevenidos
+        ranges.add(sheet.getCells().getSubrangeAbsolute(row, column + 3, rowInstant, column + 3));
+
 
         return ranges;
     }
@@ -430,6 +463,40 @@ public class GeneradoresTablas {
         }
         ranges.add(sheet.getCells().getSubrangeAbsolute(rowInitial + 1, column, row - 1, column));
         rowInitial = row;
+
+        //range12
+        sheet.getCell(row++, column).setValue("HurtosRobosPrevenidos");
+//        int rowInstant= row;
+//        int columnInstant = column;
+        LinkedList<HurtosRobosPrevUorg> hurtosRobosPrevUorgs = ServiceLocator.getHechosService().obtenerRobosHurtosPrev(Date.valueOf(date));
+        List<HurtosRobosPrevUorg> processedListHurtosRobosPrevUorgs = Util.cleaningAndFormatingList(hurtosRobosPrevUorgs);
+
+        int rowInstant = row;
+        for (HurtosRobosPrevUorg hecho : processedListHurtosRobosPrevUorgs) {
+            int columnInstant = column;
+            sheet.getCell(rowInstant, columnInstant++).setValue(hecho.getUorg());
+            sheet.getCell(rowInstant, columnInstant++).setValue(hecho.getCantRobos());
+            sheet.getCell(rowInstant, columnInstant++).setValue(hecho.getCantHurtos());
+            sheet.getCell(rowInstant, columnInstant++).setValue(hecho.getCantPrevenidos());
+            rowInstant++;
+        }
+
+        /**
+         * Defining cell ranges
+         * range 12
+         * range 13
+         * range 14
+         * range 15
+         * **/
+        //Unidades Organizativas
+        ranges.add(sheet.getCells().getSubrangeAbsolute(row, column, rowInstant, column));
+        //Cantidad Robos
+        ranges.add(sheet.getCells().getSubrangeAbsolute(row, column + 1, rowInstant - 1, column + 1));
+        // Cantidad de Hurtos
+        ranges.add(sheet.getCells().getSubrangeAbsolute(row, column + 2, rowInstant - 1, column + 2));
+        // Cantidad de Prevenidos
+        ranges.add(sheet.getCells().getSubrangeAbsolute(row, column + 3, rowInstant - 1, column + 3));
+
 
         return ranges;
     }

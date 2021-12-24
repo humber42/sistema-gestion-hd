@@ -1,4 +1,4 @@
---Todo creado por @Henry A. Serra Morejon
+--creado por @Henry A. Serra Morejon
 --Type para devolver los hechos prevenidos en un anno determinado
 CREATE TYPE hechos_prevenidos AS (
   uorg                   character varying(255),

@@ -298,7 +298,7 @@ public class MainSistemaIdentificativoController {
             pieChartUtils.setLegendSide("Bottom");
             this.lblRegistrados.setTextFill(Color.WHITE);
 
-            //TODO:HACER MODIFICACIONES PARA LOS PIECHARTS
+
             for (PieChart.Data data : this.pieChartRegistrados.getData()) {
                 data.getNode().addEventHandler(MouseEvent.MOUSE_MOVED, e -> {
                     this.lblRegistrados.setTranslateX(e.getX() - 30);

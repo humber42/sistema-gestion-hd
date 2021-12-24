@@ -98,4 +98,6 @@ public interface HechosService {
 
     LinkedList<HechosByAnno> cantidadRobosHurtosByAnno(int anno);
 
+    LinkedList<HurtosRobosPrevUorg> obtenerRobosHurtosPrev(Date fecha);
+
 }

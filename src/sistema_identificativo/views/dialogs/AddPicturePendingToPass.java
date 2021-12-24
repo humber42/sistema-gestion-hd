@@ -2,7 +2,9 @@ package sistema_identificativo.views.dialogs;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
+import icons.ImageLocation;
 import javafx.concurrent.Task;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -12,6 +14,10 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
@@ -24,10 +30,12 @@ import util.ConfigProperties;
 import util.PostFile;
 import util.Util;
 import views.dialogs.DialogLoadingController;
+import views.dialogs.DialogLoadingUrl;
 
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -56,6 +64,8 @@ public class AddPicturePendingToPass {
     private JFXButton guardar;
     @FXML
     private JFXTextField textName;
+    @FXML
+    private AnchorPane panelImagen;
 
     private RegistroPase paseSeleccionado;
     private Stage dialogUploading;
@@ -67,8 +77,8 @@ public class AddPicturePendingToPass {
     @FXML
     private void initialize() {
         this.textName.setOnKeyTyped(event -> {
-                Util.eventToSetUpperCaseToFirstNameAndLastName(event, this.textName);
-                this.applySearch();
+            Util.eventToSetUpperCaseToFirstNameAndLastName(event, this.textName);
+            this.applySearch();
         });
 
         this.labelCarneIdentidad.setText(this.paseSeleccionado != null ? this.paseSeleccionado.getNumeroIdentidad() : "(No hay datos seleccionados)");
@@ -86,12 +96,72 @@ public class AddPicturePendingToPass {
                 (observable, oldValue, newValue) -> {
                     this.setValuesOnToLabels(newValue);
                     this.annadir.setDisable(false);
+                    if (!this.profilePhoto.getImage().getUrl().contains("no-img.jpg")) {
+                        this.guardar.setDisable(false);
+                    }
                 }
         );
 
+        this.panelImagen.setOnDragOver(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent event) {
+                mouseDragOver(event);
+            }
+        });
+
+        this.panelImagen.setOnDragDropped(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent event) {
+                onMouseDragDropped(event);
+            }
+        });
+
+
+        this.profilePhoto.imageProperty().addListener((observable, oldValue, newValue) -> {
+            if (oldValue != newValue) {
+                if (Objects.nonNull(paseSeleccionado))
+                    this.guardar.setDisable(false);
+            }
+        });
+
     }
 
-    private void applySearch(){
+    private void addImage(Image i) {
+        this.profilePhoto.setImage(i);
+    }
+
+    private void onMouseDragDropped(final DragEvent e) {
+        final Dragboard dragboard = e.getDragboard();
+        boolean success = false;
+        if (dragboard.hasFiles()) {
+            success = true;
+            final File file = dragboard.getFiles().get(0);
+
+            System.out.println(file.getAbsolutePath());
+
+            javafx.scene.image.Image image = new Image("file:" + file.getAbsolutePath());
+            addImage(image);
+
+        }
+        e.setDropCompleted(success);
+        e.consume();
+    }
+
+    private void mouseDragOver(final DragEvent e) {
+        final Dragboard db = e.getDragboard();
+        final boolean isAccepted = db.getFiles().get(0).getName().toLowerCase().endsWith(".png") ||
+                db.getFiles().get(0).getName().toLowerCase().endsWith(".jpeg") ||
+                db.getFiles().get(0).getName().toLowerCase().endsWith(".jpg");
+        if (db.hasFiles()) {
+            if (isAccepted) {
+                e.acceptTransferModes(TransferMode.COPY);
+            } else {
+                e.consume();
+            }
+        }
+    }
+
+    private void applySearch() {
         this.listaPases.getItems().clear();
         this.listaPases.getItems().addAll(
                 this.textName.getText().isEmpty() ?
@@ -125,7 +195,7 @@ public class AddPicturePendingToPass {
             @Override
             protected Boolean call() throws Exception {
                 uploadPhoto();
-                String image = StringUtils.cleanPath(new File(Util.renombrarPath(profilePhoto.getImage().getUrl())).getName()).replace(" ","%20");
+                String image = StringUtils.cleanPath(new File(Util.renombrarPath(profilePhoto.getImage().getUrl())).getName()).replace(" ", "%20");
                 try {
                     ServiceLocator.getRegistroPaseService().addPictureToRegistroPase(image, paseSeleccionado.getIdReg());
                 } catch (SQLException e) {
@@ -151,7 +221,7 @@ public class AddPicturePendingToPass {
         };
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(AddPicturePendingToPass.class.getResource("../../../views/dialogs/DialogLoading.fxml"));
+            loader.setLocation(DialogLoadingUrl.class.getResource("DialogLoading.fxml"));
             StackPane panel = loader.load();
             dialogUploading = new Stage();
             dialogUploading.setScene(new Scene(panel));
@@ -181,7 +251,8 @@ public class AddPicturePendingToPass {
         this.labelNombre.setText(this.paseSeleccionado != null ? this.paseSeleccionado.getNombre() : "(No hay datos seleccionados)");
         this.labelNumeroPase.setText(this.paseSeleccionado != null ? this.paseSeleccionado.getNumeroPase() : "(No hay datos seleccionados)");
         this.labelTipoPase.setText(this.paseSeleccionado != null ? this.paseSeleccionado.getTipoPase().getTipoPase() : "(No hay datos seleccionados)");
-        this.profilePhoto.setImage(new Image("@../../icons/no-img.jpg"));
+        this.profilePhoto.setImage(new Image(ImageLocation.class.getResource("no-img.jpg").toString()));
+        this.textName.setText("");
     }
 
     private void uploadPhoto() {
@@ -200,15 +271,14 @@ public class AddPicturePendingToPass {
     }
 
     private void setValuesOnToLabels(String value) {
-        if(value != null){
+        if (value != null) {
             this.paseSeleccionado = ServiceLocator.getRegistroPaseService().getPaseByPassName(value);
             this.labelCarneIdentidad.setText(this.paseSeleccionado != null ? this.paseSeleccionado.getNumeroIdentidad() : "(No hay datos)");
             this.labelCategoriaPase.setText(this.paseSeleccionado != null ? this.paseSeleccionado.getCodigoPase().getCodigo() : "(No hay datos)");
             this.labelNombre.setText(this.paseSeleccionado != null ? this.paseSeleccionado.getNombre() : "(No hay datos)");
             this.labelNumeroPase.setText(this.paseSeleccionado != null ? this.paseSeleccionado.getNumeroPase() : "(No hay datos)");
             this.labelTipoPase.setText(this.paseSeleccionado != null ? this.paseSeleccionado.getTipoPase().getTipoPase() : "(No hay datos)");
-        }
-        else{
+        } else {
             this.labelCarneIdentidad.setText("(No hay datos)");
             this.labelCategoriaPase.setText("(No hay datos)");
             this.labelNombre.setText("(No hay datos)");

@@ -9,10 +9,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-import models.Afectaciones;
-import models.HechosPorMunicipio;
-import models.MunicipioServiciosAfectados;
-import models.ResumenModels;
+import models.*;
 
 import java.awt.*;
 import java.io.File;
@@ -144,6 +141,32 @@ public class Util {
         value = "'" + nameHoja + "'" + "!$" + letraInicial + "$" + numeroInicial + ":$" + letraFinal + "$" + numeroFinal;
 
         return value;
+    }
+
+    public static LinkedList<HurtosRobosPrevUorg> cleaningAndFormatingList(LinkedList<HurtosRobosPrevUorg> list) {
+        LinkedList<HurtosRobosPrevUorg> listaProcesada = new LinkedList<>();
+        HurtosRobosPrevUorg dvlh = new HurtosRobosPrevUorg();
+        dvlh.setUorg("DVLH");
+
+        for (HurtosRobosPrevUorg hecho : list) {
+            if (hecho.getCantPrevenidos() < 1 && hecho.getCantRobos() < 1 && hecho.getCantHurtos() < 1) {
+                System.out.println("Empty this U/O: " + hecho.getUorg());
+            } else if (hecho.getUorg().equalsIgnoreCase("DTNO")
+                    || hecho.getUorg().equalsIgnoreCase("DTES")
+                    || hecho.getUorg().equalsIgnoreCase("DTOE")
+                    || hecho.getUorg().equalsIgnoreCase("DTSR")
+                    || hecho.getUorg().equalsIgnoreCase("DVLH")
+            ) {
+                dvlh.setCantHurtos(dvlh.getCantHurtos() + hecho.getCantHurtos());
+                dvlh.setCantRobos(dvlh.getCantRobos() + hecho.getCantRobos());
+                dvlh.setCantPrevenidos(dvlh.getCantPrevenidos() + hecho.getCantPrevenidos());
+            } else {
+                listaProcesada.add(hecho);
+            }
+        }
+
+        listaProcesada.addFirst(dvlh);
+        return listaProcesada;
     }
 
     //Hacer funcion para recuperar los datos de manera tocada

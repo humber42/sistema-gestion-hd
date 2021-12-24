@@ -136,7 +136,7 @@ public class DataBaseManagementController {
         Process proceso;
         ProcessBuilder constructor;
 
-        //TODO: Esto hacerlo con el Directory Chooser
+
         String path = Util.selectPathToSaveDatabase(this.dialogStage);
 
         if (path != null) {
