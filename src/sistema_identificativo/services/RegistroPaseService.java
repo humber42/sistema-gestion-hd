@@ -11,6 +11,8 @@ public interface RegistroPaseService {
 
     List<String> getAllPendingPhotosByContainName(String name);
 
+    List<String> getAllWithPhotosByContainName(String name);
+
     RegistroPase getRegistroPaseById(int id);
 
     String ultimoRegisroPase(String tipoPase, String codigoPase);
@@ -26,6 +28,8 @@ public interface RegistroPaseService {
     void deleteRegistroPase(int id) throws SQLException;
 
     List<String> pasesPendientesFoto();
+
+    List<String> pasesConFoto();
 
     RegistroPase getPaseByPassName(String passName);
 

@@ -1,6 +1,7 @@
 package sistema_identificativo.views.dialogs;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
 import icons.ImageLocation;
 import javafx.concurrent.Task;
@@ -8,10 +9,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.SelectionMode;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.DragEvent;
@@ -57,6 +55,12 @@ public class AddPicturePendingToPass {
     private ListView<String> listaPases;
     @FXML
     private ImageView profilePhoto;
+    @FXML
+    private JFXRadioButton changePhoto;
+    @FXML
+    private JFXRadioButton addPhotoRadioBtn;
+    @FXML
+    private TitledPane panePases;
 
     @FXML
     private JFXButton annadir;
@@ -70,12 +74,53 @@ public class AddPicturePendingToPass {
     private RegistroPase paseSeleccionado;
     private Stage dialogUploading;
 
+    private boolean changePicture;
+
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
     }
 
     @FXML
     private void initialize() {
+        this.changePhoto.setSelected(false);
+        this.addPhotoRadioBtn.setSelected(true);
+        this.addPhotoRadioBtn.setOnMouseClicked(event -> {
+            if (this.addPhotoRadioBtn.isSelected()) {
+                this.textName.setText(null);
+                this.changePhoto.setSelected(false);
+                this.panePases.setText("Pases pendientes de foto");
+                this.annadir.setDisable(true);
+                this.guardar.setDisable(true);
+                this.listaPases.getItems().clear();
+                this.listaPases.getItems().addAll(
+                        ServiceLocator.getRegistroPaseService().pasesPendientesFoto()
+                );
+                this.profilePhoto.setImage(new Image(ImageLocation.class.getResource("no-img.jpg").toString()));
+                System.out.println("sin foto " + listaPases.getItems().size());
+                this.changePicture = false;
+            } else {
+                this.addPhotoRadioBtn.setSelected(true);
+            }
+        });
+        this.changePhoto.setOnMouseClicked(event -> {
+            if (this.changePhoto.isSelected()) {
+                this.textName.setText(null);
+                this.addPhotoRadioBtn.setSelected(false);
+                this.annadir.setDisable(true);
+                this.guardar.setDisable(true);
+                this.panePases.setText("Pases con foto");
+                this.listaPases.getItems().clear();
+                this.listaPases.getItems().addAll(
+                        ServiceLocator.getRegistroPaseService().pasesConFoto()
+                );
+                this.profilePhoto.setImage(new Image(ImageLocation.class.getResource("no-img.jpg").toString()));
+                System.out.println("con foto " + listaPases.getItems().size());
+                this.changePicture = true;
+            } else {
+                this.changePhoto.setSelected(true);
+            }
+        });
+
         this.textName.setOnKeyTyped(event -> {
             Util.eventToSetUpperCaseToFirstNameAndLastName(event, this.textName);
             this.applySearch();
@@ -95,7 +140,10 @@ public class AddPicturePendingToPass {
         this.listaPases.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> {
                     this.setValuesOnToLabels(newValue);
-                    this.annadir.setDisable(false);
+                    if (this.changePicture)
+                        this.annadir.setDisable(true);
+                    else
+                        this.annadir.setDisable(false);
                     if (!this.profilePhoto.getImage().getUrl().contains("no-img.jpg")) {
                         this.guardar.setDisable(false);
                     }
@@ -141,7 +189,6 @@ public class AddPicturePendingToPass {
 
             javafx.scene.image.Image image = new Image("file:" + file.getAbsolutePath());
             addImage(image);
-
         }
         e.setDropCompleted(success);
         e.consume();
@@ -163,11 +210,19 @@ public class AddPicturePendingToPass {
 
     private void applySearch() {
         this.listaPases.getItems().clear();
-        this.listaPases.getItems().addAll(
-                this.textName.getText().isEmpty() ?
-                        ServiceLocator.getRegistroPaseService().pasesPendientesFoto() :
-                        ServiceLocator.getRegistroPaseService().getAllPendingPhotosByContainName(this.textName.getText())
-        );
+        if (this.changePicture) {
+            this.listaPases.getItems().addAll(
+                    this.textName.getText().isEmpty() ?
+                            ServiceLocator.getRegistroPaseService().pasesConFoto() :
+                            ServiceLocator.getRegistroPaseService().getAllWithPhotosByContainName(this.textName.getText())
+            );
+        } else {
+            this.listaPases.getItems().addAll(
+                    this.textName.getText().isEmpty() ?
+                            ServiceLocator.getRegistroPaseService().pasesPendientesFoto() :
+                            ServiceLocator.getRegistroPaseService().getAllPendingPhotosByContainName(this.textName.getText())
+            );
+        }
     }
 
     @FXML
@@ -278,6 +333,12 @@ public class AddPicturePendingToPass {
             this.labelNombre.setText(this.paseSeleccionado != null ? this.paseSeleccionado.getNombre() : "(No hay datos)");
             this.labelNumeroPase.setText(this.paseSeleccionado != null ? this.paseSeleccionado.getNumeroPase() : "(No hay datos)");
             this.labelTipoPase.setText(this.paseSeleccionado != null ? this.paseSeleccionado.getTipoPase().getTipoPase() : "(No hay datos)");
+            if (this.changePicture) {
+                String URL_IMAGE_PASE = ConfigProperties.getProperties().getProperty("URL_DOWNLOAD_IMAGE") + paseSeleccionado.getImageUrl();
+                System.out.println(URL_IMAGE_PASE);
+                this.profilePhoto.setImage(new Image(URL_IMAGE_PASE));
+            } else
+                this.profilePhoto.setImage(new Image(ImageLocation.class.getResource("no-img.jpg").toString()));
         } else {
             this.labelCarneIdentidad.setText("(No hay datos)");
             this.labelCategoriaPase.setText("(No hay datos)");

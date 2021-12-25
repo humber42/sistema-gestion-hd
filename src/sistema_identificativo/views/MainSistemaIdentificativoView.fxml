@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.chart.PieChart?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.input.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.input.KeyCodeCombination?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
+
 <BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sistema_identificativo.views.MainSistemaIdentificativoController">
     <center>
         <AnchorPane minHeight="583.0" prefWidth="934.0">
@@ -19,7 +25,7 @@
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
                         <PieChart fx:id="pieChartRegistrados" prefHeight="363.0" prefWidth="412.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                         <Label fx:id="lblRegistrados" layoutX="193.0" layoutY="163.0"/>
+                         <Label fx:id="lblRegistrados" layoutX="193.0" layoutY="163.0" />
                      </children>
                   </AnchorPane>
                </content>
@@ -29,7 +35,7 @@
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
                         <PieChart fx:id="pieChartImpresos" layoutX="-39.0" layoutY="-47.0" prefHeight="343.0" prefWidth="373.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                         <Label fx:id="lblImpresos" layoutX="193.0" layoutY="163.0"/>
+                         <Label fx:id="lblImpresos" layoutX="193.0" layoutY="163.0" />
                      </children>
                   </AnchorPane>
                </content>
@@ -57,7 +63,7 @@
                      <accelerator>
                         <KeyCodeCombination alt="DOWN" code="I" control="UP" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
-                        <MenuItem fx:id="mnFotoPasePending" mnemonicParsing="false" onAction="#addPicturesToPassPendents" text="Añadir foto a pase pendiente">
+                        <MenuItem fx:id="mnFotoPasePending" mnemonicParsing="false" onAction="#addPicturesToPassPendents" text="Añadir o cambiar foto a pases">
                      <accelerator>
                         <KeyCodeCombination alt="DOWN" code="A" control="UP" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>

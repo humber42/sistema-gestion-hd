@@ -110,10 +110,31 @@ public class RegistroPaseServiceImpl implements RegistroPaseService {
     public List<String> getAllPendingPhotosByContainName(String name) {
         List<String> nombres = new LinkedList<>();
         try{
-            String query = "SELECT nombre FROM registro_pases " +
+            String query = "SELECT DISTINCT nombre FROM registro_pases " +
                     "WHERE baja = 0 AND nombre LIKE '%" + name + "%' " +
                     "AND registro_pases.image_url='' OR registro_pases.image_url IS NULL OR " +
-                    "registro_pases.image_url='no-img.jpg'";
+                    "registro_pases.image_url='no-img.jpg' " +
+                    "order by nombre";
+            ResultSet rs = Util.executeQuery(query);
+            while (rs.next()) {
+                nombres.add(rs.getString(1));
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return nombres;
+    }
+
+    @Override
+    public List<String> getAllWithPhotosByContainName(String name) {
+        List<String> nombres = new LinkedList<>();
+        try{
+            String query = "SELECT DISTINCT nombre FROM registro_pases " +
+                    "WHERE nombre LIKE '%" + name + "%' " +
+                    "AND baja = 0 " +
+                    "AND registro_pases.image_url IS NOT NULL " +
+                    "order by nombre";
             ResultSet rs = Util.executeQuery(query);
             while (rs.next()) {
                 nombres.add(rs.getString(1));
@@ -164,8 +185,27 @@ public class RegistroPaseServiceImpl implements RegistroPaseService {
     public List<String> pasesPendientesFoto() {
         List<String> pasesName = new LinkedList<>();
         try {
-            String query = "Select nombre from registro_pases " +
-                    "where baja = 0 and registro_pases.image_url='' or registro_pases.image_url is null or registro_pases.image_url='no-img.jpg'";
+            String query = "Select DISTINCT nombre from registro_pases " +
+                    "where baja = 0 and registro_pases.image_url='' or registro_pases.image_url is null or registro_pases.image_url='no-img.jpg' " +
+                    "order by nombre";
+            ResultSet resultSet = Util.executeQuery(query);
+            while (resultSet.next()) {
+                pasesName.add(resultSet.getString(1));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return pasesName;
+    }
+
+    @Override
+    public List<String> pasesConFoto() {
+        List<String> pasesName = new LinkedList<>();
+        try {
+            String query = "Select DISTINCT nombre from registro_pases " +
+                    "where baja = 0 and registro_pases.image_url is not null " +
+                    "order by nombre";
             ResultSet resultSet = Util.executeQuery(query);
             while (resultSet.next()) {
                 pasesName.add(resultSet.getString(1));

@@ -119,7 +119,7 @@ public class MainSistemaIdentificativoController {
             loader.setLocation(MainSistemaIdentificativoController.class.getResource("dialogs/AddPicturePendingToPass.fxml"));
             AnchorPane pane = loader.load();
             Stage dialogStage = new Stage();
-            dialogStage.setTitle("Añadir foto a pases pendientes");
+            dialogStage.setTitle("Añadir o cambiar foto a pases");
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.setResizable(false);
             dialogStage.initOwner(this.mainApp);
