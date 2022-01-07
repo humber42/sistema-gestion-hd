@@ -335,8 +335,14 @@ public class AddPicturePendingToPass {
             this.labelTipoPase.setText(this.paseSeleccionado != null ? this.paseSeleccionado.getTipoPase().getTipoPase() : "(No hay datos)");
             if (this.changePicture) {
                 String URL_IMAGE_PASE = ConfigProperties.getProperties().getProperty("URL_DOWNLOAD_IMAGE") + paseSeleccionado.getImageUrl();
-                System.out.println(URL_IMAGE_PASE);
                 this.profilePhoto.setImage(new Image(URL_IMAGE_PASE));
+                if (URL_IMAGE_PASE.contains(".jpg") || URL_IMAGE_PASE.contains(".png")) {
+                    if (this.profilePhoto.getImage().getException() != null) {
+                        Util.dialogResult("Error al cargar la imagen, no se pudo conectar con el servidor", Alert.AlertType.ERROR);
+                        this.profilePhoto.setImage(new Image(ImageLocation.class.getResource("no-img.jpg").toString()));
+                    }
+                } else
+                    this.profilePhoto.setImage(new Image(ImageLocation.class.getResource("no-img.jpg").toString()));
             } else
                 this.profilePhoto.setImage(new Image(ImageLocation.class.getResource("no-img.jpg").toString()));
         } else {

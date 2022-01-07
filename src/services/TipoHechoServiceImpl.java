@@ -12,6 +12,24 @@ import java.util.List;
 
 public class TipoHechoServiceImpl implements TipoHechoService {
 
+    public TipoHecho getTipoHechoOfHechoByIdReg(int idReg) {
+        String query = "Select id_tipo_hecho from hechos where id_reg=" + idReg;
+        try {
+            ResultSet rs = Util.executeQuery(query);
+            int idTipoHecho = 0;
+            if (rs.next()) {
+                idTipoHecho = rs.getInt(1);
+                return this.getOneTipoHecho(idTipoHecho);
+            } else {
+                return new TipoHecho();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
     public TipoHecho getOneTipoHecho(int id) {
         TipoHecho tipoHecho = new TipoHecho();
         String query = "SELECT * FROM tipo_hechos WHERE id_tipo_hecho=" + Integer.toString(id);

@@ -3,20 +3,9 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXToggleButton?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.TitledPane?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-
 <BorderPane xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.BuscarViewController">
    <center>
         <AnchorPane prefHeight="523.0" prefWidth="631.0" BorderPane.alignment="CENTER">
@@ -29,8 +18,9 @@
                 <TableView fx:id="tabla" layoutY="134.0" prefHeight="390.0" prefWidth="631.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                     <columns>
                         <TableColumn fx:id="unidadOrgColumn" maxWidth="2500.0" prefWidth="70.0" text="U/O" />
-                        <TableColumn fx:id="fechaHechoColumn" maxWidth="3500.0" prefWidth="205.0" text="Fecha Ocurrencia" />
                         <TableColumn fx:id="codCDNTColumn" maxWidth="4000.0" prefWidth="132.0" text="Cod CDNT" />
+                        <TableColumn fx:id="fechaHechoColumn" maxWidth="3500.0" prefWidth="205.0"
+                                     text="Fecha Ocurrencia"/>
                         <TableColumn fx:id="tituloHechoColumn" prefWidth="145.0" text="Descripción" />
                     </columns>
                     <columnResizePolicy>

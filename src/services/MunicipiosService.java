@@ -12,6 +12,21 @@ import java.util.List;
 
 public class MunicipiosService {
 
+    public Municipio getByIdReg(int idReg) {
+        String query = "Select id_municipio from hechos WHERE id_reg=" + idReg;
+        try {
+            var rs = Util.executeQuery(query);
+            int idMunicipio = 0;
+            if (rs.next()) {
+                idMunicipio = rs.getInt(1);
+            }
+            return this.getOne(idMunicipio);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public Municipio getOne(int id) {
         Municipio municipio = new Municipio();
         String query = "SELECT * FROM municipios WHERE id_municipio=" + Integer.toString(id);

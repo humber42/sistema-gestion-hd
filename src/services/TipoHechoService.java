@@ -11,6 +11,8 @@ public interface TipoHechoService {
 
     List<TipoHecho> fetchAll();
 
+    TipoHecho getTipoHechoOfHechoByIdReg(int idReg);
+
     TipoHecho searchTipoHechoByName(String name);
 
 }

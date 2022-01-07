@@ -13,6 +13,7 @@ public class GeneradorLocator {
     private static GenerarHechosPendientes generarHechosPendientes = null;
     private static GenerarPrevencion generarPrevencion = null;
     private static GenerarListados generarListados = null;
+    private static ExportarExcel exportarExcel = null;
 
 
     public static GenerateInformeFiscalia getGenerateInformeFiscalia() {
@@ -76,6 +77,13 @@ public class GeneradorLocator {
             generarListados = new GenerarListadosImpl();
         }
         return generarListados;
+    }
+
+    public static ExportarExcel getExportarExcel() {
+        if (exportarExcel == null) {
+            exportarExcel = new ExportarExcel();
+        }
+        return exportarExcel;
     }
 
 }

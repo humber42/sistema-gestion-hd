@@ -1,5 +1,6 @@
 package views;
 
+import informes_generate.GeneradorLocator;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -26,6 +27,8 @@ import views.dialogs.DialogLoadingController;
 import views.dialogs.DialogLoadingUrl;
 import views.dialogs.InformacionHechoViewController;
 
+import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -282,4 +285,75 @@ public class BuscarHechosViewController {
                 )
         );
     }
+
+    @FXML
+    private void exportData() {
+
+
+        if (tabla.getItems().isEmpty()) {
+            Util.dialogResult("No hay datos para exportar", Alert.AlertType.INFORMATION);
+        } else {
+            String urlFile = Util.selectPathToSaveDatabase(this.mainApp);
+            this.loadDialogLoading(this.mainApp);
+            Task<Boolean> task = new Task<Boolean>() {
+                String url = "";
+
+                @Override
+                protected Boolean call() throws Exception {
+                    if (tabla.getItems().isEmpty()) {
+                        Util.dialogResult("No hay datos para exportar", Alert.AlertType.INFORMATION);
+                    } else {
+                        var hechos = tabla.getItems().stream().map(this::parseHechos).collect(Collectors.toList());
+                        try {
+                            url = GeneradorLocator.getExportarExcel().generarExcel(urlFile, hechos);
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            Util.dialogResult("Error al generar", Alert.AlertType.ERROR);
+                        }
+                    }
+                    return null;
+                }
+
+                private HechosRegistrados parseHechos(HechosBusqueda hechosBusqueda) {
+                    String unidadOrg = ServiceLocator.getUnidadOrganizativaService()
+                            .getOneUnidadOrganizativa(
+                                    hechosBusqueda.getIdUnidadOrganizativa()).getUnidad_organizativa();
+                    String tipoHecho = ServiceLocator.getTipoHechoService().getTipoHechoOfHechoByIdReg(hechosBusqueda.getIdReg()).getTipo_hecho();
+                    String titulo = "";
+                    String municipio = ServiceLocator.getMunicipiosService().getByIdReg(hechosBusqueda.getIdReg()).getMunicipio();
+                    try {
+                        var rs = Util.executeQuery("Select titulo From hechos where id_reg=" + hechosBusqueda.getIdReg());
+                        if (rs.next()) {
+                            titulo = rs.getString(1);
+                        }
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+
+
+                    return new HechosRegistrados(hechosBusqueda.getIdReg(),
+                            hechosBusqueda.getCodCDNT(), unidadOrg, tipoHecho, hechosBusqueda.getFechaOcurrencia(), titulo, municipio);
+
+                }
+
+                @Override
+                protected void succeeded() {
+                    super.succeeded();
+                    dialogStage.close();
+                    try {
+                        Desktop.getDesktop().open(new File(url));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+            Thread th = new Thread(task);
+            th.setDaemon(true);
+            th.start();
+        }
+
+    }
+
+
 }

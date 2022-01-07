@@ -2,7 +2,6 @@ package posiciones_agentes.excels_generators.impl;
 
 import com.gembox.spreadsheet.*;
 import javafx.scene.control.Alert;
-import org.apache.poi.hssf.record.formula.functions.Len;
 import posiciones_agentes.excels_generators.ResumenGeneralGenerator;
 import posiciones_agentes.models.ProveedorGasto;
 import posiciones_agentes.models.RegistroPosicionesAgentes;
@@ -12,7 +11,6 @@ import posiciones_agentes.utils.CalculoTarifas;
 import services.ServiceLocator;
 import util.Util;
 
-import java.awt.*;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
