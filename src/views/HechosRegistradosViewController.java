@@ -718,7 +718,6 @@ public class HechosRegistradosViewController {
             String urlFile = Util.selectPathToSaveDatabase(this.stage);
             Task<Boolean> task = new Task<Boolean>() {
                 String url = "";
-
                 @Override
                 protected Boolean call() throws Exception {
 
@@ -755,11 +754,13 @@ public class HechosRegistradosViewController {
                     }
                 }
             };
-            this.loadDialogLoading(this.stage);
-            Thread th = new Thread(task);
-            th.setDaemon(true);
-            th.start();
 
+            if (urlFile != null) {
+                this.loadDialogLoading(this.stage);
+                Thread th = new Thread(task);
+                th.setDaemon(true);
+                th.start();
+            }
 
         }
     }

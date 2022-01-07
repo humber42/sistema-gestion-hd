@@ -294,7 +294,7 @@ public class BuscarHechosViewController {
             Util.dialogResult("No hay datos para exportar", Alert.AlertType.INFORMATION);
         } else {
             String urlFile = Util.selectPathToSaveDatabase(this.mainApp);
-            this.loadDialogLoading(this.mainApp);
+
             Task<Boolean> task = new Task<Boolean>() {
                 String url = "";
 
@@ -348,9 +348,12 @@ public class BuscarHechosViewController {
                     }
                 }
             };
-            Thread th = new Thread(task);
-            th.setDaemon(true);
-            th.start();
+            if (urlFile != null) {
+                this.loadDialogLoading(this.mainApp);
+                Thread th = new Thread(task);
+                th.setDaemon(true);
+                th.start();
+            }
         }
 
     }
