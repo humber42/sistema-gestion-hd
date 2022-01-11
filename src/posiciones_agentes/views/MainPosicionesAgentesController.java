@@ -80,17 +80,17 @@ public class MainPosicionesAgentesController {
     private void cargarRegister(){
         try{
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainPosicionesAgentesController.class.getResource("RegistrarPosicionesAgentes.fxml"));
+            loader.setLocation(MainPosicionesAgentesController.class.getResource("GestionPosicionesAgentesView.fxml"));
             AnchorPane pane = loader.load();
             Stage dialogStage = new Stage();
-            dialogStage.setTitle("Registrar Posiciones Agentes");
+            dialogStage.setTitle("Gestionar Posiciones Agentes");
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.setResizable(false);
             dialogStage.initOwner(this.mainApp);
             Scene scene = new Scene(pane);
             dialogStage.setScene(scene);
 
-            RegistrarPosicionesAgentesController controller = loader.getController();
+            GestionPosicionesAgentesController controller = loader.getController();
             controller.setDialogStage(dialogStage);
             dialogStage.showAndWait();
         }catch (IOException e){

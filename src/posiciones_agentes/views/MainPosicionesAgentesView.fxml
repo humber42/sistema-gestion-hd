@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+
 <?import javafx.scene.control.*?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+
 <?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -37,7 +44,7 @@
             <menus>
                 <Menu fx:id="menuArchivo" mnemonicParsing="false" text="Archivo">
                     <items>
-                        <MenuItem mnemonicParsing="false" onAction="#cargarRegister" text="Registrar posición de agente">
+                        <MenuItem mnemonicParsing="false" onAction="#cargarRegister" text="Gestionar posiciones de agentes">
                      <accelerator>
                         <KeyCodeCombination alt="DOWN" code="R" control="UP" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>

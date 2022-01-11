@@ -74,11 +74,11 @@ public class TelefoniaPublicaViewController {
     private void initialize() {
         this.logged = LoginViewController.getUserLoggedIn();
 
-        if(logged.isSuperuser()){
+        if (logged.isSuperuser()) {
             this.btnEdit.setVisible(true);
             this.btnDelete.setVisible(true);
             this.btnNew.setVisible(true);
-        } else if(logged.hasPermiso_pases() || logged.hasPermiso_visualizacion()){
+        } else if (logged.hasPermiso_pases() || logged.hasPermiso_visualizacion()) {
             this.btnEdit.setVisible(false);
             this.btnDelete.setVisible(false);
             this.btnNew.setVisible(false);
@@ -139,6 +139,7 @@ public class TelefoniaPublicaViewController {
     }
 
     private void modifyTable(boolean all) {
+        this.disableBtns();
         if (!all) {
             this.uoColumn.setVisible(false);
             this.municipioColumn.setPrefWidth(171);
@@ -229,9 +230,11 @@ public class TelefoniaPublicaViewController {
 
             RegistrarEstacionTelefoniaViewController controller = loader.getController();
 
-            hechoStage.setOnCloseRequest(p->{
+            hechoStage.setOnCloseRequest(p -> {
                         this.initializeTableTelefonia(
                                 ServiceLocator.getEstacionPublicaCentroAgenteService().getAll(), true);
+                        this.cboxUORG.getSelectionModel().select("<<Todos>>");
+                        this.modifyTable(true);
                     }
             );
 
@@ -244,12 +247,12 @@ public class TelefoniaPublicaViewController {
     }
 
     @FXML
-    private void handleLoadDataFromExcelFile(){
+    private void handleLoadDataFromExcelFile() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("All Files","*.*"),
+                new FileChooser.ExtensionFilter("All Files", "*.*"),
                 new FileChooser.ExtensionFilter("Excel Files 2007 And High", "*.xlsx"),
-                new FileChooser.ExtensionFilter("Excel Files 97-2003","*.xls")
+                new FileChooser.ExtensionFilter("Excel Files 97-2003", "*.xls")
 
         );
 
@@ -323,9 +326,11 @@ public class TelefoniaPublicaViewController {
 
             RegistrarEstacionTelefoniaViewController controller = loader.getController();
 
-            hechoStage.setOnCloseRequest(p->{
+            hechoStage.setOnCloseRequest(p -> {
                         this.initializeTableTelefonia(
                                 ServiceLocator.getEstacionPublicaCentroAgenteService().getAll(), true);
+                        this.cboxUORG.getSelectionModel().select("<<Todos>>");
+                        this.modifyTable(true);
                     }
             );
 
@@ -342,13 +347,13 @@ public class TelefoniaPublicaViewController {
 
     @FXML
     private void handleDelete() {
-        if(estacionSelected !=null){
+        if (estacionSelected != null) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
                     "¿Está seguro que desea eliminar el elemento seleccionado?",
-                                ButtonType.OK, ButtonType.CANCEL);
+                    ButtonType.OK, ButtonType.CANCEL);
             alert.initOwner(this.dialogStage);
             alert.showAndWait();
-            if(alert.getResult() == ButtonType.OK){
+            if (alert.getResult() == ButtonType.OK) {
                 ServiceLocator.getEstacionPublicaCentroAgenteService().
                         deleteEstacionPublicaCentroAgente(estacionSelected.getIdReg());
                 Util.dialogResult("Eliminación exitosa.", Alert.AlertType.INFORMATION);
@@ -360,7 +365,7 @@ public class TelefoniaPublicaViewController {
         }
     }
 
-    public static EstacionPublicaCentroAgente getEstacionPublicaCentroAgenteSelected(){
+    public static EstacionPublicaCentroAgente getEstacionPublicaCentroAgenteSelected() {
         return estacionSelected;
     }
 
