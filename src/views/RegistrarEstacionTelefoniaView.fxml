@@ -36,7 +36,7 @@
       </GridPane>
       <JFXButton fx:id="btnRegister" buttonType="RAISED" layoutX="154.0" layoutY="266.0" onAction="#handleRegister" prefHeight="33.0" prefWidth="105.0" style="-fx-background-color: green;" text="Registrar" textFill="#fffafa" />
       <JFXButton buttonType="RAISED" layoutX="267.0" layoutY="266.0" onAction="#handleClose" prefHeight="33.0" prefWidth="105.0" style="-fx-background-color: red;" text="Cancelar" textFill="#fffafa" />
-      <Label alignment="CENTER" layoutX="37.0" layoutY="35.0" prefHeight="27.0" prefWidth="357.0" text="Registrar Telefonía Pública" textAlignment="CENTER">
+      <Label fx:id="lblTitle" alignment="CENTER" layoutX="37.0" layoutY="35.0" prefHeight="27.0" prefWidth="357.0" text="Registrar Telefonía Pública" textAlignment="CENTER">
          <font>
             <Font size="24.0" />
          </font>

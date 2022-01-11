@@ -22,6 +22,7 @@ import posiciones_agentes.excels_generators.ExcelGeneratorLocator;
 import posiciones_agentes.models.ProveedorGasto;
 import posiciones_agentes.utils.CalculoByOurg;
 import posiciones_agentes.views.dialogs.DialogGenerarResumenPorUOController;
+import posiciones_agentes.views.dialogs.DialogLoadFromExcelFileController;
 import seguridad.models.UserLoggedIn;
 import seguridad.views.LoginViewController;
 import util.Util;
@@ -79,17 +80,17 @@ public class MainPosicionesAgentesController {
     private void cargarRegister(){
         try{
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainPosicionesAgentesController.class.getResource("RegistrarPosicionesAgentes.fxml"));
+            loader.setLocation(MainPosicionesAgentesController.class.getResource("GestionPosicionesAgentesView.fxml"));
             AnchorPane pane = loader.load();
             Stage dialogStage = new Stage();
-            dialogStage.setTitle("Registrar Posiciones Agentes");
+            dialogStage.setTitle("Gestionar Posiciones Agentes");
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.setResizable(false);
             dialogStage.initOwner(this.mainApp);
             Scene scene = new Scene(pane);
             dialogStage.setScene(scene);
 
-            RegistrarPosicionesAgentesController controller = loader.getController();
+            GestionPosicionesAgentesController controller = loader.getController();
             controller.setDialogStage(dialogStage);
             dialogStage.showAndWait();
         }catch (IOException e){
@@ -241,7 +242,25 @@ public class MainPosicionesAgentesController {
         }
     }
 
-    private void loadBarChart(){
+    @FXML
+    private void loadFromExcel() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(DialogLoadFromExcelFileController.class.getResource("DialogLoadFromFile.fxml"));
+            AnchorPane panel = loader.load();
+            Stage dialogStage = new Stage();
+            dialogStage.setScene(new Scene(panel));
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(mainApp);
+            DialogLoadFromExcelFileController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            dialogStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadBarChart() {
         this.barChart.getData().clear();
         final CategoryAxis xAxis = (CategoryAxis) barChart.getXAxis();
         final NumberAxis yAxis = (NumberAxis) barChart.getYAxis();
@@ -251,7 +270,7 @@ public class MainPosicionesAgentesController {
 
         List<ProveedorGasto> proveedorGastoList = CalculoByOurg.calculoProveedorGasto();
 
-        if(!proveedorGastoList.isEmpty()) {
+        if (!proveedorGastoList.isEmpty()) {
             for (ProveedorGasto pg : proveedorGastoList) {
                 XYChart.Series<String, Number> series = new XYChart.Series<>();
                 series.setName(pg.getProveedor());

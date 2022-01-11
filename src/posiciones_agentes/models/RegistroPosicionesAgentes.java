@@ -8,23 +8,23 @@ import services.ServiceLocator;
  * @author Humberto Cabrera Dominguez
  */
 public class RegistroPosicionesAgentes {
-
     private int idReg;
     private String instalacion;
     private UnidadOrganizativa unidadOrganizativa;
     private ProveedorServicio proveedorServicio;
-    private int horasDiasNoLaborables;
     private int horasDiasLaborables;
+    private int horasDiasNoLaborables;
     private int cantidadEfectivos;
 
 
-    public RegistroPosicionesAgentes(int idReg, String instalacion, UnidadOrganizativa unidadOrganizativa, ProveedorServicio proveedorServicio, int horasDiasNoLaborables, int horasDiasLaborables, int cantidadEfectivos) {
+    public RegistroPosicionesAgentes(int idReg, String instalacion, UnidadOrganizativa unidadOrganizativa, ProveedorServicio proveedorServicio, int horasDiasLaborables, int horasDiasNoLaborables, int cantidadEfectivos) {
+
         this.idReg = idReg;
         this.instalacion = instalacion;
         this.unidadOrganizativa = unidadOrganizativa;
         this.proveedorServicio = proveedorServicio;
-        this.horasDiasNoLaborables = horasDiasNoLaborables;
         this.horasDiasLaborables = horasDiasLaborables;
+        this.horasDiasNoLaborables = horasDiasNoLaborables;
         this.cantidadEfectivos = cantidadEfectivos;
     }
 
@@ -36,7 +36,7 @@ public class RegistroPosicionesAgentes {
     }
 
     public void delete(){
-        ServiceLocator.getRegistroPosicionesAgentesService().eliminarRegisterPosicionesAgentes(this);
+        ServiceLocator.getRegistroPosicionesAgentesService().deletePosicionAgente(this.getIdReg());
     }
 
     public int getIdReg() {

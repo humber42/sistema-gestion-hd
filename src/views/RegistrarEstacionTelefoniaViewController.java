@@ -34,6 +34,8 @@ public class RegistrarEstacionTelefoniaViewController {
     private Label lblCentros;
     @FXML
     private Label lblEstaciones;
+    @FXML
+    private Label lblTitle;
 
     private Stage dialogStage;
 
@@ -53,6 +55,7 @@ public class RegistrarEstacionTelefoniaViewController {
 
     @FXML
     private void initialize() {
+        this.lblTitle.setText("Registrar Telefonía Pública");
         this.txtCentros.setOnKeyTyped(event ->
                 this.validarTXTsOnlyNumericValues(event, this.txtCentros, this.lblCentros));
 
@@ -84,6 +87,7 @@ public class RegistrarEstacionTelefoniaViewController {
             this.toUpdate = false;
 
         if (toUpdate) {
+            this.lblTitle.setText("Editar Telefonía Pública");
             this.btnRegister.setText("Editar");
             this.btnRegister.setStyle("-fx-background-color: orange");
             loadInfoEstacionToUpdate();

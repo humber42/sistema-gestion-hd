@@ -1,7 +1,6 @@
 package posiciones_agentes.models;
 
 public class UOrgPosiciones {
-
     private String uorg;
     private int cantPosiciones;
     private int sepsa;
