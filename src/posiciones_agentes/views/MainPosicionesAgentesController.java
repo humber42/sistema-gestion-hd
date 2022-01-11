@@ -251,6 +251,7 @@ public class MainPosicionesAgentesController {
             Stage dialogStage = new Stage();
             dialogStage.setScene(new Scene(panel));
             dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.setTitle("Cargar posiciones desde excel");
             dialogStage.initOwner(mainApp);
             DialogLoadFromExcelFileController controller = loader.getController();
             controller.setDialogStage(dialogStage);

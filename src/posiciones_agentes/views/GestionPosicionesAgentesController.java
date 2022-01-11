@@ -18,6 +18,7 @@ import org.controlsfx.control.textfield.TextFields;
 import org.controlsfx.dialog.ExceptionDialog;
 import posiciones_agentes.models.PosicionAgente;
 import posiciones_agentes.models.RegistroPosicionesAgentes;
+import posiciones_agentes.views.dialogs.DialogLoadFromExcelFileController;
 import services.ServiceLocator;
 import util.Util;
 import views.dialogs.DialogLoadingController;
@@ -326,6 +327,25 @@ public class GestionPosicionesAgentesController {
             controller.setLabelText("Procesando");
             //controller.setLabelText("Cargando");
             dialogLoading.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void loadPosicionesExcel() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(DialogLoadFromExcelFileController.class.getResource("DialogLoadFromFile.fxml"));
+            AnchorPane panel = loader.load();
+            Stage dialogStage = new Stage();
+            dialogStage.setScene(new Scene(panel));
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.setTitle("Cargar posiciones desde excel");
+            dialogStage.initOwner(this.dialogStage);
+            DialogLoadFromExcelFileController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            dialogStage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }

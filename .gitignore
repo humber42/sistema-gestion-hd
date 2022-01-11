@@ -4,6 +4,7 @@ target/
 mvnw
 mvnw.cmd
 !**/src/main/**
+
 !**/src/test/**
 
 ### STS ###
@@ -39,4 +40,5 @@ out/
 *.jasper
 *.mf
 *.properties
-
+*.dll
+*.exe

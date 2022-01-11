@@ -19,6 +19,7 @@ import views.dialogs.DialogLoadingController2;
 import views.dialogs.DialogLoadingUrl;
 
 import java.io.*;
+import java.nio.file.Paths;
 
 public class DataBaseManagementController {
 
@@ -142,10 +143,11 @@ public class DataBaseManagementController {
         if (path != null) {
             boolean hecho = false;
             try {
-                File pgDump = new File(ConfigProperties
-                        .getProperties().getProperty("PG_DUMP_ROUTE") + "\\pg_dump.exe");
-                String pgDumpPath = ConfigProperties
-                        .getProperties().getProperty("PG_DUMP_ROUTE") + "\\pg_dump.exe";
+                String pathMoment = System.getProperty("user.dir") + "/src" + "/addons" + "/pg_dump.exe";
+                File pgDump = new File(pathMoment);
+                String pgDumpPath = Paths.get(pathMoment).toAbsolutePath().normalize().toString();
+
+                System.out.println(pgDumpPath);
                 if (pgDump.exists()) {
                     if (!path.equalsIgnoreCase("")) {
                         constructor = new ProcessBuilder(pgDumpPath, "--verbose", "--format", formato, "-f", path + "\\" + database + ".backup");
@@ -161,6 +163,8 @@ public class DataBaseManagementController {
                     constructor.redirectErrorStream(true);
                     proceso = constructor.start();
                     this.escribirProceso(proceso, false);
+                } else {
+                    Util.dialogResult("No se encuentra el pg_dump.exe", Alert.AlertType.INFORMATION);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -188,9 +192,12 @@ public class DataBaseManagementController {
             String password = ConfigProperties.getProperties().getProperty("BD_PASSWORD");
             String database = ConfigProperties.getProperties().getProperty("BD_NAME");
             //String database = "test";
+
             try {
-                File pgRestore = new File(ConfigProperties.getProperties().getProperty("PG_DUMP_ROUTE") + "\\pg_restore.exe");
-                String pgRestorePath = ConfigProperties.getProperties().getProperty("PG_DUMP_ROUTE") + "\\pg_restore.exe";
+                String pathMoment = System.getProperty("user.dir") + "/src" + "/addons" + "/pg_restore.exe";
+                File pgRestore = new File(pathMoment);
+                String pgRestorePath = Paths.get(pathMoment).toAbsolutePath().normalize().toString();
+                System.out.println(pgRestorePath);
                 if (pgRestore.exists()) {
                     constructor = new ProcessBuilder(pgRestorePath, "--host", host
                             , "--port", port, "--username", user, "--dbname", database, "--verbose", path);
@@ -200,6 +207,8 @@ public class DataBaseManagementController {
                     proceso = constructor.start();
                     this.escribirProceso(proceso, true);
 
+                } else {
+                    Util.dialogResult("No se encuentra el archivo pg_restore.exe", Alert.AlertType.INFORMATION);
                 }
 
             } catch (Exception e) {
