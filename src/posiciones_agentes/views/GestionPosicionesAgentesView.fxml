@@ -2,16 +2,12 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
-
 <AnchorPane prefHeight="437.0" prefWidth="597.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="posiciones_agentes.views.GestionPosicionesAgentesController">
    <children>
       <TableView fx:id="tablePosAgentes" focusTraversable="false" layoutY="48.0" prefHeight="345.0" prefWidth="597.0">
@@ -48,14 +44,15 @@
       </JFXButton>
       <ComboBox fx:id="cboxUorg" editable="true" focusTraversable="false" layoutX="84.0" layoutY="14.0" prefHeight="25.0" prefWidth="170.0" promptText="Seleccione" />
       <Label layoutX="50.0" layoutY="18.0" text="U/O:" />
-      <JFXButton buttonType="RAISED" layoutX="415.0" layoutY="6.0" prefHeight="35.0" prefWidth="59.0" style="-fx-background-color: white;" textFill="#f8f6f6">
+      <JFXButton buttonType="RAISED" layoutX="415.0" layoutY="6.0" prefHeight="35.0" prefWidth="59.0"
+                 style="-fx-background-color: white;" textFill="#f8f6f6" onAction="#loadPosicionesExcel">
          <font>
-            <Font size="13.0" />
+            <Font size="13.0"/>
          </font>
          <graphic>
             <ImageView fitHeight="28.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../icons/icons8_Renew_96px.png" />
+                  <Image url="@../../icons/icons8_Renew_96px.png"/>
                </image>
             </ImageView>
          </graphic>
