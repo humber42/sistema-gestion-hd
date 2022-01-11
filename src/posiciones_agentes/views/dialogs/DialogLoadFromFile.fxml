@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXProgressBar?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="181.0" prefWidth="369.0"
+            xmlns="http://javafx.com/javafx/9.0.1"
+            fx:controller="posiciones_agentes.views.dialogs.DialogLoadFromExcelFileController">
+   <children>
+      <Label layoutX="58.0" layoutY="33.0" text="Seleccione la Unidad Organizativa">
+         <font>
+            <Font size="18.0"/>
+         </font>
+      </Label>
+      <Label layoutX="36.0" layoutY="91.0" text="Unidad Organizativa"/>
+      <ComboBox fx:id="stringComboBox" editable="true" layoutX="172.0" layoutY="87.0" prefHeight="25.0"
+                prefWidth="168.0"/>
+      <JFXButton layoutX="172.0" layoutY="142.0" onAction="#loadAndSaveData" prefHeight="25.0" prefWidth="89.0"
+                 style="-fx-background-color: green;" text="Cargar" textFill="WHITE"/>
+      <JFXButton layoutX="268.0" layoutY="142.0" onAction="#handleCancelar" prefHeight="25.0" prefWidth="82.0"
+                 style="-fx-background-color: red;" text="Cancelar" textFill="WHITE"/>
+      <JFXProgressBar fx:id="progressBar" layoutX="109.0" layoutY="127.0" visible="false"/>
+   </children>
+</AnchorPane>

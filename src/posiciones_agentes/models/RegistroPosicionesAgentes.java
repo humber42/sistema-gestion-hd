@@ -18,7 +18,8 @@ public class RegistroPosicionesAgentes {
     private int cantidadEfectivos;
 
 
-    public RegistroPosicionesAgentes(int idReg, String instalacion, UnidadOrganizativa unidadOrganizativa, ProveedorServicio proveedorServicio, int horasDiasNoLaborables, int horasDiasLaborables, int cantidadEfectivos) {
+    public RegistroPosicionesAgentes(int idReg, String instalacion, UnidadOrganizativa unidadOrganizativa,
+                                     ProveedorServicio proveedorServicio, int horasDiasNoLaborables, int horasDiasLaborables, int cantidadEfectivos) {
         this.idReg = idReg;
         this.instalacion = instalacion;
         this.unidadOrganizativa = unidadOrganizativa;
