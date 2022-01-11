@@ -3,6 +3,7 @@ package posiciones_agentes.excels_generators.impl;
 import com.gembox.spreadsheet.*;
 import javafx.scene.control.Alert;
 import posiciones_agentes.excels_generators.ResumenGeneralGenerator;
+import posiciones_agentes.models.PosicionAgente;
 import posiciones_agentes.models.ProveedorGasto;
 import posiciones_agentes.models.RegistroPosicionesAgentes;
 import posiciones_agentes.models.UOrgPosiciones;
@@ -35,7 +36,7 @@ public class ResumenGeneralGeneratorImpl implements ResumenGeneralGenerator {
 
     private boolean generarListado(ExcelFile workbook) {
         int hojas = 0;
-        List<RegistroPosicionesAgentes> posicionesAgentes = ServiceLocator.getRegistroPosicionesAgentesService().getAllRegistroPosicionesAgentes();
+        List<PosicionAgente> posicionesAgentes = ServiceLocator.getRegistroPosicionesAgentesService().getAll();
         int posOnAgents = 0;
         while (hojas < 5 && posOnAgents < posicionesAgentes.size()) {
             //Creo el encabezado
@@ -128,19 +129,19 @@ public class ResumenGeneralGeneratorImpl implements ResumenGeneralGenerator {
             cell.setMerged(true);
     }
 
-    private void writeCellOnListado(int tupla, ExcelWorksheet sheet, RegistroPosicionesAgentes posicionAgente) {
+    private void writeCellOnListado(int tupla, ExcelWorksheet sheet, PosicionAgente posicionAgente) {
         sheet.getCells().getSubrange("A" + tupla + ":H" + tupla).forEach(cell ->
             cell.setStyle(Util.generarBordes())
         );
 
         sheet.getCell("A" + tupla).setValue(tupla - 2);
-        sheet.getCell("B" + tupla).setValue(posicionAgente.getUnidadOrganizativa().getUnidad_organizativa());
+        sheet.getCell("B" + tupla).setValue(posicionAgente.getUnidadOrganizativa());
         sheet.getCell("C" + tupla).setValue(posicionAgente.getInstalacion());
         sheet.getCell("C" + tupla).getStyle().setHorizontalAlignment(HorizontalAlignmentStyle.JUSTIFY);
-        sheet.getCell("D" + tupla).setValue(posicionAgente.getProveedorServicio().getProveedorServicio());
-        sheet.getCell("E" + tupla).setValue(posicionAgente.getCantidadEfectivos());
-        sheet.getCell("F" + tupla).setValue(posicionAgente.getHorasDiasLaborables());
-        sheet.getCell("G" + tupla).setValue(posicionAgente.getHorasDiasNoLaborables());
+        sheet.getCell("D" + tupla).setValue(posicionAgente.getProveedor());
+        sheet.getCell("E" + tupla).setValue(posicionAgente.getCantEfectivos());
+        sheet.getCell("F" + tupla).setValue(posicionAgente.getHorasDL());
+        sheet.getCell("G" + tupla).setValue(posicionAgente.getHorasDNL());
         sheet.getCell("H" + tupla).setValue(CalculoTarifas.calculateByProviderOnAYear(posicionAgente, LocalDate.now().getYear()));
     }
 

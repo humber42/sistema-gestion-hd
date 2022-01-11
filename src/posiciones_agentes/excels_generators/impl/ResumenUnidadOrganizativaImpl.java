@@ -3,6 +3,7 @@ package posiciones_agentes.excels_generators.impl;
 import com.gembox.spreadsheet.*;
 import models.UnidadOrganizativa;
 import posiciones_agentes.excels_generators.ResumenUnidadOrganizativa;
+import posiciones_agentes.models.PosicionAgente;
 import posiciones_agentes.models.RegistroPosicionesAgentes;
 import posiciones_agentes.utils.CalculoTarifas;
 import services.ServiceLocator;
@@ -45,8 +46,8 @@ public class ResumenUnidadOrganizativaImpl implements ResumenUnidadOrganizativa 
         worksheet.getColumn("F").setWidth(100,LengthUnit.PIXEL);
         generarEncabezado("G1:G2", "Gasto Anual", worksheet);
 
-        List<RegistroPosicionesAgentes> posicionesList = ServiceLocator.getRegistroPosicionesAgentesService()
-                .getAllRegistrosByUOrg(unidadOrganizativa.getId_unidad_organizativa());
+        List<PosicionAgente> posicionesList = ServiceLocator.getRegistroPosicionesAgentesService()
+                .getAllByUorg(unidadOrganizativa.getId_unidad_organizativa());
 
         int size = posicionesList.size();
         int pages = size%150==1?2:1;
@@ -56,7 +57,7 @@ public class ResumenUnidadOrganizativaImpl implements ResumenUnidadOrganizativa 
         while (pages > 0&&posAgent<size){
             int row = 3;
             while (row < 150&&posAgent<size){
-                RegistroPosicionesAgentes rpa = posicionesList.get(posAgent);
+                PosicionAgente rpa = posicionesList.get(posAgent);
                 writeOnCell(row, worksheet, rpa);
                 posAgent++;
                 row++;
@@ -66,17 +67,17 @@ public class ResumenUnidadOrganizativaImpl implements ResumenUnidadOrganizativa 
         return true;
     }
 
-    private void writeOnCell(int record, ExcelWorksheet sheet, RegistroPosicionesAgentes rpa){
+    private void writeOnCell(int record, ExcelWorksheet sheet, PosicionAgente rpa){
         sheet.getCells().getSubrange("A"+record+":G"+record).forEach(cell->{
             cell.setStyle(Util.generarBordes());
         });
         sheet.getCell("A"+record).setValue(record-2);
         sheet.getCell("B"+record).setValue(rpa.getInstalacion());
         sheet.getCell("B"+record).getStyle().setHorizontalAlignment(HorizontalAlignmentStyle.JUSTIFY);
-        sheet.getCell("C"+record).setValue(rpa.getProveedorServicio().getProveedorServicio());
-        sheet.getCell("D"+record).setValue(rpa.getCantidadEfectivos());
-        sheet.getCell("E"+record).setValue(rpa.getHorasDiasLaborables());
-        sheet.getCell("F"+record).setValue(rpa.getHorasDiasNoLaborables());
+        sheet.getCell("C"+record).setValue(rpa.getProveedor());
+        sheet.getCell("D"+record).setValue(rpa.getCantEfectivos());
+        sheet.getCell("E"+record).setValue(rpa.getHorasDL());
+        sheet.getCell("F"+record).setValue(rpa.getHorasDNL());
         sheet.getCell("G"+record).setValue(CalculoTarifas.calculateByProviderOnAYear(rpa, LocalDate.now().getYear()));
     }
 
