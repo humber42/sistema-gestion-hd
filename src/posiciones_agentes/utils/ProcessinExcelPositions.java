@@ -39,7 +39,7 @@ public class ProcessinExcelPositions {
                         ProveedorServicio proveedorServicio = ServiceLocator.getProveedorServicioService().getByName(proveedorName);
                         data.add(new
                                 RegistroPosicionesAgentes(0, instalacion,
-                                unidadOrganizativa, proveedorServicio, cantHorasNoLab, cantHorasLab, cantEfectivos));
+                                unidadOrganizativa, proveedorServicio, cantHorasLab, cantHorasNoLab, cantEfectivos));
 
                         System.out.println(instalacion
                                 + "-" + proveedorName + "-" + cantEfectivos + "-" + cantHorasLab + "-" + cantHorasNoLab);
