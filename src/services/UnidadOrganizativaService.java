@@ -14,6 +14,11 @@ import java.util.List;
 
 public class UnidadOrganizativaService {
 
+    public int countAll() {
+        String query = "Select count(id_unidad_organizativa) From unidades_organizativas";
+        return Util.count(query);
+    }
+
     public UnidadOrganizativa getOneUnidadOrganizativa(int id) {
         UnidadOrganizativa unidadOrganizativa = new UnidadOrganizativa();
         String query = "SELECT * FROM unidades_organizativas WHERE id_unidad_organizativa=" + Integer.toString(id);

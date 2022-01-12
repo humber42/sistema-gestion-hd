@@ -40,7 +40,8 @@ public class DialogGenerarHechosPrevenidosController {
 
     @FXML
     private void handleGenerar() {
-        // GeneradorLocator.getGenerarHechosPrevenidos().generarHechosPrevenidos(annos.getSelectionModel().getSelectedItem());
+//        String path = Util.selectPathToSaveDatabase(this.dialogStage);
+//        GeneradorLocator.getGenerarHechosPrevenidos().generarHechosPrevenidos(annos.getSelectionModel().getSelectedItem(),path);
         if (annos.getSelectionModel().isEmpty()) {
             Util.dialogResult("Seleccione un año", Alert.AlertType.WARNING);
         } else {

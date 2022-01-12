@@ -67,24 +67,27 @@ public class GenerarHechosPrevenidosImpl implements GenerarHechosPrevenidos {
 
         );
 
-        for (int i = 3; i < 43; i++) {
+        int cant = ServiceLocator.getUnidadOrganizativaService().countAll();
+        System.out.println(cant);
+
+        for (int i = 3; i < cant - 1; i++) {
             sheet.getCell("J" + i).setFormula("=SUM(C" + i + ":I" + i + ")");
         }
 
-        sheet.getCells().getSubrange("A3:J42").forEach(cell -> cell.setStyle(generarBordes()));
+        sheet.getCells().getSubrange("A3:J" + (cant - 2)).forEach(cell -> cell.setStyle(generarBordes()));
 
-        sheet.getCell("A43").setValue("Total");
-        sheet.getCell("B43").setFormula("=SUM(B3:B42)");
-        sheet.getCell("C43").setFormula("=SUM(C3:C42)");
-        sheet.getCell("D43").setFormula("=SUM(D3:D42)");
-        sheet.getCell("E43").setFormula("=SUM(E3:E42)");
-        sheet.getCell("F43").setFormula("=SUM(F3:F42)");
-        sheet.getCell("G43").setFormula("=SUM(G3:G42)");
-        sheet.getCell("H43").setFormula("=SUM(H3:H42)");
-        sheet.getCell("I43").setFormula("=SUM(I3:I42)");
-        sheet.getCell("J43").setFormula("=SUM(J3:J42)");
+        sheet.getCell("A" + (cant - 1)).setValue("Total");
+        sheet.getCell("B" + (cant - 1)).setFormula("=SUM(B3:B" + (cant - 3) + ")");
+        sheet.getCell("C" + (cant - 1)).setFormula("=SUM(C3:C" + (cant - 3) + ")");
+        sheet.getCell("D" + (cant - 1)).setFormula("=SUM(D3:D" + (cant - 3) + ")");
+        sheet.getCell("E" + (cant - 1)).setFormula("=SUM(E3:E" + (cant - 3) + ")");
+        sheet.getCell("F" + (cant - 1)).setFormula("=SUM(F3:F" + (cant - 3) + ")");
+        sheet.getCell("G" + (cant - 1)).setFormula("=SUM(G3:G" + (cant - 3) + ")");
+        sheet.getCell("H" + (cant - 1)).setFormula("=SUM(H3:H" + (cant - 3) + ")");
+        sheet.getCell("I" + (cant - 1)).setFormula("=SUM(I3:I" + (cant - 3) + ")");
+        sheet.getCell("J" + (cant - 1)).setFormula("=SUM(J3:J" + (cant - 3) + ")");
 
-        sheet.getCells().getSubrange("A43:J43").forEach(cell -> cell.setStyle(generarStilo()));
+        sheet.getCells().getSubrange("A" + (cant - 1) + ":J" + (cant - 1)).forEach(cell -> cell.setStyle(generarStilo()));
 
         return escribirData(
                 sheet,
