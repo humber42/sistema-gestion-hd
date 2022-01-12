@@ -162,7 +162,7 @@ public class TipoMaterialViewController {
     public boolean showNewDialog(){
         try{
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(TipoMaterialViewController.class.getResource("../views/dialogs/TipoMaterialDialog.fxml"));
+            loader.setLocation(TipoMaterialDialogController.class.getResource("TipoMaterialDialog.fxml"));
             AnchorPane pane = loader.load();
             Stage stage = new Stage();
             stage.setTitle("Insertar Tipo de Material");

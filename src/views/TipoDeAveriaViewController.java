@@ -169,7 +169,7 @@ public class TipoDeAveriaViewController {
     public boolean showNewDialog(){
         try{
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(TipoDeAveriaViewController.class.getResource("../views/dialogs/TipoDeAveriaDialog.fxml"));
+            loader.setLocation(TipoDeAveriaDialogController.class.getResource("TipoDeAveriaDialog.fxml"));
             AnchorPane pane = loader.load();
             Stage stage = new Stage();
             stage.setTitle("Insertar Tipo de Averia");
