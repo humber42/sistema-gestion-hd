@@ -39,7 +39,7 @@ public class DialogGenerarInformeFiscaliaController {
         if (fechaCierre.getValue() == null) {
             Util.dialogResult("Seleccione una fecha de cierre.", Alert.AlertType.WARNING);
         } else {
-            String path = Util.selectPathToSaveReport(this.dialogStage, 0);
+            String path = Util.selectPathToSaveDatabase(this.dialogStage);
             if (path != null) {
                 progressBar.setVisible(true);
 //                GeneradorLocator.getGenerateInformeFiscalia().

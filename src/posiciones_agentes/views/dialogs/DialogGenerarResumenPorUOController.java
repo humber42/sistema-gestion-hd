@@ -6,7 +6,6 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.ProgressBar;
 import javafx.stage.Stage;
 import models.UnidadOrganizativa;
 import org.controlsfx.control.textfield.TextFields;
@@ -53,7 +52,7 @@ public class DialogGenerarResumenPorUOController {
         if (this.unidadOrganizativa.getSelectionModel().isEmpty()) {
             Util.dialogResult("Seleccione una unidad organizativa", Alert.AlertType.WARNING);
         } else {
-            String path = Util.selectPathToSaveReport(this.dialogStage, 0);
+            String path = Util.selectPathToSaveDatabase(this.dialogStage);
             if (path != null) {
                 try {
                     String unidadOrganizativa = this.unidadOrganizativa.getValue();

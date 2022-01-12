@@ -6,13 +6,10 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.ProgressBar;
 import javafx.stage.Stage;
 import util.Util;
 
 import java.sql.Date;
-
-import static util.Util.showDialog;
 
 public class DialogGenerarInformeCentroDirecion {
 
@@ -43,7 +40,7 @@ public class DialogGenerarInformeCentroDirecion {
         if (fechaCierre.getValue() == null) {
             Util.dialogResult("Seleccione una fecha de cierre.", Alert.AlertType.WARNING);
         } else {
-            String path = Util.selectPathToSaveReport(this.dialogStage, 0);
+            String path = Util.selectPathToSaveDatabase(this.dialogStage);
             if (path != null) {
                 //GeneradorLocator.getGenerarInformeCentroDireccion().generarInformeCentroDireccion(Date.valueOf(fechaCierre.getValue()));
                 progressBar.setVisible(true);

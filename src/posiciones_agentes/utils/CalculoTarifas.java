@@ -33,6 +33,7 @@ public class CalculoTarifas {
 
         if (posicionesAgentes.getProveedor().equalsIgnoreCase("SEPCOM")) {
             int pos = 0;
+            System.out.println(posicionesAgentes.getInstalacion());
             while (pos < Util.meses.length) {
                 int festiveDays = festiveDays(Util.festivosKeys[pos]);
                 int cantEfect = posicionesAgentes.getCantEfectivos();

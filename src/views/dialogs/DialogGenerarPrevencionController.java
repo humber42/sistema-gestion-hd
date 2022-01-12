@@ -192,7 +192,7 @@ public class DialogGenerarPrevencionController {
 
     @FXML
     private void handleGenerar() {
-        String path = Util.selectPathToSaveReport(this.dialogStage, 0);
+        String path = Util.selectPathToSaveDatabase(this.dialogStage);
         if(path != null) {
             LinkedList<Date> fechas = devolverFechas();
 //        GeneradorLocator.getGenerarPrevencion()

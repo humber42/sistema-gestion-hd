@@ -7,7 +7,6 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.ProgressBar;
 import javafx.stage.Stage;
 import models.Anno;
 import org.controlsfx.dialog.ExceptionDialog;
@@ -45,7 +44,7 @@ public class DialogGenerarHechosPrevenidosController {
         if (annos.getSelectionModel().isEmpty()) {
             Util.dialogResult("Seleccione un año", Alert.AlertType.WARNING);
         } else {
-            String path = Util.selectPathToSaveReport(this.dialogStage, 0);
+            String path = Util.selectPathToSaveDatabase(this.dialogStage);
             if (path != null) {
                 progressBar.setVisible(true);
                 Task<Boolean> task = new Task<Boolean>() {
