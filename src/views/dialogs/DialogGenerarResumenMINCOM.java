@@ -6,7 +6,6 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.ProgressBar;
 import javafx.stage.Stage;
 import models.Anno;
 import models.Hechos;
@@ -17,8 +16,6 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static util.Util.showDialog;
 
 public class DialogGenerarResumenMINCOM {
 
@@ -66,7 +63,7 @@ public class DialogGenerarResumenMINCOM {
             Util.dialogResult("Seleccione un mes.", Alert.AlertType.INFORMATION);
         }
         else {
-            String path = Util.selectPathToSaveReport(this.dialogStage, 0);
+            String path = Util.selectPathToSaveDatabase(this.dialogStage);
             if(path != null) {
                 try {
                     int anno = this.obtenerAnno();

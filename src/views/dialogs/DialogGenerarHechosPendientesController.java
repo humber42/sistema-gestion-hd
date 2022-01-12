@@ -6,7 +6,6 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.ProgressBar;
 import javafx.stage.Stage;
 import models.Anno;
 import models.Hechos;
@@ -17,8 +16,6 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Objects;
 import java.util.stream.Collectors;
-
-import static util.Util.showDialog;
 
 public class DialogGenerarHechosPendientesController {
 
@@ -42,14 +39,10 @@ public class DialogGenerarHechosPendientesController {
     @FXML
     private void handleGenerar() {
 
-//        LinkedList<Hechos> pendientes = ServiceLocator.getHechosService()
-//                .obtenerHechosDatosPendientes(annos.getSelectionModel().getSelectedItem());
-//        GeneradorLocator.getGenerarHechosPendientes().generarHechosPendientes(pendientes);
-
         if (annos.getSelectionModel().isEmpty()) {
             Util.dialogResult("Seleccione un año", Alert.AlertType.WARNING);
         } else {
-            String path = Util.selectPathToSaveReport(this.dialogStage, 0);
+            String path = Util.selectPathToSaveDatabase(this.dialogStage);
             if (path != null) {
                 try {
                     progressBar.setVisible(true);

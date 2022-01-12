@@ -7,7 +7,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.ProgressBar;
 import javafx.stage.Stage;
 import models.Anno;
 import models.Hechos;
@@ -128,7 +127,7 @@ public class DialogGenerarHechosUorgController {
     }
 
     private void executeInforme() throws NullPointerException {
-        String path = Util.selectPathToSaveReport(this.stage, 0);
+        String path = Util.selectPathToSaveDatabase(this.stage);
         if(path != null) {
             Task<Boolean> tarea = new Task<Boolean>() {
                 boolean result = false;

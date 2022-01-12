@@ -162,8 +162,11 @@ public class MainPosicionesAgentesController {
 
     @FXML
     private void generarResumenGeneral(){
-        String path = Util.selectPathToSaveReport(this.dialogStage, 0) + "/ResumenGeneralPosiciones.xlsx";
-        if(!path.contains("null")) {
+        String path = Util.selectPathToSaveDatabase(this.dialogStage) + "/ResumenGeneralPosiciones.xlsx";
+
+        if (!path.contains("null")) {
+//            ExcelGeneratorLocator.getResumenGeneralGenerator()
+//                    .generarResumen(path);
             Task<Boolean> task = new Task<Boolean>() {
                 @Override
                 protected Boolean call() throws Exception {
@@ -212,7 +215,7 @@ public class MainPosicionesAgentesController {
 
     @FXML
     private void generarResumenPS() {
-        String path = Util.selectPathToSaveReport(this.dialogStage, 0) + "/ResumenProveedoresServicio.xlsx";
+        String path = Util.selectPathToSaveDatabase(this.dialogStage) + "/ResumenProveedoresServicio.xlsx";
         if (!path.contains("null")) {
             Task<Boolean> task = new Task<Boolean>() {
                 @Override
