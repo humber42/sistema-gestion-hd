@@ -56,7 +56,9 @@ public class RegistroImpresionesServiceImpl implements RegistroImpresionesServic
         List<RegistroImpresiones> registroImpresionesList = new LinkedList<>();
         try {
             String query = "Select * from registro_impresiones";
-            registroImpresionesList = recuperarLista(Util.executeQuery(query));
+            ResultSet rs = Util.executeQuery(query);
+            registroImpresionesList = recuperarLista(rs);
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -68,7 +70,9 @@ public class RegistroImpresionesServiceImpl implements RegistroImpresionesServic
         RegistroImpresiones registroImpresiones = new RegistroImpresiones();
         try {
             String query = "Select * registro_impresiones Where id=" + id;
-            registroImpresiones = this.recuperarObjeto(Util.executeQuery(query));
+            ResultSet rs = Util.executeQuery(query);
+            registroImpresiones = this.recuperarObjeto(rs);
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -80,9 +84,10 @@ public class RegistroImpresionesServiceImpl implements RegistroImpresionesServic
         RegistroImpresiones registroImpresiones = new RegistroImpresiones();
         try {
             String query = "Select * From registro_impresiones WHERE id_reg=" + idReg;
-            registroImpresiones = recuperarObjeto(Util.executeQuery(query));
+            ResultSet rs = Util.executeQuery(query);
+            registroImpresiones = recuperarObjeto(rs);
+            rs.close();
         } catch (SQLException e) {
-
             e.printStackTrace();
         }
         return registroImpresiones;
@@ -160,6 +165,7 @@ public class RegistroImpresionesServiceImpl implements RegistroImpresionesServic
             if(rs.next())
                 cant = rs.getInt(1);
             statement.close();
+            rs.close();
         } catch (SQLException e){
             e.printStackTrace();
         }

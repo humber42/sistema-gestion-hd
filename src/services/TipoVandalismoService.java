@@ -23,8 +23,8 @@ public class TipoVandalismoService {
             if (resultSet.next()) {
                 tipoVandalismo = recuperarTipoVandalismo(resultSet);
             }
+            resultSet.close();
             statement.close();
-            Conexion.getConnection().close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -38,6 +38,7 @@ public class TipoVandalismoService {
             ResultSet resultSet = Util.executeQuery(query);
             if (resultSet.next())
                 tipoVandalismo = recuperarTipoVandalismo(resultSet);
+            resultSet.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -53,6 +54,7 @@ public class TipoVandalismoService {
             while (resultSet.next()) {
                 tipoVandalismoList.add(recuperarTipoVandalismo(resultSet));
             }
+            resultSet.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

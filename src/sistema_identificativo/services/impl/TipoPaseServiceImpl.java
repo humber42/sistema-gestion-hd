@@ -30,7 +30,9 @@ public class TipoPaseServiceImpl implements TipoPaseService {
         TipoPase tipoPase = new TipoPase();
         try {
             String query = "Select * FROM tipos_pase_identificativo WHERE tipo_pase='" + name + "'";
-            tipoPase = recuperarObjeto(Util.executeQuery(query));
+            ResultSet rs = Util.executeQuery(query);
+            tipoPase = recuperarObjeto(rs);
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -42,7 +44,9 @@ public class TipoPaseServiceImpl implements TipoPaseService {
         List<TipoPase> tipoPaseList = new LinkedList<>();
         try {
             String query = "Select * From tipos_pase_identificativo";
-            tipoPaseList = recuperarListaObjetos(Util.executeQuery(query));
+            ResultSet rs = Util.executeQuery(query);
+            tipoPaseList = recuperarListaObjetos(rs);
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -54,7 +58,9 @@ public class TipoPaseServiceImpl implements TipoPaseService {
         TipoPase tipoPase = new TipoPase();
         try {
             String query = "Select * from tipos_pase_identificativo WHERE id=" + id;
-            tipoPase = recuperarObjeto(Util.executeQuery(query));
+            ResultSet rs = Util.executeQuery(query);
+            tipoPase = recuperarObjeto(rs);
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -75,15 +81,12 @@ public class TipoPaseServiceImpl implements TipoPaseService {
     public int getPassCodeByPassType(String passType){
         int code = -1;
         try{
-            Statement statement = Conexion.getConnection().createStatement(
-                ResultSet.TYPE_SCROLL_SENSITIVE,
-                ResultSet.CONCUR_READ_ONLY);
             String query = "Select * from tipos_pase_identificativo where tipo_pase = '" + passType + "'";
-            ResultSet rs = statement.executeQuery(query);
+            ResultSet rs = Util.executeQuery(query);
             while(rs.next()){
                 code = rs.getInt(1);
             }
-            Conexion.getConnection().close();
+            rs.close();
         } catch (SQLException e){
             e.printStackTrace();
         }
@@ -96,8 +99,12 @@ public class TipoPaseServiceImpl implements TipoPaseService {
     private List<TipoPase> recuperarListaObjetos(ResultSet set) throws SQLException {
         List<TipoPase> tipoPaseList = new LinkedList<>();
         while (set.next()) {
-            tipoPaseList.add(new TipoPase(set.getInt("id"), set.getString("tipo_pase")));
-
+            tipoPaseList.add(
+                    new TipoPase(
+                            set.getInt("id"),
+                            set.getString("tipo_pase")
+                    )
+            );
         }
         return tipoPaseList;
     }

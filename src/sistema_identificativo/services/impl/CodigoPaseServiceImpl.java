@@ -15,11 +15,11 @@ public class CodigoPaseServiceImpl implements CodigoPaseService {
     @Override
     public CodigoPase getCodigoPaseById(int id) {
         CodigoPase codigoPase = new CodigoPase();
-
         String query = "Select * From codigo_pase_identificativo Where id=" + id;
         try {
             ResultSet resultSet = Util.executeQuery(query);
             codigoPase = recuperarResulsetOneObject(resultSet);
+            resultSet.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -31,7 +31,9 @@ public class CodigoPaseServiceImpl implements CodigoPaseService {
         CodigoPase codigoPase = new CodigoPase();
         try {
             String query = "Select * From codigo_pase_identificativo Where codigo='" + name + "'";
-            codigoPase = recuperarResulsetOneObject(Util.executeQuery(query));
+            ResultSet rs = Util.executeQuery(query);
+            codigoPase = recuperarResulsetOneObject(rs);
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -52,8 +54,10 @@ public class CodigoPaseServiceImpl implements CodigoPaseService {
     public List<CodigoPase> getAllCodigo() {
         List<CodigoPase> codigoPaseList = new LinkedList<>();
         try {
-            String function = "Select * from codigo_pase_identificativo";
-            codigoPaseList = recuperarListaCodigoPase(Util.executeQuery(function));
+            String query = "Select * from codigo_pase_identificativo";
+            ResultSet rs = Util.executeQuery(query);
+            codigoPaseList = recuperarListaCodigoPase(rs);
+            rs.close();
         } catch (SQLException e) {
 
             e.printStackTrace();
@@ -83,7 +87,6 @@ public class CodigoPaseServiceImpl implements CodigoPaseService {
     private LinkedList<CodigoPase> recuperarListaCodigoPase(ResultSet set) throws SQLException {
         LinkedList<CodigoPase> codigoPaseLinkedList = new LinkedList<>();
         while (set.next()) {
-
             codigoPaseLinkedList.add(new CodigoPase(
                     set.getInt(1),
                     set.getString(2)

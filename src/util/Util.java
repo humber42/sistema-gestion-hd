@@ -59,15 +59,11 @@ public class Util {
             "DICIEMBRE_FE"};
 
     public static ResultSet executeQuery(String sql) throws SQLException {
-
         Statement statement = Conexion.getConnection().createStatement(
                 ResultSet.TYPE_SCROLL_SENSITIVE,
                 ResultSet.CONCUR_READ_ONLY);
 
-        ResultSet resultSet = statement.executeQuery(sql);
-        Conexion.getConnection().close();
-
-        return resultSet;
+        return statement.executeQuery(sql);
     }
 
     public static String replaceWhiteSpacesByPercent20(String string) {
@@ -82,6 +78,7 @@ public class Util {
             if (resultset.next()) {
                 cantidadHechos = resultset.getInt("count");
             }
+            resultset.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

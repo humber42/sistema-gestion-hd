@@ -25,9 +25,8 @@ public class UnidadOrganizativaService {
             if (resultSet.next()) {
                 unidadOrganizativa = recuperarUnidadOraganizativa(resultSet);
             }
+            resultSet.close();
             statement.close();
-            Conexion.getConnection().close();
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -44,6 +43,7 @@ public class UnidadOrganizativaService {
             while (resultSet.next()) {
                 unidadOrganizativaList.add(recuperarUnidadOraganizativa(resultSet));
             }
+            resultSet.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -58,6 +58,8 @@ public class UnidadOrganizativaService {
             ResultSet resutltSet = Util.executeQuery(query);
             if (resutltSet.next())
                 unidadOrganizativa = recuperarUnidadOraganizativa(resutltSet);
+
+            resutltSet.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -84,7 +86,6 @@ public class UnidadOrganizativaService {
     }
 
     public void insertarUnidadOrganizativa (UnidadOrganizativa unidadOrganizativa) throws SQLException{
-
         String function ="{call insertar_unidad_organizativa(?)}";
         CallableStatement statement = Conexion.getConnection().prepareCall(function);
         statement.setString(1,unidadOrganizativa.getUnidad_organizativa());

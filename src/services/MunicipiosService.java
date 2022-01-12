@@ -15,11 +15,12 @@ public class MunicipiosService {
     public Municipio getByIdReg(int idReg) {
         String query = "Select id_municipio from hechos WHERE id_reg=" + idReg;
         try {
-            var rs = Util.executeQuery(query);
+            ResultSet rs = Util.executeQuery(query);
             int idMunicipio = 0;
             if (rs.next()) {
                 idMunicipio = rs.getInt(1);
             }
+            rs.close();
             return this.getOne(idMunicipio);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -65,6 +66,7 @@ public class MunicipiosService {
             ResultSet resultSet = Util.executeQuery(query);
             if (resultSet.next())
                 municipio = recuperarResultSet(resultSet);
+            resultSet.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

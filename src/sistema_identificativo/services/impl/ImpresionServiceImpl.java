@@ -35,6 +35,7 @@ public class ImpresionServiceImpl implements ImpresionService {
                 ));
             }
             statement.close();
+            rs.close();
         } catch (SQLException e){
             e.printStackTrace();
         }
@@ -45,7 +46,9 @@ public class ImpresionServiceImpl implements ImpresionService {
         List<Impresion> impresionList = new LinkedList<>();
         try{
             String query = SELECT + JOIN + " WHERE id_tipo_pase = "+passType + BAJA;
-            impresionList = retrieveList(Util.executeQuery(query));
+            ResultSet rs = Util.executeQuery(query);
+            impresionList = retrieveList(rs);
+            rs.close();
         } catch (SQLException e){
             e.printStackTrace();
         }
@@ -56,7 +59,9 @@ public class ImpresionServiceImpl implements ImpresionService {
         List<Impresion> impresionList = new LinkedList<>();
         try{
             String query = SELECT + JOIN + " WHERE nombre LIKE '%"+name + "%'" + BAJA;
-            impresionList = retrieveList(Util.executeQuery(query));
+            ResultSet rs = Util.executeQuery(query);
+            impresionList = retrieveList(rs);
+            rs.close();
         } catch (SQLException e){
             e.printStackTrace();
         }
@@ -68,7 +73,9 @@ public class ImpresionServiceImpl implements ImpresionService {
         try{
             String query = SELECT + JOIN + " WHERE id_tipo_pase = " + passType + " AND nombre LIKE '%"+ name + "%'"
                     + BAJA;
-            impresionList = retrieveList(Util.executeQuery(query));
+            ResultSet rs = Util.executeQuery(query);
+            impresionList = retrieveList(rs);
+            rs.close();
         } catch (SQLException e){
             e.printStackTrace();
         }

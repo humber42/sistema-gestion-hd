@@ -20,8 +20,8 @@ public class TipoMaterialesServiceImpl implements TipoMaterialesService {
             if (resultSet.next()) {
                 tipoMateriales = recuperarResultSet(resultSet);
             }
+            resultSet.close();
             statement.close();
-            Conexion.getConnection().close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -38,6 +38,7 @@ public class TipoMaterialesServiceImpl implements TipoMaterialesService {
             if (resultSet.next())
                 tipoMateriales = recuperarResultSet(resultSet);
 
+            resultSet.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -54,6 +55,7 @@ public class TipoMaterialesServiceImpl implements TipoMaterialesService {
             while (resultSet.next()) {
                 tipoMaterialesList.add(recuperarResultSet(resultSet));
             }
+            resultSet.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -71,7 +73,10 @@ public class TipoMaterialesServiceImpl implements TipoMaterialesService {
             statement.setDate(1, date);
             statement.setString(2, fechaInicio);
             statement.execute();
-            retorno = this.recuperarListaMaterialesFiscaliaModels(statement.getResultSet());
+            ResultSet rs = statement.getResultSet();
+            retorno = this.recuperarListaMaterialesFiscaliaModels(rs);
+            rs.close();
+            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -109,7 +114,6 @@ public class TipoMaterialesServiceImpl implements TipoMaterialesService {
     }
 
     public void insertarTipoMaterial (TipoMateriales tipoMateriales) throws SQLException{
-
         String function ="{call insertar_tipo_material(?)}";
         CallableStatement statement = Conexion.getConnection().prepareCall(function);
         statement.setString(1,tipoMateriales.getMateriales());

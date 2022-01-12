@@ -19,7 +19,9 @@ public class RegistroPosicionesAgentesServiceImpl implements RegistroPosicionesA
         String query = "select * from registro_posiciones_agentes order by id_uorg";
         List<RegistroPosicionesAgentes> posList = new LinkedList<>();
         try {
-            posList = obtenerLista(Util.executeQuery(query));
+            ResultSet rs = Util.executeQuery(query);
+            posList = obtenerLista(rs);
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -33,6 +35,7 @@ public class RegistroPosicionesAgentesServiceImpl implements RegistroPosicionesA
         try {
             ResultSet rs = Util.executeQuery(query);
             rpa = obtenerObjeto(rs);
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -91,7 +94,9 @@ public class RegistroPosicionesAgentesServiceImpl implements RegistroPosicionesA
         List<RegistroPosicionesAgentes> list = new LinkedList<>();
         String query = "Select * from registro_posiciones_agentes where registro_posiciones_agentes.id_uorg = " + idUorg;
         try {
-            list = obtenerLista(Util.executeQuery(query));
+            ResultSet rs = Util.executeQuery(query);
+            list = obtenerLista(rs);
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -112,6 +117,7 @@ public class RegistroPosicionesAgentesServiceImpl implements RegistroPosicionesA
             while (rs.next()) {
                 uorgs.add(rs.getString(1));
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -184,6 +190,7 @@ public class RegistroPosicionesAgentesServiceImpl implements RegistroPosicionesA
                         )
                 );
             }
+            rs.close();
         } catch (SQLException e){
             e.printStackTrace();
         }
@@ -216,6 +223,7 @@ public class RegistroPosicionesAgentesServiceImpl implements RegistroPosicionesA
                         )
                 );
             }
+            rs.close();
         } catch (SQLException e){
             e.printStackTrace();
         }

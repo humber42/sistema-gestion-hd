@@ -42,6 +42,7 @@ public class RegistroPaseServiceImpl implements RegistroPaseService {
                 System.out.println(numeroPase);
                 numeroPase = String.valueOf(Integer.valueOf(numeroPase) + 1);
             }
+            set.close();
         } catch (SQLException e) {
             e.printStackTrace();
 
@@ -99,7 +100,9 @@ public class RegistroPaseServiceImpl implements RegistroPaseService {
         List<RegistroPase> registroPaseList = new LinkedList<>();
         try {
             String query = "Select * From registro_pases WHERE baja = 0";
-            registroPaseList = recuperarLista(Util.executeQuery(query));
+            ResultSet rs = Util.executeQuery(query);
+            registroPaseList = recuperarLista(rs);
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -119,6 +122,7 @@ public class RegistroPaseServiceImpl implements RegistroPaseService {
             while (rs.next()) {
                 nombres.add(rs.getString(1));
             }
+            rs.close();
         } catch (SQLException e){
             e.printStackTrace();
         }
@@ -139,6 +143,7 @@ public class RegistroPaseServiceImpl implements RegistroPaseService {
             while (rs.next()) {
                 nombres.add(rs.getString(1));
             }
+            rs.close();
         } catch (SQLException e){
             e.printStackTrace();
         }
@@ -151,7 +156,9 @@ public class RegistroPaseServiceImpl implements RegistroPaseService {
         RegistroPase registroPase = new RegistroPase();
         try {
             String query = "Select * from registro_pases where id_reg =" + id;
-            registroPase = this.recuperarRegistroPase(Util.executeQuery(query));
+            ResultSet rs = Util.executeQuery(query);
+            registroPase = this.recuperarRegistroPase(rs);
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -192,6 +199,7 @@ public class RegistroPaseServiceImpl implements RegistroPaseService {
             while (resultSet.next()) {
                 pasesName.add(resultSet.getString(1));
             }
+            resultSet.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -210,6 +218,7 @@ public class RegistroPaseServiceImpl implements RegistroPaseService {
             while (resultSet.next()) {
                 pasesName.add(resultSet.getString(1));
             }
+            resultSet.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -222,7 +231,9 @@ public class RegistroPaseServiceImpl implements RegistroPaseService {
         RegistroPase pase = new RegistroPase();
         try {
             String query = "Select * from registro_pases where nombre='" + passName + "'";
-            pase = recuperarRegistroPase(Util.executeQuery(query));
+            ResultSet rs = Util.executeQuery(query);
+            pase = recuperarRegistroPase(rs);
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -233,7 +244,15 @@ public class RegistroPaseServiceImpl implements RegistroPaseService {
     @Override
     public RegistroPase getPaseByCI(String CI) throws SQLException{
         String query = "Select * from registro_pases where numero_identidad = '"+ CI + "'";
-        RegistroPase pase = recuperarRegistroPase(Util.executeQuery(query));
+        RegistroPase pase = null;
+        try {
+            ResultSet rs = Util.executeQuery(query);
+            pase = recuperarRegistroPase(rs);
+            rs.close();
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+
         return pase;
     }
 
@@ -324,6 +343,7 @@ public class RegistroPaseServiceImpl implements RegistroPaseService {
             if(rs.next())
                 cant = rs.getInt(1);
             statement.close();
+            rs.close();
         } catch (SQLException e){
             e.printStackTrace();
         }

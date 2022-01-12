@@ -20,7 +20,6 @@ public class PCC_territorioService {
                 pcc_territorio = recuperarResultSet(resultSet);
             }
             resultSet.close();
-            Conexion.getConnection().close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

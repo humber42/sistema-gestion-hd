@@ -49,8 +49,8 @@ public class AnnoServiceImpl implements AnnoService {
             ResultSet resultSet = Util.executeQuery(query);
             if (resultSet.next()) {
                 anno = recuperarResultSet(resultSet);
-                resultSet.close();
             }
+            resultSet.close();
 
         } catch (SQLException e) {
 
@@ -72,13 +72,11 @@ public class AnnoServiceImpl implements AnnoService {
         String query = "SELECT * FROM annos ORDER BY annos.anno DESC";
         try {
             ResultSet resultSet = Util.executeQuery(query);
-
             while (resultSet.next()) {
                 Anno anno = recuperarResultSet(resultSet);
                 annoList.add(anno);
             }
             resultSet.close();
-            Conexion.getConnection().close();
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println("No hay conexion");

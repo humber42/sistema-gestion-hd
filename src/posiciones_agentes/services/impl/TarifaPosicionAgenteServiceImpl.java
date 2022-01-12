@@ -20,6 +20,7 @@ public class TarifaPosicionAgenteServiceImpl implements TarifaPosicionAgenteServ
         try{
             ResultSet rs = Util.executeQuery(query);
             tarifas = getTarifasFromRS(rs);
+            rs.close();
         } catch (SQLException e){
             e.printStackTrace();
         }
@@ -33,6 +34,7 @@ public class TarifaPosicionAgenteServiceImpl implements TarifaPosicionAgenteServ
         try {
             ResultSet rs = Util.executeQuery(query);
             tarifa = getTarifaFromRS(rs);
+            rs.close();
         } catch (SQLException e){
             e.printStackTrace();
         }
@@ -58,6 +60,7 @@ public class TarifaPosicionAgenteServiceImpl implements TarifaPosicionAgenteServ
         try {
             ResultSet rs = Util.executeQuery(query);
             tarifa = getTarifaFromRS(rs);
+            rs.close();
         } catch (SQLException e){
             e.printStackTrace();
         }

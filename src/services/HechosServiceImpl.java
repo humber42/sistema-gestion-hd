@@ -94,7 +94,6 @@ public class HechosServiceImpl implements HechosService {
             callableStatement.setInt(2, vandalismo.getId_afect_tpublica());
             callableStatement.execute();
             callableStatement.close();
-            Conexion.getConnection().close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -118,7 +117,6 @@ public class HechosServiceImpl implements HechosService {
             callableStatement.setBoolean(3, incidente);
             callableStatement.execute();
             callableStatement.close();
-            Conexion.getConnection().close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -143,7 +141,6 @@ public class HechosServiceImpl implements HechosService {
             callableStatement.setInt(3, cantidad);
             callableStatement.execute();
             callableStatement.close();
-            Conexion.getConnection().close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -175,7 +172,6 @@ public class HechosServiceImpl implements HechosService {
         callableStatement.setBoolean(15, hechos.isPrevenido());
         callableStatement.execute();
         callableStatement.close();
-        Conexion.getConnection().close();
     }
 
     public Hechos searchHechoByCODCDNT(String cod_cdnt) {
@@ -235,6 +231,7 @@ public class HechosServiceImpl implements HechosService {
             if(rs.next()){
                 cant = rs.getInt(1);
             }
+            rs.close();
             statement.close();
         } catch (SQLException e){
             e.printStackTrace();
@@ -269,7 +266,6 @@ public class HechosServiceImpl implements HechosService {
             callableStatement.setString(14, sentencia);
             callableStatement.execute();
             callableStatement.close();
-            Conexion.getConnection().close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -289,8 +285,6 @@ public class HechosServiceImpl implements HechosService {
             callableStatement.execute();
             resumenModels = this.recuperarListaResumenModels(callableStatement.getResultSet());
             callableStatement.close();
-            Conexion.getConnection().close();
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -312,8 +306,8 @@ public class HechosServiceImpl implements HechosService {
             if (resultSet.next()) {
                 cant = resultSet.getInt(1);
             }
+            resultSet.close();
             statement.close();
-            Conexion.getConnection().close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -331,9 +325,10 @@ public class HechosServiceImpl implements HechosService {
             statement.setDate(1, date);
             statement.setString(2, fechaInicio);
             statement.execute();
-            afectaciones = this.recuperarListaAfectacionFiscaliaModels(statement.getResultSet());
+            ResultSet rs = statement.getResultSet();
+            afectaciones = this.recuperarListaAfectacionFiscaliaModels(rs);
+            rs.close();
             statement.close();
-            Conexion.getConnection().close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -350,9 +345,10 @@ public class HechosServiceImpl implements HechosService {
             CallableStatement statement = Conexion.getConnection().prepareCall(function);
             statement.setDouble(1, Double.parseDouble(String.valueOf(anno)));
             statement.execute();
-            hechosByAnnos = this.recuperarHechosByAnno(statement.getResultSet());
+            ResultSet rs = statement.getResultSet();
+            hechosByAnnos = this.recuperarHechosByAnno(rs);
+            rs.close();
             statement.close();
-            Conexion.getConnection().close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -368,9 +364,10 @@ public class HechosServiceImpl implements HechosService {
             CallableStatement statement = Conexion.getConnection().prepareCall(function);
             statement.setDouble(1, Double.parseDouble(String.valueOf(anno)));
             statement.execute();
-            hechosByAnnos = this.recuperarHechosByAnno(statement.getResultSet());
-            statement.closeOnCompletion();
-            Conexion.getConnection().close();
+            ResultSet rs = statement.getResultSet();
+            hechosByAnnos = this.recuperarHechosByAnno(rs);
+            rs.close();
+            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -386,9 +383,10 @@ public class HechosServiceImpl implements HechosService {
             statement.setDate(1, fecha);
             statement.setDate(2, Date.valueOf(fecha.toLocalDate().getYear() + "-01-01"));
             statement.execute();
-            hechosByUorg = this.recuperarHechosHurtosRobosPrevUorg(statement.getResultSet());
+            ResultSet rs = statement.getResultSet();
+            hechosByUorg = this.recuperarHechosHurtosRobosPrevUorg(rs);
+            rs.close();
             statement.closeOnCompletion();
-            Conexion.getConnection().close();
         } catch (SQLException e) {
             Logger.getLogger(this.getClass()).log(Level.ERROR, "Ha ocurrido una excepcion", e);
         }
@@ -408,6 +406,7 @@ public class HechosServiceImpl implements HechosService {
                         )
                 );
             }
+            resultSet.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -424,9 +423,10 @@ public class HechosServiceImpl implements HechosService {
             statement.setDate(1, date);
             statement.setString(2, date.toLocalDate().getYear() + "-01-01");
             statement.execute();
-            esclarecimientoHechos = recuperarEsclarecimiento(statement.getResultSet());
+            ResultSet rs = statement.getResultSet();
+            esclarecimientoHechos = recuperarEsclarecimiento(rs);
+            rs.close();
             statement.close();
-            Conexion.getConnection().close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -442,7 +442,9 @@ public class HechosServiceImpl implements HechosService {
             statement.setBoolean(2, esclarecido);
             statement.setString(3, date.toLocalDate().getYear() + "-01-01");
             statement.execute();
-            esclarecimientoHechos = recuperarEsclarecimiento(statement.getResultSet());
+            ResultSet rs = statement.getResultSet();
+            esclarecimientoHechos = recuperarEsclarecimiento(rs);
+            rs.close();
             statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -461,9 +463,10 @@ public class HechosServiceImpl implements HechosService {
             statement.setInt(2, tipoHecho);
             statement.setString(3, date.toLocalDate().getYear() + "-01-01");
             statement.execute();
-            hechosPorMunicipios = recuperarHechosPorMunicipio(statement.getResultSet());
+            ResultSet rs = statement.getResultSet();
+            hechosPorMunicipios = recuperarHechosPorMunicipio(rs);
+            rs.close();
             statement.close();
-            Conexion.getConnection().close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -481,7 +484,9 @@ public class HechosServiceImpl implements HechosService {
             statement.setInt(2, tipoHecho);
             statement.setString(3, date.toLocalDate().getYear() + "-01-01");
             statement.execute();
-            hechosPorMunicipios = recuperarHechosPorServiciosAfectados(statement.getResultSet());
+            ResultSet rs = statement.getResultSet();
+            hechosPorMunicipios = recuperarHechosPorServiciosAfectados(rs);
+            rs.close();
             statement.close();
             Conexion.getConnection().close();
         } catch (SQLException e) {
@@ -500,7 +505,9 @@ public class HechosServiceImpl implements HechosService {
             statement.setDate(1, date);
             statement.setString(2, date.toLocalDate().getYear() + "-01-01");
             statement.execute();
-            afectacionesLinkedList = recuperararAfectacionesTpub(statement.getResultSet());
+            ResultSet rs = statement.getResultSet();
+            afectacionesLinkedList = recuperararAfectacionesTpub(rs);
+            rs.close();
             statement.close();
             Conexion.getConnection().close();
         } catch (SQLException e) {
@@ -518,7 +525,10 @@ public class HechosServiceImpl implements HechosService {
             statement.setDate(1, date);
             statement.setDate(2, Date.valueOf(date.toLocalDate().getYear() + "-01-01"));
             statement.execute();
-            afectacionesLinkedList = recuperararAfectaciones(statement.getResultSet());
+            ResultSet rs = statement.getResultSet();
+            afectacionesLinkedList = recuperararAfectaciones(rs);
+            rs.close();
+            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -542,6 +552,8 @@ public class HechosServiceImpl implements HechosService {
                         resultset.getInt(4)
                 ));
             }
+            resultset.close();
+            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
 
@@ -561,7 +573,10 @@ public class HechosServiceImpl implements HechosService {
             statement.setDate(1, date);
             statement.setDate(2, Date.valueOf(date.toLocalDate().getYear() + "-01-01"));
             statement.execute();
-            hechosMesAnnos = recuperarHechosMesAnno(statement.getResultSet());
+            ResultSet rs = statement.getResultSet();
+            hechosMesAnnos = recuperarHechosMesAnno(rs);
+            rs.close();
+            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -577,9 +592,10 @@ public class HechosServiceImpl implements HechosService {
             statement.setDate(1, date);
             statement.setString(2, date.toLocalDate().getYear() + "-01-01");
             statement.execute();
-            hechosUOrgAnnos = recuperarHechosUorg(statement.getResultSet());
+            ResultSet rs = statement.getResultSet();
+            hechosUOrgAnnos = recuperarHechosUorg(rs);
+            rs.close();
             statement.close();
-            Conexion.getConnection().close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -595,9 +611,10 @@ public class HechosServiceImpl implements HechosService {
             statement.setDouble(1, anno);
             statement.setInt(2, tipoHecho);
             statement.execute();
-            hechosUorgMesAnnos = recuperarHechosUorgMesAnno(statement.getResultSet());
+            ResultSet rs = statement.getResultSet();
+            hechosUorgMesAnnos = recuperarHechosUorgMesAnno(rs);
+            rs.close();
             statement.close();
-            Conexion.getConnection().close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -609,7 +626,9 @@ public class HechosServiceImpl implements HechosService {
         LinkedList<HechosCertifico> hechosCertificos = new LinkedList<>();
         String query = "SELECT * FROM obtener_cant_hechos_delictivos_mes_anno(" + anno + "," + mes + ")";
         try {
-            hechosCertificos = recuperarHechosCertifico(Util.executeQuery(query));
+            ResultSet rs = Util.executeQuery(query);
+            hechosCertificos = recuperarHechosCertifico(rs);
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -633,7 +652,9 @@ public class HechosServiceImpl implements HechosService {
         LinkedList<HechosPrevenidos> prevenidos = new LinkedList<>();
         String query = "Select * from obtener_cantidad_hechos_prevenidos(" + year + ")";
         try {
-            prevenidos = recuperarHechosPrevenidos(Util.executeQuery(query));
+            ResultSet rs = Util.executeQuery(query);
+            prevenidos = recuperarHechosPrevenidos(rs);
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -656,9 +677,10 @@ public class HechosServiceImpl implements HechosService {
             statement.setDate(2, fin);
             statement.setInt(3, tipoHecho);
             statement.execute();
-            afectado = recuperarAfectaciones(statement.getResultSet());
+            ResultSet rs = statement.getResultSet();
+            afectado = recuperarAfectaciones(rs);
+            rs.close();
             statement.close();
-            Conexion.getConnection().close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -675,9 +697,10 @@ public class HechosServiceImpl implements HechosService {
             statement.setDate(1, inicio);
             statement.setDate(2, fin);
             statement.execute();
-            delitoRangoFechas = recuperarDelitoRangoFecha(statement.getResultSet());
+            ResultSet rs = statement.getResultSet();
+            delitoRangoFechas = recuperarDelitoRangoFecha(rs);
+            rs.close();
             statement.close();
-            Conexion.getConnection().close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -978,6 +1001,7 @@ public class HechosServiceImpl implements HechosService {
             while (resultset.next()) {
                 hechos.add(recuperarResultSetHechos(resultset));
             }
+            resultset.close();
         } catch (SQLException e) {
 
             e.printStackTrace();
@@ -1126,6 +1150,7 @@ public class HechosServiceImpl implements HechosService {
             ResultSet resultSet = Util.executeQuery(query);
             if (resultSet.next())
                 hecho = recuperarResultSetHechos(resultSet);
+            resultSet.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

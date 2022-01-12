@@ -16,12 +16,15 @@ public class ProveedoresServicioServiceImpl implements ProveedorServicioService 
     @Override
     public List<ProveedorServicio> getAllProveedorServicio() {
         String query = "Select * FROM proveedores_servicio_agentes";
+        List<ProveedorServicio> proveedores = new LinkedList<>();
         try{
-            return this.recuperarListaResulset(Util.executeQuery(query));
+            ResultSet rs = Util.executeQuery(query);
+            proveedores = recuperarListaResulset(rs);
+            rs.close();
         }catch (SQLException e ){
             e.printStackTrace();
-            return null;
         }
+        return proveedores;
     }
 
     @Override
@@ -32,6 +35,7 @@ public class ProveedoresServicioServiceImpl implements ProveedorServicioService 
         try {
             ResultSet rs = Util.executeQuery(query);
             ps = recuperarObjeto(rs);
+            rs.close();
         } catch (SQLException e){
             e.printStackTrace();
         }
@@ -46,6 +50,7 @@ public class ProveedoresServicioServiceImpl implements ProveedorServicioService 
         try {
             ResultSet rs = Util.executeQuery(query);
             ps = recuperarObjeto(rs);
+            rs.close();
         } catch (SQLException e){
             e.printStackTrace();
         }
@@ -113,6 +118,6 @@ public class ProveedoresServicioServiceImpl implements ProveedorServicioService 
         }catch (SQLException e){
             e.printStackTrace();
         }
-        return  proveedorServicio;
+        return proveedorServicio;
     }
 }

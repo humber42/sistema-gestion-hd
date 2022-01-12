@@ -19,6 +19,7 @@ public class TipoHechoServiceImpl implements TipoHechoService {
             int idTipoHecho = 0;
             if (rs.next()) {
                 idTipoHecho = rs.getInt(1);
+                rs.close();
                 return this.getOneTipoHecho(idTipoHecho);
             } else {
                 return new TipoHecho();
@@ -42,7 +43,6 @@ public class TipoHechoServiceImpl implements TipoHechoService {
             }
             resultSet.close();
             statement.close();
-            Conexion.getConnection().close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -58,6 +58,7 @@ public class TipoHechoServiceImpl implements TipoHechoService {
             while (resultSet.next()) {
                 tipoHechoList.add(recuperarResultSet(resultSet));
             }
+            resultSet.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -74,6 +75,7 @@ public class TipoHechoServiceImpl implements TipoHechoService {
             if (resultSet.next()) {
                 tipoHecho = recuperarResultSet(resultSet);
             }
+            resultSet.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -29,6 +29,7 @@ public class EstacionPublicaCentroAgenteImpl implements EstacionPublicaCentroAge
         try {
             ResultSet rs = Util.executeQuery(query);
             lista = obtenerEstacionesFromRS(rs);
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -48,6 +49,7 @@ public class EstacionPublicaCentroAgenteImpl implements EstacionPublicaCentroAge
         try {
             ResultSet rs = Util.executeQuery(query);
             lista = obtenerEstacionesFromRS(rs);
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -68,6 +70,7 @@ public class EstacionPublicaCentroAgenteImpl implements EstacionPublicaCentroAge
         try {
             ResultSet rs = Util.executeQuery(query);
             epca = obtenerEstacionFromRS(rs);
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

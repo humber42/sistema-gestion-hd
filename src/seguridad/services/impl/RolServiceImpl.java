@@ -17,7 +17,9 @@ public class RolServiceImpl implements RolService {
         List<Rol> rolList = new LinkedList<>();
         try {
             String query = "SELECT * FROM rol";
-            rolList = getRolesFromRS(Util.executeQuery(query));
+            ResultSet rs = Util.executeQuery(query);
+            rolList = getRolesFromRS(rs);
+            rs.close();
         } catch (SQLException e){
             e.printStackTrace();
         }
@@ -31,6 +33,7 @@ public class RolServiceImpl implements RolService {
         try {
             ResultSet rs = Util.executeQuery(query);
             rol = getRolFromRS(rs);
+            rs.close();
         } catch (SQLException e){
             e.printStackTrace();
         }
@@ -45,6 +48,7 @@ public class RolServiceImpl implements RolService {
         try {
             ResultSet rs = Util.executeQuery(query);
             rol = getRolFromRS(rs);
+            rs.close();
         } catch (SQLException e){
             e.printStackTrace();
         }

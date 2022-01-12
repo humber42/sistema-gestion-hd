@@ -20,7 +20,9 @@ public class UserServiceImpl implements UserService {
         List<User> userList = new LinkedList<>();
         try {
             String query = "SELECT * FROM usuario";
-            userList = getUsuariosFromRS(Util.executeQuery(query));
+            ResultSet rs = Util.executeQuery(query);
+            userList = getUsuariosFromRS(rs);
+            rs.close();
         } catch (SQLException e){
             e.printStackTrace();
         }
@@ -32,7 +34,9 @@ public class UserServiceImpl implements UserService {
         List<User> userList = new LinkedList<>();
         try {
             String query = "SELECT * FROM usuario WHERE username <> '" + username + "'";
-            userList = getUsuariosFromRS(Util.executeQuery(query));
+            ResultSet rs = Util.executeQuery(query);
+            userList = getUsuariosFromRS(rs);
+            rs.close();
         } catch (SQLException e){
             e.printStackTrace();
         }
@@ -46,6 +50,7 @@ public class UserServiceImpl implements UserService {
         try {
             ResultSet rs = Util.executeQuery(query);
             user = getUsuarioFromRS(rs);
+            rs.close();
         } catch (SQLException e){
             e.printStackTrace();
         }
@@ -61,6 +66,7 @@ public class UserServiceImpl implements UserService {
         try {
             ResultSet rs = Util.executeQuery(query);
             user = getUsuarioFromRS(rs);
+            rs.close();
         } catch (SQLException e){
             e.printStackTrace();
         }
@@ -75,6 +81,7 @@ public class UserServiceImpl implements UserService {
         try {
             ResultSet rs = Util.executeQuery(query);
             user = getUsuarioFromRS(rs);
+            rs.close();
         } catch (SQLException e){
             e.printStackTrace();
         }
