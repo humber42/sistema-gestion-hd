@@ -137,6 +137,30 @@ public class MainPosicionesAgentesController {
     }
 
     @FXML
+    private void gestionarProveedores(){
+        try{
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainPosicionesAgentesController.class.getResource("GestionProveedoresView.fxml"));
+            AnchorPane pane = loader.load();
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Gestionar proveedores de servicios");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.setResizable(false);
+            dialogStage.initOwner(this.mainApp);
+            Scene scene = new Scene(pane);
+            dialogStage.setScene(scene);
+
+            GestionProveedoresController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            dialogStage.showAndWait();
+        } catch (IOException e) {
+
+            ExceptionDialog dialog = new ExceptionDialog(e);
+            dialog.showAndWait();
+        }
+    }
+
+    @FXML
     private void generarResumenPorUOrg(){
         try{
             FXMLLoader loader = new FXMLLoader();

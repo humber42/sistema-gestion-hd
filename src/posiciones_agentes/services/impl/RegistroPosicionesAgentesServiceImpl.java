@@ -75,13 +75,14 @@ public class RegistroPosicionesAgentesServiceImpl implements RegistroPosicionesA
 
     @Override
     public void updateRegisterPosicionesAgentes(RegistroPosicionesAgentes registroPosicionesAgentes) {
-        String function = "{call update_registro_posiciones_agentes(?,?,?,?)}";
+        String function = "{call update_registro_posiciones_agentes(?,?,?,?,?)}";
         try {
             CallableStatement statement = Conexion.getConnection().prepareCall(function);
             statement.setInt(1, registroPosicionesAgentes.getIdReg());
-            statement.setInt(2, registroPosicionesAgentes.getHorasDiasLaborables());
-            statement.setInt(3, registroPosicionesAgentes.getHorasDiasNoLaborables());
-            statement.setInt(4, registroPosicionesAgentes.getCantidadEfectivos());
+            statement.setInt(2, registroPosicionesAgentes.getProveedorServicio().getId());
+            statement.setInt(3, registroPosicionesAgentes.getHorasDiasLaborables());
+            statement.setInt(4, registroPosicionesAgentes.getHorasDiasNoLaborables());
+            statement.setInt(5, registroPosicionesAgentes.getCantidadEfectivos());
             statement.execute();
             statement.close();
         } catch (SQLException e) {
