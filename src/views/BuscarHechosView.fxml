@@ -60,7 +60,7 @@
                </font>
             </JFXButton>
             <JFXButton buttonType="RAISED" layoutX="654.0" layoutY="145.0" onAction="#exportData"
-                       style="-fx-background-color: green;" text="Exportar" textFill="WHITE"/>
+                       style="-fx-background-color: green;" text="XLSX" textFill="WHITE"/>
          </children>
       </AnchorPane>
    </center>
