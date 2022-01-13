@@ -47,6 +47,7 @@ public class GestionProveedoresController {
                 this.setProviderOnTxt()
         );
 
+
         this.txtProvider.setOnKeyTyped(event ->
                 {
                     if(this.txtProvider.getText().length() > 0 && providerSelected == null)
