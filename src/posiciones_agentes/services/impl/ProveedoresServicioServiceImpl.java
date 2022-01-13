@@ -61,7 +61,8 @@ public class ProveedoresServicioServiceImpl implements ProveedorServicioService 
     public void deleteProveedorServicioById(int id) {
         String query = "DELETE FROM proveedores_servicio_agentes where id = " + id;
         try{
-            Util.executeQuery(query);
+            ResultSet rs = Util.executeQuery(query);
+            rs.close();
         } catch (SQLException e){
             e.printStackTrace();
         }

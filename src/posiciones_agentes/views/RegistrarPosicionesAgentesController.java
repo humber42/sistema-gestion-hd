@@ -86,7 +86,7 @@ public class RegistrarPosicionesAgentesController {
             this.title.setText("Editar Posición de Agente");
             this.btnRegistrar.setText("Editar");
             this.btnRegistrar.setStyle("-fx-background-color: orange");
-            this.proveedoresServicio.setDisable(true);
+           // this.proveedoresServicio.setDisable(true);
             this.unidadOrgananizativa.setDisable(true);
             this.instalacion.setEditable(false);
             loadInfoPosicionAgenteToUpdate();
