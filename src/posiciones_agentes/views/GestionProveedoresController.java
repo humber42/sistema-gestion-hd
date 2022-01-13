@@ -51,8 +51,12 @@ public class GestionProveedoresController {
                 {
                     if(this.txtProvider.getText().length() > 0 && providerSelected == null)
                         this.showIcon();
-                    else
+                    else if (txtProvider.getText().length() == 0){
                         this.hideIcon();
+                        this.disableBtns();
+                        this.providersList.getSelectionModel().clearSelection();
+                        this.providerSelected = null;
+                    }
                 }
         );
 
