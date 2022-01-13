@@ -40,34 +40,40 @@ public class LoginViewController {
 
     private static UserLoggedIn userLoggedIn = null;
 
-    public void setPrimaryStage(Stage primaryStage){
-        this.primaryStage = primaryStage;
+    public static UserLoggedIn getUserLoggedIn() {
+        if (userLoggedIn == null)
+            userLoggedIn = new UserLoggedIn();
+        return userLoggedIn;
     }
 
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
     }
 
-    @FXML
-    private void initialize(){
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
     }
 
     @FXML
-    private void doClickOnLoginBtn(KeyEvent event){
-        if(event.getCode() == KeyCode.ENTER)
+    private void initialize() {
+    }
+
+    @FXML
+    private void doClickOnLoginBtn(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER)
             login();
     }
 
     @FXML
-    private void login(){
-        if (!emptyFields()){
+    private void login() {
+        if (!emptyFields()) {
             String textUsername = this.username.getText();
             String passwordText = this.password.getText();
             try {
                 String passwordEncrypted = SHA1Encrypt.encrypt(SHA1Encrypt.encrypt(passwordText));
                 User user = ServiceLocator.getUserService().getUserByUserName(textUsername);
-                if(user != null){
-                    if(user.getPassword().equals(passwordEncrypted)){
+                if (user != null) {
+                    if (user.getPassword().equals(passwordEncrypted)) {
                         userLoggedIn = new UserLoggedIn(
                                 user.getNombre(),
                                 user.getUsername(),
@@ -75,46 +81,41 @@ public class LoginViewController {
                                 ServiceLocator.getRolService().getRolById(user.getId_rol()).getNombre());
                         this.primaryStage.close();
                         loadPrincipalHechos();
-                    }
-                    else{
+                    } else {
                         Util.dialogResult("Usuario o contraseña incorrectos.", Alert.AlertType.WARNING);
                         cleanFields();
                     }
-                }
-                else{
+                } else {
                     Util.dialogResult("Usuario o contraseña incorrectos.", Alert.AlertType.WARNING);
                     cleanFields();
                 }
-            } catch (NoSuchAlgorithmException | UnsupportedEncodingException e){
+            } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
         }
     }
 
     @FXML
-    private void handleClose(){
+    private void handleClose() {
         Platform.exit();
     }
 
-    private boolean emptyFields(){
+    private boolean emptyFields() {
         boolean empty = true;
 
-        if(this.username.getText().isEmpty() && this.password.getText().isEmpty()){
+        if (this.username.getText().isEmpty() && this.password.getText().isEmpty()) {
             Util.dialogResult("Campos vacíos. Por favor, ingrese su nombre de usuario y contraseña.", Alert.AlertType.WARNING);
-        }
-        else if(this.password.getText().isEmpty()){
+        } else if (this.password.getText().isEmpty()) {
             Util.dialogResult("El campo de contraseña no puede estar vacío.", Alert.AlertType.WARNING);
-        }
-        else if(this.username.getText().isEmpty()){
+        } else if (this.username.getText().isEmpty()) {
             Util.dialogResult("El campo de nombre de usuario no puede estar vacío.", Alert.AlertType.WARNING);
-        }
-        else
+        } else
             empty = false;
 
         return empty;
     }
 
-    private void cleanFields(){
+    private void cleanFields() {
         this.username.setText(null);
         this.password.setText(null);
     }
@@ -134,13 +135,9 @@ public class LoginViewController {
             controller.setPrimaryStage(primaryStage);
             this.primaryStage.setScene(scene);
             this.primaryStage.show();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-    public static UserLoggedIn getUserLoggedIn(){
-        if(userLoggedIn == null)
-            userLoggedIn = new UserLoggedIn();
-        return userLoggedIn;
     }
 }

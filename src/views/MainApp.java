@@ -1,19 +1,22 @@
 package views;
 
 import com.gembox.spreadsheet.SpreadsheetInfo;
+import icons.ImageLocation;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.controlsfx.dialog.ExceptionDialog;
-import seguridad.views.LoginViewController;
 import seguridad.views.LoginUrl;
+import seguridad.views.LoginViewController;
 import util.Conexion;
 import util.ConexionObserver;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.util.Observer;
 
@@ -32,8 +35,10 @@ public class MainApp extends Application {
     @Override
     public void start(Stage primaryStage){
         this.primaryStage = primaryStage;
-        this.primaryStage.setTitle("Login");
+        this.primaryStage.setTitle("Sistema Informativo de Seguridad y Protección ETECSA");
         this.primaryStage.setResizable(false);
+
+
         initRootLayout();
     }
 
@@ -66,6 +71,11 @@ public class MainApp extends Application {
             controller.setPrimaryStage(primaryStage);
             this.primaryStage.setScene(scene);
             this.primaryStage.initStyle(StageStyle.UNDECORATED);
+            try {
+                this.primaryStage.getIcons().add(new Image(ImageLocation.class.getResource("icon_app.png").toURI().toString()));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
             this.primaryStage.show();
         } catch (IOException e){
             e.printStackTrace();
