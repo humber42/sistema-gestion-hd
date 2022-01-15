@@ -1,32 +1,32 @@
 package sistema_identificativo.views;
 
-import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
-import javafx.fxml.FXML;
-import javafx.scene.control.*;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Paint;
-import javafx.stage.Stage;
-import models.UnidadOrganizativa;
-import org.controlsfx.control.textfield.TextFields;
-import services.ServiceLocator;
-import sistema_identificativo.models.CodigoPase;
-import sistema_identificativo.models.TipoPase;
 import javafx.concurrent.Task;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import models.UnidadOrganizativa;
+import org.controlsfx.control.textfield.TextFields;
 import org.springframework.util.StringUtils;
+import services.ServiceLocator;
+import sistema_identificativo.models.CodigoPase;
 import sistema_identificativo.models.RegistroPase;
+import sistema_identificativo.models.TipoPase;
 import util.ConfigProperties;
 import util.PostFile;
 import util.Util;
@@ -213,7 +213,7 @@ public class RegistroPasesController {
     private boolean detectingIfIdentificationNumberExist(){
         boolean exist= false;
         try {
-           ResultSet set = Util.executeQuery("Select * From registro_pases where numero_identidad='" + this.identificationPass.getText()+"'");
+            ResultSet set = Util.executeQuery("Select * From registro_pases where numero_identidad='" + this.identificationPass.getText() + "' AND baja = 0");
            if(set.next()){
                exist=true;
            }

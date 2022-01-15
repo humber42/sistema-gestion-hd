@@ -34,6 +34,9 @@ public class PrincipalViewController {
     private BorderPane panelGrande;
 
     @FXML
+    private MenuItem searchMenuItem;
+
+    @FXML
     private Label lblNombre;
     @FXML
     private Label lblUsername;
@@ -51,6 +54,8 @@ public class PrincipalViewController {
     private TitledPane paneBarChart;
     @FXML
     private ComboBox<String> cboxTipoHechos;
+    @FXML
+    private MenuItem hechosRegistrados;
 
     private UserLoggedIn logged;
 
@@ -64,6 +69,10 @@ public class PrincipalViewController {
     public void initialize() {
         this.logged = LoginViewController.getUserLoggedIn();
         this.userLoggedInfo();
+
+        //Si el usuario es superusuario pues no ve o no
+        this.searchMenuItem.setVisible(!(logged.isSuperuser()));
+        this.hechosRegistrados.setVisible(logged.isSuperuser());
 
         if (logged.hasPermiso_visualizacion() || logged.hasPermiso_pases()) {
             this.menuRegistrarHecho.setVisible(false);

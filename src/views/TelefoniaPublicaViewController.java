@@ -50,6 +50,8 @@ public class TelefoniaPublicaViewController {
     @FXML
     private JFXButton btnEdit;
     @FXML
+    private JFXButton inserccionExcel;
+    @FXML
     private JFXButton btnDelete;
     @FXML
     private JFXButton btnNew;
@@ -73,6 +75,7 @@ public class TelefoniaPublicaViewController {
     @FXML
     private void initialize() {
         this.logged = LoginViewController.getUserLoggedIn();
+        this.inserccionExcel.setVisible(logged.isSuperuser());
 
         if (logged.isSuperuser()) {
             this.btnEdit.setVisible(true);

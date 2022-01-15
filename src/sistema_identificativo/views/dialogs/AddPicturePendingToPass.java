@@ -141,7 +141,7 @@ public class AddPicturePendingToPass {
                 (observable, oldValue, newValue) -> {
                     this.setValuesOnToLabels(newValue);
                     if (this.changePicture)
-                        this.annadir.setDisable(true);
+                        this.annadir.setDisable(false);
                     else
                         this.annadir.setDisable(false);
                     if (!this.profilePhoto.getImage().getUrl().contains("no-img.jpg")) {
@@ -342,7 +342,7 @@ public class AddPicturePendingToPass {
                         this.profilePhoto.setImage(new Image(ImageLocation.class.getResource("no-img.jpg").toString()));
                     }
                 } else
-                    this.profilePhoto.setImage(new Image(ImageLocation.class.getResource("no-img.jpg").toString()));
+                    this.profilePhoto.setImage(new Image(URL_IMAGE_PASE));
             } else
                 this.profilePhoto.setImage(new Image(ImageLocation.class.getResource("no-img.jpg").toString()));
         } else {

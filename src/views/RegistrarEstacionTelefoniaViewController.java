@@ -30,6 +30,7 @@ public class RegistrarEstacionTelefoniaViewController {
     private JFXTextField txtEstaciones;
     @FXML
     private JFXButton btnRegister;
+
     @FXML
     private Label lblCentros;
     @FXML

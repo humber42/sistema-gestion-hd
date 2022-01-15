@@ -579,6 +579,7 @@ public class RegistrarViewController {
                 }
                 if (insertado) {
                     Util.dialogResult("Se registró correctamente el hecho.", Alert.AlertType.INFORMATION);
+                    this.cleanData();
                 } else
                     Util.dialogResult("Error al registrar", Alert.AlertType.ERROR);
             } else {
@@ -750,5 +751,28 @@ public class RegistrarViewController {
 
     private TipoMateriales buscarMaterial(String name) {
         return ServiceLocator.getTipoMaterialesService().searchMaterialesByName(name);
+    }
+
+    private void cleanData() {
+        this.titulo.clear();
+        this.lugarOcurrencia.clear();
+        this.codCDNT.clear();
+        this.centro.clear();
+        this.denuncia.clear();
+        this.observaciones.clear();
+        this.cantidad.clear();
+        this.afectacionMLC.clear();
+        this.afectacionMN.clear();
+        this.afectacionService.clear();
+        this.tipoHechoComboBox.getSelectionModel().clearSelection();
+        this.municipioComboBox.getSelectionModel().clearSelection();
+
+        this.unidadOrganizativaComboBox.getSelectionModel().clearSelection();
+        this.materialComboBox.getSelectionModel().clearSelection();
+        this.radioButtonImputable.setSelected(false);
+        this.radioButtonIncidente.setSelected(false);
+        this.checkPrevenido.setSelected(false);
+        this.fechaOcurrencia.setValue(null);
+        this.fechaResumen.setValue(null);
     }
 }

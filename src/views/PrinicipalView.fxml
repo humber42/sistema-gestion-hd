@@ -107,19 +107,30 @@
             <menus>
                 <Menu mnemonicParsing="false" text="Archivo">
                     <items>
-                        <MenuItem fx:id="menuRegistrarHecho" mnemonicParsing="false" onAction="#handleRegister" text="Registrar">
+                        <MenuItem fx:id="menuRegistrarHecho" mnemonicParsing="false" onAction="#handleRegister"
+                                  text="Registrar">
                             <accelerator>
-                                <KeyCodeCombination alt="DOWN" code="R" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                                <KeyCodeCombination alt="DOWN" code="R" control="UP" meta="UP" shift="UP"
+                                                    shortcut="UP"/>
                             </accelerator>
                         </MenuItem>
                         <MenuItem mnemonicParsing="false" onAction="#handleEsclarecer" text="Esclarecimiento">
                             <accelerator>
-                                <KeyCodeCombination alt="DOWN" code="E" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                                <KeyCodeCombination alt="DOWN" code="E" control="UP" meta="UP" shift="UP"
+                                                    shortcut="UP"/>
                             </accelerator>
                         </MenuItem>
-                        <MenuItem mnemonicParsing="false" onAction="#handleSearch" text="Buscar">
+                        <MenuItem fx:id="hechosRegistrados" mnemonicParsing="false" onAction="#handleHechosRegistrados"
+                                  text="Hechos registrados">
                             <accelerator>
-                                <KeyCodeCombination alt="DOWN" code="S" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                                <KeyCodeCombination alt="DOWN" code="H" control="UP" meta="UP" shift="UP"
+                                                    shortcut="UP"/>
+                            </accelerator>
+                        </MenuItem>
+                        <MenuItem fx:id="searchMenuItem" mnemonicParsing="false" onAction="#handleSearch" text="Buscar">
+                            <accelerator>
+                                <KeyCodeCombination alt="DOWN" code="S" control="UP" meta="UP" shift="UP"
+                                                    shortcut="UP"/>
                             </accelerator>
                         </MenuItem>
                     </items>
@@ -163,11 +174,6 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="Gestionar">
                     <items>
-                        <MenuItem mnemonicParsing="false" onAction="#handleHechosRegistrados" text="Hechos registrados">
-                            <accelerator>
-                                <KeyCodeCombination alt="DOWN" code="H" control="UP" meta="UP" shift="UP" shortcut="UP" />
-                            </accelerator>
-                        </MenuItem>
                         <MenuItem mnemonicParsing="false" onAction="#handleTelefoniaPublica" text="Densidad telefónica">
                             <accelerator>
                                 <KeyCodeCombination alt="DOWN" code="T" control="UP" meta="UP" shift="UP"
