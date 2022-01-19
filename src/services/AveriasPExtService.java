@@ -24,9 +24,7 @@ public class AveriasPExtService {
         try {
             Statement statement = Conexion.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
             ResultSet resultSet = statement.executeQuery(query);
-            if (resultSet.next()) {
-                averiasPext = recuperarResultSet(resultSet);
-            }
+            averiasPext = recuperarResultSet(resultSet);
             resultSet.close();
             statement.close();
         } catch (SQLException e) {
