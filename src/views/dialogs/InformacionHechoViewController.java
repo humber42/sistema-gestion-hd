@@ -41,6 +41,10 @@ public class InformacionHechoViewController {
     @FXML
     private TitledPane accidenteTransitoPanel;
     @FXML
+    private TitledPane causaAveriaPextPanel;
+    @FXML
+    private TextField causaTxt;
+    @FXML
     private TextField tipoHechoComboBox;
     @FXML
     private TextField municipioComboBox;
@@ -94,9 +98,11 @@ public class InformacionHechoViewController {
 
     @FXML
     private void initialize() {
+        causaAveriaPextPanel.setExpanded(false);
         accidenteTransitoPanel.setExpanded(false);
         delitoVSPExtPanel.setExpanded(false);
         delitoVSTPublPanel.setExpanded(false);
+        causaAveriaPextPanel.setDisable(false);
         accidenteTransitoPanel.setDisable(true);
         delitoVSPExtPanel.setDisable(true);
         delitoVSTPublPanel.setDisable(true);
@@ -148,8 +154,13 @@ public class InformacionHechoViewController {
                 this.radioButtonImputable.setSelected(hechoSelected.isImputable());
                 this.radioButtonIncidente.setSelected(hechoSelected.isIncidencias());
             }
+            else if(tipoH.equalsIgnoreCase("Avería PExt")){
+                this.activePaneAveriaPext();
+                this.causaTxt.setText(hechoSelected.getAveriasPext().getCausa());
+            }
             else if(tipoH.equalsIgnoreCase("Robo")) {
                 this.checkPrevenido.setVisible(true);
+                this.causaAveriaPextPanel.setDisable(true);
                 this.preven=hechoSelected.isPrevenido();
                 this.checkPrevenido.setSelected(hechoSelected.isPrevenido());
             }
@@ -178,9 +189,11 @@ public class InformacionHechoViewController {
     }
 
     private void activePaneDelitoVSPExt() {
+        causaAveriaPextPanel.setExpanded(false);
         accidenteTransitoPanel.setExpanded(false);
         delitoVSPExtPanel.setExpanded(true);
         delitoVSTPublPanel.setExpanded(false);
+        causaAveriaPextPanel.setDisable(true);
         accidenteTransitoPanel.setDisable(true);
         delitoVSPExtPanel.setDisable(false);
         delitoVSTPublPanel.setDisable(true);
@@ -188,9 +201,11 @@ public class InformacionHechoViewController {
     }
 
     private void activePaneDelitoVSTPubl() {
+        causaAveriaPextPanel.setExpanded(false);
         accidenteTransitoPanel.setExpanded(false);
         delitoVSPExtPanel.setExpanded(false);
         delitoVSTPublPanel.setExpanded(true);
+        causaAveriaPextPanel.setDisable(true);
         accidenteTransitoPanel.setDisable(true);
         delitoVSTPublPanel.setDisable(false);
         delitoVSPExtPanel.setDisable(true);
@@ -198,19 +213,35 @@ public class InformacionHechoViewController {
     }
 
     private void activePaneAccTransito() {
+        causaAveriaPextPanel.setExpanded(false);
         accidenteTransitoPanel.setExpanded(true);
         delitoVSPExtPanel.setExpanded(false);
         delitoVSTPublPanel.setExpanded(false);
+        causaAveriaPextPanel.setDisable(true);
         delitoVSPExtPanel.setDisable(true);
         accidenteTransitoPanel.setDisable(false);
         delitoVSTPublPanel.setDisable(true);
         hideCheckPrevenido();
     }
 
-    private void disableALLPanes() {
+    private void activePaneAveriaPext(){
+        causaAveriaPextPanel.setExpanded(true);
         accidenteTransitoPanel.setExpanded(false);
         delitoVSPExtPanel.setExpanded(false);
         delitoVSTPublPanel.setExpanded(false);
+        causaAveriaPextPanel.setDisable(false);
+        delitoVSPExtPanel.setDisable(true);
+        accidenteTransitoPanel.setDisable(true);
+        delitoVSTPublPanel.setDisable(true);
+        hideCheckPrevenido();
+    }
+
+    private void disableALLPanes() {
+        causaAveriaPextPanel.setExpanded(false);
+        accidenteTransitoPanel.setExpanded(false);
+        delitoVSPExtPanel.setExpanded(false);
+        delitoVSTPublPanel.setExpanded(false);
+        causaAveriaPextPanel.setDisable(true);
         delitoVSPExtPanel.setDisable(true);
         accidenteTransitoPanel.setDisable(true);
         delitoVSTPublPanel.setDisable(true);
