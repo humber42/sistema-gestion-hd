@@ -2,6 +2,7 @@ package services;
 
 import models.AveriasPext;
 import util.Conexion;
+import util.Util;
 
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
@@ -34,6 +35,18 @@ public class AveriasPExtService {
         return averiasPext;
     }
 
+    public AveriasPext searchAveriaPextByName(String name) {
+        AveriasPext averiasPext = new AveriasPext();
+        String query = "Select * from codaverias where causa = '" + name + "'";
+        try {
+            ResultSet set = Util.executeQuery(query);
+            averiasPext = recuperarResultSet(set);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return averiasPext;
+    }
+
     /**
      * Method to fetch all AveriaPext
      *
@@ -48,7 +61,10 @@ public class AveriasPExtService {
             );
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
-                AveriasPext pext = recuperarResultSet(resultSet);
+                AveriasPext pext = new AveriasPext(
+                        resultSet.getInt("id_avpext"),
+                        resultSet.getString("causa")
+                );
                 averiasPextList.add(pext);
             }
             resultSet.close();
@@ -69,8 +85,10 @@ public class AveriasPExtService {
     private AveriasPext recuperarResultSet(ResultSet rs) {
         AveriasPext pext = new AveriasPext();
         try {
-            pext.setId_avpext(rs.getInt("id_avpext"));
-            pext.setCausa(rs.getString("causa"));
+            if (rs.next()) {
+                pext.setId_avpext(rs.getInt("id_avpext"));
+                pext.setCausa(rs.getString("causa"));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -2,20 +2,8 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.RadioButton?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.TitledPane?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
-
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <AnchorPane prefHeight="509.0" prefWidth="772.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.RegistrarViewController">
     <children>
         <GridPane layoutX="27.0" layoutY="96.0" prefHeight="167.0" prefWidth="392.0">
@@ -35,67 +23,62 @@
                 <Label fx:id="unidadOragnizativaLabel" text="Unidad Organizativa" GridPane.rowIndex="2" />
                 <ComboBox fx:id="unidadOrganizativaComboBox" editable="true" prefHeight="26.0" prefWidth="274.0" promptText="Seleccione unidad organizativa" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                 <Label fx:id="tituloLabel" text="Titulo" />
-                <TextField fx:id="titulo" prefHeight="26.0" prefWidth="273.0" GridPane.columnIndex="1" />
                 <Label fx:id="centroLabel" text="Centro" GridPane.rowIndex="3" />
                 <TextField fx:id="centro" prefWidth="266.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                 <Label fx:id="denunciaLabel" text="No. Denuncia" GridPane.rowIndex="1" />
                 <TextField fx:id="denuncia" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                 <Label fx:id="municipioLabel" text="Municipio" GridPane.rowIndex="4" />
+                <TextArea fx:id="titulo" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1"/>
             </children>
         </GridPane>
-        <GridPane layoutX="453.0" layoutY="33.0" prefHeight="128.0" prefWidth="298.0">
+        <GridPane layoutX="446.0" layoutY="19.0" prefHeight="79.0" prefWidth="298.0">
             <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="142.79998779296875" minWidth="10.0" prefWidth="110.79998779296875" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="194.0" minWidth="10.0" prefWidth="189.20001220703125" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="142.79998779296875" minWidth="10.0"
+                                   prefWidth="110.79998779296875"/>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="194.0" minWidth="10.0" prefWidth="189.20001220703125"/>
             </columnConstraints>
             <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
             </rowConstraints>
             <children>
-                <Label fx:id="fechaOcurrenciaLabel" prefHeight="18.0" prefWidth="110.0" text="Fecha ocurrido" />
-                <DatePicker fx:id="fechaOcurrencia" GridPane.columnIndex="1" />
-                <Label fx:id="fechaResumenLabel" text="Fecha Resumen" GridPane.rowIndex="1" />
-                <DatePicker fx:id="fechaResumen" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                <Label fx:id="fechaOcurrenciaLabel" prefHeight="18.0" prefWidth="110.0" text="Fecha ocurrido"/>
+                <DatePicker fx:id="fechaOcurrencia" GridPane.columnIndex="1"/>
+                <Label fx:id="fechaResumenLabel" text="Fecha Resumen" GridPane.rowIndex="1"/>
+                <DatePicker fx:id="fechaResumen" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
             </children>
         </GridPane>
-        <TitledPane animated="false" collapsible="false" layoutX="467.0" layoutY="99.0" prefHeight="106.0" prefWidth="282.0" text="Pérdidas">
-            <content>
-                <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="79.0" prefWidth="281.0">
-                    <children>
-                        <GridPane layoutX="14.0" layoutY="5.0" prefHeight="62.0" prefWidth="260.0">
-                            <columnConstraints>
-                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="128.199951171875" minWidth="10.0" prefWidth="87.999951171875" />
-                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="193.800048828125" minWidth="10.0" prefWidth="171.20004882812498" />
-                            </columnConstraints>
-                            <rowConstraints>
-                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            </rowConstraints>
-                            <children>
-                                <Label fx:id="afectacionMNLabel" text="MN" />
-                                <TextField fx:id="afectacionMN" prefHeight="26.0" prefWidth="172.0" GridPane.columnIndex="1" />
-                                <Label fx:id="afectacionMLCLabel" text="MLC" GridPane.rowIndex="1" />
-                                <TextField fx:id="afectacionMLC" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                            </children>
-                        </GridPane>
-                    </children>
-                </AnchorPane>
-            </content>
-        </TitledPane>
-        <Label fx:id="afectacionLabelLabel" layoutX="441.0" layoutY="216.0" text="Servicios Afectados" />
-        <Label fx:id="observacionesLabel" layoutX="453.0" layoutY="254.0" text="Observaciones" />
-        <TextArea fx:id="observaciones" layoutX="576.0" layoutY="251.0" prefHeight="38.0" prefWidth="174.0" wrapText="true" />
-        <TitledPane fx:id="delitoVSPExtPanel" layoutX="19.0" layoutY="333.0" prefHeight="106.0" prefWidth="255.0" text="Delito VS PExt">
+        <GridPane layoutX="465.0" layoutY="98.0" prefHeight="62.0" prefWidth="260.0">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="128.199951171875" minWidth="10.0"
+                                   prefWidth="87.999951171875"/>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="193.800048828125" minWidth="10.0"
+                                   prefWidth="171.20004882812498"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            </rowConstraints>
+            <children>
+                <Label fx:id="afectacionMNLabel" text="MN"/>
+                <TextField fx:id="afectacionMN" prefHeight="26.0" prefWidth="172.0" GridPane.columnIndex="1"/>
+                <Label fx:id="afectacionMLCLabel" text="MLC" GridPane.rowIndex="1"/>
+                <TextField fx:id="afectacionMLC" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+            </children>
+        </GridPane>
+        <Label fx:id="afectacionLabelLabel" layoutX="441.0" layoutY="171.0" text="Servicios Afectados"/>
+        <Label fx:id="observacionesLabel" layoutX="446.0" layoutY="206.0" text="Observaciones"/>
+        <TextArea fx:id="observaciones" layoutX="555.0" layoutY="204.0" prefHeight="38.0" prefWidth="172.0"
+                  wrapText="true"/>
+        <TitledPane fx:id="delitoVSPExtPanel" layoutX="19.0" layoutY="333.0" prefHeight="106.0" prefWidth="255.0"
+                    text="Delito VS PExt">
             <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="54.0" prefWidth="245.0">
                     <children>
-                        <Label fx:id="materialLabel" layoutX="14.0" layoutY="14.0" text="Material" />
-                        <ComboBox fx:id="materialComboBox" layoutX="81.0" layoutY="10.0" prefWidth="150.0" />
-                        <Label fx:id="cantidadLabel" layoutX="12.0" layoutY="47.0" text="Cantidad" />
-                        <TextField fx:id="cantidad" layoutX="82.0" layoutY="43.0" prefHeight="26.0" prefWidth="148.0" />
+                        <Label fx:id="materialLabel" layoutX="14.0" layoutY="14.0" text="Material"/>
+                        <ComboBox fx:id="materialComboBox" layoutX="81.0" layoutY="10.0" prefWidth="150.0"/>
+                        <Label fx:id="cantidadLabel" layoutX="12.0" layoutY="47.0" text="Cantidad"/>
+                        <TextField fx:id="cantidad" layoutX="82.0" layoutY="43.0" prefHeight="26.0" prefWidth="148.0"/>
                     </children>
                 </AnchorPane>
             </content>
@@ -127,16 +110,32 @@
                         <Insets right="10.0" />
                     </HBox.margin>
                 </JFXButton>
-                <JFXButton buttonType="RAISED" onAction="#handleCancel" prefHeight="33.0" prefWidth="86.0" style="-fx-background-color: red;" text="Cancelar" textFill="#f5f1f1" />
+                <JFXButton buttonType="RAISED" onAction="#handleCancel" prefHeight="33.0" prefWidth="86.0"
+                           style="-fx-background-color: red;" text="Cancelar" textFill="#f5f1f1"/>
             </children>
         </HBox>
-        <Label fx:id="codCDNTLabel" layoutX="27.0" layoutY="24.0" text="Cod CDNT" />
-        <TextField fx:id="codCDNT" layoutX="151.0" layoutY="20.0" prefHeight="22.0" prefWidth="266.0" />
-        <Label fx:id="tipoHechoLabel" layoutX="24.0" layoutY="63.0" text="Tipo de hecho" />
-        <ComboBox fx:id="tipoHechoComboBox" editable="true" layoutX="151.0" layoutY="58.0" prefHeight="26.0" prefWidth="267.0" promptText="Seleccione tipo de hecho" />
-        <Label fx:id="lugarOcurrenciaLabel" layoutX="28.0" layoutY="282.0" text="Lugar" />
-        <TextArea fx:id="lugarOcurrencia" layoutX="151.0" layoutY="266.0" prefHeight="50.0" prefWidth="267.0" wrapText="true" />
-        <TextField fx:id="afectacionService" layoutX="576.0" layoutY="212.0" prefHeight="26.0" prefWidth="174.0" />
-      <CheckBox fx:id="checkPrevenido" layoutX="576.0" layoutY="299.0" mnemonicParsing="false" text="Prevenido" visible="false" />
+        <Label fx:id="codCDNTLabel" layoutX="27.0" layoutY="24.0" text="Cod CDNT"/>
+        <TextField fx:id="codCDNT" layoutX="151.0" layoutY="20.0" prefHeight="22.0" prefWidth="266.0"/>
+        <Label fx:id="tipoHechoLabel" layoutX="24.0" layoutY="63.0" text="Tipo de hecho"/>
+        <ComboBox fx:id="tipoHechoComboBox" editable="true" layoutX="151.0" layoutY="58.0" prefHeight="26.0"
+                  prefWidth="267.0" promptText="Seleccione tipo de hecho"/>
+        <Label fx:id="lugarOcurrenciaLabel" layoutX="28.0" layoutY="282.0" text="Lugar"/>
+        <TextArea fx:id="lugarOcurrencia" layoutX="151.0" layoutY="266.0" prefHeight="50.0" prefWidth="267.0"
+                  wrapText="true"/>
+        <TextField fx:id="afectacionService" layoutX="555.0" layoutY="167.0" prefHeight="26.0" prefWidth="172.0"/>
+        <CheckBox fx:id="checkPrevenido" layoutX="656.0" layoutY="255.0" mnemonicParsing="false" text="Prevenido"
+                  visible="false"/>
+        <TitledPane fx:id="causaAveriaPextPanel" animated="false" layoutX="433.0" layoutY="256.0" prefHeight="62.0"
+                    prefWidth="298.0" text="Averia PExt">
+            <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                    <children>
+                        <Label layoutX="27.0" layoutY="10.0" text="Causa"/>
+                        <ComboBox fx:id="causaAveriaPext" layoutX="81.0" layoutY="6.0" prefHeight="25.0"
+                                  prefWidth="202.0"/>
+                    </children>
+                </AnchorPane>
+            </content>
+        </TitledPane>
     </children>
 </AnchorPane>

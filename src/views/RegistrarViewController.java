@@ -18,6 +18,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Dialog to register a new Hechos into the database
@@ -30,7 +31,7 @@ public class RegistrarViewController {
     boolean imputable;
     boolean fromPrincipal = true;
     @FXML
-    private TextField titulo;
+    private TextArea titulo;
     @FXML
     private Label tituloLabel;
     @FXML
@@ -71,6 +72,10 @@ public class RegistrarViewController {
     private TitledPane delitoVSTPublPanel;
     @FXML
     private TitledPane accidenteTransitoPanel;
+    @FXML
+    private TitledPane causaAveriaPextPanel;
+    @FXML
+    private ComboBox<String> causaAveriaPext;
     @FXML
     private ComboBox<String> tipoHechoComboBox;
     @FXML
@@ -180,15 +185,29 @@ public class RegistrarViewController {
         tipoHechoComboBox.getItems().addAll(llenarComboTipoHechos());
         unidadOrganizativaComboBox.getItems().addAll(llenarUnidadOrganizativa());
 
+        this.causaAveriaPextPanel.setVisible(false);
+        this.causaAveriaPext.setEditable(true);
 
         tipoHechoComboBox.setEditable(false);
 
         tipoHechoComboBox.setOnAction(e ->
-                handleTipoHechoPanes(tipoHechoComboBox.getValue()));
+                handleTipoHechoPanes(tipoHechoComboBox.getValue())
+        );
+        tipoHechoComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.equalsIgnoreCase("Delito vs Pext") && !toUpdate) {
+                this.titulo.setText("Afectación a la planta exterior, por corte y sustracción ");
+            } else if (newValue.equalsIgnoreCase("Acc. Tránsito") && !toUpdate) {
+                this.titulo.setText("Accidente de tránsito ");
+            } else {
+                if (!toUpdate)
+                    this.titulo.clear();
+            }
+        });
 
 
         TextFields.bindAutoCompletion(municipioComboBox.getEditor(), municipioComboBox.getItems());
         TextFields.bindAutoCompletion(unidadOrganizativaComboBox.getEditor(), unidadOrganizativaComboBox.getItems());
+
 
         //Disable the values in the date picker before at the occurrence day
         fechaResumen.setDayCellFactory(dayCellFactory);
@@ -259,6 +278,13 @@ public class RegistrarViewController {
                 this.disableALLPanes();
                 this.checkPrevenido.setVisible(true);
                 this.checkPrevenido.setSelected(hechoToUpdate.isPrevenido());
+            } else if (tipoH.equalsIgnoreCase("Avería PExt")) {
+                this.disableALLPanes();
+                this.causaAveriaPextPanel.setVisible(true);
+                String causa = hechoToUpdate.getAveriasPext().getCausa();
+                System.out.println(causa);
+                this.llenarCausasAveriaPext();
+                this.causaAveriaPext.getSelectionModel().select(causa);
             } else {
                 this.disableALLPanes();
             }
@@ -327,20 +353,39 @@ public class RegistrarViewController {
         return nombreUnidadOrganizativa;
     }
 
+    private void llenarCausasAveriaPext() {
+        List<String> nombreCausaAveriaPext = new LinkedList<>();
+        nombreCausaAveriaPext = ServiceLocator.getAveriasPExtService()
+                .fecthAllAveriaPext()
+                .stream()
+                .map(AveriasPext::getCausa)
+                .collect(Collectors.toCollection(LinkedList::new));
+        this.causaAveriaPext.getItems().addAll(nombreCausaAveriaPext);
+        this.causaAveriaPext.setPromptText("Seleccione");
+        TextFields.bindAutoCompletion(this.causaAveriaPext.getEditor(), this.causaAveriaPext.getItems());
+    }
 
     @FXML
     private void handleTipoHechoPanes(String value) {
-        if (value.equalsIgnoreCase("Delito vs PExt")) {
-            this.activePaneDelitoVSPExt();
-        } else if (value.equalsIgnoreCase("Delito vs TPúb")) {
-            this.activePaneDelitoVSTPubl();
-        } else if (value.equalsIgnoreCase("Acc. Tránsito")) {
-            this.activePaneAccTransito();
-        } else if (value.equalsIgnoreCase("Robo")) {
-            disableALLPanes();
-            this.checkPrevenido.setVisible(true);
-        } else {
-            disableALLPanes();
+        try {
+            if (value.equalsIgnoreCase("Delito vs PExt")) {
+                this.activePaneDelitoVSPExt();
+            } else if (value.equalsIgnoreCase("Delito vs TPúb")) {
+                this.activePaneDelitoVSTPubl();
+            } else if (value.equalsIgnoreCase("Acc. Tránsito")) {
+                this.activePaneAccTransito();
+            } else if (value.equalsIgnoreCase("Robo")) {
+                disableALLPanes();
+                this.checkPrevenido.setVisible(true);
+            } else if (value.equalsIgnoreCase("Avería PExt")) {
+                this.disableALLPanes();
+                this.causaAveriaPextPanel.setVisible(true);
+                this.llenarCausasAveriaPext();
+            } else {
+                disableALLPanes();
+            }
+        } catch (NullPointerException e) {
+            this.disableALLPanes();
         }
     }
 
@@ -358,6 +403,7 @@ public class RegistrarViewController {
         delitoVSTPublPanel.setDisable(true);
         delitoVSPExtPanel.setDisable(false);
         llenarComboMaterial();
+        causaAveriaPextPanel.setVisible(false);
     }
 
     private void activePaneDelitoVSTPubl() {
@@ -369,6 +415,7 @@ public class RegistrarViewController {
         delitoVSPExtPanel.setDisable(true);
         delitoVSTPublPanel.setDisable(false);
         llenarComboAfectacion();
+        causaAveriaPextPanel.setVisible(false);
     }
 
     private void activePaneAccTransito() {
@@ -379,6 +426,7 @@ public class RegistrarViewController {
         accidenteTransitoPanel.setDisable(false);
         delitoVSPExtPanel.setDisable(true);
         delitoVSTPublPanel.setDisable(true);
+        causaAveriaPextPanel.setVisible(false);
     }
 
     private void disableALLPanes() {
@@ -389,6 +437,7 @@ public class RegistrarViewController {
         accidenteTransitoPanel.setDisable(true);
         delitoVSPExtPanel.setDisable(true);
         delitoVSTPublPanel.setDisable(true);
+        causaAveriaPextPanel.setVisible(false);
     }
 
     private void llenarComboMaterial() {
@@ -399,6 +448,8 @@ public class RegistrarViewController {
                 .forEach(p -> materialesList.add(p.getMateriales()));
         this.materialComboBox.setPromptText("Seleccione");
         this.materialComboBox.getItems().addAll(materialesList);
+        TextFields.bindAutoCompletion(this.materialComboBox.getEditor(), this.materialComboBox.getItems());
+        this.materialComboBox.setEditable(true);
     }
 
     private void llenarComboAfectacion() {
@@ -638,6 +689,7 @@ public class RegistrarViewController {
             hechoToUpdate.setTipoVandalismo(null);
             hechoToUpdate.setImputable(false);
             hechoToUpdate.setIncidencias(false);
+            hechoToUpdate.setAveriasPext(null);
         } else if (!delitoVSTPublPanel.isDisabled()) {
             TipoVandalismo afectacion = this.buscarAfectacion(this.vandalismoComboBox.getValue());
             hechoToUpdate.setTipoVandalismo(afectacion);
@@ -645,18 +697,30 @@ public class RegistrarViewController {
             hechoToUpdate.setCantidad(0);
             hechoToUpdate.setImputable(false);
             hechoToUpdate.setIncidencias(false);
+            hechoToUpdate.setAveriasPext(null);
         } else if (!accidenteTransitoPanel.isDisabled()) {
             hechoToUpdate.setImputable(this.imputable);
             hechoToUpdate.setIncidencias(this.incidente);
             hechoToUpdate.setMateriales(null);
             hechoToUpdate.setCantidad(0);
             hechoToUpdate.setTipoVandalismo(null);
+            hechoToUpdate.setAveriasPext(null);
+        } else if (this.causaAveriaPextPanel.isVisible()) {
+            AveriasPext averiasPext = this.buscarAveriaPext(this.causaAveriaPext.getValue());
+            hechoToUpdate.setAveriasPext(averiasPext);
+            hechoToUpdate.setImputable(false);
+            hechoToUpdate.setIncidencias(false);
+            hechoToUpdate.setMateriales(null);
+            hechoToUpdate.setCantidad(0);
+            hechoToUpdate.setTipoVandalismo(null);
+            hechoToUpdate.setPrevenido(this.checkPrevenido.isSelected());
         } else {
             hechoToUpdate.setImputable(false);
             hechoToUpdate.setIncidencias(false);
             hechoToUpdate.setMateriales(null);
             hechoToUpdate.setCantidad(0);
             hechoToUpdate.setTipoVandalismo(null);
+            hechoToUpdate.setAveriasPext(null);
             hechoToUpdate.setPrevenido(this.checkPrevenido.isSelected());
         }
 
@@ -694,6 +758,7 @@ public class RegistrarViewController {
         Municipio municipio = this.buscarMunicipio(municipioComboBox.getValue());
         System.out.println(municipio);
         UnidadOrganizativa unidadOrganizativa = this.buscarUnidadOrganizativa(unidadOrganizativaComboBox.getValue());
+
         Hechos hechos = new Hechos(titulo, tipoHecho, dateOcurrencia, dateResumen, unidadOrganizativa,
                 centro, lugarOcurrencia, municipio, denuncia, Double.valueOf(perdiadMLC), Double.valueOf(perdidaMN),
                 Double.valueOf(Integer.toString(serviciosAfectados)), observaciones, codCDNT, prevenido);
@@ -714,12 +779,15 @@ public class RegistrarViewController {
                 ServiceLocator.getHechosService()
                         .registrarHecho(hechos, afectacion);
 
-
             } else if (!accidenteTransitoPanel.isDisabled()) {
                 //saving accidente transito
                 ServiceLocator.getHechosService()
                         .registrarHecho(hechos, this.imputable, this.incidente);
 
+            } else if (this.causaAveriaPextPanel.isVisible()) {
+                AveriasPext averiasPext = this.buscarAveriaPext(this.causaAveriaPext.getValue());
+                ServiceLocator.getHechosService()
+                        .registrarHechos(hechos, averiasPext);
             } else {
                 //hecho ordinario
                 ServiceLocator.getHechosService()
@@ -735,6 +803,10 @@ public class RegistrarViewController {
 
     private TipoVandalismo buscarAfectacion(String name) {
         return ServiceLocator.getTipoVandalismoService().searchVandalismoByName(name);
+    }
+
+    private AveriasPext buscarAveriaPext(String name) {
+        return ServiceLocator.getAveriasPExtService().searchAveriaPextByName(name);
     }
 
     private TipoHecho buscarTipoHecho(String name) {
@@ -756,22 +828,23 @@ public class RegistrarViewController {
     private void cleanData() {
         this.titulo.clear();
         this.lugarOcurrencia.clear();
+        this.afectacionMLC.setText("0.0");
+        this.afectacionMN.setText("0.0");
         this.codCDNT.clear();
         this.centro.clear();
         this.denuncia.clear();
         this.observaciones.clear();
         this.cantidad.clear();
-        this.afectacionMLC.clear();
-        this.afectacionMN.clear();
         this.afectacionService.clear();
         this.tipoHechoComboBox.getSelectionModel().clearSelection();
         this.municipioComboBox.getSelectionModel().clearSelection();
-
+        this.causaAveriaPext.getSelectionModel().clearSelection();
         this.unidadOrganizativaComboBox.getSelectionModel().clearSelection();
         this.materialComboBox.getSelectionModel().clearSelection();
         this.radioButtonImputable.setSelected(false);
         this.radioButtonIncidente.setSelected(false);
         this.checkPrevenido.setSelected(false);
+        this.tipoHechoComboBox.setPromptText("Seleccione");
         this.fechaOcurrencia.setValue(null);
         this.fechaResumen.setValue(null);
     }

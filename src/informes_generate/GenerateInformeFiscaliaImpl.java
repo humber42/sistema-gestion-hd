@@ -296,7 +296,7 @@ public class GenerateInformeFiscaliaImpl implements GenerateInformeFiscalia {
         worksheet.getCell("B2").setStyle(generarStilo());
         worksheet.getCell("C2").setValue("Servicios Afectados");
         worksheet.getCell("C2").setStyle(generarStilo());
-        worksheet.getCell("D2").setValue("Pérdidas Económicas");
+        worksheet.getCell("D2").setValue("Pérdidas Económicas" + (date.minusYears(1).getYear() > 2020 ? "(MN)" : "(MLC)"));
         worksheet.getCell("D2").setStyle(generarStilo());
 
         CellRange cellsE1G1 = worksheet.getCells().getSubrange("E1:G1");
@@ -307,7 +307,7 @@ public class GenerateInformeFiscaliaImpl implements GenerateInformeFiscalia {
         worksheet.getCell("E2").setStyle(generarStilo());
         worksheet.getCell("F2").setValue("Servicios Afectados");
         worksheet.getCell("F2").setStyle(generarStilo());
-        worksheet.getCell("G2").setValue("Pérdidas Económicas");
+        worksheet.getCell("G2").setValue("Pérdidas Económicas" + (date.getYear() > 2020 ? "(MN)" : "(MLC)"));
         worksheet.getCell("G2").setStyle(generarStilo());
 
         CellRange rangoFila3 = worksheet.getCells().getSubrange("A3:G3");
@@ -555,7 +555,8 @@ public class GenerateInformeFiscaliaImpl implements GenerateInformeFiscalia {
                 } else if (resumenModels.getUnidadOrganizativa().equalsIgnoreCase("dtes") ||
                         resumenModels.getUnidadOrganizativa().equalsIgnoreCase("dtoe") ||
                         resumenModels.getUnidadOrganizativa().equalsIgnoreCase("dtsr") ||
-                        resumenModels.getUnidadOrganizativa().equalsIgnoreCase("dtno")) {
+                        resumenModels.getUnidadOrganizativa().equalsIgnoreCase("dtno") ||
+                        resumenModels.getUnidadOrganizativa().equalsIgnoreCase("dvlh")) {
                     sheet.getCell(listaLetras.get(9)).setValue(
                             sheet.getCell(listaLetras.get(9)).getIntValue() + resumenModels.getCantHechos()
                     );

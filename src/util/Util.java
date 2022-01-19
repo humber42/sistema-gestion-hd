@@ -170,6 +170,7 @@ public class Util {
         LinkedList<HechosPorMunicipio> hechosdeUno = new LinkedList<>();
         LinkedList<HechosPorMunicipio> hechosDeDos = new LinkedList<>();
         LinkedList<HechosPorMunicipio> hechosRetorno = new LinkedList<>();
+        LinkedList<HechosPorMunicipio> hechosDeTres = new LinkedList<>();
 
         hechosdeUno = hechosPorMunicipios.stream().filter(
                 hechosPorMunicipio -> hechosPorMunicipio.getCantHechos() == 1
@@ -179,9 +180,20 @@ public class Util {
                 hechosPorMunicipio -> hechosPorMunicipio.getCantHechos() == 2
         ).collect(Collectors.toCollection(LinkedList::new));
 
-        hechosRetorno = hechosPorMunicipios.stream().filter(
-                hechosPorMunicipio -> hechosPorMunicipio.getCantHechos() > 2
+        hechosDeTres = hechosPorMunicipios.stream().filter(
+                hechosPorMunicipio -> hechosPorMunicipio.getCantHechos() == 3
         ).collect(Collectors.toCollection(LinkedList::new));
+
+        final int sizeTres = hechosDeTres.size();
+
+
+        hechosRetorno = hechosPorMunicipios.stream().filter(
+                hechosPorMunicipio -> hechosPorMunicipio.getCantHechos() > (sizeTres > 2 ? 3 : 2)
+        ).collect(Collectors.toCollection(LinkedList::new));
+
+        if (hechosDeTres.size() > 2) {
+            hechosRetorno.add(hechoModified(hechosDeTres));
+        }
 
         if (hechosDeDos.size() > 0) {
             hechosRetorno.add(hechoModified(hechosDeDos));
@@ -197,6 +209,7 @@ public class Util {
     public static LinkedList<MunicipioServiciosAfectados> ordenandoHechosPorMunicipioServiciosAfectados(LinkedList<MunicipioServiciosAfectados> hechosPorMunicipios) {
         LinkedList<MunicipioServiciosAfectados> hechosdeUno = new LinkedList<>();
         LinkedList<MunicipioServiciosAfectados> hechosDeDos = new LinkedList<>();
+        LinkedList<MunicipioServiciosAfectados> hechosDeTres = new LinkedList<>();
         LinkedList<MunicipioServiciosAfectados> hechosRetorno = new LinkedList<>();
 
         hechosdeUno = hechosPorMunicipios.stream().filter(
@@ -207,12 +220,22 @@ public class Util {
                 hechosPorMunicipio -> hechosPorMunicipio.getCant_servicios() == 2
         ).collect(Collectors.toCollection(LinkedList::new));
 
-        hechosRetorno = hechosPorMunicipios.stream().filter(
-                hechosPorMunicipio -> hechosPorMunicipio.getCant_servicios() > 2
+        hechosDeTres = hechosPorMunicipios.stream().filter(
+                hechosPorMunicipio -> hechosPorMunicipio.getCant_servicios() == 3
         ).collect(Collectors.toCollection(LinkedList::new));
 
-        hechosRetorno.add(hechoModifiedServiciosAfectados(hechosDeDos));
-        hechosRetorno.add(hechoModifiedServiciosAfectados(hechosdeUno));
+        final int sizeTres = hechosDeTres.size();
+
+        hechosRetorno = hechosPorMunicipios.stream().filter(
+                hechosPorMunicipio -> hechosPorMunicipio.getCant_servicios() > (sizeTres > 2 ? 3 : 2)
+        ).collect(Collectors.toCollection(LinkedList::new));
+
+        if (hechosDeTres.size() > 2)
+            hechosRetorno.add(hechoModifiedServiciosAfectados(hechosDeTres));
+        if (hechosDeDos.size() > 0)
+            hechosRetorno.add(hechoModifiedServiciosAfectados(hechosDeDos));
+        if (hechosdeUno.size() > 0)
+            hechosRetorno.add(hechoModifiedServiciosAfectados(hechosdeUno));
 
         return hechosRetorno;
     }

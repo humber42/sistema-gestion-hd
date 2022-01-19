@@ -47,7 +47,7 @@ public class HechosServiceImpl implements HechosService {
 
     @Override
     public void updateHecho(Hechos hechos) throws SQLException {
-        String function = "{call update_hecho(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+        String function = "{call update_hecho(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
 
         CallableStatement statement = Conexion.getConnection().prepareCall(function);
         statement.setInt(1, hechos.getId_reg());
@@ -74,7 +74,10 @@ public class HechosServiceImpl implements HechosService {
         statement.setObject(20, hechos.getTipoVandalismo() == null
                 ? null
                 : hechos.getTipoVandalismo().getId_afect_tpublica());
-        statement.setBoolean(21, hechos.isPrevenido());
+        statement.setObject(21, hechos.getAveriasPext() == null
+                ? null
+                : hechos.getAveriasPext().getId_avpext());
+        statement.setBoolean(22, hechos.isPrevenido());
         statement.execute();
         statement.close();
     }
@@ -115,6 +118,26 @@ public class HechosServiceImpl implements HechosService {
             callableStatement.setInt(1, this.searchHechoByCODCDNT(hechos.getCod_cdnt()).getId_reg());
             callableStatement.setBoolean(2, imputable);
             callableStatement.setBoolean(3, incidente);
+            callableStatement.execute();
+            callableStatement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Averias PExt
+     *
+     * @param hechos      Hechos object
+     * @param averiasPext AveriaPext data corresponding to de id AveriaPext
+     */
+    public void registrarHechos(Hechos hechos, AveriasPext averiasPext) throws SQLException {
+        this.registrarHecho(hechos);
+        String function = "{call registrar_hecho_averia_pext(?,?)}";
+        try {
+            CallableStatement callableStatement = Conexion.getConnection().prepareCall(function);
+            callableStatement.setInt(1, this.searchHechoByCODCDNT(hechos.getCod_cdnt()).getId_reg());
+            callableStatement.setInt(2, averiasPext.getId_avpext());
             callableStatement.execute();
             callableStatement.close();
         } catch (SQLException e) {
@@ -273,9 +296,15 @@ public class HechosServiceImpl implements HechosService {
 
 
     public LinkedList<ResumenModels> cantidadHechosPextPorUnidadOrganizativaAnnosFiscaliaCierre(Date date, int tipo) {
-        String function = "{call contar_hechos_pext_por_unidades_organizativas_annos(?,?,?)}";
+        String function = "";
+        if (date.toLocalDate().getYear() < 2021) {
+            function = "{call contar_hechos_pext_por_unidades_organizativas_annos(?,?,?)}";
+        } else {
+            function = "{call contar_hechos_por_unidades_organizativas_annos_afectacion_mn(?,?,?)}";
+        }
         String fechaInicio = String.valueOf(date.toLocalDate().getYear()) + "-01-01";
         LinkedList<ResumenModels> resumenModels = new LinkedList<>();
+
 
         try {
             CallableStatement callableStatement = Conexion.getConnection().prepareCall(function);
@@ -1072,11 +1101,13 @@ public class HechosServiceImpl implements HechosService {
             hechos.setUnidadOrganizativa(
                     ServiceLocator.getUnidadOrganizativaService().getOneUnidadOrganizativa(resultSet.getInt("id_uorg"))
             );
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return hechos;
     }
+
 
     /**
      * Funcion para recuperar una lista con el resumen models

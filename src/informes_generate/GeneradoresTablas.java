@@ -216,13 +216,16 @@ public class GeneradoresTablas {
         int column = 0;
         int rowInitial = row;
 
+
         row = writeCellMaterialesGrafico(row, column, materialsFiscaliaListAnnoAnterior, sheet);
-        ranges.add(sheet.getCells().getSubrangeAbsolute(rowInitial, column, row, 2));
+        ranges.add(sheet.getCells().getSubrangeAbsolute(rowInitial - 1, column, row - 1, 2));
         rowInitial = row;
 
+
         row = writeCellMaterialesGrafico(row, column, materialsFiscaliaListAnnoActual, sheet);
-        ranges.add(sheet.getCells().getSubrangeAbsolute(rowInitial, column, row, 2));
+        ranges.add(sheet.getCells().getSubrangeAbsolute(rowInitial - 1, column, row - 1, 2));
         rowInitial = row;
+
 
         sheet.getCell(row++, column).setValue("Cant-Hechos");
         CellRange range = sheet.getParent().getWorksheet(1).getCells().getSubrange("C80:C103");
@@ -235,16 +238,18 @@ public class GeneradoresTablas {
         ranges.add(sheet.getCells().getSubrangeAbsolute(rowInitial + 1, 0, row - 1, 0));
         rowInitial = row;
 
+
         row = writeCellHechosByMunicipio(row, column, ServiceLocator.getHechosService().obtenerHechosPorMunicipio(Date.valueOf(date), 1), sheet);
         ranges.add(sheet.getCells().getSubrangeAbsolute(rowInitial, 0, row - 1, 1));
         rowInitial = row;
 
+
         row = writeCellAfectacionGrafico(row, column, afectacionFiscaliaModelsAnnoAnterior, sheet);
-        ranges.add(sheet.getCells().getSubrangeAbsolute(rowInitial, column, row, 2));
+        ranges.add(sheet.getCells().getSubrangeAbsolute(rowInitial - 1, column, row - 1, 2));
         rowInitial = row;
 
         row = writeCellAfectacionGrafico(row, column, afectacionFiscaliaModelsAnnoActual, sheet);
-        ranges.add(sheet.getCells().getSubrangeAbsolute(rowInitial, column, row, 2));
+        ranges.add(sheet.getCells().getSubrangeAbsolute(rowInitial - 1, column, row - 1, 2));
         rowInitial = row;
 
         sheet.getCell(row++, column).setValue("Cant-Hechos-Tpub");
@@ -257,6 +262,7 @@ public class GeneradoresTablas {
         }
         ranges.add(sheet.getCells().getSubrangeAbsolute(rowInitial+1, 0, row-1, 0));
         //rowInitial = row;
+
 
         column = 4;
         row = 8;
@@ -364,13 +370,13 @@ public class GeneradoresTablas {
 
         // range 0
         row = writeCellMaterialesGrafico(row, column, materialsFiscaliaListAnnoAnterior, sheet);
-        ranges.add(sheet.getCells().getSubrangeAbsolute(rowInitial, column, row, 2));
+        ranges.add(sheet.getCells().getSubrangeAbsolute(rowInitial - 1, column, row - 1, 2));
         rowInitial = row;
 
 
         //range 1
         row = writeCellMaterialesGrafico(row, column, materialsFiscaliaListAnnoActual, sheet);
-        ranges.add(sheet.getCells().getSubrangeAbsolute(rowInitial, column, row, 2));
+        ranges.add(sheet.getCells().getSubrangeAbsolute(rowInitial - 1, column, row - 1, 2));
         rowInitial = row;
 
         //range 2
@@ -398,7 +404,7 @@ public class GeneradoresTablas {
 
         //range 5
         row = writeCellAfectacionGrafico(row, column, afectacionFiscaliaModelsAnnoActual, sheet);
-        ranges.add(sheet.getCells().getSubrangeAbsolute(rowInitial, column, row, 2));
+        ranges.add(sheet.getCells().getSubrangeAbsolute(rowInitial - 1, column, row - 1, 2));
         rowInitial = row;
 
         //range 6

@@ -9,6 +9,11 @@ public class AveriasPext {
         this(null);
     }
 
+    public AveriasPext(int id_avpext, String causa) {
+        this.id_avpext = id_avpext;
+        this.causa = causa;
+    }
+
     public AveriasPext(String causa) {
         this.causa = causa;
     }

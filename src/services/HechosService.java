@@ -24,6 +24,8 @@ public interface HechosService {
 
     void registrarHecho(Hechos hechos, boolean imputable, boolean incidente) throws SQLException;
 
+    void registrarHechos(Hechos hechos, AveriasPext averiasPext) throws SQLException;
+
     Hechos searchHechoByCODCDNT(String cdnt);
 
     Hechos getHechoByUOandFechaOcurrenciaAndTitulo(int id_uorg, Date fecha, String title);
