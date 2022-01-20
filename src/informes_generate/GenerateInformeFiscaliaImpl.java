@@ -471,7 +471,9 @@ public class GenerateInformeFiscaliaImpl implements GenerateInformeFiscalia {
                 } else if (esclarecimientoHecho.getDireccionTerritorial().equalsIgnoreCase("dtsr")
                         || esclarecimientoHecho.getDireccionTerritorial().equalsIgnoreCase("dtno")
                         || esclarecimientoHecho.getDireccionTerritorial().equalsIgnoreCase("dtoe")
-                        || esclarecimientoHecho.getDireccionTerritorial().equalsIgnoreCase("dtes")) {
+                        || esclarecimientoHecho.getDireccionTerritorial().equalsIgnoreCase("dtes")
+                        || esclarecimientoHecho.getDireccionTerritorial().equalsIgnoreCase("dvlh")
+                ) {
                     sheet.getCell(letras.get(9)).setValue(
                             esclarecimientoHecho.getTotalConciliados() + (Integer) sheet.getCell(letras.get(9)).getValue()
                     );

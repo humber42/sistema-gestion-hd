@@ -2,8 +2,10 @@ package util;
 
 import com.gembox.internal.core.DivideByZeroException;
 import com.gembox.spreadsheet.*;
+import icons.ImageLocation;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.DirectoryChooser;
@@ -12,6 +14,7 @@ import models.*;
 
 import java.awt.*;
 import java.io.File;
+import java.net.URISyntaxException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -311,6 +314,12 @@ public class Util {
         Alert alert = new Alert(type);
         alert.setHeaderText(null);
         alert.setContentText(result);
+        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+        try {
+            stage.getIcons().add(new Image(ImageLocation.class.getResource("icon_app.png").toURI().toString()));
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
         alert.setTitle(result);
         alert.showAndWait();
     }

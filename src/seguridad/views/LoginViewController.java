@@ -11,6 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import seguridad.models.User;
 import seguridad.models.UserLoggedIn;
@@ -33,6 +34,7 @@ public class LoginViewController {
     private PasswordField password;
     @FXML
     private JFXButton btnLogin;
+    private static double xOffset = 0;
 
     private Stage primaryStage;
 
@@ -54,8 +56,21 @@ public class LoginViewController {
         this.primaryStage = primaryStage;
     }
 
+    private static double yOffset = 0;
+    @FXML
+    private Pane topPane;
+
     @FXML
     private void initialize() {
+        this.topPane.setOnMousePressed(event -> {
+            xOffset = event.getSceneX();
+            yOffset = event.getSceneY();
+        });
+
+        this.topPane.setOnMouseDragged(event -> {
+            primaryStage.setX(event.getScreenX() - xOffset);
+            primaryStage.setY(event.getScreenY() - yOffset);
+        });
     }
 
     @FXML

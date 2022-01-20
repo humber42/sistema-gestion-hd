@@ -570,7 +570,7 @@ public class GeneradoresTablas {
         }
 
         percentMedio = (100 * serviciosAfectados / epInstaladas);
-        sheet.getCell(row, column + 1).setValue(String.valueOf(percentMedio).substring(0, 4) + "% Servicios Afectados");
+        sheet.getCell(row, column + 1).setValue(String.valueOf(percentMedio).substring(0, 4) + "% Servicios vs Técnica");
         row++;
         for (Afectaciones afectaciones1 : Util.reordenandoAfectaciones(afectaciones)) {
             sheet.getCell(row, column).setValue(afectaciones1.getUnidadOrganizativa());

@@ -2,14 +2,17 @@ package views;
 
 import com.jfoenix.controls.JFXButton;
 import database_manage.DataBaseManagementController;
+import icons.ImageLocation;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -22,6 +25,7 @@ import seguridad.views.UserRegisterViewController;
 import sistema_identificativo.views.MainSistemaIdentificativoController;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 public class PantallaPrincipalModulos {
 
@@ -44,6 +48,9 @@ public class PantallaPrincipalModulos {
     @FXML
     private JFXButton btnSalva;
 
+    private static double xOffset = 0;
+
+
     @FXML
     private BorderPane pane;
 
@@ -61,13 +68,27 @@ public class PantallaPrincipalModulos {
         this.mainApp = mainApp;
     }
 
+    private static double yOffset = 0;
+    @FXML
+    private Pane topPane;
+
     @FXML
     private void initialize() {
         this.logged = LoginViewController.getUserLoggedIn();
         userLoggedInfo();
         this.etecsaImg.setOnMouseClicked(event ->
-             this.handleUsers()
+                this.handleUsers()
         );
+
+        this.topPane.setOnMousePressed(event -> {
+            xOffset = event.getSceneX();
+            yOffset = event.getSceneY();
+        });
+
+        this.topPane.setOnMouseDragged(event -> {
+            primaryStage.setX(event.getScreenX() - xOffset);
+            primaryStage.setY(event.getScreenY() - yOffset);
+        });
     }
 
     private void userLoggedInfo(){
@@ -113,6 +134,11 @@ public class PantallaPrincipalModulos {
                 Stage dialogStage = new Stage();
                 dialogStage.setTitle("Administración de usuarios y roles");
                 dialogStage.initModality(Modality.WINDOW_MODAL);
+                try {
+                    dialogStage.getIcons().add(new Image(ImageLocation.class.getResource("icon_app.png").toURI().toString()));
+                } catch (URISyntaxException e) {
+                    e.printStackTrace();
+                }
                 dialogStage.setResizable(false);
                 dialogStage.initOwner(this.primaryStage);
                 Scene scene = new Scene(pane);

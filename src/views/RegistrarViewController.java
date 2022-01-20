@@ -178,6 +178,7 @@ public class RegistrarViewController {
         this.afectacionMLC.setText("0.0");
         this.afectacionMN.setText("0.0");
 
+
         /*
         Initializing the comboBox that is necesary
          */
@@ -748,7 +749,7 @@ public class RegistrarViewController {
         String denuncia = this.denuncia.getText();
         String perdidaMN = this.afectacionMN.getText().isEmpty() ? "0.0" : this.afectacionMN.getText();
         String perdiadMLC = this.afectacionMLC.getText().isEmpty() ? "0.0" : this.afectacionMLC.getText();
-        int serviciosAfectados = this.afectacionService.getText().isEmpty() ? '0' : Integer.valueOf(this.afectacionService.getText());
+        int serviciosAfectados = this.afectacionService.getText().isEmpty() ? 0 : Integer.valueOf(this.afectacionService.getText());
         String observaciones = this.observaciones.getText();
         boolean prevenido = this.checkPrevenido.isSelected();
 

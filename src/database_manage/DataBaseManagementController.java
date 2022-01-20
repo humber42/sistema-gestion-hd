@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
@@ -38,9 +39,12 @@ public class DataBaseManagementController {
 
     @FXML
     private JFXButton guardarButton;
+    private static double xOffset = 0;
 
     private Stage dialogLoading;
-
+    private static double yOffset = 0;
+    @FXML
+    private Pane topPane;
 
     public void setDialogStage(Stage stage) {
         this.dialogStage = stage;
@@ -58,6 +62,15 @@ public class DataBaseManagementController {
         this.puertoName.setDisable(true);
         this.servidorName.setDisable(true);
         this.usuarioName.setDisable(true);
+        this.topPane.setOnMousePressed(event -> {
+            xOffset = event.getSceneX();
+            yOffset = event.getSceneY();
+        });
+
+        this.topPane.setOnMouseDragged(event -> {
+            dialogStage.setX(event.getScreenX() - xOffset);
+            dialogStage.setY(event.getScreenY() - yOffset);
+        });
     }
 
     private boolean notFieldsEmpty() {

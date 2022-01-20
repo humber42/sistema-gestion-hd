@@ -7,17 +7,20 @@
 <?import javafx.scene.text.Font?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="448.0" prefWidth="334.0" style="-fx-background-color: White;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seguridad.views.LoginViewController">
    <children>
-      <Pane prefHeight="37.0" prefWidth="334.0" styleClass="barra-superior" stylesheets="@../../css/barra-superior.css">
-         <children>
-             <Label layoutX="115.0" layoutY="6.0" text="Iniciar Sesión" textFill="#000000f6">
-                 <font>
-                     <Font size="18.0"/>
-                 </font>
-             </Label>
-            <JFXButton accessibleRole="IMAGE_VIEW" buttonType="RAISED" focusTraversable="false" layoutX="288.0" layoutY="-3.0" onAction="#handleClose" prefHeight="44.0" prefWidth="52.0" styleClass="close-button" stylesheets="@../../css/buttons.css">
-               <graphic>
-                  <ImageView fitHeight="37.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
+      <Pane fx:id="topPane" prefHeight="37.0" prefWidth="334.0" styleClass="barra-superior"
+            stylesheets="@../../css/barra-superior.css">
+          <children>
+              <Label layoutX="115.0" layoutY="6.0" text="Iniciar Sesión" textFill="#000000f6">
+                  <font>
+                      <Font size="18.0"/>
+                  </font>
+              </Label>
+              <JFXButton accessibleRole="IMAGE_VIEW" buttonType="RAISED" focusTraversable="false" layoutX="288.0"
+                         layoutY="-3.0" onAction="#handleClose" prefHeight="44.0" prefWidth="52.0"
+                         styleClass="close-button" stylesheets="@../../css/buttons.css">
+                  <graphic>
+                      <ImageView fitHeight="37.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
+                          <image>
                         <Image url="@../../icons/icons8_Close_Window_50px.png" />
                      </image>
                   </ImageView>

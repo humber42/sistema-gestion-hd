@@ -1,6 +1,7 @@
 package sistema_identificativo.views;
 
 import com.gembox.internal.core.DivideByZeroException;
+import icons.ImageLocation;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -9,6 +10,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -25,6 +27,7 @@ import util.PieChartUtils;
 import util.Util;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 
 public class MainSistemaIdentificativoController {
@@ -99,6 +102,11 @@ public class MainSistemaIdentificativoController {
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.setResizable(false);
             dialogStage.initOwner(this.mainApp);
+            try {
+                dialogStage.getIcons().add(new Image(ImageLocation.class.getResource("icon_app.png").toURI().toString()));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
             Scene scene = new Scene(pane);
             dialogStage.setScene(scene);
 
@@ -121,6 +129,11 @@ public class MainSistemaIdentificativoController {
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Añadir o cambiar foto a pases");
             dialogStage.initModality(Modality.WINDOW_MODAL);
+            try {
+                dialogStage.getIcons().add(new Image(ImageLocation.class.getResource("icon_app.png").toURI().toString()));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
             dialogStage.setResizable(false);
             dialogStage.initOwner(this.mainApp);
             Scene scene = new Scene(pane);
@@ -144,6 +157,11 @@ public class MainSistemaIdentificativoController {
             AnchorPane pane = loader.load();
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Generar resumen de pases por Unidad Organizativa");
+            try {
+                dialogStage.getIcons().add(new Image(ImageLocation.class.getResource("icon_app.png").toURI().toString()));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.setResizable(false);
             dialogStage.initOwner(this.mainApp);
@@ -206,7 +224,7 @@ public class MainSistemaIdentificativoController {
 
     @FXML
     private void imprimirPase(){
-        try{
+        try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainSistemaIdentificativoController.class.getResource("ImprimirPasesView.fxml"));
             AnchorPane pane = loader.load();
@@ -216,6 +234,11 @@ public class MainSistemaIdentificativoController {
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.setResizable(false);
             dialogStage.initOwner(this.mainApp);
+            try {
+                dialogStage.getIcons().add(new Image(ImageLocation.class.getResource("icon_app.png").toURI().toString()));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
             Scene scene = new Scene(pane);
             dialogStage.setScene(scene);
 
@@ -230,7 +253,7 @@ public class MainSistemaIdentificativoController {
 
     @FXML
     private void bajaPase(){
-        try{
+        try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainSistemaIdentificativoController.class.getResource("BajaPaseView.fxml"));
             AnchorPane pane = loader.load();
@@ -239,6 +262,11 @@ public class MainSistemaIdentificativoController {
             dialogStage.setTitle("Dar baja pases");
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.setResizable(false);
+            try {
+                dialogStage.getIcons().add(new Image(ImageLocation.class.getResource("icon_app.png").toURI().toString()));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
             dialogStage.initOwner(this.mainApp);
             Scene scene = new Scene(pane);
             dialogStage.setScene(scene);

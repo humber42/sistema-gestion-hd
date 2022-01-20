@@ -2,11 +2,13 @@ package views;
 
 
 import com.gembox.internal.core.DivideByZeroException;
+import icons.ImageLocation;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.chart.*;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -24,6 +26,7 @@ import views.dialogDelictivos.DialogGenerarListadosDelictivos;
 import views.dialogs.*;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.stream.Collectors;
@@ -122,6 +125,11 @@ public class PrincipalViewController {
             stage.setResizable(false);
             stage.setMaximized(false);
             stage.setScene(new Scene(anchorPane));
+            try {
+                stage.getIcons().add(new Image(ImageLocation.class.getResource("icon_app.png").toURI().toString()));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
 
             RegistrarViewController controller = loader.getController();
             controller.setDialogStage(stage);
@@ -147,6 +155,11 @@ public class PrincipalViewController {
             dialogStage.initOwner(this.mainApp);
             Scene scene = new Scene(pane);
             dialogStage.setScene(scene);
+            try {
+                dialogStage.getIcons().add(new Image(ImageLocation.class.getResource("icon_app.png").toURI().toString()));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
 
             BuscarHechosViewController controller = loader.getController();
             controller.setDialogStage(dialogStage);
@@ -171,6 +184,11 @@ public class PrincipalViewController {
             dialogStage.initOwner(this.mainApp);
             Scene scene = new Scene(page);
             dialogStage.setScene(scene);
+            try {
+                dialogStage.getIcons().add(new Image(ImageLocation.class.getResource("icon_app.png").toURI().toString()));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
 
             EsclarecimientoViewController controller = loader.getController();
             controller.setDialogStage(dialogStage);
@@ -193,6 +211,11 @@ public class PrincipalViewController {
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(this.mainApp);
             dialogStage.setScene(new Scene(pane));
+            try {
+                dialogStage.getIcons().add(new Image(ImageLocation.class.getResource("icon_app.png").toURI().toString()));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
 
             DialogGenerarInformeFiscaliaController controller = loader.getController();
             controller.setDialogStage(dialogStage);
@@ -216,6 +239,11 @@ public class PrincipalViewController {
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(this.mainApp);
             dialogStage.setScene(new Scene(pane));
+            try {
+                dialogStage.getIcons().add(new Image(ImageLocation.class.getResource("icon_app.png").toURI().toString()));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
 
             DialogGenerarInformeCentroDirecion controller = loader.getController();
             controller.setDialogStage(dialogStage);
@@ -238,6 +266,11 @@ public class PrincipalViewController {
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(this.mainApp);
             dialogStage.setScene(new Scene(pane));
+            try {
+                dialogStage.getIcons().add(new Image(ImageLocation.class.getResource("icon_app.png").toURI().toString()));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
 
             DialogGenerarCertificoHechosController controller = loader.getController();
             controller.setDialogStage(dialogStage);
@@ -261,6 +294,11 @@ public class PrincipalViewController {
             dialogStage.setMaximized(false);
             dialogStage.setTitle("Hechos con datos pendientes");
             dialogStage.setScene(new Scene(pane));
+            try {
+                dialogStage.getIcons().add(new Image(ImageLocation.class.getResource("icon_app.png").toURI().toString()));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
             DialogGenerarHechosPendientesController controller = loader.getController();
             controller.asignarAnnos();
             controller.setDialogStage(dialogStage);
@@ -284,6 +322,11 @@ public class PrincipalViewController {
             dialogStage.setMaximized(false);
             dialogStage.setTitle("Resumen de prevencion");
             dialogStage.setScene(new Scene(pane));
+            try {
+                dialogStage.getIcons().add(new Image(ImageLocation.class.getResource("icon_app.png").toURI().toString()));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
             DialogGenerarPrevencionController controller = loader.getController();
             controller.setDialogStage(dialogStage);
             dialogStage.showAndWait();
@@ -305,6 +348,11 @@ public class PrincipalViewController {
             dialogStage.setResizable(false);
             dialogStage.setMaximized(false);
             dialogStage.setScene(new Scene(pane));
+            try {
+                dialogStage.getIcons().add(new Image(ImageLocation.class.getResource("icon_app.png").toURI().toString()));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
             dialogStage.setTitle("Resumen de Hechos Prevenidos");
             DialogGenerarHechosPrevenidosController controller = loader.getController();
             controller.setDialogStage(dialogStage);
@@ -326,7 +374,11 @@ public class PrincipalViewController {
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(this.mainApp);
             dialogStage.setScene(new Scene(pane));
-
+            try {
+                dialogStage.getIcons().add(new Image(ImageLocation.class.getResource("icon_app.png").toURI().toString()));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
             dialogStage.setTitle("Hechos por Unidad Organizativa");
             dialogStage.setResizable(false);
             dialogStage.setMaximized(false);
@@ -350,6 +402,11 @@ public class PrincipalViewController {
             dialogStage.setResizable(false);
             dialogStage.initOwner(this.mainApp);
             dialogStage.setScene(new Scene(pane));
+            try {
+                dialogStage.getIcons().add(new Image(ImageLocation.class.getResource("icon_app.png").toURI().toString()));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
             dialogStage.setTitle("Resumen MINCOM");
             DialogGenerarResumenMINCOM controller = loader.getController();
             controller.setDialogStage(dialogStage);
@@ -371,6 +428,11 @@ public class PrincipalViewController {
             averiaStage.setResizable(false);
             averiaStage.initOwner(this.mainApp);
             averiaStage.setScene(new Scene(page));
+            try {
+                averiaStage.getIcons().add(new Image(ImageLocation.class.getResource("icon_app.png").toURI().toString()));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
             averiaStage.setTitle("Codificador Averia");
             TipoDeAveriaViewController controller = loader.getController();
             controller.setMainApp(this.mainApp);
@@ -480,6 +542,11 @@ public class PrincipalViewController {
             controller.setTipoHecho(tipoHecho);
             controller.getLabelTitulo("Generar Listado " + nombreHecho);
             try {
+                dialogStage.getIcons().add(new Image(ImageLocation.class.getResource("icon_app.png").toURI().toString()));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+            try {
                 Conexion.getConnection().getClientInfo();
                 dialogStage.showAndWait();
             } catch (SQLException e) {
@@ -504,6 +571,11 @@ public class PrincipalViewController {
             municipioStage.setResizable(false);
             municipioStage.initOwner(this.mainApp);
             municipioStage.setScene(new Scene(page));
+            try {
+                municipioStage.getIcons().add(new Image(ImageLocation.class.getResource("icon_app.png").toURI().toString()));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
             municipioStage.setTitle("Codificador Municipio");
             ListaMunicipiosViewController controller = loader.getController();
             controller.setStage(municipioStage);
@@ -530,6 +602,11 @@ public class PrincipalViewController {
             uniOrgStage.setResizable(false);
             uniOrgStage.initOwner(this.mainApp);
             uniOrgStage.setScene(new Scene(page));
+            try {
+                uniOrgStage.getIcons().add(new Image(ImageLocation.class.getResource("icon_app.png").toURI().toString()));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
             uniOrgStage.setTitle("Codificador Unidad Organizativa");
             UnidadesOrgViewController controller = loader.getController();
             controller.setStage(uniOrgStage);
@@ -556,6 +633,11 @@ public class PrincipalViewController {
             afectacionStage.setResizable(false);
             afectacionStage.initOwner(this.mainApp);
             afectacionStage.setScene(new Scene(page));
+            try {
+                afectacionStage.getIcons().add(new Image(ImageLocation.class.getResource("icon_app.png").toURI().toString()));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
             afectacionStage.setTitle("Codificador Afectacion");
 
             TipoAfectacionViewController controller = loader.getController();
@@ -583,6 +665,11 @@ public class PrincipalViewController {
             tipoMateStage.setResizable(false);
             tipoMateStage.initOwner(this.mainApp);
             tipoMateStage.setScene(new Scene(page));
+            try {
+                tipoMateStage.getIcons().add(new Image(ImageLocation.class.getResource("icon_app.png").toURI().toString()));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
             tipoMateStage.setTitle("Codificador Tipo de Material");
 
             TipoMaterialViewController controller = loader.getController();
@@ -610,6 +697,11 @@ public class PrincipalViewController {
             hechoStage.initOwner(this.mainApp);
             hechoStage.setScene(new Scene(page));
             hechoStage.setTitle("Hechos Registrados");
+            try {
+                hechoStage.getIcons().add(new Image(ImageLocation.class.getResource("icon_app.png").toURI().toString()));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
 
             HechosRegistradosViewController controller = loader.getController();
             controller.setStage(hechoStage);
@@ -633,6 +725,11 @@ public class PrincipalViewController {
             hechoStage.setResizable(false);
             hechoStage.initOwner(this.mainApp);
             hechoStage.setScene(new Scene(page));
+            try {
+                hechoStage.getIcons().add(new Image(ImageLocation.class.getResource("icon_app.png").toURI().toString()));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
             hechoStage.setTitle("Telefonía Pública");
 
             TelefoniaPublicaViewController controller = loader.getController();

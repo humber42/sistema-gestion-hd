@@ -2,6 +2,7 @@ package views;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
+import icons.ImageLocation;
 import informes_generate.GeneradorLocator;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -14,6 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -33,6 +35,7 @@ import views.dialogs.DialogLoadingUrl;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
@@ -313,6 +316,11 @@ public class HechosRegistradosViewController {
             AnchorPane anchorPane = loader.load();
             Stage stage = new Stage();
             stage.setTitle("Modificar Hecho");
+            try {
+                stage.getIcons().add(new Image(ImageLocation.class.getResource("icon_app.png").toURI().toString()));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
             stage.initModality(Modality.WINDOW_MODAL);
             stage.initOwner(this.stage);
             stage.setResizable(false);

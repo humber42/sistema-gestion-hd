@@ -1,5 +1,6 @@
 package posiciones_agentes.views;
 
+import icons.ImageLocation;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,6 +12,7 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
@@ -30,6 +32,7 @@ import views.dialogs.DialogLoadingController;
 import views.dialogs.DialogLoadingUrl;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.List;
 
 
@@ -78,12 +81,17 @@ public class MainPosicionesAgentesController {
 
     @FXML
     private void cargarRegister(){
-        try{
+        try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainPosicionesAgentesController.class.getResource("GestionPosicionesAgentesView.fxml"));
             AnchorPane pane = loader.load();
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Gestionar Posiciones Agentes");
+            try {
+                dialogStage.getIcons().add(new Image(ImageLocation.class.getResource("icon_app.png").toURI().toString()));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.setResizable(false);
             dialogStage.initOwner(this.mainApp);
@@ -114,12 +122,17 @@ public class MainPosicionesAgentesController {
 
     @FXML
     private void editTarifa(){
-        try{
+        try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainPosicionesAgentesController.class.getResource("EdicionTarifasView.fxml"));
             AnchorPane pane = loader.load();
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Editar tarifas");
+            try {
+                dialogStage.getIcons().add(new Image(ImageLocation.class.getResource("icon_app.png").toURI().toString()));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.setResizable(false);
             dialogStage.initOwner(this.mainApp);
@@ -138,12 +151,17 @@ public class MainPosicionesAgentesController {
 
     @FXML
     private void gestionarProveedores(){
-        try{
+        try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainPosicionesAgentesController.class.getResource("GestionProveedoresView.fxml"));
             AnchorPane pane = loader.load();
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Gestionar proveedores de servicios");
+            try {
+                dialogStage.getIcons().add(new Image(ImageLocation.class.getResource("icon_app.png").toURI().toString()));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.setResizable(false);
             dialogStage.initOwner(this.mainApp);
@@ -162,12 +180,17 @@ public class MainPosicionesAgentesController {
 
     @FXML
     private void generarResumenPorUOrg(){
-        try{
+        try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainPosicionesAgentesController.class.getResource("dialogs/DialogGenerarResumenPorUO.fxml"));
             AnchorPane pane = loader.load();
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Generar resumen por unidad organizativa");
+            try {
+                dialogStage.getIcons().add(new Image(ImageLocation.class.getResource("icon_app.png").toURI().toString()));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.setResizable(false);
             dialogStage.initOwner(this.mainApp);
@@ -278,6 +301,11 @@ public class MainPosicionesAgentesController {
             Stage dialogStage = new Stage();
             dialogStage.setScene(new Scene(panel));
             dialogStage.initModality(Modality.WINDOW_MODAL);
+            try {
+                dialogStage.getIcons().add(new Image(ImageLocation.class.getResource("icon_app.png").toURI().toString()));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
             dialogStage.setTitle("Cargar posiciones desde excel");
             dialogStage.initOwner(mainApp);
             DialogLoadFromExcelFileController controller = loader.getController();
