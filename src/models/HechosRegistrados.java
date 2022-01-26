@@ -10,8 +10,12 @@ public class HechosRegistrados {
     private Date fechaOcurre;
     private String titulo;
     private String municipio;
+    private String numeroDenuncia;
+    private double perdidasMn;
 
-    public HechosRegistrados(int id_reg, String codCDNT, String uo, String tipoHecho, Date fechaOcurre, String titulo, String municipio) {
+    public HechosRegistrados(int id_reg, String codCDNT, String uo,
+                             String tipoHecho, Date fechaOcurre, String titulo,
+                             String municipio, String numeroDenuncia, double perdidasMn) {
         this.id_reg = id_reg;
         this.codCDNT = codCDNT;
         this.uo = uo;
@@ -19,6 +23,8 @@ public class HechosRegistrados {
         this.fechaOcurre = fechaOcurre;
         this.titulo = titulo;
         this.municipio = municipio;
+        this.numeroDenuncia = numeroDenuncia;
+        this.perdidasMn = perdidasMn;
     }
 
     public int getId_reg() {
@@ -75,5 +81,21 @@ public class HechosRegistrados {
 
     public void setMunicipio(String municipio) {
         this.municipio = municipio;
+    }
+
+    public String getNumeroDenuncia() {
+        return numeroDenuncia;
+    }
+
+    public void setNumeroDenuncia(String numeroDenuncia) {
+        this.numeroDenuncia = numeroDenuncia;
+    }
+
+    public double getPerdidasMn() {
+        return perdidasMn;
+    }
+
+    public void setPerdidasMn(double perdidasMn) {
+        this.perdidasMn = perdidasMn;
     }
 }

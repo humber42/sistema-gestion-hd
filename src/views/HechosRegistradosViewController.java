@@ -51,7 +51,7 @@ public class HechosRegistradosViewController {
     @FXML
     private TableView<HechosRegistrados> hechosTable;
     @FXML
-    private TableColumn<HechosRegistrados, String> numeroHechosColum;
+    private TableColumn<HechosRegistrados, String> numeroDenuncia;
     @FXML
     private TableColumn<HechosRegistrados, String> codCDNTColum;
     @FXML
@@ -64,6 +64,8 @@ public class HechosRegistradosViewController {
     private TableColumn<HechosRegistrados, String> ocurrenciaColum;
     @FXML
     private TableColumn<HechosRegistrados, String> sintesisColum;
+    @FXML
+    private TableColumn<HechosRegistrados, String> perdidaNumero;
 
     private Stage dialogStage;
     @FXML
@@ -99,6 +101,8 @@ public class HechosRegistradosViewController {
     private ComboBox<String> cboxUorg;
     @FXML
     private ComboBox<String> cboxTipoHecho;
+    @FXML
+    private ComboBox<String> comboBoxMes;
 
     private HechosRegistrados hechoRegistradoSelected;
 
@@ -114,6 +118,7 @@ public class HechosRegistradosViewController {
     private String annoPartQuery;
     private String uorgPartQuery;
     private String tipoHechoPartQuery;
+    private String mesPartQuery;
 
     private static Hechos hechoSeleccionado;
 
@@ -206,8 +211,10 @@ public class HechosRegistradosViewController {
                         .map(TipoHecho::getTipo_hecho)
                         .collect(Collectors.toList())
         );
+        this.comboBoxMes.getItems().setAll(Util.meses2);
         TextFields.bindAutoCompletion(this.cboxUorg.getEditor(), this.cboxUorg.getItems());
         TextFields.bindAutoCompletion(this.cboxAnno.getEditor(), this.cboxAnno.getItems());
+        TextFields.bindAutoCompletion(this.comboBoxMes.getEditor(), this.comboBoxMes.getItems());
     }
 
     private Hechos getHechoSelected() {
@@ -254,7 +261,7 @@ public class HechosRegistradosViewController {
             } else {
                 if (usingFilters) {
                     cargarTabla(this.obtenerHechosUsingFilters(annoPartQuery, uorgPartQuery,
-                            tipoHechoPartQuery, LIMIT_OF_ROWS, offset));
+                            tipoHechoPartQuery, mesPartQuery, LIMIT_OF_ROWS, offset));
                 } else {
                     cargarTabla(this.obtenerHechosRegistrados(LIMIT_OF_ROWS, offset));
                 }
@@ -463,7 +470,7 @@ public class HechosRegistradosViewController {
             if (howmuch > 0) {
                 if (usingFilters) {
                     cargarTabla(this.obtenerHechosUsingFilters(annoPartQuery, uorgPartQuery,
-                            tipoHechoPartQuery, LIMIT_OF_ROWS, offset));
+                            tipoHechoPartQuery, mesPartQuery, LIMIT_OF_ROWS, offset));
                 } else {
                     cargarTabla(this.obtenerHechosRegistrados(LIMIT_OF_ROWS, offset));
                 }
@@ -488,7 +495,7 @@ public class HechosRegistradosViewController {
             if (howmuch == 0) {
                 if (usingFilters) {
                     cargarTabla(this.obtenerHechosUsingFilters(annoPartQuery, uorgPartQuery,
-                            tipoHechoPartQuery, LIMIT_OF_ROWS, offset));
+                            tipoHechoPartQuery, mesPartQuery, LIMIT_OF_ROWS, offset));
                 } else {
                     cargarTabla(this.obtenerHechosRegistrados(LIMIT_OF_ROWS, offsetMaximo - (LIMIT_OF_ROWS * 2)));
                     offset -= LIMIT_OF_ROWS;
@@ -497,7 +504,7 @@ public class HechosRegistradosViewController {
                 if (offset >= 0) {
                     if (usingFilters) {
                         cargarTabla(this.obtenerHechosUsingFilters(annoPartQuery, uorgPartQuery,
-                                tipoHechoPartQuery, LIMIT_OF_ROWS, offset));
+                                tipoHechoPartQuery, mesPartQuery, LIMIT_OF_ROWS, offset));
                     } else {
                         cargarTabla(this.obtenerHechosRegistrados(LIMIT_OF_ROWS, offset));
                     }
@@ -518,7 +525,7 @@ public class HechosRegistradosViewController {
     @FXML
     private void handleFirst() {
         if (usingFilters) {
-            cargarTabla(this.obtenerHechosUsingFilters(annoPartQuery, uorgPartQuery, tipoHechoPartQuery, LIMIT_OF_ROWS, 0));
+            cargarTabla(this.obtenerHechosUsingFilters(annoPartQuery, uorgPartQuery, tipoHechoPartQuery, mesPartQuery, LIMIT_OF_ROWS, 0));
         } else {
             cargarTabla(this.obtenerHechosRegistrados(LIMIT_OF_ROWS, 0));
         }
@@ -531,7 +538,7 @@ public class HechosRegistradosViewController {
     @FXML
     private void handleLast() {
         if (usingFilters) {
-            cargarTabla(this.obtenerHechosUsingFilters(annoPartQuery, uorgPartQuery, tipoHechoPartQuery, LIMIT_OF_ROWS, offsetMaximo - LIMIT_OF_ROWS));
+            cargarTabla(this.obtenerHechosUsingFilters(annoPartQuery, uorgPartQuery, tipoHechoPartQuery, mesPartQuery, LIMIT_OF_ROWS, offsetMaximo - LIMIT_OF_ROWS));
         } else {
             int pos = offsetMaximo - LIMIT_OF_ROWS;
             cargarTabla(this.obtenerHechosRegistrados(LIMIT_OF_ROWS, pos));
@@ -560,10 +567,10 @@ public class HechosRegistradosViewController {
     private void cargarTabla(List<HechosRegistrados> hechos) {
         ObservableList<HechosRegistrados> observableList = FXCollections.observableList(hechos);
         hechosTable.setItems(observableList);
-        numeroHechosColum.setCellValueFactory(
+        numeroDenuncia.setCellValueFactory(
                 cellData ->
                         new SimpleStringProperty(
-                                String.valueOf(cellData.getValue().getId_reg())
+                                cellData.getValue().getNumeroDenuncia() == null ? "(no info)" : cellData.getValue().getNumeroDenuncia()
                         )
         );
         codCDNTColum.setCellValueFactory(cellData ->
@@ -578,6 +585,9 @@ public class HechosRegistradosViewController {
                 new SimpleStringProperty(cellData.getValue().getFechaOcurre().toString()));
         sintesisColum.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue().getTitulo()));
+        perdidaNumero.setCellValueFactory(cellData ->
+                new SimpleStringProperty(String.valueOf(cellData.getValue().getPerdidasMn()))
+        );
     }
 
     @FXML
@@ -632,17 +642,21 @@ public class HechosRegistradosViewController {
                     ? "" :
                     " AND id_uorg = " +
                             ServiceLocator.getUnidadOrganizativaService().searchUnidadOrganizativaByName(uorg).getId_unidad_organizativa();
+            mesPartQuery = comboBoxMes.getSelectionModel().isEmpty()
+                    ? ""
+                    : " and date_part('mons', hechos.fecha_ocurrencia) = "
+                    + Util.obtenerNumeroMes(obtenerMesFromComboBoxMeses());
 
-            cargarTabla(this.obtenerHechosUsingFilters(annoPartQuery, uorgPartQuery, tipoHechoPartQuery, LIMIT_OF_ROWS, 0));
+            cargarTabla(this.obtenerHechosUsingFilters(annoPartQuery, uorgPartQuery, tipoHechoPartQuery, mesPartQuery, LIMIT_OF_ROWS, 0));
             this.usingFilters = true;
-            offsetMaximo = countAllHechosUsingFilters(annoPartQuery, uorgPartQuery, tipoHechoPartQuery);
+            offsetMaximo = countAllHechosUsingFilters(annoPartQuery, uorgPartQuery, tipoHechoPartQuery, mesPartQuery);
             ponerOffsetDetablaActual();
             ponerNumeroDeTablas();
         }
     }
 
-    private int countAllHechosUsingFilters(String anno, String uorg, String tipoHecho) {
-        String query = "SELECT COUNT(id_reg) FROM hechos WHERE id_reg > 0" + uorg + tipoHecho + anno;
+    private int countAllHechosUsingFilters(String anno, String uorg, String tipoHecho, String mesPartQuery) {
+        String query = "SELECT COUNT(id_reg) FROM hechos WHERE id_reg > 0" + uorg + tipoHecho + anno + mesPartQuery;
         int count = 0;
 
         try {
@@ -657,16 +671,16 @@ public class HechosRegistradosViewController {
         return count;
     }
 
-    private List<HechosRegistrados> obtenerHechosUsingFilters(String anno, String uorg, String tipoHecho, int limit, int offset) {
+    private List<HechosRegistrados> obtenerHechosUsingFilters(String anno, String uorg, String tipoHecho, String mesSql, int limit, int offset) {
         List<HechosRegistrados> hechos = new LinkedList<>();
         String fullQuery =
-                "SELECT id_reg, cod_cdnt, unidad_organizativa, tipo_hecho, fecha_ocurrencia, titulo, municipio\n" +
+                "SELECT id_reg, cod_cdnt, unidad_organizativa, tipo_hecho, fecha_ocurrencia, titulo, municipio, numero_denuncia,afectacion_mn \n" +
                         "FROM hechos\n" +
                         "JOIN unidades_organizativas o on hechos.id_uorg = o.id_unidad_organizativa\n" +
                         "JOIN municipios m2 on hechos.id_municipio = m2.id_municipio\n" +
                         "JOIN tipo_hechos h2 on hechos.id_tipo_hecho = h2.id_tipo_hecho\n" +
                         "WHERE id_reg > 0"
-                        + uorg + tipoHecho + anno
+                        + uorg + tipoHecho + anno + mesSql
                         + " ORDER BY id_reg DESC"
                         + " LIMIT " + limit
                         + " OFFSET " + offset;
@@ -683,7 +697,7 @@ public class HechosRegistradosViewController {
 
     private List<HechosRegistrados> obtenerHechosRegistrados(int limit, int offset) {
         List<HechosRegistrados> hechos = new LinkedList<>();
-        String query = "SELECT id_reg, cod_cdnt, unidad_organizativa, tipo_hecho, fecha_ocurrencia, titulo, municipio " +
+        String query = "SELECT id_reg, cod_cdnt, unidad_organizativa, tipo_hecho, fecha_ocurrencia, titulo, municipio, numero_denuncia,afectacion_mn " +
                 "FROM hechos " +
                 "JOIN unidades_organizativas ON unidades_organizativas.id_unidad_organizativa = hechos.id_uorg " +
                 "JOIN tipo_hechos ON tipo_hechos.id_tipo_hecho = hechos.id_tipo_hecho " +
@@ -711,7 +725,9 @@ public class HechosRegistradosViewController {
                     rs.getString(4),
                     rs.getDate(5),
                     rs.getString(6),
-                    rs.getString(7)
+                    rs.getString(7),
+                    rs.getString(8),
+                    rs.getDouble(9)
             ));
         }
 
@@ -731,7 +747,7 @@ public class HechosRegistradosViewController {
 
                     if (usingFilters) {
                         int count = ServiceLocator.getHechosService().countAllHechos();
-                        List<HechosRegistrados> hechos = obtenerHechosUsingFilters(annoPartQuery, uorgPartQuery, tipoHechoPartQuery, count, 0);
+                        List<HechosRegistrados> hechos = obtenerHechosUsingFilters(annoPartQuery, uorgPartQuery, tipoHechoPartQuery, mesPartQuery, count, 0);
                         try {
                             url = GeneradorLocator.getExportarExcel().generarExcel(urlFile, hechos);
                         } catch (IOException e) {
@@ -805,6 +821,15 @@ public class HechosRegistradosViewController {
         }
     }
 
+    private String obtenerMesFromComboBoxMeses() {
+        String devolver;
+        try {
+            devolver = this.comboBoxMes.getValue();
+        } catch (NullPointerException e) {
+            devolver = "<<Todos>>";
+        }
+        return devolver;
+    }
 
 
 }

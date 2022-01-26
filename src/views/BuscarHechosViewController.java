@@ -322,6 +322,7 @@ public class BuscarHechosViewController {
                     String tipoHecho = ServiceLocator.getTipoHechoService().getTipoHechoOfHechoByIdReg(hechosBusqueda.getIdReg()).getTipo_hecho();
                     String titulo = "";
                     String municipio = ServiceLocator.getMunicipiosService().getByIdReg(hechosBusqueda.getIdReg()).getMunicipio();
+                    Hechos hecho = ServiceLocator.getHechosService().getHecho(hechosBusqueda.getIdReg());
                     try {
                         var rs = Util.executeQuery("Select titulo From hechos where id_reg=" + hechosBusqueda.getIdReg());
                         if (rs.next()) {
@@ -333,7 +334,7 @@ public class BuscarHechosViewController {
 
 
                     return new HechosRegistrados(hechosBusqueda.getIdReg(),
-                            hechosBusqueda.getCodCDNT(), unidadOrg, tipoHecho, hechosBusqueda.getFechaOcurrencia(), titulo, municipio);
+                            hechosBusqueda.getCodCDNT(), unidadOrg, tipoHecho, hechosBusqueda.getFechaOcurrencia(), titulo, municipio, hecho.getNumero_denuncia(), hecho.getAfectacion_mn());
 
                 }
 
