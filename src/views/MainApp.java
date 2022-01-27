@@ -9,15 +9,19 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import models.resumen_esclarecimiento.HechosEsclarecimientoResumen;
 import org.controlsfx.dialog.ExceptionDialog;
 import seguridad.views.LoginUrl;
 import seguridad.views.LoginViewController;
+import services.ServiceLocator;
 import util.Conexion;
 import util.ConexionObserver;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Observer;
 
 

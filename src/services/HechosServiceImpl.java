@@ -2,6 +2,8 @@ package services;
 
 
 import models.*;
+import models.resumen_esclarecimiento.HechosEsclarecimientoPExtTPub;
+import models.resumen_esclarecimiento.HechosEsclarecimientoResumen;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.postgresql.util.PSQLException;
@@ -251,12 +253,12 @@ public class HechosServiceImpl implements HechosService {
             statement.setInt(2, anno);
             statement.execute();
             ResultSet rs = statement.getResultSet();
-            if(rs.next()){
+            if (rs.next()) {
                 cant = rs.getInt(1);
             }
             rs.close();
             statement.close();
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return cant;
@@ -1186,5 +1188,200 @@ public class HechosServiceImpl implements HechosService {
             e.printStackTrace();
         }
         return hecho;
+    }
+
+    @Override
+    public List<HechosEsclarecimientoPExtTPub> obtenerEsclarecimientoPExtDateRange(Date inicio, Date fin) {
+        List<HechosEsclarecimientoPExtTPub> hechos = new LinkedList<>();
+        String function = "{call obtener_hechos_esclarecimiento_pext(?,?)}";
+
+        try {
+            CallableStatement statement = Conexion.getConnection().prepareCall(function);
+            statement.setDate(1, inicio);
+            statement.setDate(2, fin);
+            statement.execute();
+            ResultSet rs = statement.getResultSet();
+            hechos = recuperarRSEsclarecimientoPExtTPub(rs);
+            statement.close();
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return hechos;
+    }
+
+    @Override
+    public List<HechosEsclarecimientoPExtTPub> obtenerEsclarecimientoTPubDateRange(Date inicio, Date fin) {
+        List<HechosEsclarecimientoPExtTPub> hechos = new LinkedList<>();
+        String function = "{call obtener_hechos_esclarecimiento_tpub(?,?)}";
+
+        try {
+            CallableStatement statement = Conexion.getConnection().prepareCall(function);
+            statement.setDate(1, inicio);
+            statement.setDate(2, fin);
+            statement.execute();
+            ResultSet rs = statement.getResultSet();
+            hechos = recuperarRSEsclarecimientoPExtTPub(rs);
+            statement.close();
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return hechos;
+    }
+
+    private List<HechosEsclarecimientoPExtTPub> recuperarRSEsclarecimientoPExtTPub(ResultSet rs) {
+        List<HechosEsclarecimientoPExtTPub> lista = new LinkedList<>();
+
+        try {
+            while (rs.next()) {
+                lista.add(
+                        new HechosEsclarecimientoPExtTPub(
+                                rs.getString(1),
+                                rs.getDate(2),
+                                rs.getString(3),
+                                rs.getString(4),
+                                rs.getDouble(5),
+                                rs.getDouble(6),
+                                rs.getString(7),
+                                rs.getString(8),
+                                rs.getBoolean(9),
+                                rs.getBoolean(10),
+                                rs.getBoolean(11),
+                                rs.getBoolean(12),
+                                rs.getBoolean(13),
+                                rs.getBoolean(14),
+                                rs.getBoolean(15),
+                                rs.getBoolean(16),
+                                rs.getBoolean(17),
+                                rs.getBoolean(18),
+                                rs.getInt(19),
+                                rs.getString(20)
+                        )
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return lista;
+    }
+
+    @Override
+    public List<HechosEsclarecimientoResumen> obtenerEsclarecimientoResumenDateRange(Date inicio, Date fin) {
+        List<HechosEsclarecimientoResumen> listaResumen = new LinkedList<>();
+        String function = "{call obtener_resumen_hechos_esclarecidos_o_no_por_uorg(?,?)}";
+
+        try {
+            CallableStatement statement = Conexion.getConnection().prepareCall(function);
+            statement.setDate(1, inicio);
+            statement.setDate(2, fin);
+            statement.execute();
+            ResultSet rs = statement.getResultSet();
+            listaResumen = recuperarRSEsclarecimientoResumen(rs);
+            statement.close();
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return listaResumen;
+    }
+
+    private List<HechosEsclarecimientoResumen> recuperarRSEsclarecimientoResumen(ResultSet rs) {
+        List<HechosEsclarecimientoResumen> lista = new LinkedList<>();
+        HechosEsclarecimientoResumen dvlh = new HechosEsclarecimientoResumen();
+        int entradas = 0;
+        try {
+            while (rs.next()) {
+                HechosEsclarecimientoResumen h =
+                        new HechosEsclarecimientoResumen(
+                                rs.getString(1),
+                                rs.getInt(2),
+                                rs.getInt(3),
+                                rs.getInt(4),
+                                rs.getInt(5),
+                                rs.getInt(6),
+                                rs.getInt(7),
+                                rs.getInt(8),
+                                rs.getInt(9),
+                                rs.getInt(10),
+                                rs.getInt(11),
+                                rs.getInt(12),
+                                rs.getInt(13),
+                                rs.getInt(14),
+                                rs.getInt(15),
+                                rs.getInt(16),
+                                rs.getInt(17),
+                                rs.getInt(18),
+                                rs.getInt(19),
+                                rs.getInt(20),
+                                rs.getInt(21),
+                                rs.getInt(22)
+                        );
+
+                if (h.getUnidad_organizativa().equalsIgnoreCase("DVLH")
+                        || h.getUnidad_organizativa().equalsIgnoreCase("DTNO")
+                        || h.getUnidad_organizativa().equalsIgnoreCase("DTSR")
+                        || h.getUnidad_organizativa().equalsIgnoreCase("DTES")
+                        || h.getUnidad_organizativa().equalsIgnoreCase("DTOE")) {
+
+                    entradas++;
+                    dvlh.setTotal_conciliados(
+                            dvlh.getTotal_conciliados() + h.getTotal_conciliados());
+                    dvlh.setCant_pext(
+                            dvlh.getCant_pext() + h.getCant_pext());
+                    dvlh.setCant_tpub(
+                            dvlh.getCant_tpub() + h.getCant_tpub());
+                    dvlh.setTotal_no_esclarecidos(
+                            dvlh.getTotal_no_esclarecidos() + h.getTotal_no_esclarecidos());
+                    dvlh.setCant_pext_no_esc(
+                            dvlh.getCant_pext_no_esc() + h.getCant_pext_no_esc());
+                    dvlh.setCant_tpub_no_esc(
+                            dvlh.getCant_tpub_no_esc() + h.getCant_tpub_no_esc());
+                    dvlh.setCant_exp_sac(
+                            dvlh.getCant_exp_sac() + h.getCant_exp_sac());
+                    dvlh.setCant_sin_denuncia(
+                            dvlh.getCant_sin_denuncia() + h.getCant_sin_denuncia());
+                    dvlh.setTotal_esclarecidos(
+                            dvlh.getTotal_esclarecidos() + h.getTotal_esclarecidos());
+                    dvlh.setCant_pext_esc(
+                            dvlh.getCant_pext_esc() + h.getCant_pext_esc());
+                    dvlh.setCant_tpub_esc(
+                            dvlh.getCant_tpub_esc() + h.getCant_tpub_esc());
+                    dvlh.setCant_art_82(
+                            dvlh.getCant_art_82() + h.getCant_art_82());
+                    dvlh.setCant_art_83(
+                            dvlh.getCant_art_83() + h.getCant_art_83());
+                    dvlh.setCant_med_admin(
+                            dvlh.getCant_med_admin() + h.getCant_med_admin());
+                    dvlh.setCant_menor(
+                            dvlh.getCant_menor() + h.getCant_menor());
+                    dvlh.setCant_fase_prep(
+                            dvlh.getCant_fase_prep() + h.getCant_fase_prep());
+                    dvlh.setCant_pend_desp(
+                            dvlh.getCant_pend_desp() + h.getCant_pend_desp());
+                    dvlh.setCant_pend_juicio(
+                            dvlh.getCant_pend_juicio() + h.getCant_pend_juicio());
+                    dvlh.setCant_casos(
+                            dvlh.getCant_casos() + h.getCant_casos());
+                    dvlh.setCant_sanciones(
+                            dvlh.getCant_sanciones() + h.getCant_sanciones());
+                    dvlh.setSentencias(
+                            dvlh.getSentencias() + h.getSentencias());
+                    if (entradas > 4) {
+                        dvlh.setUnidad_organizativa("DVLH");
+                        lista.add(dvlh);
+                    }
+                } else
+                    lista.add(h);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return lista;
     }
 }
