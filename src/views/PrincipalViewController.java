@@ -15,6 +15,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import models.TipoHecho;
+import models.resumen_esclarecimiento.HechosEsclarecimientoResumen;
 import org.controlsfx.dialog.ExceptionDialog;
 import seguridad.models.UserLoggedIn;
 import seguridad.views.LoginViewController;
@@ -27,8 +28,10 @@ import views.dialogs.*;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class PrincipalViewController {
@@ -864,5 +867,17 @@ public class PrincipalViewController {
         }
 
         jfxBarChart.setAnimated(false);
+    }
+
+    @FXML
+    private void showResumenEsclarecimientoOnConsole(){
+        String i = "2021-01-01", f = "2021-09-30";
+
+        List<HechosEsclarecimientoResumen> lista =
+                ServiceLocator.getHechosService().obtenerEsclarecimientoResumenDateRange(Date.valueOf(i),Date.valueOf(f));
+
+        for (HechosEsclarecimientoResumen h: lista){
+            System.out.println(h.toString());
+        }
     }
 }

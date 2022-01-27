@@ -1,6 +1,8 @@
 package services;
 
 import models.*;
+import models.resumen_esclarecimiento.HechosEsclarecimientoPExtTPub;
+import models.resumen_esclarecimiento.HechosEsclarecimientoResumen;
 import org.postgresql.util.PSQLException;
 
 import java.sql.Date;
@@ -102,4 +104,9 @@ public interface HechosService {
 
     LinkedList<HurtosRobosPrevUorg> obtenerRobosHurtosPrev(Date fecha);
 
+    List<HechosEsclarecimientoPExtTPub> obtenerEsclarecimientoPExtDateRange(Date inicio, Date fin);
+
+    List<HechosEsclarecimientoPExtTPub> obtenerEsclarecimientoTPubDateRange(Date inicio, Date fin);
+
+    List<HechosEsclarecimientoResumen> obtenerEsclarecimientoResumenDateRange(Date inicio, Date fin);
 }

@@ -36,6 +36,8 @@ public class RegistroImpresionesServiceImpl implements RegistroImpresionesServic
         statement.setInt(1, registroImpresiones.getPase().getIdReg());
         statement.setInt(2, registroImpresiones.getCantidadImpresiones());
         statement.setString(3, registroImpresiones.getUltimaImpresion());
+        statement.execute();
+        statement.close();
         return 0;
     }
 
@@ -47,7 +49,8 @@ public class RegistroImpresionesServiceImpl implements RegistroImpresionesServic
         statement.setInt(2, registroImpresiones.getPase().getIdReg());
         statement.setInt(3, registroImpresiones.getCantidadImpresiones());
         statement.setString(4, registroImpresiones.getUltimaImpresion());
-
+        statement.execute();
+        statement.close();
         return 0;
     }
 
