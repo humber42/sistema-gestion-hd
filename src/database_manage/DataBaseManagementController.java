@@ -330,7 +330,7 @@ public class DataBaseManagementController {
 //                } else {
 //                    Util.dialogResult("No se encuentra el archivo pg_restore.exe", Alert.AlertType.INFORMATION);
 //                }
-                this.restaurarBasedeDatos("tester-database", user, path, "", "");
+                this.restaurarBasedeDatos(database, user, path, "", "");
 
             } catch (Exception e) {
                 e.printStackTrace();
