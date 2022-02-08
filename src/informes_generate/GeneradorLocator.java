@@ -14,6 +14,14 @@ public class GeneradorLocator {
     private static GenerarPrevencion generarPrevencion = null;
     private static GenerarListados generarListados = null;
     private static ExportarExcel exportarExcel = null;
+    private static GenerarConsolidado generarConsolidado = null;
+
+    public static GenerarConsolidado getGenerarConsolidado() {
+        if (generarConsolidado == null) {
+            generarConsolidado = new GenerarConsolidadoImpl();
+        }
+        return generarConsolidado;
+    }
 
 
     public static GenerateInformeFiscalia getGenerateInformeFiscalia() {

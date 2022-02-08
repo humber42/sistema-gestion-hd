@@ -433,7 +433,7 @@ public class GeneradoresTablas {
 
         ///Cambiar
         //range 8
-        row = writeCellHechosByMunicipioServiciosAfectados(row, column, ServiceLocator.getHechosService().serviciosAfectadosPorMunicipio(Date.valueOf(date), 2), sheet);
+        row = writeCellHechosByMunicipio(row, column, ServiceLocator.getHechosService().obtenerHechosPorMunicipio(Date.valueOf(date), 2), sheet);
         ranges.add(sheet.getCells().getSubrangeAbsolute(rowInitial, column, row - 1, column + 1));
         rowInitial = row;
 
@@ -543,7 +543,7 @@ public class GeneradoresTablas {
     private static int writeCellHechosByMunicipioServiciosAfectados(int row, int column, java.util.LinkedList<MunicipioServiciosAfectados> hechosPorMunicipios, ExcelWorksheet sheet) {
         int cant = Util.countCantServiciosAfectados(hechosPorMunicipios);
         sheet.getCell(row, column).setValue("Municipio");
-        sheet.getCell(row, column + 1).setValue(cant + " Servicios Afectados");
+        sheet.getCell(row, column + 1).setValue("Servicios Afectados: " + cant);
         row++;
         for (MunicipioServiciosAfectados hechosPorMunicipio : Util.ordenandoHechosPorMunicipioServiciosAfectados(hechosPorMunicipios)) {
             try {
@@ -569,8 +569,10 @@ public class GeneradoresTablas {
             serviciosAfectados += afectacion.getAfectaciones();
         }
 
+
         percentMedio = (100 * serviciosAfectados / epInstaladas);
-        sheet.getCell(row, column + 1).setValue(String.valueOf(percentMedio).substring(0, 4) + "% Servicios vs Técnica");
+        double roundedValue = Math.round(percentMedio * 100.0) / 100.0;
+        sheet.getCell(row, column + 1).setValue(roundedValue + "% Servicios vs Técnica");
         row++;
         for (Afectaciones afectaciones1 : Util.reordenandoAfectaciones(afectaciones)) {
             sheet.getCell(row, column).setValue(afectaciones1.getUnidadOrganizativa());

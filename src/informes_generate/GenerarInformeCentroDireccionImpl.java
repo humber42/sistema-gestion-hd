@@ -584,7 +584,7 @@ public class GenerarInformeCentroDireccionImpl implements GenerarInformeCentroDi
                 workbook.getWorksheet(0).getCells().getSubrange("B29:G29"),
                 workbook.getWorksheet(0).getCells().getSubrange("B15:G15"),
                 workbook.getWorksheet(0).getCells().getSubrange("B1:G1"),
-                value1, value2
+                value2, value1
         );
 
 

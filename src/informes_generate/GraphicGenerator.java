@@ -1,6 +1,7 @@
 package informes_generate;
 
 import com.gembox.spreadsheet.CellRange;
+import com.gembox.spreadsheet.ExcelCell;
 import com.gembox.spreadsheet.ExcelWorksheet;
 import com.gembox.spreadsheet.charts.*;
 import models.Afectaciones;
@@ -124,8 +125,9 @@ public class GraphicGenerator {
             serviciosAfectados += afectaciones.getAfectaciones();
         }
         double calculate = (100 * serviciosAfectados / epInstaladas);
+        calculate = Math.round(calculate * 100.0) / 100.0;
 
-        chart.getSeries().get(0).setName(String.valueOf(calculate).substring(0, 4) + "% Servicios vs Técnica");
+        chart.getSeries().get(0).setName(calculate + "% Servicios vs Técnica");
         chart.getDataLabels().setLabelContainsValue(true);
         chart.getTitle().setVisible(false);
     }
@@ -176,11 +178,18 @@ public class GraphicGenerator {
         chart.getSeries().add("Cant-Hechos", reference);
         chart.getDataLabels().setLabelContainsValue(true);
         chart.getDataLabels().setLabelPosition(DataLabelPosition.TOP);
+        int sizeOfRange = 0;
+        for (ExcelCell rango : range) {
+            sizeOfRange++;
+        }
+        int cantAQuitar = 24 - sizeOfRange;
         if (fiscalia) {
-            chart.setCategoryLabelsReference("Resumen!$A$80:$B$103");
+            int numeroCelda = 103 - cantAQuitar;
+            chart.setCategoryLabelsReference("Resumen!$A$80:$B$" + numeroCelda);
             chart.getTitle().setVisible(false);
         } else {
-            chart.setCategoryLabelsReference("Historico!$B$42:$C$65");
+            int numeroCelda = 65 - cantAQuitar;
+            chart.setCategoryLabelsReference("Historico!$B$42:$C" + numeroCelda);
             chart.getTitle().setText(title);
 
         }

@@ -198,10 +198,17 @@ public class Util {
             hechosRetorno.add(hechoModified(hechosDeTres));
         }
 
-        if (hechosDeDos.size() > 0) {
+        if (hechosDeDos.size() < 3) {
+            hechosRetorno.addAll(hechosDeDos);
+        } else {
             hechosRetorno.add(hechoModified(hechosDeDos));
         }
-        if (hechosdeUno.size() > 0) {
+
+        if (hechosDeTres.size() < 1 && hechosDeDos.size() < 1) {
+            hechosRetorno.addAll(hechosdeUno);
+        } else if (hechosdeUno.size() < 3) {
+            hechosRetorno.addAll(hechosdeUno);
+        } else {
             hechosRetorno.add(hechoModified(hechosdeUno));
         }
 
@@ -210,6 +217,7 @@ public class Util {
 
 
     public static LinkedList<MunicipioServiciosAfectados> ordenandoHechosPorMunicipioServiciosAfectados(LinkedList<MunicipioServiciosAfectados> hechosPorMunicipios) {
+
         LinkedList<MunicipioServiciosAfectados> hechosdeUno = new LinkedList<>();
         LinkedList<MunicipioServiciosAfectados> hechosDeDos = new LinkedList<>();
         LinkedList<MunicipioServiciosAfectados> hechosDeTres = new LinkedList<>();
@@ -235,10 +243,20 @@ public class Util {
 
         if (hechosDeTres.size() > 2)
             hechosRetorno.add(hechoModifiedServiciosAfectados(hechosDeTres));
-        if (hechosDeDos.size() > 0)
+
+        if (hechosDeDos.size() < 3) {
+            hechosRetorno.addAll(hechosDeDos);
+        } else {
             hechosRetorno.add(hechoModifiedServiciosAfectados(hechosDeDos));
-        if (hechosdeUno.size() > 0)
+        }
+
+        if (hechosDeTres.size() < 1 && hechosDeDos.size() < 1) {
+            hechosRetorno.addAll(hechosdeUno);
+        } else if (hechosdeUno.size() < 3) {
+            hechosRetorno.addAll(hechosdeUno);
+        } else {
             hechosRetorno.add(hechoModifiedServiciosAfectados(hechosdeUno));
+        }
 
         return hechosRetorno;
     }

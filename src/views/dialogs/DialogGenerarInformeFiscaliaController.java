@@ -9,6 +9,8 @@ import javafx.scene.control.DatePicker;
 import javafx.stage.Stage;
 import util.Util;
 
+import java.io.IOException;
+
 public class DialogGenerarInformeFiscaliaController {
 
     @FXML
@@ -68,7 +70,13 @@ public class DialogGenerarInformeFiscaliaController {
                     }
 
                 };
-
+                GeneradorLocator.getGenerarConsolidado().generarConsolidado(fechaCierre.getValue(), path + "/ConsolidadoConciliaciones.xlsx");
+                String file2 = path + "/ConsolidadoConciliaciones.xlsx";
+                try {
+                    Runtime.getRuntime().exec("cmd /c start " + file2);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 new Thread(task).start();
             }
         }
