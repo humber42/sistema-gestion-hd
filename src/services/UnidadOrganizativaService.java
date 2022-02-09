@@ -57,7 +57,7 @@ public class UnidadOrganizativaService {
 
     public UnidadOrganizativa searchUnidadOrganizativaByName(String name) {
         String query = "Select * FROM unidades_organizativas WHERE unidad_organizativa = '" + name + "'";
-        UnidadOrganizativa unidadOrganizativa = new UnidadOrganizativa();
+        UnidadOrganizativa unidadOrganizativa = null;
 
         try {
             ResultSet resutltSet = Util.executeQuery(query);

@@ -11,10 +11,10 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
@@ -213,7 +213,6 @@ public class HechosRegistradosViewController {
         );
         this.comboBoxMes.getItems().setAll(Util.meses2);
         TextFields.bindAutoCompletion(this.cboxUorg.getEditor(), this.cboxUorg.getItems());
-        TextFields.bindAutoCompletion(this.cboxAnno.getEditor(), this.cboxAnno.getItems());
         TextFields.bindAutoCompletion(this.comboBoxMes.getEditor(), this.comboBoxMes.getItems());
     }
 
@@ -610,6 +609,8 @@ public class HechosRegistradosViewController {
         this.cboxAnno.setPromptText("Seleccione");
         this.cboxUorg.getSelectionModel().clearSelection();
         this.cboxUorg.setPromptText("Seleccione");
+        this.comboBoxMes.getSelectionModel().clearSelection();
+        this.comboBoxMes.setPromptText("Seleccione");
         cargarTabla(this.obtenerHechosRegistrados(LIMIT_OF_ROWS, 0));
         offsetMaximo = ServiceLocator.getHechosService().countAllHechos();
         offset = 0;
@@ -625,33 +626,40 @@ public class HechosRegistradosViewController {
         String anno = this.cboxAnno.getSelectionModel().getSelectedItem();
         String tipoHecho = this.cboxTipoHecho.getSelectionModel().getSelectedItem();
         String uorg = this.cboxUorg.getSelectionModel().getSelectedItem();
+        String mes = obtenerMesFromComboBoxMeses();
 
         if ((anno == null || anno.isEmpty()) &&
                 (uorg == null || uorg.isEmpty()) &&
-                (tipoHecho == null || tipoHecho.isEmpty())) {
+                (tipoHecho == null || tipoHecho.isEmpty()) &&
+                (mes == null || mes.isEmpty())) {
             Util.dialogResult("Los campos de búsqueda están vacíos.", Alert.AlertType.WARNING);
         } else {
-            annoPartQuery = (anno == null || anno.isEmpty())
-                    ? "" :
-                    " AND date_part('year', hechos.fecha_ocurrencia) = " + Integer.parseInt(anno);
-            tipoHechoPartQuery = (tipoHecho == null || tipoHecho.isEmpty())
-                    ? "" :
-                    " AND hechos.id_tipo_hecho = " +
-                            ServiceLocator.getTipoHechoService().searchTipoHechoByName(tipoHecho).getId_tipo_hecho();
-            uorgPartQuery = (uorg == null || uorg.isEmpty())
-                    ? "" :
-                    " AND id_uorg = " +
-                            ServiceLocator.getUnidadOrganizativaService().searchUnidadOrganizativaByName(uorg).getId_unidad_organizativa();
-            mesPartQuery = comboBoxMes.getSelectionModel().isEmpty()
-                    ? ""
-                    : " and date_part('mons', hechos.fecha_ocurrencia) = "
-                    + Util.obtenerNumeroMes(obtenerMesFromComboBoxMeses());
+            if (ServiceLocator.getUnidadOrganizativaService().
+                    searchUnidadOrganizativaByName(uorg) == null)
+                Util.dialogResult("Unidad organizativa no válida.", Alert.AlertType.ERROR);
+            else {
+                annoPartQuery = (anno == null || anno.isEmpty())
+                        ? "" :
+                        " AND date_part('year', hechos.fecha_ocurrencia) = " + Integer.parseInt(anno);
+                tipoHechoPartQuery = (tipoHecho == null || tipoHecho.isEmpty())
+                        ? "" :
+                        " AND hechos.id_tipo_hecho = " +
+                                ServiceLocator.getTipoHechoService().searchTipoHechoByName(tipoHecho).getId_tipo_hecho();
+                uorgPartQuery = (uorg == null || uorg.isEmpty())
+                        ? "" :
+                        " AND id_uorg = " +
+                                ServiceLocator.getUnidadOrganizativaService().searchUnidadOrganizativaByName(uorg).getId_unidad_organizativa();
+                mesPartQuery = comboBoxMes.getSelectionModel().isEmpty()
+                        ? ""
+                        : " and date_part('mons', hechos.fecha_ocurrencia) = "
+                        + Util.obtenerNumeroMes(mes);
 
-            cargarTabla(this.obtenerHechosUsingFilters(annoPartQuery, uorgPartQuery, tipoHechoPartQuery, mesPartQuery, LIMIT_OF_ROWS, 0));
-            this.usingFilters = true;
-            offsetMaximo = countAllHechosUsingFilters(annoPartQuery, uorgPartQuery, tipoHechoPartQuery, mesPartQuery);
-            ponerOffsetDetablaActual();
-            ponerNumeroDeTablas();
+                cargarTabla(this.obtenerHechosUsingFilters(annoPartQuery, uorgPartQuery, tipoHechoPartQuery, mesPartQuery, LIMIT_OF_ROWS, 0));
+                this.usingFilters = true;
+                offsetMaximo = countAllHechosUsingFilters(annoPartQuery, uorgPartQuery, tipoHechoPartQuery, mesPartQuery);
+                ponerOffsetDetablaActual();
+                ponerNumeroDeTablas();
+            }
         }
     }
 
@@ -742,6 +750,7 @@ public class HechosRegistradosViewController {
             String urlFile = Util.selectPathToSaveDatabase(this.stage);
             Task<Boolean> task = new Task<Boolean>() {
                 String url = "";
+
                 @Override
                 protected Boolean call() throws Exception {
 

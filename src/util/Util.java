@@ -4,6 +4,7 @@ import com.gembox.internal.core.DivideByZeroException;
 import com.gembox.spreadsheet.*;
 import icons.ImageLocation;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
@@ -11,6 +12,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import models.*;
+import org.controlsfx.control.textfield.TextFields;
+import services.ServiceLocator;
 
 import java.awt.*;
 import java.io.File;
@@ -423,9 +426,6 @@ public class Util {
         return mes;
     }
 
-
-
-
     public static String selectPathToSaveDatabase(Stage dialog) {
         String path = null;
         DirectoryChooser directory = new DirectoryChooser();
@@ -439,8 +439,35 @@ public class Util {
         return path;
     }
 
-
     public static double getPercent(int part, int total) throws DivideByZeroException {
-        return (part*100)/total;
+        return (part * 100) / total;
+    }
+
+    public static void activateComboEdition(ComboBox comboBox) {
+        TextFields.bindAutoCompletion(comboBox.getEditor(), comboBox.getItems());
+    }
+
+    public static boolean doesntExistsThatUorgInComboEditableEvent(String value) {
+        boolean exist = true;
+        if (value != null) {
+            if (value.equalsIgnoreCase("<<Todos>>"))
+                exist = true;
+            else {
+                exist = ServiceLocator.getUnidadOrganizativaService()
+                        .fetchAll()
+                        .stream()
+                        .filter(u -> value.equalsIgnoreCase(u.getUnidad_organizativa()))
+                        .findAny()
+                        .isPresent();
+
+                if (!exist)
+                    Util.dialogResult("No existe la unidad organizativa " + value, Alert.AlertType.WARNING);
+            }
+        }
+        else{
+            Util.dialogResult("El campo de unidad organizativa está vacío. Seleccione una unidad organizativa.", Alert.AlertType.INFORMATION);
+        }
+
+        return exist;
     }
 }
