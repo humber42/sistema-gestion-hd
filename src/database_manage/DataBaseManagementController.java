@@ -153,52 +153,13 @@ public class DataBaseManagementController {
 
 
     private void createBackupDatabase(String format) {
-        String host = ConfigProperties.getProperties().getProperty("BD_HOST");
-        String port = ConfigProperties.getProperties().getProperty("BD_PORT");
         String user = ConfigProperties.getProperties().getProperty("BD_USERNAME");
-        String password = ConfigProperties.getProperties().getProperty("BD_PASSWORD");
         String database = ConfigProperties.getProperties().getProperty("BD_NAME");
-
-        Process proceso;
-        ProcessBuilder constructor;
-
 
         String path = Util.selectPathToSaveDatabase(this.dialogStage);
 
         this.crearBackup(database, user, path, System.getProperty("user.dir") + "/src" + "/addons", format);
 
-//        if (path != null) {
-//            boolean hecho = false;
-//            try {
-//                String pathMoment = System.getProperty("user.dir") + "/src" + "/addons" + "/pg_dump.exe";
-//                File pgDump = new File(pathMoment);
-//                String pgDumpPath = Paths.get(pathMoment).toAbsolutePath().normalize().toString();
-//
-//                System.out.println(pgDumpPath);
-//                if (pgDump.exists()) {
-//                    if (!path.equalsIgnoreCase("")) {
-//                        String a =format.equalsIgnoreCase("custom")?".backup":".sql";
-//                        constructor = new ProcessBuilder(pgDumpPath, "--verbose", "--format", format, "-f", path + "\\" + database + a);
-//                    } else {
-//                        constructor = new ProcessBuilder(pgDumpPath, "--verbose", "--inserts", "--column-inserts", "-f", path + "\\sys.backup");
-//                        System.out.println("ERROR");
-//                    }
-//                    constructor.environment().put("PGHOST", host);
-//                    constructor.environment().put("PGPORT", port);
-//                    constructor.environment().put("PGUSER", user);
-//                    constructor.environment().put("PGPASSWORD", password);
-//                    constructor.environment().put("PGDATABASE", database);
-//                    constructor.redirectErrorStream(true);
-//                    proceso = constructor.start();
-//                    this.escribirProceso(proceso, false);
-//                } else {
-//                    Util.dialogResult("No se encuentra el pg_dump.exe", Alert.AlertType.INFORMATION);
-//                }
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//                Util.dialogResult("Error al crear la salva", Alert.AlertType.ERROR);
-//            }
-//        }
     }
 
     private boolean crearBackup(String dbName, String username, String backupPath, String bdPath, String format) {
@@ -235,7 +196,6 @@ public class DataBaseManagementController {
                 cmdBuffer.append(".tar ");
             cmdBuffer.append("-db ");
             cmdBuffer.append(dbName);
-            //crear_salva.bat salva -r pg_dump.exe -m --verbose -F p -h localhost -p 5432 -u postgres -enc "utf-8" -archivo "D:\\sysSP.sql" -db sysSP
 
             try {
                 System.out.println(cmdBuffer);
@@ -314,24 +274,7 @@ public class DataBaseManagementController {
             //String database = "test";
 
             try {
-//                String pathMoment = System.getProperty("user.dir") + "/src" + "/addons" + "/pg_restore.exe";
-//                File pgRestore = new File(pathMoment);
-//                String pgRestorePath = Paths.get(pathMoment).toAbsolutePath().normalize().toString();
-//                System.out.println(pgRestorePath);
-//                if (pgRestore.exists()) {
-//                    constructor = new ProcessBuilder(pgRestorePath, "--host", host
-//                            , "--port", port, "--username", user, "--dbname", database, "--verbose", path);
-//                    constructor.environment().put("PGPASSWORD", password);
-//                    constructor.redirectErrorStream(true);
-//
-//                    proceso = constructor.start();
-//                    this.escribirProceso(proceso, true);
-//
-//                } else {
-//                    Util.dialogResult("No se encuentra el archivo pg_restore.exe", Alert.AlertType.INFORMATION);
-//                }
                 this.restaurarBasedeDatos(database, user, path, "", "");
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -363,7 +306,6 @@ public class DataBaseManagementController {
                     writter.flush();
                     reader.close();
                     writter.close();
-//                    exitValue = process.waitFor();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -439,7 +381,7 @@ public class DataBaseManagementController {
                     String executeSqlComand = pathMoment + " -U " + user + " -h " + host + " -p " + port + " -d " +
                             database + " -f " + sqlFile.getAbsolutePath();
                     Process process = rt.exec(executeSqlComand);
-                    this.escribirProceso(process, false);
+                    process.waitFor();
                 } catch (Exception err) {
                     err.printStackTrace();
                 }

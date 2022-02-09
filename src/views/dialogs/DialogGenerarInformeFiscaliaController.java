@@ -27,6 +27,7 @@ public class DialogGenerarInformeFiscaliaController {
 
     @FXML
     private void initialize() {
+
         this.progressBar.setVisible(false);
     }
 
@@ -44,8 +45,6 @@ public class DialogGenerarInformeFiscaliaController {
             String path = Util.selectPathToSaveDatabase(this.dialogStage);
             if (path != null) {
                 progressBar.setVisible(true);
-//                GeneradorLocator.getGenerateInformeFiscalia().
-//                        generarInformeCompleto(fechaCierre.getValue(), path);
                 Task<Boolean> task = new Task<Boolean>() {
                     boolean result = false;
 
@@ -53,6 +52,11 @@ public class DialogGenerarInformeFiscaliaController {
                     protected Boolean call() throws Exception {
                         this.result = GeneradorLocator.getGenerateInformeFiscalia().
                                 generarInformeCompleto(fechaCierre.getValue(), path);
+
+                        progressBar.setProgress(0.5);
+                        this.result = GeneradorLocator.getGenerarConsolidado()
+                                .generarConsolidado(fechaCierre.getValue(), path + "/ConsolidadoConciliaciones.xlsx");
+                        progressBar.setProgress(1);
                         return result;
                     }
 
@@ -66,17 +70,18 @@ public class DialogGenerarInformeFiscaliaController {
                         } catch (Exception e) {
                             System.out.println("Error al abrir el archivo");
                         }
+                        String file2 = path + "/ConsolidadoConciliaciones.xlsx";
+                        try {
+                            Runtime.getRuntime().exec("cmd /c start " + file2);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                         //showDialog(result);
                     }
 
                 };
-                GeneradorLocator.getGenerarConsolidado().generarConsolidado(fechaCierre.getValue(), path + "/ConsolidadoConciliaciones.xlsx");
-                String file2 = path + "/ConsolidadoConciliaciones.xlsx";
-                try {
-                    Runtime.getRuntime().exec("cmd /c start " + file2);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+
+
                 new Thread(task).start();
             }
         }
