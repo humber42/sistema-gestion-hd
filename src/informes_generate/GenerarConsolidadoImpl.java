@@ -247,9 +247,9 @@ public class GenerarConsolidadoImpl implements GenerarConsolidado {
     }
 
     private void llenarDataResumen(LocalDate date, ExcelWorksheet sheet) {
-        Date date2 = Date.valueOf(date.getYear() + "-01-01");
+        Date firstOfTheYear = Date.valueOf(date.getYear() + "-01-01");
         List<HechosEsclarecimientoResumen> hechosEsclarecimientoResumen = ServiceLocator
-                .getHechosService().obtenerEsclarecimientoResumenDateRange(date2, Date.valueOf(date));
+                .getHechosService().obtenerEsclarecimientoResumenDateRange(firstOfTheYear, Date.valueOf(date));
 
         int row = 4;
         for (HechosEsclarecimientoResumen resumen : hechosEsclarecimientoResumen) {

@@ -158,7 +158,8 @@ public class DataBaseManagementController {
 
         String path = Util.selectPathToSaveDatabase(this.dialogStage);
 
-        this.crearBackup(database, user, path, System.getProperty("user.dir") + "/src" + "/addons", format);
+        if (path != null)
+            this.crearBackup(database, user, path, System.getProperty("user.dir") + "/src" + "/addons", format);
 
     }
 
