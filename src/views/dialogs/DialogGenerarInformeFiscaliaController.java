@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import util.Util;
 
 import java.io.IOException;
+import java.time.LocalDate;
 
 public class DialogGenerarInformeFiscaliaController {
 
@@ -51,11 +52,13 @@ public class DialogGenerarInformeFiscaliaController {
                     @Override
                     protected Boolean call() throws Exception {
                         this.result = GeneradorLocator.getGenerateInformeFiscalia().
-                                generarInformeCompleto(fechaCierre.getValue(), path);
+                                generarInformeCompleto(fechaCierre.getValue(),
+                                        path);
 
                         progressBar.setProgress(0.5);
                         this.result = GeneradorLocator.getGenerarConsolidado()
-                                .generarConsolidado(fechaCierre.getValue(), path + "/ConsolidadoConciliaciones.xlsx");
+                                .generarConsolidado(fechaCierre.getValue(),
+                                        path + "/ConsolidadoConciliaciones-" + fechaCierre.getValue() + ".xlsx");
                         progressBar.setProgress(1);
                         return result;
                     }
@@ -64,13 +67,13 @@ public class DialogGenerarInformeFiscaliaController {
                     protected void succeeded() {
                         super.succeeded();
                         progressBar.setVisible(false);
-                        String file = path + "/ResumenFGR.xlsx";
+                        String file = path + "/ResumenFGR-" + fechaCierre.getValue() + ".xlsx";
                         try {
                             Runtime.getRuntime().exec("cmd /c start " + file);
                         } catch (Exception e) {
                             System.out.println("Error al abrir el archivo");
                         }
-                        String file2 = path + "/ConsolidadoConciliaciones.xlsx";
+                        String file2 = path + "/ConsolidadoConciliaciones-" + fechaCierre.getValue() + ".xlsx";
                         try {
                             Runtime.getRuntime().exec("cmd /c start " + file2);
                         } catch (IOException e) {
