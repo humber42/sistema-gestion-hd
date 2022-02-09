@@ -2,7 +2,6 @@ package sistema_identificativo.views.dialogs;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.ProgressBar;
 import javafx.stage.Stage;
 import models.UnidadOrganizativa;
 import org.controlsfx.control.textfield.TextFields;
@@ -36,9 +35,11 @@ public class DialogGenerarResumenPasesUO {
 
     @FXML
     private void generarPase(){
-        int idUOrg= ServiceLocator.getUnidadOrganizativaService()
-                .searchUnidadOrganizativaByName(unidadOrganizativa.getValue()).getId_unidad_organizativa();
-        ServiceLocator.getJasperReportService().imprimirResumenUnidadOrganizativa(idUOrg,dialogStage);
+        if (!Util.doesntExistsThatUorgInComboEditableEvent(this.unidadOrganizativa.getValue())) {
+            int idUOrg = ServiceLocator.getUnidadOrganizativaService()
+                    .searchUnidadOrganizativaByName(unidadOrganizativa.getValue()).getId_unidad_organizativa();
+            ServiceLocator.getJasperReportService().imprimirResumenUnidadOrganizativa(idUOrg, dialogStage);
+        }
     }
 
     @FXML

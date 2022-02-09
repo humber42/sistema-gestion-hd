@@ -163,7 +163,7 @@ public class RegistroPasesController {
         }
 
         try {
-            if (this.organUnity.getValue().isEmpty()) {
+            if (this.organUnity.getValue().isEmpty() || !Util.doesntExistsThatUorgInComboEditableEvent(this.organUnity.getValue())) {
                 emptyFields = true;
                 this.unidadOrganizativa.setTextFill(Color.RED);
             }

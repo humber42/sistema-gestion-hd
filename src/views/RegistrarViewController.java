@@ -487,7 +487,7 @@ public class RegistrarViewController {
             this.tituloLabel.setTextFill(Color.RED);
         }
         try {
-            if (this.unidadOrganizativaComboBox.getValue().isEmpty()) {
+            if (this.unidadOrganizativaComboBox.getValue().isEmpty() || !Util.doesntExistsThatUorgInComboEditableEvent(this.unidadOrganizativaComboBox.getValue())) {
                 correcto = false;
             }
         } catch (NullPointerException e) {
