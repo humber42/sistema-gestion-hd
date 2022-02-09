@@ -99,31 +99,35 @@ public class TelefoniaPublicaViewController {
 
         this.cboxUORG.getSelectionModel().selectedItemProperty().addListener(
                 ((observable, oldValue, newValue) -> {
-                    if (!newValue.equalsIgnoreCase("<<Todos>>")) {
-                        this.modifyTable(false);
-                        this.estaciones = ServiceLocator.getEstacionPublicaCentroAgenteService()
-                                .getAllByIdUORG(ServiceLocator.getUnidadOrganizativaService()
-                                        .searchUnidadOrganizativaByName(newValue).getId_unidad_organizativa());
-                        this.initializeTableTelefonia(estaciones, false);
-                    } else {
-                        this.modifyTable(true);
-                        this.estaciones = ServiceLocator.getEstacionPublicaCentroAgenteService().getAll();
-                        this.initializeTableTelefonia(estaciones, true);
+                    if (Util.doesntExistsThatUorgInComboEditableEvent(newValue)) {
+                        if (!newValue.equalsIgnoreCase("<<Todos>>")) {
+                            this.modifyTable(false);
+                            this.estaciones = ServiceLocator.getEstacionPublicaCentroAgenteService()
+                                    .getAllByIdUORG(ServiceLocator.getUnidadOrganizativaService()
+                                            .searchUnidadOrganizativaByName(newValue).getId_unidad_organizativa());
+                            this.initializeTableTelefonia(estaciones, false);
+                        } else {
+                            this.modifyTable(true);
+                            this.estaciones = ServiceLocator.getEstacionPublicaCentroAgenteService().getAll();
+                            this.initializeTableTelefonia(estaciones, true);
+                        }
                     }
                 }
                 ));
 
         this.cboxUORG.editorProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.getText().equalsIgnoreCase("<<Todos>>")) {
-                this.modifyTable(false);
-                this.estaciones = ServiceLocator.getEstacionPublicaCentroAgenteService()
-                        .getAllByIdUORG(ServiceLocator.getUnidadOrganizativaService()
-                                .searchUnidadOrganizativaByName(newValue.getText()).getId_unidad_organizativa());
-                this.initializeTableTelefonia(estaciones, false);
-            } else {
-                this.modifyTable(true);
-                this.estaciones = ServiceLocator.getEstacionPublicaCentroAgenteService().getAll();
-                this.initializeTableTelefonia(estaciones, true);
+            if (Util.doesntExistsThatUorgInComboEditableEvent(newValue.getText())) {
+                if (!newValue.getText().equalsIgnoreCase("<<Todos>>")) {
+                    this.modifyTable(false);
+                    this.estaciones = ServiceLocator.getEstacionPublicaCentroAgenteService()
+                            .getAllByIdUORG(ServiceLocator.getUnidadOrganizativaService()
+                                    .searchUnidadOrganizativaByName(newValue.getText()).getId_unidad_organizativa());
+                    this.initializeTableTelefonia(estaciones, false);
+                } else {
+                    this.modifyTable(true);
+                    this.estaciones = ServiceLocator.getEstacionPublicaCentroAgenteService().getAll();
+                    this.initializeTableTelefonia(estaciones, true);
+                }
             }
         });
 

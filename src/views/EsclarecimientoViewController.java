@@ -202,27 +202,31 @@ public class EsclarecimientoViewController {
                         .collect(Collectors.toList())
         );
 
-        TextFields.bindAutoCompletion(this.cboxUorg.getEditor(), this.cboxUorg.getItems());
+        Util.activateComboEdition(this.cboxUorg);
 
         this.cboxUorg.getSelectionModel().selectedItemProperty().addListener(
                 ((observable, oldValue, newValue) -> {
-                    if (!newValue.equalsIgnoreCase("<<Todos>>"))
-                        this.advancedSearchByUOrg();
-                    else {
-                        this.hechosList.clear();
-                        this.hechosList.addAll(this.obtenerHechosPextTpub());
-                        this.cargarDatos(this.hechosList.getFirst());
+                    if(Util.doesntExistsThatUorgInComboEditableEvent(newValue)) {
+                        if (!newValue.equalsIgnoreCase("<<Todos>>"))
+                            this.advancedSearchByUOrg();
+                        else {
+                            this.hechosList.clear();
+                            this.hechosList.addAll(this.obtenerHechosPextTpub());
+                            this.cargarDatos(this.hechosList.getFirst());
+                        }
                     }
                 }
                 ));
 
         this.cboxUorg.editorProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.getText().equalsIgnoreCase("<<Todos>>"))
-                this.advancedSearchByUOrg();
-            else {
-                this.hechosList.clear();
-                this.hechosList.addAll(this.obtenerHechosPextTpub());
-                this.cargarDatos(this.hechosList.getFirst());
+            if(Util.doesntExistsThatUorgInComboEditableEvent(newValue.getText())) {
+                if (!newValue.getText().equalsIgnoreCase("<<Todos>>")) {
+                    this.advancedSearchByUOrg();
+                } else {
+                    this.hechosList.clear();
+                    this.hechosList.addAll(this.obtenerHechosPextTpub());
+                    this.cargarDatos(this.hechosList.getFirst());
+                }
             }
         });
 
