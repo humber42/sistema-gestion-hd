@@ -634,32 +634,33 @@ public class HechosRegistradosViewController {
                 (mes == null || mes.isEmpty())) {
             Util.dialogResult("Los campos de búsqueda están vacíos.", Alert.AlertType.WARNING);
         } else {
-            if (ServiceLocator.getUnidadOrganizativaService().
-                    searchUnidadOrganizativaByName(uorg) == null)
-                Util.dialogResult("Unidad organizativa no válida.", Alert.AlertType.ERROR);
-            else {
-                annoPartQuery = (anno == null || anno.isEmpty())
-                        ? "" :
-                        " AND date_part('year', hechos.fecha_ocurrencia) = " + Integer.parseInt(anno);
-                tipoHechoPartQuery = (tipoHecho == null || tipoHecho.isEmpty())
-                        ? "" :
-                        " AND hechos.id_tipo_hecho = " +
-                                ServiceLocator.getTipoHechoService().searchTipoHechoByName(tipoHecho).getId_tipo_hecho();
-                uorgPartQuery = (uorg == null || uorg.isEmpty())
-                        ? "" :
-                        " AND id_uorg = " +
-                                ServiceLocator.getUnidadOrganizativaService().searchUnidadOrganizativaByName(uorg).getId_unidad_organizativa();
-                mesPartQuery = comboBoxMes.getSelectionModel().isEmpty()
-                        ? ""
-                        : " and date_part('mons', hechos.fecha_ocurrencia) = "
-                        + Util.obtenerNumeroMes(mes);
-
-                cargarTabla(this.obtenerHechosUsingFilters(annoPartQuery, uorgPartQuery, tipoHechoPartQuery, mesPartQuery, LIMIT_OF_ROWS, 0));
-                this.usingFilters = true;
-                offsetMaximo = countAllHechosUsingFilters(annoPartQuery, uorgPartQuery, tipoHechoPartQuery, mesPartQuery);
-                ponerOffsetDetablaActual();
-                ponerNumeroDeTablas();
+            boolean validUorg = ServiceLocator.getUnidadOrganizativaService()
+                    .searchUnidadOrganizativaByName(uorg) != null;
+            annoPartQuery = (anno == null || anno.isEmpty())
+                    ? "" :
+                    " AND date_part('year', hechos.fecha_ocurrencia) = " + Integer.parseInt(anno);
+            tipoHechoPartQuery = (tipoHecho == null || tipoHecho.isEmpty())
+                    ? "" :
+                    " AND hechos.id_tipo_hecho = " +
+                            ServiceLocator.getTipoHechoService().searchTipoHechoByName(tipoHecho).getId_tipo_hecho();
+            if(!validUorg){
+                Util.dialogResult("La unidad organizativa " + uorg + " no es válida. Se omitirá su valor en la búsqueda.", Alert.AlertType.INFORMATION);
+                cboxUorg.getEditor().setText("");
             }
+            uorgPartQuery = (uorg == null || uorg.isEmpty() || !validUorg)
+                    ? "":
+                    " AND id_uorg = " +
+                            ServiceLocator.getUnidadOrganizativaService().searchUnidadOrganizativaByName(uorg).getId_unidad_organizativa();
+            mesPartQuery = comboBoxMes.getSelectionModel().isEmpty()
+                    ? ""
+                    : " and date_part('mons', hechos.fecha_ocurrencia) = "
+                    + Util.obtenerNumeroMes(mes);
+
+            cargarTabla(this.obtenerHechosUsingFilters(annoPartQuery, uorgPartQuery, tipoHechoPartQuery, mesPartQuery, LIMIT_OF_ROWS, 0));
+            this.usingFilters = true;
+            offsetMaximo = countAllHechosUsingFilters(annoPartQuery, uorgPartQuery, tipoHechoPartQuery, mesPartQuery);
+            ponerOffsetDetablaActual();
+            ponerNumeroDeTablas();
         }
     }
 
