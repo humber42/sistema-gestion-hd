@@ -6,11 +6,11 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.ProgressIndicator;
 import javafx.stage.Stage;
 import util.Util;
 
 import java.io.IOException;
-import java.time.LocalDate;
 
 public class DialogGenerarInformeFiscaliaController {
 
@@ -28,7 +28,7 @@ public class DialogGenerarInformeFiscaliaController {
 
     @FXML
     private void initialize() {
-
+        this.progressBar.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
         this.progressBar.setVisible(false);
     }
 
@@ -44,6 +44,9 @@ public class DialogGenerarInformeFiscaliaController {
             Util.dialogResult("Seleccione una fecha de cierre.", Alert.AlertType.WARNING);
         } else {
             String path = Util.selectPathToSaveDatabase(this.dialogStage);
+//            GeneradorLocator.getGenerarConsolidado()
+//                    .generarConsolidado(fechaCierre.getValue(),
+//                            path + "/ConsolidadoConciliaciones-" + fechaCierre.getValue() + ".xlsx");
             if (path != null) {
                 progressBar.setVisible(true);
                 Task<Boolean> task = new Task<Boolean>() {
@@ -55,11 +58,11 @@ public class DialogGenerarInformeFiscaliaController {
                                 generarInformeCompleto(fechaCierre.getValue(),
                                         path);
 
-                        progressBar.setProgress(0.5);
+                        //progressBar.setProgress(0.5);
                         this.result = GeneradorLocator.getGenerarConsolidado()
                                 .generarConsolidado(fechaCierre.getValue(),
                                         path + "/ConsolidadoConciliaciones-" + fechaCierre.getValue() + ".xlsx");
-                        progressBar.setProgress(1);
+                        //progressBar.setProgress(1);
                         return result;
                     }
 

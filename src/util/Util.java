@@ -305,9 +305,27 @@ public class Util {
                 afectaciones -> afectaciones.getServiciosAfectadosVSEstacionesPublicas() > 1.5
         ).collect(Collectors.toCollection(LinkedList::new));
 
-        retorno.add(afectacionesModified(hechosMenores150));
-        retorno.add(afectacionesModified(hechosMenores1));
-        retorno.add(afectacionesModified(hechosMenores050));
+        if (hechosMenores150.size() < 3) {
+            retorno.addAll(hechosMenores150);
+        } else {
+            retorno.add(afectacionesModified(hechosMenores150));
+        }
+
+        if (hechosMenores1.size() < 3) {
+            retorno.addAll(hechosMenores1);
+
+        } else {
+            retorno.add(afectacionesModified(hechosMenores1));
+        }
+
+        if (hechosMenores150.size() < 1 && hechosMenores1.size() < 1) {
+            retorno.addAll(hechosMenores050);
+        } else if (hechosMenores050.size() < 3) {
+            retorno.addAll(hechosMenores050);
+        } else {
+            retorno.add(afectacionesModified(hechosMenores050));
+        }
+
 
         return retorno;
     }

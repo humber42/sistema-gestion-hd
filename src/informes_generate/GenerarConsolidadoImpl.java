@@ -18,6 +18,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class GenerarConsolidadoImpl implements GenerarConsolidado {
 
@@ -168,7 +169,26 @@ public class GenerarConsolidadoImpl implements GenerarConsolidado {
         this.cambiarStyleCell(style2, "G", sheet);
         this.cambiarStyleCell(style2, "K", sheet);
         this.cambiarStyleCell(style2, "L", sheet);
-        this.llenarDataResumen(date, sheet);
+
+        Date firstOfTheYear = Date.valueOf(date.getYear() + "-01-01");
+        List<HechosEsclarecimientoResumen> hechosEsclarecimientoResumen = ServiceLocator
+                .getHechosService().obtenerEsclarecimientoResumenDateRange(firstOfTheYear, Date.valueOf(date));
+
+        int numeroFila = 4;
+        for (int index = 0; index < Util.unidades_organizativa.length; index++) {
+            final int indice = index;
+            sheet.getCell("A" + numeroFila).setValue(Util.unidades_organizativa[index]);
+            List<HechosEsclarecimientoResumen> hechosEsclarecimientoResumenList = hechosEsclarecimientoResumen
+                    .stream()
+                    .filter(p -> p.getUnidad_organizativa().equalsIgnoreCase(Util.unidades_organizativa[indice]))
+                    .collect(Collectors.toList());
+            if (hechosEsclarecimientoResumenList.size() > 0) {
+                this.llenarDataResumen(sheet, numeroFila, hechosEsclarecimientoResumenList.get(0));
+            }
+
+            numeroFila++;
+        }
+
 
         return true;
     }
@@ -246,40 +266,32 @@ public class GenerarConsolidadoImpl implements GenerarConsolidado {
 
     }
 
-    private void llenarDataResumen(LocalDate date, ExcelWorksheet sheet) {
-        Date firstOfTheYear = Date.valueOf(date.getYear() + "-01-01");
-        List<HechosEsclarecimientoResumen> hechosEsclarecimientoResumen = ServiceLocator
-                .getHechosService().obtenerEsclarecimientoResumenDateRange(firstOfTheYear, Date.valueOf(date));
+    private void llenarDataResumen(ExcelWorksheet sheet, int row, HechosEsclarecimientoResumen resumen) {
 
-        int row = 4;
-        for (HechosEsclarecimientoResumen resumen : hechosEsclarecimientoResumen) {
-            sheet.getCell("A" + row).setValue(resumen.getUnidad_organizativa());
-            sheet.getCell("B" + row).setValue(resumen.getTotal_conciliados());
-            sheet.getCell("C" + row).setValue(resumen.getCant_pext());
-            sheet.getCell("D" + row).setValue(resumen.getCant_tpub());
-            sheet.getCell("E" + row).setValue(resumen.getTotal_no_esclarecidos());
-            sheet.getCell("F" + row).setValue(resumen.getCant_pext_no_esc());
-            sheet.getCell("G" + row).setValue(resumen.getCant_tpub_no_esc());
-            sheet.getCell("H" + row).setValue(resumen.getCant_exp_sac());
-            sheet.getCell("I" + row).setValue(resumen.getCant_sin_denuncia());
-            sheet.getCell("J" + row).setValue(resumen.getTotal_esclarecidos());
-            sheet.getCell("K" + row).setValue(resumen.getCant_pext_esc());
-            sheet.getCell("L" + row).setValue(resumen.getCant_tpub_esc());
-            sheet.getCell("M" + row).setValue(resumen.getCant_art_83());
-            sheet.getCell("N" + row).setValue(resumen.getCant_art_82());
-            sheet.getCell("O" + row).setValue(resumen.getCant_med_admin());
-            sheet.getCell("P" + row).setValue(resumen.getCant_menor());
-            sheet.getCell("Q" + row).setValue(resumen.getCant_fase_prep());
-            sheet.getCell("R" + row).setValue(resumen.getCant_pend_desp());
-            sheet.getCell("S" + row).setValue(resumen.getCant_pend_juicio());
-            sheet.getCell("T" + row).setValue(resumen.getCant_casos());
-            sheet.getCell("U" + row).setValue(resumen.getCant_sanciones());
-            sheet.getCell("V" + row).setValue(resumen.getSentencias());
+        sheet.getCell("A" + row).setValue(resumen.getUnidad_organizativa());
+        sheet.getCell("B" + row).setValue(resumen.getTotal_conciliados());
+        sheet.getCell("C" + row).setValue(resumen.getCant_pext());
+        sheet.getCell("D" + row).setValue(resumen.getCant_tpub());
+        sheet.getCell("E" + row).setValue(resumen.getTotal_no_esclarecidos());
+        sheet.getCell("F" + row).setValue(resumen.getCant_pext_no_esc());
+        sheet.getCell("G" + row).setValue(resumen.getCant_tpub_no_esc());
+        sheet.getCell("H" + row).setValue(resumen.getCant_exp_sac());
+        sheet.getCell("I" + row).setValue(resumen.getCant_sin_denuncia());
+        sheet.getCell("J" + row).setValue(resumen.getTotal_esclarecidos());
+        sheet.getCell("K" + row).setValue(resumen.getCant_pext_esc());
+        sheet.getCell("L" + row).setValue(resumen.getCant_tpub_esc());
+        sheet.getCell("M" + row).setValue(resumen.getCant_art_83());
+        sheet.getCell("N" + row).setValue(resumen.getCant_art_82());
+        sheet.getCell("O" + row).setValue(resumen.getCant_med_admin());
+        sheet.getCell("P" + row).setValue(resumen.getCant_menor());
+        sheet.getCell("Q" + row).setValue(resumen.getCant_fase_prep());
+        sheet.getCell("R" + row).setValue(resumen.getCant_pend_desp());
+        sheet.getCell("S" + row).setValue(resumen.getCant_pend_juicio());
+        sheet.getCell("T" + row).setValue(resumen.getCant_casos());
+        sheet.getCell("U" + row).setValue(resumen.getCant_sanciones());
+        sheet.getCell("V" + row).setValue(resumen.getSentencias());
 
-            System.out.println(resumen);
-
-            row++;
-        }
+        System.out.println(resumen);
 
 
     }

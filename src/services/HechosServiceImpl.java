@@ -18,6 +18,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class HechosServiceImpl implements HechosService {
@@ -1291,9 +1292,11 @@ public class HechosServiceImpl implements HechosService {
     }
 
     private List<HechosEsclarecimientoResumen> recuperarRSEsclarecimientoResumen(ResultSet rs) {
-        List<HechosEsclarecimientoResumen> lista = new LinkedList<>();
-        HechosEsclarecimientoResumen dvlh = new HechosEsclarecimientoResumen();
-        int entradas = 0;
+        LinkedList<HechosEsclarecimientoResumen> lista = new LinkedList<>();
+        List<HechosEsclarecimientoResumen> listToRetturn = new LinkedList<>();
+
+        boolean salidaRs = false;
+
         try {
             while (rs.next()) {
                 HechosEsclarecimientoResumen h =
@@ -1321,67 +1324,63 @@ public class HechosServiceImpl implements HechosService {
                                 rs.getInt(21),
                                 rs.getInt(22)
                         );
-
-                if (h.getUnidad_organizativa().equalsIgnoreCase("DVLH")
-                        || h.getUnidad_organizativa().equalsIgnoreCase("DTNO")
-                        || h.getUnidad_organizativa().equalsIgnoreCase("DTSR")
-                        || h.getUnidad_organizativa().equalsIgnoreCase("DTES")
-                        || h.getUnidad_organizativa().equalsIgnoreCase("DTOE")) {
-
-                    entradas++;
-                    dvlh.setTotal_conciliados(
-                            dvlh.getTotal_conciliados() + h.getTotal_conciliados());
-                    dvlh.setCant_pext(
-                            dvlh.getCant_pext() + h.getCant_pext());
-                    dvlh.setCant_tpub(
-                            dvlh.getCant_tpub() + h.getCant_tpub());
-                    dvlh.setTotal_no_esclarecidos(
-                            dvlh.getTotal_no_esclarecidos() + h.getTotal_no_esclarecidos());
-                    dvlh.setCant_pext_no_esc(
-                            dvlh.getCant_pext_no_esc() + h.getCant_pext_no_esc());
-                    dvlh.setCant_tpub_no_esc(
-                            dvlh.getCant_tpub_no_esc() + h.getCant_tpub_no_esc());
-                    dvlh.setCant_exp_sac(
-                            dvlh.getCant_exp_sac() + h.getCant_exp_sac());
-                    dvlh.setCant_sin_denuncia(
-                            dvlh.getCant_sin_denuncia() + h.getCant_sin_denuncia());
-                    dvlh.setTotal_esclarecidos(
-                            dvlh.getTotal_esclarecidos() + h.getTotal_esclarecidos());
-                    dvlh.setCant_pext_esc(
-                            dvlh.getCant_pext_esc() + h.getCant_pext_esc());
-                    dvlh.setCant_tpub_esc(
-                            dvlh.getCant_tpub_esc() + h.getCant_tpub_esc());
-                    dvlh.setCant_art_82(
-                            dvlh.getCant_art_82() + h.getCant_art_82());
-                    dvlh.setCant_art_83(
-                            dvlh.getCant_art_83() + h.getCant_art_83());
-                    dvlh.setCant_med_admin(
-                            dvlh.getCant_med_admin() + h.getCant_med_admin());
-                    dvlh.setCant_menor(
-                            dvlh.getCant_menor() + h.getCant_menor());
-                    dvlh.setCant_fase_prep(
-                            dvlh.getCant_fase_prep() + h.getCant_fase_prep());
-                    dvlh.setCant_pend_desp(
-                            dvlh.getCant_pend_desp() + h.getCant_pend_desp());
-                    dvlh.setCant_pend_juicio(
-                            dvlh.getCant_pend_juicio() + h.getCant_pend_juicio());
-                    dvlh.setCant_casos(
-                            dvlh.getCant_casos() + h.getCant_casos());
-                    dvlh.setCant_sanciones(
-                            dvlh.getCant_sanciones() + h.getCant_sanciones());
-                    dvlh.setSentencias(
-                            dvlh.getSentencias() + h.getSentencias());
-                    if (entradas > 4) {
-                        dvlh.setUnidad_organizativa("DVLH");
-                        lista.add(dvlh);
-                    }
-                } else
-                    lista.add(h);
+                lista.add(h);
             }
+            HechosEsclarecimientoResumen dvlh = new HechosEsclarecimientoResumen();
+            dvlh.setUnidad_organizativa("DVLH");
+            int i = 0;
+
+            while (i < lista.size()) {
+                if (lista.get(i).getUnidad_organizativa().equalsIgnoreCase("dtno")
+                        || lista.get(i).getUnidad_organizativa().equalsIgnoreCase("dtes")
+                        || lista.get(i).getUnidad_organizativa().equalsIgnoreCase("dtoe")
+                        || lista.get(i).getUnidad_organizativa().equalsIgnoreCase("dtsr")
+                ) {
+                    this.obtenerDatosParaDVLH(dvlh, lista.get(i));
+                }
+                i++;
+            }
+
+            lista.add(dvlh);
+
+            listToRetturn = lista.stream().filter(p -> !p.getUnidad_organizativa().equalsIgnoreCase("dtno"))
+                    .filter(p -> !p.getUnidad_organizativa().equalsIgnoreCase("dtes"))
+                    .filter(p -> !p.getUnidad_organizativa().equalsIgnoreCase("dtsr"))
+                    .filter(p -> !p.getUnidad_organizativa().equalsIgnoreCase("dtoe"))
+                    .collect(Collectors.toList());
+
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return lista;
+        return listToRetturn;
     }
+
+    private void obtenerDatosParaDVLH(HechosEsclarecimientoResumen unidDVLH, HechosEsclarecimientoResumen unidad) {
+
+        unidDVLH.setTotal_conciliados(unidad.getTotal_conciliados() + unidDVLH.getTotal_conciliados());
+        unidDVLH.setCant_pext(unidad.getCant_pext() + unidDVLH.getCant_pext());
+        unidDVLH.setCant_tpub(unidad.getCant_tpub() + unidDVLH.getCant_tpub());
+        unidDVLH.setTotal_no_esclarecidos(unidad.getTotal_no_esclarecidos() + unidDVLH.getTotal_no_esclarecidos());
+        unidDVLH.setCant_pext_no_esc(unidad.getCant_pext_no_esc() + unidDVLH.getCant_pext_no_esc());
+        unidDVLH.setCant_tpub_no_esc(unidad.getCant_tpub_no_esc() + unidDVLH.getCant_tpub_no_esc());
+        unidDVLH.setCant_exp_sac(unidad.getCant_exp_sac() + unidDVLH.getCant_exp_sac());
+        unidDVLH.setCant_sin_denuncia(unidad.getCant_sin_denuncia() + unidDVLH.getCant_sin_denuncia());
+        unidDVLH.setTotal_esclarecidos(unidad.getTotal_esclarecidos() + unidDVLH.getTotal_esclarecidos());
+        unidDVLH.setCant_pext_esc(unidad.getCant_pext_esc() + unidDVLH.getCant_pext_esc());
+        unidDVLH.setCant_tpub_esc(unidad.getCant_tpub_esc() + unidDVLH.getCant_tpub_esc());
+        unidDVLH.setCant_art_83(unidad.getCant_art_83() + unidDVLH.getCant_art_83());
+        unidDVLH.setCant_art_82(unidad.getCant_art_82() + unidDVLH.getCant_art_82());
+        unidDVLH.setCant_med_admin(unidad.getCant_med_admin() + unidDVLH.getCant_med_admin());
+        unidDVLH.setCant_menor(unidad.getCant_menor() + unidDVLH.getCant_menor());
+        unidDVLH.setCant_fase_prep(unidad.getCant_fase_prep() + unidDVLH.getCant_fase_prep());
+        unidDVLH.setCant_pend_desp(unidad.getCant_pend_desp() + unidDVLH.getCant_pend_desp());
+        unidDVLH.setCant_pend_juicio(unidad.getCant_pend_juicio() + unidDVLH.getCant_pend_juicio());
+        unidDVLH.setCant_casos(unidad.getCant_casos() + unidDVLH.getCant_casos());
+        unidDVLH.setCant_sanciones(unidad.getCant_sanciones() + unidDVLH.getCant_sanciones());
+        unidDVLH.setSentencias(unidad.getSentencias() + unidDVLH.getSentencias());
+
+    }
+
 }

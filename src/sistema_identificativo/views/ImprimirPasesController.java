@@ -12,7 +12,6 @@ import sistema_identificativo.models.Impresion;
 import sistema_identificativo.models.TipoPase;
 import util.Util;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -62,15 +61,15 @@ public class ImprimirPasesController {
             this.aplicar();
         });
         activateFilters.setOnAction(event ->
-            this.modificatingTableSizes()
+                this.modificatingTableSizes()
         );
         List<Impresion> impresionList = ServiceLocator.getImpresionService().getAllImpressions();
         initializeTable(impresionList);
 
         this.passType.getSelectionModel().selectedItemProperty().
                 addListener((observable, oldValue, newValue) ->
-            this.aplicar()
-        );
+                        this.aplicar()
+                );
     }
 
     private List<String> getAllPassType() {
@@ -168,53 +167,48 @@ public class ImprimirPasesController {
     private void imprimir() {
         ObservableList<Impresion> impresionList = table.getSelectionModel().getSelectedItems();
 
-        if(!impresionList.isEmpty()){
+        if (!impresionList.isEmpty()) {
             Impresion impression = impresionList.get(0);
-            if(impresionList.size() == 1){
+            if (impresionList.size() == 1) {
                 String typePass = impression.getTipoPase();
-            if (typePass.equalsIgnoreCase("Permanente")) {
-                ServiceLocator.getJasperReportService().imprimirPasePermanente(impression.getIdentidad(), this.dialogStage,this.table.getItems());
+                if (typePass.equalsIgnoreCase("Permanente")) {
+                    ServiceLocator.getJasperReportService().imprimirPasePermanente(impression.getIdentidad(), this.dialogStage, this.table.getItems());
 
-            }
-            else if (typePass.equalsIgnoreCase("Especial")) {
-                ServiceLocator.getJasperReportService().imprimirPaseEspecial(impression.getIdentidad(), this.dialogStage,this.table.getItems());
+                } else if (typePass.equalsIgnoreCase("Especial")) {
+                    ServiceLocator.getJasperReportService().imprimirPaseEspecial(impression.getIdentidad(), this.dialogStage, this.table.getItems());
 
-            }
-            else if (typePass.equalsIgnoreCase("Provisional")) {
-                ServiceLocator.getJasperReportService().imprimirPaseProvisional(impression.getIdentidad(), this.dialogStage,this.table.getItems());
-            }
-            else if (typePass.equalsIgnoreCase("Negro")) {
-                ServiceLocator.getJasperReportService().imprimirPaseNegro(impression.getIdentidad(), this.dialogStage,this.table.getItems());
-            }
-            }
-            else{
-                if(sameTypePass(impresionList)){
+                } else if (typePass.equalsIgnoreCase("Provisional")) {
+                    ServiceLocator.getJasperReportService().imprimirPaseProvisional(impression.getIdentidad(), this.dialogStage, this.table.getItems());
+                } else if (typePass.equalsIgnoreCase("Negro")) {
+                    ServiceLocator.getJasperReportService().imprimirPaseNegro(impression.getIdentidad(), this.dialogStage, this.table.getItems());
+                }
+            } else {
+                if (sameTypePass(impresionList)) {
                     String typePass = impresionList.get(0).getTipoPase();
-                        if (typePass.equalsIgnoreCase("Permanente"))
-                            ServiceLocator.getJasperReportService().imprimirPasesPermanentesSelected(this.dialogStage, impresionList,this.table.getItems());
-                        else if (typePass.equalsIgnoreCase("Especial"))
-                            ServiceLocator.getJasperReportService().imprimirPasesEspecialesSelected(this.dialogStage,impresionList,this.table.getItems());
-                        else if (typePass.equalsIgnoreCase("Provisional"))
-                            ServiceLocator.getJasperReportService().imprimirPasesProvisionalesSelected(this.dialogStage,impresionList,this.table.getItems());
-                        else if (typePass.equalsIgnoreCase("Negro"))
-                            ServiceLocator.getJasperReportService().imprimirPasesNegrosSelected(this.dialogStage,impresionList,this.table.getItems());
-                } else{
+                    if (typePass.equalsIgnoreCase("Permanente"))
+                        ServiceLocator.getJasperReportService().imprimirPasesPermanentesSelected(this.dialogStage, impresionList, this.table.getItems());
+                    else if (typePass.equalsIgnoreCase("Especial"))
+                        ServiceLocator.getJasperReportService().imprimirPasesEspecialesSelected(this.dialogStage, impresionList, this.table.getItems());
+                    else if (typePass.equalsIgnoreCase("Provisional"))
+                        ServiceLocator.getJasperReportService().imprimirPasesProvisionalesSelected(this.dialogStage, impresionList, this.table.getItems());
+                    else if (typePass.equalsIgnoreCase("Negro"))
+                        ServiceLocator.getJasperReportService().imprimirPasesNegrosSelected(this.dialogStage, impresionList, this.table.getItems());
+                } else {
                     Util.dialogResult("Los pases a imprimir deben ser del mismo tipo.", Alert.AlertType.WARNING);
                 }
             }
-        }
-        else{
+        } else {
             Util.dialogResult("No hay elementos seleccionados.", Alert.AlertType.INFORMATION);
         }
     }
 
-    private boolean sameTypePass(ObservableList<Impresion> impresionList){
+    private boolean sameTypePass(ObservableList<Impresion> impresionList) {
         boolean same = true;
         String firstTypePass = impresionList.get(0).getTipoPase();
         int i = 1;
-        while (i < impresionList.size() && same){
+        while (i < impresionList.size() && same) {
             Impresion imp = impresionList.get(i);
-            if(firstTypePass.equalsIgnoreCase(imp.getTipoPase()))
+            if (firstTypePass.equalsIgnoreCase(imp.getTipoPase()))
                 i++;
             else
                 same = false;
@@ -223,41 +217,41 @@ public class ImprimirPasesController {
     }
 
     @FXML
-    private void actualizeSelections(){
+    private void actualizeSelections() {
         int cantSelections = table.getSelectionModel().getSelectedItems().size();
-        if(cantSelections == 1)
+        if (cantSelections == 1)
             lblSelection.setText(cantSelections + " elemento seleccionado");
         else
             lblSelection.setText(cantSelections + " elementos seleccionados");
     }
 
-    private void modificatingTableSizes(){
-            if(this.activeFilters){
-                this.activateFilters.setText("Activar filtros");
-                this.activeFilters=false;
-                this.filterPane.setCollapsible(false);
-                this.filterPane.setDisable(true);
-                this.filterPane.setExpanded(false);
-                this.filterPane.setVisible(false);
-                this.passType.getSelectionModel().clearSelection();
-                this.passType.setPromptText("Seleccione");
-                this.txtName.clear();
-                this.initializeTable(ServiceLocator.getImpresionService().getAllImpressions());
-                this.table.setPrefHeight(353);
-                this.table.setPrefWidth(652);
-                this.table.setLayoutY(132);
-                this.table.setLayoutX(0);
-            }else{
-                activateFilters.setText("Desactivar filtros");
-                activeFilters=true;
-                this.passType.setPromptText("Seleccione");
-                this.passType.getItems().setAll(this.getAllPassType());
-                this.filterPane.setCollapsible(true);
-                this.filterPane.setDisable(false);
-                this.filterPane.setExpanded(true);
-                this.filterPane.setVisible(true);
-                this.table.setPrefHeight(249);
-                this.table.setLayoutY(236);
-            }
+    private void modificatingTableSizes() {
+        if (this.activeFilters) {
+            this.activateFilters.setText("Activar filtros");
+            this.activeFilters = false;
+            this.filterPane.setCollapsible(false);
+            this.filterPane.setDisable(true);
+            this.filterPane.setExpanded(false);
+            this.filterPane.setVisible(false);
+            this.passType.getSelectionModel().clearSelection();
+            this.passType.setPromptText("Seleccione");
+            this.txtName.clear();
+            this.initializeTable(ServiceLocator.getImpresionService().getAllImpressions());
+            this.table.setPrefHeight(353);
+            this.table.setPrefWidth(652);
+            this.table.setLayoutY(132);
+            this.table.setLayoutX(0);
+        } else {
+            activateFilters.setText("Desactivar filtros");
+            activeFilters = true;
+            this.passType.setPromptText("Seleccione");
+            this.passType.getItems().setAll(this.getAllPassType());
+            this.filterPane.setCollapsible(true);
+            this.filterPane.setDisable(false);
+            this.filterPane.setExpanded(true);
+            this.filterPane.setVisible(true);
+            this.table.setPrefHeight(249);
+            this.table.setLayoutY(236);
+        }
     }
 }

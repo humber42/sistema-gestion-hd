@@ -192,6 +192,7 @@ public class GenerateInformeFiscaliaImpl implements GenerateInformeFiscalia {
         generarGraficoPastel(cellRanges.get(0), worksheet, "B17", "J37", "PExt - Cantidad de Hechos por Material Afectado(" + date.minusYears(1).getYear() + ")", 1);
         generarGraficoPastel(cellRanges.get(1), worksheet, "L17", "T37", "PExt - Cantidad de Hechos por Material Afectado(" + date.getYear() + ")", 1);
 
+        //TODO: Arreglar orden de las listas y realizar interseccion entre ellas
         generarGraficoPastel(cellRanges.get(0), worksheet, "B39", "J59", "PExt - Cantidad de Material Afectado(" + date.minusYears(1).getYear() + ")", 0);
         generarGraficoPastel(cellRanges.get(1), worksheet, "L39", "T59", "PExt - Cantidad de Material Afectado(" + date.getYear() + ")", 0);
         generarGraficoLineas(cellRanges.get(2), worksheet, "B61", "M81", "Cantidad de Hechos por Mes y Año", true);

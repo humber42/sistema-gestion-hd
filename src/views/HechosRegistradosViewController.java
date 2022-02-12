@@ -11,10 +11,10 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
@@ -643,12 +643,14 @@ public class HechosRegistradosViewController {
                     ? "" :
                     " AND hechos.id_tipo_hecho = " +
                             ServiceLocator.getTipoHechoService().searchTipoHechoByName(tipoHecho).getId_tipo_hecho();
-            if(!validUorg){
-                Util.dialogResult("La unidad organizativa " + uorg + " no es válida. Se omitirá su valor en la búsqueda.", Alert.AlertType.INFORMATION);
-                cboxUorg.getEditor().setText("");
+            if (!validUorg) {
+                if (cboxUorg.getValue() != null) {
+                    Util.dialogResult("La unidad organizativa  no es válida. Se omitirá su valor en la búsqueda.", Alert.AlertType.INFORMATION);
+                    cboxUorg.getEditor().setText("");
+                }
             }
             uorgPartQuery = (uorg == null || uorg.isEmpty() || !validUorg)
-                    ? "":
+                    ? "" :
                     " AND id_uorg = " +
                             ServiceLocator.getUnidadOrganizativaService().searchUnidadOrganizativaByName(uorg).getId_unidad_organizativa();
             mesPartQuery = comboBoxMes.getSelectionModel().isEmpty()
