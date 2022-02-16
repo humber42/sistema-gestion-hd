@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static util.Util.*;
 
@@ -188,6 +189,53 @@ public class GeneradoresTablas {
                 }
         );
 
+        ArrayList<String> nombreMaterials = materialsFiscaliaListAnnoAnterior
+                .stream()
+                .map(MaterialsFiscaliaModels::getMaterialAfectado).collect(Collectors.toCollection(ArrayList::new));
+
+        materialsFiscaliaListAnnoActual.forEach(material -> {
+            if (nombreMaterials.stream().noneMatch(nombre -> nombre.equalsIgnoreCase(material.getMaterialAfectado()))) {
+                nombreMaterials.add(material.getMaterialAfectado());
+            }
+        });
+
+
+        //modifying the lists
+        LinkedList<MaterialsFiscaliaModels> annoAnteriorMaterial = new LinkedList<>();
+        LinkedList<MaterialsFiscaliaModels> annoActualMaterial = new LinkedList<>();
+
+        nombreMaterials.forEach(material -> {
+                    if (materialsFiscaliaListAnnoAnterior.stream().anyMatch(anterior -> anterior.getMaterialAfectado().equalsIgnoreCase(material))) {
+                        MaterialsFiscaliaModels m = materialsFiscaliaListAnnoAnterior
+                                .stream()
+                                .filter(anterior -> anterior.getMaterialAfectado().equalsIgnoreCase(material))
+                                .collect(Collectors.toList()).get(0);
+                        annoAnteriorMaterial.add(m);
+                    } else {
+                        annoAnteriorMaterial.add(new MaterialsFiscaliaModels(material, 0, 0));
+                    }
+                }
+        );
+
+        nombreMaterials.forEach(material -> {
+                    if (materialsFiscaliaListAnnoActual.stream().anyMatch(anterior -> anterior.getMaterialAfectado().equalsIgnoreCase(material))) {
+                        MaterialsFiscaliaModels m = materialsFiscaliaListAnnoActual
+                                .stream()
+                                .filter(anterior -> anterior.getMaterialAfectado().equalsIgnoreCase(material))
+                                .collect(Collectors.toList()).get(0);
+                        annoActualMaterial.add(m);
+                    } else {
+                        annoActualMaterial.add(new MaterialsFiscaliaModels(material, 0, 0));
+                    }
+                }
+        );
+
+        materialsFiscaliaListAnnoAnterior.clear();
+        materialsFiscaliaListAnnoAnterior.addAll(annoAnteriorMaterial);
+        materialsFiscaliaListAnnoActual.clear();
+        materialsFiscaliaListAnnoActual.addAll(annoActualMaterial);
+
+
         LinkedList<AfectacionFiscaliaModels> afectacionFiscaliaModelsAnnoAnterior = new LinkedList<>();
         LinkedList<AfectacionFiscaliaModels> afectacionFiscaliaModelsAnnoActual = new LinkedList<>();
         ServiceLocator.getHechosService().cantidadAfectacionesHechosFiscalia(Date.valueOf(date.minusYears(1))).forEach(
@@ -260,7 +308,7 @@ public class GeneradoresTablas {
                 row++;
             }
         }
-        ranges.add(sheet.getCells().getSubrangeAbsolute(rowInitial+1, 0, row-1, 0));
+        ranges.add(sheet.getCells().getSubrangeAbsolute(rowInitial + 1, 0, row - 1, 0));
         //rowInitial = row;
 
 
@@ -389,7 +437,7 @@ public class GeneradoresTablas {
                 row++;
             }
         }
-        ranges.add(sheet.getCells().getSubrangeAbsolute(rowInitial+1, 0, row-1, 0));
+        ranges.add(sheet.getCells().getSubrangeAbsolute(rowInitial + 1, 0, row - 1, 0));
         rowInitial = row;
 
         //range 3
@@ -417,7 +465,7 @@ public class GeneradoresTablas {
                 row++;
             }
         }
-        ranges.add(sheet.getCells().getSubrangeAbsolute(rowInitial+1, 0, row-1, 0));
+        ranges.add(sheet.getCells().getSubrangeAbsolute(rowInitial + 1, 0, row - 1, 0));
         //rowInitial = row;
 
         //range 7
