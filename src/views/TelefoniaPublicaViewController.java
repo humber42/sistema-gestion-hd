@@ -1,6 +1,7 @@
 package views;
 
 import com.jfoenix.controls.JFXButton;
+import informes_generate.GeneradorLocator;
 import informes_generate.ProcessExcelTPub;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -392,6 +393,63 @@ public class TelefoniaPublicaViewController {
             dialogLoading.show();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void generarTotales() {
+        LinkedList<EstacionPublicaCentroAgente> estacionPublicaCentroAgentes = new LinkedList<>();
+        for (String unidad : Util.unidades_organizativa) {
+            this.tableEstaciones.getItems()
+                    .stream()
+                    .filter(filter -> filter.getUnidadOrganizativa().equalsIgnoreCase(unidad))
+                    .forEach(estacion -> {
+                        if (estacionPublicaCentroAgentes.stream().filter(filter -> filter.getUnidadOrganizativa().equalsIgnoreCase(unidad)).count() < 1) {
+                            estacionPublicaCentroAgentes.add(estacion);
+                        } else {
+                            estacionPublicaCentroAgentes.stream()
+                                    .filter(p -> p.getUnidadOrganizativa()
+                                            .equalsIgnoreCase(estacion.getUnidadOrganizativa()))
+                                    .forEach(state -> {
+                                        state.setIdReg(estacion.getIdReg());
+                                        state.setUnidadOrganizativa(estacion.getUnidadOrganizativa());
+                                        state.setMunicipio(estacion.getMunicipio());
+                                        state.setEstacionPublica(estacion.getEstacionPublica() + state.getEstacionPublica());
+                                        state.setCentroAgente(estacion.getCentroAgente() + state.getCentroAgente());
+                                    });
+
+                        }
+                    });
+        }
+
+
+        String path = Util.selectPathToSaveDatabase(this.dialogStage);
+        if (path != null) {
+            Task<Boolean> task = new Task<Boolean>() {
+                boolean result = false;
+
+                @Override
+                protected Boolean call() throws Exception {
+                    this.result = GeneradorLocator.getGenerateTotalesTpub().generarTotales(path, estacionPublicaCentroAgentes);
+                    return result;
+                }
+
+                @Override
+                protected void succeeded() {
+                    super.succeeded();
+                    dialogLoading.close();
+                    String file = path + "/TotalesDesnsidad.xlsx";
+                    try {
+                        Runtime.getRuntime().exec("cmd /c start " + file);
+                    } catch (Exception e) {
+                        System.out.println("Error al abrir el archivo");
+                    }
+                }
+            };
+            Thread th = new Thread(task);
+            loadDialogLoading(this.dialogStage);
+            th.start();
+
         }
     }
 }

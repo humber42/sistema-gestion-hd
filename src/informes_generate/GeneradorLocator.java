@@ -15,6 +15,14 @@ public class GeneradorLocator {
     private static GenerarListados generarListados = null;
     private static ExportarExcel exportarExcel = null;
     private static GenerarConsolidado generarConsolidado = null;
+    public static GenerateTotalesTpub generateTotalesTpub = null;
+
+    public static GenerateTotalesTpub getGenerateTotalesTpub() {
+        if (generateTotalesTpub == null) {
+            generateTotalesTpub = new GenerateTotalesTpub();
+        }
+        return generateTotalesTpub;
+    }
 
     public static GenerarConsolidado getGenerarConsolidado() {
         if (generarConsolidado == null) {

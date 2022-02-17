@@ -57,4 +57,15 @@ public class EstacionPublicaCentroAgente {
     public void setEstacionPublica(int estacionPublica) {
         this.estacionPublica = estacionPublica;
     }
+
+    @Override
+    public String toString() {
+        return "EstacionPublicaCentroAgente{" +
+                "idReg=" + idReg +
+                ", municipio='" + municipio + '\'' +
+                ", unidadOrganizativa='" + unidadOrganizativa + '\'' +
+                ", centroAgente=" + centroAgente +
+                ", estacionPublica=" + estacionPublica +
+                '}';
+    }
 }
