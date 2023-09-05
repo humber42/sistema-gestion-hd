@@ -10,7 +10,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
-
 <BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sistema_identificativo.views.MainSistemaIdentificativoController">
     <center>
         <AnchorPane minHeight="583.0" prefWidth="934.0">
@@ -63,6 +62,7 @@
                      <accelerator>
                         <KeyCodeCombination alt="DOWN" code="I" control="UP" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
+                        <MenuItem mnemonicParsing="false" onAction="#changeUOrg" text="Cambiar pase de U/O"/>
                         <MenuItem fx:id="mnFotoPasePending" mnemonicParsing="false" onAction="#addPicturesToPassPendents" text="Añadir o cambiar foto a pases">
                      <accelerator>
                         <KeyCodeCombination alt="DOWN" code="A" control="UP" meta="UP" shift="UP" shortcut="UP" />

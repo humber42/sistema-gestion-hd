@@ -36,9 +36,5 @@ build/
 ##JAVA##
 libraries/
 out/
-*.xlsx
-*.jasper
-*.mf
-*.properties
-*.dll
-*.exe
+preparing files/
+

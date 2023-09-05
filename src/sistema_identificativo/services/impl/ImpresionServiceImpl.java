@@ -4,6 +4,7 @@ import sistema_identificativo.models.Impresion;
 import sistema_identificativo.services.ImpresionService;
 import util.Conexion;
 import util.Util;
+
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -50,6 +51,19 @@ public class ImpresionServiceImpl implements ImpresionService {
             impresionList = retrieveList(rs);
             rs.close();
         } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return impresionList;
+    }
+
+    public List<Impresion> getAllByIdentification(String identification) {
+        List<Impresion> impresionList = new LinkedList<>();
+        try {
+            String query = SELECT + JOIN + " WHERE numero_identidad LIKE '%" + identification + "%'" + BAJA;
+            ResultSet rs = Util.executeQuery(query);
+            impresionList = this.retrieveList(rs);
+            rs.close();
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return impresionList;

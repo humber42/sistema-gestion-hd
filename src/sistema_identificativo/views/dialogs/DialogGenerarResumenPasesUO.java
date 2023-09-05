@@ -35,7 +35,7 @@ public class DialogGenerarResumenPasesUO {
 
     @FXML
     private void generarPase(){
-        if (!Util.doesntExistsThatUorgInComboEditableEvent(this.unidadOrganizativa.getValue())) {
+        if (Util.doesntExistsThatUorgInComboEditableEvent(this.unidadOrganizativa.getValue())) {
             int idUOrg = ServiceLocator.getUnidadOrganizativaService()
                     .searchUnidadOrganizativaByName(unidadOrganizativa.getValue()).getId_unidad_organizativa();
             ServiceLocator.getJasperReportService().imprimirResumenUnidadOrganizativa(idUOrg, dialogStage);

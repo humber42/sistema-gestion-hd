@@ -38,6 +38,8 @@ public class ExportarExcel {
             xssfRow.createCell(3).setCellValue("Fecha");
             xssfRow.createCell(4).setCellValue("Titulo");
             xssfRow.createCell(5).setCellValue("Municipio");
+            xssfRow.createCell(6).setCellValue("Perdida");
+            xssfRow.createCell(7).setCellValue("No. Denuncia");
             int hechoIndex = 0;
 
             for (int row = 1; hechoIndex < hechos.size(); row++) {
@@ -53,6 +55,8 @@ public class ExportarExcel {
                 cell.setCellStyle(cellStyle);
                 xssfRowVariable.createCell(4).setCellValue(hechos.get(hechoIndex).getTitulo());
                 xssfRowVariable.createCell(5).setCellValue(hechos.get(hechoIndex).getMunicipio());
+                xssfRowVariable.createCell(6).setCellValue(hechos.get(hechoIndex).getPerdidasMn());
+                xssfRowVariable.createCell(7).setCellValue(hechos.get(hechoIndex).getNumeroDenuncia());
                 hechoIndex++;
             }
             sheet.setColumnWidth(0, 16 * 256);

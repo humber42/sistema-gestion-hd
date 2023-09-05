@@ -11,10 +11,16 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.*;
+import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
@@ -22,7 +28,11 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import models.*;
+import models.Anno;
+import models.Hechos;
+import models.HechosRegistrados;
+import models.TipoHecho;
+import models.UnidadOrganizativa;
 import org.controlsfx.control.textfield.TextFields;
 import org.controlsfx.dialog.ExceptionDialog;
 import seguridad.models.UserLoggedIn;
@@ -273,16 +283,7 @@ public class HechosRegistradosViewController {
             alert1.showAndWait();
         }
     }
-//
-//    private void converToEditable(){
-//        if (hechoRegistradoSelected!=null){
-//            hechoArea.setEditable(true);
-//            ocurreDate.setEditable(true);
-//            parteDate.setEditable(true);
-//            centroField.setEditable(true);
-//            lugarField.setEditable(true);
-//        }
-//    }
+
 
     private void showHechoDetails(HechosRegistrados selected) {
         if (selected != null) {
@@ -340,88 +341,6 @@ public class HechosRegistradosViewController {
             e.printStackTrace();
         }
     }
-
-   /* @FXML
-    private boolean showDialogToEdit(){
-        try {
-            Hechos hecho = getHechoSelected();
-            if (hechoArea.getText().isEmpty() && centroField.getText().isEmpty() && lugarField.getText().isEmpty() ){
-                Util.dialogResult("Campo vacío", Alert.AlertType.ERROR);
-                hechoArea.setText(hecho.getTitulo());
-               // hechoArea.setUnFocusColor(Paint.valueOf("red"));
-               // hechoArea.setFocusColor(Paint.valueOf("red"));
-                centroField.setText(hecho.getCentro());
-                centroField.setUnFocusColor(Paint.valueOf("red"));
-                centroField.setFocusColor(Paint.valueOf("red"));
-                lugarField.setText(hecho.getLugar());
-                lugarField.setUnFocusColor(Paint.valueOf("red"));
-                lugarField.setFocusColor(Paint.valueOf("red"));
-            }
-            else if (hechoArea.getText().isEmpty() && centroField.getText().isEmpty()){
-                hechoArea.setText(hecho.getTitulo());
-              //  hechoField.setUnFocusColor(Paint.valueOf("red"));
-              //  hechoField.setFocusColor(Paint.valueOf("red"));
-                centroField.setText(hecho.getCentro());
-                centroField.setUnFocusColor(Paint.valueOf("red"));
-                centroField.setFocusColor(Paint.valueOf("red"));
-            }
-            else if (hechoArea.getText().isEmpty() && lugarField.getText().isEmpty()){
-                hechoArea.setText(hecho.getTitulo());
-               // hechoField.setUnFocusColor(Paint.valueOf("red"));
-              //  hechoField.setFocusColor(Paint.valueOf("red"));
-                lugarField.setText(hecho.getLugar());
-                lugarField.setUnFocusColor(Paint.valueOf("red"));
-                lugarField.setFocusColor(Paint.valueOf("red"));
-            }
-            else if (centroField.getText().isEmpty() && lugarField.getText().isEmpty()){
-                centroField.setText(hecho.getCentro());
-                centroField.setUnFocusColor(Paint.valueOf("red"));
-                centroField.setFocusColor(Paint.valueOf("red"));
-                lugarField.setText(hecho.getLugar());
-                lugarField.setUnFocusColor(Paint.valueOf("red"));
-                lugarField.setFocusColor(Paint.valueOf("red"));
-            }
-            else if (hechoArea.getText().isEmpty()){
-                hechoArea.setText(hecho.getTitulo());
-               // hechoField.setUnFocusColor(Paint.valueOf("red"));
-              //  hechoField.setFocusColor(Paint.valueOf("red"));
-            }
-            else if (centroField.getText().isEmpty()){
-                centroField.setText(hecho.getCentro());
-                centroField.setUnFocusColor(Paint.valueOf("red"));
-                centroField.setFocusColor(Paint.valueOf("red"));
-            }
-            else if (lugarField.getText().isEmpty()){
-                lugarField.setText(hecho.getLugar());
-                lugarField.setUnFocusColor(Paint.valueOf("red"));
-                lugarField.setFocusColor(Paint.valueOf("red"));
-            }
-            else {
-                Alert alert =new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Confirmación");
-                alert.setHeaderText(null);
-                alert.setContentText("Desea editar este hecho");
-                Optional<ButtonType> confirmacion = alert.showAndWait();
-                hecho.setTitulo(hechoArea.getText());
-                hecho.setCentro(centroField.getText());
-                hecho.setLugar(lugarField.getText());
-                ServiceLocator.getHechosService().editarHechos(hecho);
-
-                desactivarButton();
-               // hechoField.setFocusColor(Paint.valueOf("blue"));
-               // hechoField.setUnFocusColor(Paint.valueOf("white"));
-                centroField.setFocusColor(Paint.valueOf("blue"));
-                centroField.setUnFocusColor(Paint.valueOf("white"));
-                lugarField.setFocusColor(Paint.valueOf("blue"));
-                lugarField.setUnFocusColor(Paint.valueOf("white"));
-            }
-            cargarTabla(this.obtenerHechosRegistrados(LIMIT_OF_ROWS, offset));
-        }catch (SQLException e){
-            e.printStackTrace();
-        }
-        return true;
-    }
-    */
 
     private void desactivarButton() {
         buttonEliminar.setDisable(true);

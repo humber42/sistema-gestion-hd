@@ -22,6 +22,7 @@ import seguridad.models.UserLoggedIn;
 import seguridad.views.LoginViewController;
 import services.ServiceLocator;
 import sistema_identificativo.views.dialogs.AddPicturePendingToPass;
+import sistema_identificativo.views.dialogs.CambiarUnidadOrganizativaController;
 import sistema_identificativo.views.dialogs.DialogGenerarResumenPasesUO;
 import util.PieChartUtils;
 import util.Util;
@@ -246,6 +247,29 @@ public class MainSistemaIdentificativoController {
             controller.setDialogStage(dialogStage);
             dialogStage.showAndWait();
         } catch (IOException e){
+            ExceptionDialog dialog = new ExceptionDialog(e);
+            dialog.showAndWait();
+        }
+    }
+
+    @FXML
+    private void changeUOrg() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(CambiarUnidadOrganizativaController.class.getResource("CambiarUnidadOrganizativa.fxml"));
+            AnchorPane pane = loader.load();
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Cambiar unidad organizativa");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.setResizable(false);
+            dialogStage.initOwner(this.mainApp);
+            Scene scene = new Scene(pane);
+            dialogStage.setScene(scene);
+
+            CambiarUnidadOrganizativaController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            dialogStage.showAndWait();
+        } catch (IOException e) {
             ExceptionDialog dialog = new ExceptionDialog(e);
             dialog.showAndWait();
         }

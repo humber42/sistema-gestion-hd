@@ -102,8 +102,15 @@ public class DialogGenerarListadosDelictivos {
 
                         @Override
                         protected Boolean call() throws Exception {
+                            LinkedList<Hechos> hechos = new LinkedList<>();
+                            if (tipoHecho == 11 || tipoHecho == 12) {
+                                hechos.addAll(ServiceLocator.getHechosService().obtenerHechosByTypeAndDate(anno, mes, 11));
+                                hechos.addAll(ServiceLocator.getHechosService().obtenerHechosByTypeAndDate(anno, mes, 12));
+                            } else {
+                                hechos.addAll(ServiceLocator.getHechosService().obtenerHechosByTypeAndDate(anno, mes, tipoHecho));
+                            }
 
-                            LinkedList<Hechos> hechos = ServiceLocator.getHechosService().obtenerHechosByTypeAndDate(anno, mes, tipoHecho);
+
                             if (hechos.isEmpty()) {
                                 datosVacios = true;
                             } else {

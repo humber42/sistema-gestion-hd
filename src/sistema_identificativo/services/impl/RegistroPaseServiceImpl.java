@@ -1,12 +1,13 @@
 package sistema_identificativo.services.impl;
 
 import services.ServiceLocator;
-import sistema_identificativo.models.RegistroPase;
 import sistema_identificativo.models.CodigoPase;
+import sistema_identificativo.models.RegistroPase;
 import sistema_identificativo.models.TipoPase;
 import sistema_identificativo.services.RegistroPaseService;
 import util.Conexion;
 import util.Util;
+
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -126,7 +127,40 @@ public class RegistroPaseServiceImpl implements RegistroPaseService {
         } catch (SQLException e){
             e.printStackTrace();
         }
+        return nombres;
+    }
 
+    @Override
+    public List<String> getAllPasesName() {
+        List<String> nombres = new LinkedList<>();
+        try {
+            String query = "SELECT DISTINCT nombre FROM registro_pases " +
+                    "WHERE baja = 0 ";
+            ResultSet rs = Util.executeQuery(query);
+            while (rs.next()) {
+                nombres.add(rs.getString(1));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return nombres;
+    }
+
+    @Override
+    public List<String> getAllPasesByContainName(String name) {
+        List<String> nombres = new LinkedList<>();
+        try {
+            String query = "SELECT DISTINCT nombre FROM registro_pases " +
+                    "WHERE baja = 0 AND nombre LIKE '%" + name + "%' ";
+            ResultSet rs = Util.executeQuery(query);
+            while (rs.next()) {
+                nombres.add(rs.getString(1));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return nombres;
     }
 
@@ -254,6 +288,16 @@ public class RegistroPaseServiceImpl implements RegistroPaseService {
         }
 
         return pase;
+    }
+
+    @Override
+    public void updateUnidadOrg(int id_reg, int id_uorg) {
+        String query = "UPDATE registro_pases set id_uorg=" + id_uorg + " WHERE id_reg=" + id_reg;
+        try {
+            Util.executeQuery(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     //Recuperar results sets

@@ -1,11 +1,19 @@
 package sistema_identificativo.views;
 
+import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TitledPane;
 import javafx.stage.Stage;
 import services.ServiceLocator;
 import sistema_identificativo.models.Impresion;
@@ -23,6 +31,8 @@ public class ImprimirPasesController {
     private ComboBox<String> passType;
     @FXML
     private TextField txtName;
+    @FXML
+    private JFXTextField txtIdentification;
     @FXML
     private TitledPane filterPane;
     @FXML
@@ -63,6 +73,11 @@ public class ImprimirPasesController {
         activateFilters.setOnAction(event ->
                 this.modificatingTableSizes()
         );
+
+        this.txtIdentification.setOnKeyTyped(event -> {
+            this.aplicar();
+        });
+
         List<Impresion> impresionList = ServiceLocator.getImpresionService().getAllImpressions();
         initializeTable(impresionList);
 
@@ -138,6 +153,9 @@ public class ImprimirPasesController {
             impresionList = ServiceLocator.getImpresionService().getAllByPassTypeAndContainName(
                     ServiceLocator.getTipoPaseService().getPassCodeByPassType(passTypeSelected), text
             );
+        } else if (!txtIdentification.getText().isEmpty()) {
+            text = txtIdentification.getText();
+            impresionList = ServiceLocator.getImpresionService().getAllByIdentification(text);
         } else {
             impresionList = ServiceLocator.getImpresionService().getAllImpressions();
         }

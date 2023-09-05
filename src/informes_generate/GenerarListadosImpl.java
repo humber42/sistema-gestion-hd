@@ -378,6 +378,9 @@ public class GenerarListadosImpl implements GenerarListados {
         int listadoNumero = 0;
         int numeroHecho = 0;
 
+        boolean isTpub = hechos.get(0).getTipoHecho()
+                .getTipo_hecho().equalsIgnoreCase("Delito vs TPúb");
+
         while (numeroHecho < hechos.size()) {
             ExcelWorksheet sheet = workbook.addWorksheet("Listado" + (listadoNumero == 1 ? "" : listadoNumero));
             sheet.getCell("A1").setValue("Unidad Organizativa");
@@ -388,7 +391,7 @@ public class GenerarListadosImpl implements GenerarListados {
             sheet.getCell("F1").setValue("Afectación USD");
             sheet.getCell("G1").setValue("Afectación MN");
             sheet.getCell("H1").setValue("Afectación Servicio");
-            sheet.getCell("I1").setValue("Materiales");
+            sheet.getCell("I1").setValue(!isTpub ? "Materiales" : "Afectacion");
             sheet.getCell("J1").setValue("Cantidad");
             sheet.getCell("K1").setValue("CDNT");
 
@@ -417,7 +420,8 @@ public class GenerarListadosImpl implements GenerarListados {
                 sheet.getCell("F" + fila).setValue(hechos.get(numeroHecho).getAfectacion_usd());
                 sheet.getCell("G" + fila).setValue(hechos.get(numeroHecho).getAfectacion_mn());
                 sheet.getCell("H" + fila).setValue(hechos.get(numeroHecho).getAfectacion_servicio());
-                sheet.getCell("I" + fila).setValue(hechos.get(numeroHecho).getMateriales().getMateriales());
+                sheet.getCell("I" + fila).setValue(!isTpub ? hechos.get(numeroHecho).getMateriales().getMateriales() :
+                        hechos.get(numeroHecho).getTipoVandalismo().getAfect_tpublica());
                 sheet.getCell("J" + fila).setValue(hechos.get(numeroHecho).getCantidad());
                 sheet.getCell("K" + fila).setValue(hechos.get(numeroHecho).getCod_cdnt().toUpperCase());
 

@@ -1,6 +1,15 @@
 package informes_generate;
 
-import com.gembox.spreadsheet.*;
+import com.gembox.spreadsheet.CellRange;
+import com.gembox.spreadsheet.ColorName;
+import com.gembox.spreadsheet.ExcelCell;
+import com.gembox.spreadsheet.ExcelFile;
+import com.gembox.spreadsheet.ExcelWorksheet;
+import com.gembox.spreadsheet.HorizontalAlignmentStyle;
+import com.gembox.spreadsheet.LengthUnit;
+import com.gembox.spreadsheet.LineStyle;
+import com.gembox.spreadsheet.MultipleBorders;
+import com.gembox.spreadsheet.SpreadsheetColor;
 import models.Hechos;
 import util.Util;
 
@@ -224,13 +233,13 @@ public class GenerarResumenMINCOMImpl implements GenerarResumenMINCOM {
                 averiaPext.setPerdidaMLC(averiaPext.getPerdidaMLC() + hecho.getAfectacion_usd());
                 averiaPext.setPerdidaMN(averiaPext.getPerdidaMN() + hecho.getAfectacion_mn());
             } else if (hecho.getTipoHecho().getTipo_hecho().equalsIgnoreCase("Acc. Tránsito")) {
-                averiaPext.setCantidad(averiaPext.getCantidad() + 1);
-                averiaPext.setPerdidaMLC(averiaPext.getPerdidaMLC() + hecho.getAfectacion_usd());
-                averiaPext.setPerdidaMN(averiaPext.getPerdidaMN() + hecho.getAfectacion_mn());
+                accTransito.setCantidad(accTransito.getCantidad() + 1);
+                accTransito.setPerdidaMLC(accTransito.getPerdidaMLC() + hecho.getAfectacion_usd());
+                accTransito.setPerdidaMN(accTransito.getPerdidaMN() + hecho.getAfectacion_mn());
             } else if (hecho.getTipoHecho().getTipo_hecho().equalsIgnoreCase("Seg. Informática")) {
-                segInformatica.setCantidad(averiaPext.getCantidad() + 1);
-                segInformatica.setPerdidaMN(averiaPext.getPerdidaMN() + hecho.getAfectacion_mn());
-                segInformatica.setPerdidaMLC(averiaPext.getPerdidaMLC() + hecho.getAfectacion_usd());
+                segInformatica.setCantidad(segInformatica.getCantidad() + 1);
+                segInformatica.setPerdidaMN(segInformatica.getPerdidaMN() + hecho.getAfectacion_mn());
+                segInformatica.setPerdidaMLC(segInformatica.getPerdidaMLC() + hecho.getAfectacion_usd());
             } else if (hecho.getTipoHecho().getTipo_hecho().equalsIgnoreCase("Incendio Int.")) {
                 incendioInt.setCantidad(incendioInt.getCantidad() + 1);
                 incendioInt.setPerdidaMLC(incendioInt.getPerdidaMLC() + hecho.getAfectacion_usd());
@@ -264,6 +273,9 @@ public class GenerarResumenMINCOMImpl implements GenerarResumenMINCOM {
         cantidades.add(incendioExt);
         cantidades.add(diferOrig);
         cantidades.add(otrosHechos);
+        cantidades.forEach(e -> {
+            System.out.println(e);
+        });
         return cantidades;
     }
 
@@ -300,6 +312,15 @@ public class GenerarResumenMINCOMImpl implements GenerarResumenMINCOM {
 
         public void setPerdidaMLC(double perdidaMLC) {
             this.perdidaMLC = perdidaMLC;
+        }
+
+        @Override
+        public String toString() {
+            return "Cantidades{" +
+                    "cantidad=" + cantidad +
+                    ", perdidaMN=" + perdidaMN +
+                    ", perdidaMLC=" + perdidaMLC +
+                    '}';
         }
     }
 }

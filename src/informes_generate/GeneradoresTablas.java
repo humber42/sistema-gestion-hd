@@ -1,7 +1,19 @@
 package informes_generate;
 
-import com.gembox.spreadsheet.*;
-import models.*;
+import com.gembox.spreadsheet.CellRange;
+import com.gembox.spreadsheet.CellStyle;
+import com.gembox.spreadsheet.ColorName;
+import com.gembox.spreadsheet.ExcelCell;
+import com.gembox.spreadsheet.ExcelWorksheet;
+import com.gembox.spreadsheet.LengthUnit;
+import com.gembox.spreadsheet.SpreadsheetColor;
+import models.AfectacionFiscaliaModels;
+import models.Afectaciones;
+import models.HechosByAnno;
+import models.HechosPorMunicipio;
+import models.HurtosRobosPrevUorg;
+import models.MaterialsFiscaliaModels;
+import models.MunicipioServiciosAfectados;
 import services.ServiceLocator;
 import util.Util;
 
@@ -12,7 +24,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static util.Util.*;
+import static util.Util.estiloColumnasHojasTotales;
+import static util.Util.generarStilo;
+import static util.Util.meses;
 
 public class GeneradoresTablas {
 
@@ -238,6 +252,8 @@ public class GeneradoresTablas {
 
         LinkedList<AfectacionFiscaliaModels> afectacionFiscaliaModelsAnnoAnterior = new LinkedList<>();
         LinkedList<AfectacionFiscaliaModels> afectacionFiscaliaModelsAnnoActual = new LinkedList<>();
+
+
         ServiceLocator.getHechosService().cantidadAfectacionesHechosFiscalia(Date.valueOf(date.minusYears(1))).forEach(
                 afectacionFiscaliaModels -> {
                     if (afectacionFiscaliaModels.getCantHechos() != 0) {
@@ -245,6 +261,7 @@ public class GeneradoresTablas {
                     }
                 }
         );
+
         ServiceLocator.getHechosService().cantidadAfectacionesHechosFiscalia(Date.valueOf(date)).forEach(
                 afectacionFiscaliaModels -> {
                     if (afectacionFiscaliaModels.getCantHechos() != 0) {
@@ -252,6 +269,49 @@ public class GeneradoresTablas {
                     }
                 }
         );
+
+        List<String> nombreAfectacion = afectacionFiscaliaModelsAnnoAnterior
+                .stream()
+                .map(AfectacionFiscaliaModels::getTipoAfectacion).collect(Collectors.toList());
+
+        afectacionFiscaliaModelsAnnoActual.forEach(afectacion -> {
+            if (nombreAfectacion.stream().noneMatch(nombre -> nombre.equalsIgnoreCase(afectacion.getTipoAfectacion()))) {
+                nombreAfectacion.add(afectacion.getTipoAfectacion());
+            }
+        });
+
+        //Modifying the list
+        LinkedList<AfectacionFiscaliaModels> annoAnteriorFiscaliaModels = new LinkedList<>();
+        LinkedList<AfectacionFiscaliaModels> annoActualFiscaliaModels = new LinkedList<>();
+
+        nombreAfectacion.forEach(afectacion -> {
+            if (afectacionFiscaliaModelsAnnoAnterior.stream().anyMatch(anterior -> anterior.getTipoAfectacion().equalsIgnoreCase(afectacion))) {
+                afectacionFiscaliaModelsAnnoAnterior
+                        .stream()
+                        .filter(anterior -> anterior.getTipoAfectacion().equalsIgnoreCase(afectacion))
+                        .forEach(annoAnteriorFiscaliaModels::add);
+            } else {
+                annoAnteriorFiscaliaModels.add(new AfectacionFiscaliaModels(afectacion, 0));
+            }
+        });
+
+        nombreAfectacion.forEach(afectacion -> {
+            if (afectacionFiscaliaModelsAnnoActual.stream().anyMatch(anterior -> anterior.getTipoAfectacion().equalsIgnoreCase(afectacion))) {
+                afectacionFiscaliaModelsAnnoActual
+                        .stream()
+                        .filter(anterior -> anterior.getTipoAfectacion().equalsIgnoreCase(afectacion))
+                        .forEach(annoActualFiscaliaModels::add);
+            } else {
+                annoActualFiscaliaModels.add(new AfectacionFiscaliaModels(afectacion, 0));
+            }
+        });
+
+        afectacionFiscaliaModelsAnnoAnterior.clear();
+        afectacionFiscaliaModelsAnnoAnterior.addAll(annoAnteriorFiscaliaModels);
+        afectacionFiscaliaModelsAnnoActual.clear();
+        afectacionFiscaliaModelsAnnoActual.addAll(annoActualFiscaliaModels);
+
+
 
 
         sheet.getCell("A" + titleRow++).setValue("Datos generados para los graficos, NO TOCAR");
@@ -499,8 +559,10 @@ public class GeneradoresTablas {
             row++;
         }
         for (HechosByAnno hechos : hechosByAnnosActual) {
-            sheet.getCell(row, column).setValue(hechos.getCantPext());
-            row++;
+            if (hechos.getMes() <= date.getMonthValue()) {
+                sheet.getCell(row, column).setValue(hechos.getCantPext());
+                row++;
+            }
         }
         ranges.add(sheet.getCells().getSubrangeAbsolute(rowInitial + 1, column, row - 1, column));
         rowInitial = row;
@@ -512,8 +574,10 @@ public class GeneradoresTablas {
             row++;
         }
         for (HechosByAnno hechos : hechosByAnnosActual) {
-            sheet.getCell(row, column).setValue(hechos.getCantTpub());
-            row++;
+            if (hechos.getMes() <= date.getMonthValue()) {
+                sheet.getCell(row, column).setValue(hechos.getCantTpub());
+                row++;
+            }
         }
         ranges.add(sheet.getCells().getSubrangeAbsolute(rowInitial + 1, column, row - 1, column));
         rowInitial = row;

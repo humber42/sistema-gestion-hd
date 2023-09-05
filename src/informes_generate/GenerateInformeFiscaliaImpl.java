@@ -1,8 +1,22 @@
 package informes_generate;
 
 
-import com.gembox.spreadsheet.*;
-import models.*;
+import com.gembox.spreadsheet.CellRange;
+import com.gembox.spreadsheet.CellStyle;
+import com.gembox.spreadsheet.ColorName;
+import com.gembox.spreadsheet.ExcelCell;
+import com.gembox.spreadsheet.ExcelFile;
+import com.gembox.spreadsheet.ExcelWorksheet;
+import com.gembox.spreadsheet.HorizontalAlignmentStyle;
+import com.gembox.spreadsheet.LengthUnit;
+import com.gembox.spreadsheet.SpreadsheetColor;
+import models.AfectacionFiscaliaModels;
+import models.EsclarecimientoHechos;
+import models.EstacionesPublicas;
+import models.HechosByAnno;
+import models.MaterialsFiscaliaModels;
+import models.ResumenModels;
+import models.TipoVandalismo;
 import services.ServiceLocator;
 import util.Util;
 import util.UtilToGenerateTables;
@@ -12,10 +26,17 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.stream.Collectors;
 
 import static informes_generate.GeneradoresTablas.generarTablasParaGraficos;
-import static informes_generate.GraphicGenerator.*;
-import static util.Util.*;
+import static informes_generate.GraphicGenerator.generarGraficoBarras;
+import static informes_generate.GraphicGenerator.generarGraficoBarrasDobles;
+import static informes_generate.GraphicGenerator.generarGraficoBarrasNormal;
+import static informes_generate.GraphicGenerator.generarGraficoLineas;
+import static informes_generate.GraphicGenerator.generarGraficoPastel;
+import static util.Util.estiloColumnasHojasTotales;
+import static util.Util.generarBordes;
+import static util.Util.generarStilo;
 
 
 public class GenerateInformeFiscaliaImpl implements GenerateInformeFiscalia {
@@ -823,13 +844,22 @@ public class GenerateInformeFiscaliaImpl implements GenerateInformeFiscalia {
             letrasAnnoActual.add("D" + x);
         }
 
-        UtilToGenerateTables.llenarCamposCantHechosByAnno(
-                ServiceLocator.getHechosService().cantidadHechosByAnno(date.minusYears(1).getYear()),
+
+        LinkedList<HechosByAnno> hechosByAnnoActual = ServiceLocator.getHechosService().cantidadHechosByAnno(date.getYear());
+
+
+        hechosByAnnoActual = hechosByAnnoActual.stream().filter(hechosByAnno -> hechosByAnno.getMes() <= date.getMonthValue())
+                .collect(Collectors.toCollection(LinkedList::new));
+
+        UtilToGenerateTables.llenarCamposCantHechosByAnno(ServiceLocator.getHechosService().cantidadHechosByAnno(date.minusYears(1).getYear())
+                ,
                 worksheet,
                 listaLetrasAnnoAnterior
         );
+
+
         UtilToGenerateTables.llenarCamposCantHechosByAnno(
-                ServiceLocator.getHechosService().cantidadHechosByAnno(date.getYear()),
+                hechosByAnnoActual,
                 worksheet,
                 letrasAnnoActual
         );

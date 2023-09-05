@@ -10,7 +10,12 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
@@ -276,15 +281,24 @@ public class TelefoniaPublicaViewController {
             protected Boolean call() throws Exception {
                 data = new LinkedList<>();
                 if (fileExcel != null) {
-                    if (fileExcel.getPath().contains(".xslx"))
+                    if (fileExcel.getPath().contains(".xlsx")) {
                         data = ProcessExcelTPub.getDataFromExcel(fileExcel, true);
-                    else
+                        System.out.println("Detectado XLSX");
+                    } else {
                         data = ProcessExcelTPub.getDataFromExcel(fileExcel);
+                    }
                 }
                 for (TpubCentroAgenteFromExcel tpubEstacion : data) {
                     String municipioName = tpubEstacion.getMunicipio();
                     try {
                         Municipio municipio = ServiceLocator.getMunicipiosService().searchMunicipioByName(tpubEstacion.getMunicipio());
+                        try {
+                            municipio.getId_municipio();
+                        } catch (NullPointerException e) {
+                            if (municipioName.equalsIgnoreCase("Díez de Octubre")) {
+                                municipio = ServiceLocator.getMunicipiosService().searchMunicipioByName("Diez de Octubre");
+                            }
+                        }
                         ServiceLocator.getEstacionPublicaCentroAgenteService().updateEstacionPublicaByIdMunicipio(
                                 municipio.getId_municipio(),
                                 tpubEstacion.getCentroAgentes(),

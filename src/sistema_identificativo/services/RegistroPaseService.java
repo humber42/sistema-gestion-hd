@@ -9,6 +9,10 @@ public interface RegistroPaseService {
 
     List<RegistroPase> getAllRegistroPase();
 
+    List<String> getAllPasesName();
+
+    List<String> getAllPasesByContainName(String name);
+
     List<String> getAllPendingPhotosByContainName(String name);
 
     List<String> getAllWithPhotosByContainName(String name);
@@ -40,4 +44,6 @@ public interface RegistroPaseService {
     void deselectAllSelections() throws SQLException;
 
     void darBajaPase(int id_reg);
+
+    void updateUnidadOrg(int id_reg, int id_uorg);
 }

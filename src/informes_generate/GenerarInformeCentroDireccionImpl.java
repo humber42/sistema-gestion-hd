@@ -1,6 +1,16 @@
 package informes_generate;
 
-import com.gembox.spreadsheet.*;
+import com.gembox.spreadsheet.CellRange;
+import com.gembox.spreadsheet.ColorName;
+import com.gembox.spreadsheet.ExcelCell;
+import com.gembox.spreadsheet.ExcelFile;
+import com.gembox.spreadsheet.ExcelWorksheet;
+import com.gembox.spreadsheet.HorizontalAlignmentStyle;
+import com.gembox.spreadsheet.LengthUnit;
+import com.gembox.spreadsheet.PanePosition;
+import com.gembox.spreadsheet.PanesState;
+import com.gembox.spreadsheet.SpreadsheetColor;
+import com.gembox.spreadsheet.WorksheetPanes;
 import models.HechosMesAnno;
 import models.HechosUOrgAnno;
 import models.HechosUorgMesAnno;
@@ -12,10 +22,20 @@ import util.UtilToGenerateTables;
 import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.stream.Collectors;
 
-import static informes_generate.GraphicGenerator.*;
-import static util.Util.*;
+import static informes_generate.GraphicGenerator.generarGraficoBarras;
+import static informes_generate.GraphicGenerator.generarGraficoLineas;
+import static informes_generate.GraphicGenerator.generarGraficoPastel;
+import static util.Util.generarBordes;
+import static util.Util.generarStilo;
+import static util.Util.unidades_organizativa;
 
 
 /**
@@ -538,7 +558,9 @@ public class GenerarInformeCentroDireccionImpl implements GenerarInformeCentroDi
                 letrasAnnoAnterior
         );
         UtilToGenerateTables.llenarCamposCantHechosByAnno(
-                ServiceLocator.getHechosService().cantidadHechosByAnno(date.toLocalDate().getYear()),
+                ServiceLocator.getHechosService().cantidadHechosByAnno(date.toLocalDate().getYear()).stream()
+                        .filter(hechosByAnno -> hechosByAnno.getMes() <= date.toLocalDate().getMonthValue())
+                        .collect(Collectors.toCollection(LinkedList::new)),
                 worksheet,
                 letrasAnnoActual
         );

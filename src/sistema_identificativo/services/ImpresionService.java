@@ -8,5 +8,7 @@ public interface ImpresionService {
     List<Impresion> getAllImpressions();
     List<Impresion> getAllByContainName(String name);
     List<Impresion> getAllByPassType(int passType);
+
+    List<Impresion> getAllByIdentification(String identification);
     List<Impresion> getAllByPassTypeAndContainName(int passType, String name);
 }

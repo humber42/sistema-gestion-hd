@@ -1,7 +1,14 @@
 package util;
 
 import com.gembox.internal.core.DivideByZeroException;
-import com.gembox.spreadsheet.*;
+import com.gembox.spreadsheet.CellRange;
+import com.gembox.spreadsheet.CellStyle;
+import com.gembox.spreadsheet.ColorName;
+import com.gembox.spreadsheet.HorizontalAlignmentStyle;
+import com.gembox.spreadsheet.LineStyle;
+import com.gembox.spreadsheet.MultipleBorders;
+import com.gembox.spreadsheet.SpreadsheetColor;
+import com.gembox.spreadsheet.VerticalAlignmentStyle;
 import icons.ImageLocation;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
@@ -11,7 +18,11 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-import models.*;
+import models.Afectaciones;
+import models.HechosPorMunicipio;
+import models.HurtosRobosPrevUorg;
+import models.MunicipioServiciosAfectados;
+import models.ResumenModels;
 import org.controlsfx.control.textfield.TextFields;
 import services.ServiceLocator;
 
@@ -197,11 +208,11 @@ public class Util {
                 hechosPorMunicipio -> hechosPorMunicipio.getCantHechos() > (sizeTres > 2 ? 3 : 2)
         ).collect(Collectors.toCollection(LinkedList::new));
 
-        if (hechosDeTres.size() > 2) {
+        if (hechosDeTres.size() > 3) {
             hechosRetorno.add(hechoModified(hechosDeTres));
         }
 
-        if (hechosDeDos.size() < 3) {
+        if (hechosDeDos.size() <= 3) {
             hechosRetorno.addAll(hechosDeDos);
         } else {
             hechosRetorno.add(hechoModified(hechosDeDos));
@@ -244,10 +255,10 @@ public class Util {
                 hechosPorMunicipio -> hechosPorMunicipio.getCant_servicios() > (sizeTres > 2 ? 3 : 2)
         ).collect(Collectors.toCollection(LinkedList::new));
 
-        if (hechosDeTres.size() > 2)
+        if (hechosDeTres.size() > 3)
             hechosRetorno.add(hechoModifiedServiciosAfectados(hechosDeTres));
 
-        if (hechosDeDos.size() < 3) {
+        if (hechosDeDos.size() <= 3) {
             hechosRetorno.addAll(hechosDeDos);
         } else {
             hechosRetorno.add(hechoModifiedServiciosAfectados(hechosDeDos));
