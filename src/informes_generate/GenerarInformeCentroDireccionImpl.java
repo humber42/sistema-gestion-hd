@@ -28,6 +28,7 @@ import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static informes_generate.GraphicGenerator.generarGraficoBarras;
@@ -441,7 +442,6 @@ public class GenerarInformeCentroDireccionImpl implements GenerarInformeCentroDi
         int whereIM = 0;
         try {
             for (HechosUorgMesAnno hecho : data) {
-
                 if (
                         hecho.getUnidad().equalsIgnoreCase("DTNO") ||
                                 hecho.getUnidad().equalsIgnoreCase("DTES") ||
@@ -449,7 +449,9 @@ public class GenerarInformeCentroDireccionImpl implements GenerarInformeCentroDi
                                 hecho.getUnidad().equalsIgnoreCase("DTSR")) {
                     this.writeOnCellHistoricData(sheet, hecho, posiciones.get("DVLH"));
                 } else {
-                    this.writeOnCellHistoricData(sheet, hecho, posiciones.get(hecho.getUnidad()));
+                    if (Objects.nonNull(posiciones.get(hecho.getUnidad()))) {
+                        this.writeOnCellHistoricData(sheet, hecho, posiciones.get(hecho.getUnidad()));
+                    }
                 }
                 whereIM++;
 
