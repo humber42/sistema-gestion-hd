@@ -337,10 +337,12 @@ public class GeneradoresTablas {
 
         sheet.getCell(row++, column).setValue("Cant-Hechos");
         CellRange range = sheet.getParent().getWorksheet(1).getCells().getSubrange("C80:C103");
+        int counter1 = date.getMonthValue() + 12;
         for (ExcelCell cell : range) {
-            if ((int) cell.getValue() != 0) {
+            if (counter1 != 0) {
                 sheet.getCell(row, column).setValue(cell.getValue());
                 row++;
+                counter1--;
             }
         }
         ranges.add(sheet.getCells().getSubrangeAbsolute(rowInitial + 1, 0, row - 1, 0));
@@ -362,10 +364,12 @@ public class GeneradoresTablas {
 
         sheet.getCell(row++, column).setValue("Cant-Hechos-Tpub");
         CellRange range2 = sheet.getParent().getWorksheet(1).getCells().getSubrange("D80:D103");
+        int counter = date.getMonthValue() + 12;
         for (ExcelCell cell : range2) {
-            if ((int) cell.getValue() != 0) {
+            if (counter != 0) {
                 sheet.getCell(row, column).setValue(cell.getValue());
                 row++;
+                counter--;
             }
         }
         ranges.add(sheet.getCells().getSubrangeAbsolute(rowInitial + 1, 0, row - 1, 0));
@@ -491,10 +495,12 @@ public class GeneradoresTablas {
         //Se toma directo de las hojas del libro de calculo para grafico de lineas
         sheet.getCell(row++, column).setValue("Cant-Hechos");
         CellRange range = sheet.getParent().getWorksheet(2).getCells().getSubrange("D42:D65");
+        int counterMonth = date.getMonthValue() + 12;
         for (ExcelCell cell : range) {
-            if ((int) cell.getValue() != 0) {
+            if (counterMonth != 0) {
                 sheet.getCell(row, column).setValue(cell.getValue());
                 row++;
+                counterMonth--;
             }
         }
         ranges.add(sheet.getCells().getSubrangeAbsolute(rowInitial + 1, 0, row - 1, 0));
@@ -519,10 +525,12 @@ public class GeneradoresTablas {
         //Se toma directo de las hojas del libro de calculo para grafico de lineas
         sheet.getCell(row++, column).setValue("Cant-Hechos-Tpub");
         CellRange range2 = sheet.getParent().getWorksheet(2).getCells().getSubrange("E42:E65");
+        int counterMonth2 = date.getMonthValue() + 12;
         for (ExcelCell cell : range2) {
-            if ((int) cell.getValue() != 0) {
+            if (counterMonth2 != 0) {
                 sheet.getCell(row, column).setValue(cell.getValue());
                 row++;
+                counterMonth2--;
             }
         }
         ranges.add(sheet.getCells().getSubrangeAbsolute(rowInitial + 1, 0, row - 1, 0));
@@ -552,6 +560,7 @@ public class GeneradoresTablas {
 
         LinkedList<HechosByAnno> hechosByAnnosActual = ServiceLocator.getHechosService().cantidadRobosHurtosByAnno(date.getYear());
         LinkedList<HechosByAnno> hechosByAnnosAnterior = ServiceLocator.getHechosService().cantidadRobosHurtosByAnno(date.minusYears(1).getYear());
+
         //range10
         sheet.getCell(row++, column).setValue("Cant-Robos");
         for (HechosByAnno hechos : hechosByAnnosAnterior) {
