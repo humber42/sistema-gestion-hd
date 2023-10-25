@@ -1,14 +1,7 @@
 package util;
 
 import com.gembox.internal.core.DivideByZeroException;
-import com.gembox.spreadsheet.CellRange;
-import com.gembox.spreadsheet.CellStyle;
-import com.gembox.spreadsheet.ColorName;
-import com.gembox.spreadsheet.HorizontalAlignmentStyle;
-import com.gembox.spreadsheet.LineStyle;
-import com.gembox.spreadsheet.MultipleBorders;
-import com.gembox.spreadsheet.SpreadsheetColor;
-import com.gembox.spreadsheet.VerticalAlignmentStyle;
+import com.gembox.spreadsheet.*;
 import icons.ImageLocation;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
@@ -18,11 +11,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-import models.Afectaciones;
-import models.HechosPorMunicipio;
-import models.HurtosRobosPrevUorg;
-import models.MunicipioServiciosAfectados;
-import models.ResumenModels;
+import models.*;
 import org.controlsfx.control.textfield.TextFields;
 import services.ServiceLocator;
 
@@ -492,11 +481,29 @@ public class Util {
                 if (!exist)
                     Util.dialogResult("No existe la unidad organizativa " + value, Alert.AlertType.WARNING);
             }
-        }
-        else{
+        } else {
             Util.dialogResult("El campo de unidad organizativa está vacío. Seleccione una unidad organizativa.", Alert.AlertType.INFORMATION);
         }
 
         return exist;
+    }
+
+
+    public static String determineCommandToOpenAFile(String filePath) {
+        String os = System.getProperty("os.name").toLowerCase();
+        String command = "";
+        if (os.contains("win")) {
+            // Sistema operativo Windows
+            command = "cmd /c start " + filePath;
+        } else if (os.contains("nix") || os.contains("nux") || os.contains("mac")) {
+            // Sistema operativo Linux o macOS
+            command = "xdg-open " + filePath;
+        } else {
+            // SO no compatible
+            Util.dialogResult("Sistema operativo no compatible", Alert.AlertType.ERROR);
+        }
+
+        return command;
+
     }
 }

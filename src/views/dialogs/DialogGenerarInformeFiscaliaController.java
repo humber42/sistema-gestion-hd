@@ -71,14 +71,16 @@ public class DialogGenerarInformeFiscaliaController {
                         super.succeeded();
                         progressBar.setVisible(false);
                         String file = path + "/ResumenFGR-" + fechaCierre.getValue() + ".xlsx";
+                        String command1 = Util.determineCommandToOpenAFile(file);
                         try {
-                            Runtime.getRuntime().exec("cmd /c start " + file);
+                            Runtime.getRuntime().exec(command1);
                         } catch (Exception e) {
                             System.out.println("Error al abrir el archivo");
                         }
                         String file2 = path + "/ConsolidadoConciliaciones-" + fechaCierre.getValue() + ".xlsx";
+                        String command2 = Util.determineCommandToOpenAFile(file2);
                         try {
-                            Runtime.getRuntime().exec("cmd /c start " + file2);
+                            Runtime.getRuntime().exec(command2);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }

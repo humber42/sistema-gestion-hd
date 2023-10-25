@@ -214,9 +214,10 @@ public class DialogGenerarPrevencionController {
                     protected void succeeded() {
                         super.succeeded();
                         progressBar.setVisible(false);
-                        String file = path+"/InformePrevencion.xlsx";
+                        String file = path + "/InformePrevencion.xlsx";
+                        String command = Util.determineCommandToOpenAFile(file);
                         try {
-                            Runtime.getRuntime().exec("cmd /c start " + file);
+                            Runtime.getRuntime().exec(command);
                         } catch (Exception e) {
                             ExceptionDialog x = new ExceptionDialog(e);
                             x.showAndWait();

@@ -63,15 +63,16 @@ public class DialogGenerarHechosPrevenidosController {
                     protected void succeeded() {
                         super.succeeded();
                         progressBar.setVisible(false);
-                        String file = path+"/HechosPrevenidos.xlsx";
+                        String file = path + "/HechosPrevenidos.xlsx";
+                        String command = Util.determineCommandToOpenAFile(file);
                         if (result) {
                             try {
-                                Runtime.getRuntime().exec("cmd /c start " + file);
+                                Runtime.getRuntime().exec(command);
                             } catch (IOException e) {
                                 ExceptionDialog dialog = new ExceptionDialog(e);
                                 dialog.showAndWait();
                             }
-                          //  Util.dialogResult("Exito", Alert.AlertType.INFORMATION);
+                            //  Util.dialogResult("Exito", Alert.AlertType.INFORMATION);
                         } else {
                             Util.dialogResult("Error al generar", Alert.AlertType.ERROR);
                         }

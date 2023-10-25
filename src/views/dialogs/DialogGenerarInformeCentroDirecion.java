@@ -63,8 +63,9 @@ public class DialogGenerarInformeCentroDirecion {
                         super.succeeded();
                         progressBar.setVisible(false);
                         String file = path + "/ResumenCDNT.xlsx";
+                        String command = Util.determineCommandToOpenAFile(file);
                         try {
-                            Runtime.getRuntime().exec("cmd /c start " + file);
+                            Runtime.getRuntime().exec(command);
                         } catch (Exception e) {
                             System.out.println("Error al abrir el archivo");
                         }

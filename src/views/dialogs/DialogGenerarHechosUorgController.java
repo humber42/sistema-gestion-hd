@@ -160,10 +160,11 @@ public class DialogGenerarHechosUorgController {
                 protected void succeeded() {
                     super.succeeded();
                     progressBar.setVisible(false);
-                    String file = path+"/HechosParaUnidadOrganizativa.xlsx";
+                    String file = path + "/HechosParaUnidadOrganizativa.xlsx";
+                    String command = Util.determineCommandToOpenAFile(file);
                     if (!datosVacios && result) {
                         try {
-                            Runtime.getRuntime().exec("cmd /c start " + file);
+                            Runtime.getRuntime().exec(command);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }

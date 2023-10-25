@@ -132,8 +132,9 @@ public class DialogGenerarListadosDelictivos {
                                 Util.showDialog(result);
                             } else {
                                 String file = path;
+                                String command = Util.determineCommandToOpenAFile(file);
                                 try {
-                                    Runtime.getRuntime().exec("cmd /c start " + file);
+                                    Runtime.getRuntime().exec(command);
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }

@@ -91,12 +91,30 @@ public class GenerarPrevencionImpl implements GenerarPrevencion {
         sheet.getColumn("D").setWidth(13, LengthUnit.ZERO_CHARACTER_WIDTH);
 
         DecimalFormat df = new DecimalFormat("#.00");
-        sheet.getCell("B3").setValue(Double.valueOf(df.format(pext.getUsd())));
-        sheet.getCell("C3").setValue(Double.valueOf(df.format(pext.getMn())));
+        try {
+            sheet.getCell("B3").setValue(Double.valueOf(df.format(pext.getUsd())));
+        } catch (Exception e) {
+            sheet.getCell("B3").setValue(pext.getUsd());
+        }
+        try {
+            sheet.getCell("C3").setValue(Double.valueOf(df.format(pext.getMn())));
+        } catch (Exception e) {
+            sheet.getCell("C3").setValue(pext.getMn());
+        }
+
         sheet.getCell("D3").setValue(pext.getServ_afectados());
 
-        sheet.getCell("B4").setValue(Double.valueOf(df.format(tpub.getUsd())));
-        sheet.getCell("C4").setValue(Double.valueOf(df.format(tpub.getMn())));
+
+        try {
+            sheet.getCell("B4").setValue(Double.valueOf(df.format(tpub.getUsd())));
+        } catch (Exception e) {
+            sheet.getCell("B4").setValue(tpub.getUsd());
+        }
+        try {
+            sheet.getCell("C4").setValue(Double.valueOf(df.format(tpub.getMn())));
+        } catch (Exception e) {
+            sheet.getCell("C4").setValue(tpub.getMn());
+        }
         sheet.getCell("D4").setValue(tpub.getServ_afectados());
 
         return true;

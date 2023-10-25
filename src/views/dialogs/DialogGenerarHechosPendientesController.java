@@ -70,9 +70,10 @@ public class DialogGenerarHechosPendientesController {
                             if (dataEmpty) {
                                 Util.dialogResult("No existen datos", Alert.AlertType.INFORMATION);
                             } else {
-                                String file = path+"/HechosPendientes.xlsx";
+                                String file = path + "/HechosPendientes.xlsx";
+                                String command = Util.determineCommandToOpenAFile(file);
                                 try {
-                                    Runtime.getRuntime().exec("cmd /c start " + file);
+                                    Runtime.getRuntime().exec(command);
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }

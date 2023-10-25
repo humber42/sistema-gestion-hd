@@ -84,12 +84,13 @@ public class DialogGenerarCertificoHechosController {
                             super.succeeded();
                             progressBar.setVisible(false);
                             String file = path + "/CertificoHechos.xlsx";
+                            String commando = Util.determineCommandToOpenAFile(file);
                             try {
-                                Runtime.getRuntime().exec("cmd /c start " + file);
+                                Runtime.getRuntime().exec(commando);
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
-                           // showDialog(result);
+                            //showDialog(result);
                         }
                     };
                     new Thread(task).start();
